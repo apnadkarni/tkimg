@@ -1,0 +1,5 @@
+# Tcl package index file - handcrafted
+#
+# $Id$
+
+package ifneeded "@DPACKAGE@" @VERSION@ [list load [file join $dir @tkimgppm_LIB_FILE@]]
