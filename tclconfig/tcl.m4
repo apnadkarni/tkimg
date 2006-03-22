@@ -274,12 +274,12 @@ AC_DEFUN(TEA_PATH_TKCONFIG, [
 
 	    # on Windows, check in common installation locations
 	    if test "${TEA_PLATFORM}" = "windows" \
-		-a x"${ac_cv_c_tclconfig}" = x ; then
+		-a x"${ac_cv_c_tkconfig}" = x ; then
 		for i in `ls -d C:/Tcl/lib 2>/dev/null` \
 			`ls -d C:/Progra~1/Tcl/lib 2>/dev/null` \
 			; do
-		    if test -f "$i/tclConfig.sh" ; then
-			ac_cv_c_tclconfig=`(cd $i; pwd)`
+		    if test -f "$i/tkConfig.sh" ; then
+			ac_cv_c_tkconfig=`(cd $i; pwd)`
 			break
 		    fi
 		done
@@ -3182,7 +3182,11 @@ AC_DEFUN(TEA_MAKE_LIB, [
 	    eval eval "PKG_LIB_FILE=${PACKAGE_NAME}${UNSHARED_LIB_SUFFIX}"
 	fi
 	# Some packages build their own stubs libraries
-	eval eval "PKG_STUB_LIB_FILE=${PACKAGE_NAME}stub${UNSHARED_LIB_SUFFIX}"
+	if test "$GCC" != "yes"; then
+	    eval eval "PKG_STUB_LIB_FILE=${PACKAGE_NAME}stub${UNSHARED_LIB_SUFFIX}"
+	else
+	    eval eval "PKG_STUB_LIB_FILE=lib${PACKAGE_NAME}stub${UNSHARED_LIB_SUFFIX}"
+	fi
 	# These aren't needed on Windows (either MSVC or gcc)
 	RANLIB=:
 	RANLIB_STUB=:

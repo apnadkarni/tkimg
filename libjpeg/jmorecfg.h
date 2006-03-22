@@ -252,10 +252,10 @@ typedef unsigned int JDIMENSION;
 #define __WIN32__
 #endif
 
+#ifndef HAVE_BOOLEAN
 #if defined(_WINDOWS) || defined(__WIN32__) || defined(_Windows)
 typedef unsigned char boolean;
 #else
-#ifndef HAVE_BOOLEAN
 typedef int boolean;
 #endif
 #endif
