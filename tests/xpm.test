@@ -10,7 +10,7 @@ catch {image delete i}
 
 set xpmdata \
 {/* XPM */
-static char * unknown[] = {
+static char * InlineData[] = {
 "16 12 3 1",
 "  s None c None",
 ". c #000000",

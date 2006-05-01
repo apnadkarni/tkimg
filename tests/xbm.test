@@ -11,9 +11,9 @@ catch {image delete i}
 test xbm-1.1 {} {
     image create photo i -file folder.xbm
     i data -format xbm
-} {#define unknown_width 16
-#define unknown_height 12
-static char unknown_bits[] = {
+} {#define InlineData_width 16
+#define InlineData_height 12
+static char InlineData_bits[] = {
   0x78, 0x00,
   0x86, 0x55,
   0x02, 0x01,
