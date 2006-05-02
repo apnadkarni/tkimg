@@ -50,6 +50,7 @@ Pngtcl_InitStubs(interp, version, exact)
     int exact;
 {
     CONST char *result;
+    ClientData data;
 
     /* HACK: de-CONST 'version' if compiled against 8.3.
      * The API has no CONST despite not modifying the argument
@@ -63,12 +64,12 @@ Pngtcl_InitStubs(interp, version, exact)
 #define UNCONST 
 #endif
 
-    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, UNCONST version, exact,
-		(ClientData *) &pngtclStubsPtr);
-    if (!result || !pngtclStubsPtr) {
+    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, UNCONST version, exact, &data);
+    if (!result || !data) {
         return (char *) NULL;
     }
 
+    pngtclStubsPtr = (PngtclStubs *) data;
     return result;
 }
 #undef UNCONST

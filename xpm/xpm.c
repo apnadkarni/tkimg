@@ -37,28 +37,13 @@
 
 #include "init.c"
 
-
 #if defined(__WIN32__) && !defined(__GNUC__)
 #define strncasecmp strnicmp
-#else
-extern VOID *	memcpy _ANSI_ARGS_((VOID *s1, CONST VOID *s2,
-			    size_t nChars));
 #endif
 
 #ifndef MAC_TCL
 #include <sys/types.h>
 #endif
-
-extern char *	strchr _ANSI_ARGS_((CONST char *string, int c));
-extern char *	strcpy _ANSI_ARGS_((char *s1, CONST char *s2));
-extern size_t	strlen _ANSI_ARGS_((CONST char *string));
-extern int	strncasecmp _ANSI_ARGS_((CONST char *s1,
-			    CONST char *s2, size_t n));
-extern int	strncmp _ANSI_ARGS_((CONST char *s1, CONST char *s2,
-			    size_t nChars));
-extern char *	strrchr _ANSI_ARGS_((CONST char *string, int c));
-extern char *	strstr _ANSI_ARGS_((CONST char *string,
-			    CONST char *substring));
 
 /* constants used only in this file */
 

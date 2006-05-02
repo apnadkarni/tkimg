@@ -22,6 +22,9 @@
 #define __TKIMG_H__
 
 #include <stdio.h> /* stdout, and other definitions */
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 #include "tk.h"
 
 /*

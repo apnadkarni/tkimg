@@ -50,6 +50,7 @@ Tifftcl_InitStubs(interp, version, exact)
     int exact;
 {
     CONST char *result;
+    ClientData data;
 
     /* HACK: de-CONST 'version' if compiled against 8.3.
      * The API has no CONST despite not modifying the argument
@@ -63,12 +64,12 @@ Tifftcl_InitStubs(interp, version, exact)
 #define UNCONST 
 #endif
 
-    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, UNCONST version, exact,
-		(ClientData *) &tifftclStubsPtr);
-    if (!result || !tifftclStubsPtr) {
+    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, UNCONST version, exact, &data);
+    if (!result || !data) {
         return (char *) NULL;
     }
 
+    tifftclStubsPtr = (TifftclStubs *) data;
     return result;
 }
 #undef UNCONST

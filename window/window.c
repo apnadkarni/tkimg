@@ -346,7 +346,13 @@ static int ObjRead(interp, data, format, imageHandle,
 		    ((i << cdata.green_shift) & cdata.green_mask) |
 		    ((i << cdata.blue_shift) & cdata.blue_mask);
     } else {
-	cdata.separated=0;
+	cdata.separated = 0;
+	cdata.red_mask = 0;
+	cdata.green_mask = 0;
+	cdata.blue_mask = 0;
+	cdata.red_shift = 0;
+	cdata.green_shift = 0;
+	cdata.blue_shift = 0;
 	for (i = 0; i < ncolors; i ++) cdata.colors[i].pixel = i;
     }
     cdata.color = !(visual->class == StaticGray || visual->class == GrayScale);

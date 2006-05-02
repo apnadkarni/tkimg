@@ -15,6 +15,12 @@
  */
 
 #include <tcl.h>
+/*
+ * The macro INLINE might be defined both in tcl.h and libtiff/port.h,
+ * so better prevent a conflict here.
+ */
+#undef INLINE
+
 #include <tifftclDeclsMask.h>
 #include <../libtiff/tiffio.h>
 #include <../libtiff/tiffiop.h>

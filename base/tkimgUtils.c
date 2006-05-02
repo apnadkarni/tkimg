@@ -241,7 +241,6 @@ tkimg_FixChanMatchProc(interp, chan, file, format, width, height)
 	return;
     }
     if (!(initialized & IMG_NEWPHOTO)) {
-      printf ("bail out....\n");
         /* Old-style call signature */
         return;
     }

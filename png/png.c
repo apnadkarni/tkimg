@@ -86,8 +86,6 @@ static void tk_png_error _ANSI_ARGS_((png_structp, png_const_charp));
 
 static void tk_png_warning _ANSI_ARGS_((png_structp, png_const_charp));
 
-static int load_png_library _ANSI_ARGS_((Tcl_Interp *interp));
-
 /*
  * These functions are used for all Input/Output.
  */
@@ -559,19 +557,22 @@ CommonWritePNG(interp, png_ptr, info_ptr, format, blockPtr)
     }
 
     if (tagcount > 0) {
-	png_text_compat text;
+	union {
+	    png_text_compat compat;
+	    png_text orig;
+	} text;
 	for(I=0;I<tagcount;I++) {
 	    int length;
-	    text.key = Tcl_GetStringFromObj(tags[2*I+1], (int *) NULL);
-	    text.text = Tcl_GetStringFromObj(tags[2*I+2], &length);
-	    text.text_length = length;
-	    if (text.text_length>COMPRESS_THRESHOLD) { 
-		text.compression = PNG_TEXT_COMPRESSION_zTXt;
+	    text.compat.key = Tcl_GetStringFromObj(tags[2*I+1], (int *) NULL);
+	    text.compat.text = Tcl_GetStringFromObj(tags[2*I+2], &length);
+	    text.compat.text_length = length;
+	    if (text.compat.text_length>COMPRESS_THRESHOLD) { 
+		text.compat.compression = PNG_TEXT_COMPRESSION_zTXt;
 	    } else {
-		text.compression = PNG_TEXT_COMPRESSION_NONE;
+		text.compat.compression = PNG_TEXT_COMPRESSION_NONE;
 	    }
-	    text.lang = NULL;
-	    png_set_text(png_ptr, info_ptr, (png_text *) &text, 1);
+	    text.compat.lang = NULL;
+	    png_set_text(png_ptr, info_ptr, &text.orig, 1);
         }
     }
     png_write_info(png_ptr,info_ptr);

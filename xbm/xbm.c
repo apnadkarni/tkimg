@@ -18,8 +18,6 @@
  *
  */
 
-#include <string.h>
-
 /*
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
