@@ -156,7 +156,7 @@ CommonMatchPS(handle, format, widthPtr, heightPtr)
     Tcl_Obj *format;
     int *widthPtr, *heightPtr;
 {
-    unsigned char buf[41];
+    unsigned char buf[42];
 
     if ((tkimg_Read(handle, (char *) buf, 11) != 11)
 	    || (strncmp("%!PS-Adobe-", (char *) buf, 11) != 0)) {

@@ -356,7 +356,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
     } else { 		/* RLE Compression */
 	int i, c;
 	unsigned char howMuch;
-	unsigned char rleBuf[2];
+	unsigned char rleBuf[4];
 	unsigned char val;
 
 	x = 0;

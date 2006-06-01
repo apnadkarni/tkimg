@@ -598,7 +598,6 @@ CommonRead(interp, tif, format, imageHandle,
     int srcX, srcY;
 {
     myblock bl;
-    unsigned char *pixelPtr = block.pixelPtr;
     uint32 w, h;
     size_t npixels;
     uint32 *raster;
@@ -640,7 +639,7 @@ CommonRead(interp, tif, format, imageHandle,
 	return TCL_ERROR;
     }
 
-    pixelPtr = block.pixelPtr += srcY * block.pitch
+    block.pixelPtr += srcY * block.pitch
 	    + srcX * block.pixelSize;
     block.offset[3] = block.offset[0]; /* don't use transparency */
     tkimg_PhotoPutBlock(imageHandle, &block, destX,
