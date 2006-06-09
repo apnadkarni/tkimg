@@ -1,3 +1,7 @@
+2006-06-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* upgrade to libpng 1.2.10
+
 2006-06-06  Paul Obermeier <obermeier@users.sourceforge.net>
 
 	* bmp/bmp.c: 1. Added read parser for 16 and 32 bit formats. Needed
