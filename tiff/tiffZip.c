@@ -104,15 +104,9 @@ ZIPSetupDecode(tif)
  */
 
 static int
-#ifdef _USING_PROTOTYPES_
 ZIPPreDecode (
     TIFF* tif,
     tsample_t s)
-#else
-ZIPPreDecode(tif, s)
-    TIFF* tif;
-    tsample_t s;
-#endif
 {
     ZIPState* sp = DecoderState(tif);
 
@@ -124,19 +118,11 @@ ZIPPreDecode(tif, s)
 }
 
 static int
-#ifdef _USING_PROTOTYPES_
 ZIPDecode (
     TIFF* tif,
     tidata_t op,
     tsize_t occ,
     tsample_t s)
-#else
-ZIPDecode(tif, op, occ, s)
-    TIFF* tif;
-    tidata_t op;
-    tsize_t occ;
-    tsample_t s;
-#endif
 {
     ZIPState* sp = DecoderState(tif);
     static char module[] = "ZIPDecode";
@@ -173,13 +159,8 @@ ZIPDecode(tif, op, occ, s)
 }
 
 static int
-#ifdef _USING_PROTOTYPES_
 ZIPSetupEncode (
     TIFF* tif)
-#else
-ZIPSetupEncode(tif)
-    TIFF* tif;
-#endif
 {
     ZIPState* sp = EncoderState(tif);
     static char module[] = "ZIPSetupEncode";
@@ -199,15 +180,9 @@ ZIPSetupEncode(tif)
  */
 
 static int
-#ifdef _USING_PROTOTYPES_
 ZIPPreEncode (
     TIFF* tif,
     tsample_t s)
-#else
-ZIPPreEncode(tif, s)
-    TIFF* tif;
-    tsample_t s;
-#endif
 {
     ZIPState *sp = EncoderState(tif);
 
@@ -223,18 +198,10 @@ ZIPPreEncode(tif, s)
  */
 
 static int
-#ifdef _USING_PROTOTYPES_
 ZIPEncode (TIFF* tif,
     tidata_t bp,
     tsize_t cc,
     tsample_t s)
-#else
-ZIPEncode(tif, bp, cc, s)
-    TIFF* tif;
-    tidata_t bp;
-    tsize_t cc;
-    tsample_t s;
-#endif
 {
     ZIPState *sp = EncoderState(tif);
     static char module[] = "ZIPEncode";

@@ -1,9 +1,9 @@
 /******************************************************************************
- * $Id$
+ * tif_overview.c,v 1.9 2005/05/25 09:03:16 dron Exp
  *
  * Project:  TIFF Overview Builder
  * Purpose:  Library function for building overviews in a TIFF file.
- * Author:   Frank Warmerdam, warmerda@home.com
+ * Author:   Frank Warmerdam, warmerdam@pobox.com
  *
  * Notes:
  *  o Currently only images with bits_per_sample of a multiple of eight
@@ -43,30 +43,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************
- *
- * $Log$
- * Revision 1.1  2004/08/13 22:02:09  andreas_kupries
- * 	* libtiff:     Updated libtiff from version 3.5.5 to 3.6.1.
- * 	* libtiff/tcl: Updated to handle the new version of libtiff.
- *
- * Revision 1.3  2000/04/18 22:48:31  warmerda
- * Added support for averaging resampling
- *
- * Revision 1.2  2000/01/28 15:36:38  warmerda
- * pass TIFF handle instead of filename to overview builder
- *
- * Revision 1.1  2000/01/28 15:04:03  warmerda
- * New
- *
  */
+
+/* TODO: update notes in header above */
 
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "tiffio.h"
 #include "tif_ovrcache.h"
-
 
 #ifndef FALSE
 #  define FALSE 0
@@ -88,18 +75,18 @@ void TIFFBuildOverviews( TIFF *, int, int *, int, const char *,
 /*      Returns offset of newly created overview directory, but the     */
 /*      current directory is reset to be the one in used when this      */
 /*      function is called.                                             */
-/********************************* ***************************************/
+/************************************************************************/
 
-static
 uint32 TIFF_WriteOverview( TIFF *hTIFF, int nXSize, int nYSize,
-                           int nBitsPerPixel, int nSamples, 
+                           int nBitsPerPixel, int nPlanarConfig, int nSamples, 
                            int nBlockXSize, int nBlockYSize,
                            int bTiled, int nCompressFlag, int nPhotometric,
                            int nSampleFormat,
                            unsigned short *panRed,
                            unsigned short *panGreen,
                            unsigned short *panBlue,
-                           int bUseSubIFDs )
+                           int bUseSubIFDs,
+                           int nHorSubsampling, int nVerSubsampling )
 
 {
     uint32	nBaseDirOffset;
@@ -108,7 +95,7 @@ uint32 TIFF_WriteOverview( TIFF *hTIFF, int nXSize, int nYSize,
     nBaseDirOffset = TIFFCurrentDirOffset( hTIFF );
 
     TIFFCreateDirectory( hTIFF );
-    
+
 /* -------------------------------------------------------------------- */
 /*      Setup TIFF fields.                                              */
 /* -------------------------------------------------------------------- */
@@ -117,7 +104,7 @@ uint32 TIFF_WriteOverview( TIFF *hTIFF, int nXSize, int nYSize,
     if( nSamples == 1 )
         TIFFSetField( hTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG );
     else
-        TIFFSetField( hTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_SEPARATE );
+        TIFFSetField( hTIFF, TIFFTAG_PLANARCONFIG, nPlanarConfig );
 
     TIFFSetField( hTIFF, TIFFTAG_BITSPERSAMPLE, nBitsPerPixel );
     TIFFSetField( hTIFF, TIFFTAG_SAMPLESPERPIXEL, nSamples );
@@ -134,7 +121,15 @@ uint32 TIFF_WriteOverview( TIFF *hTIFF, int nXSize, int nYSize,
         TIFFSetField( hTIFF, TIFFTAG_ROWSPERSTRIP, nBlockYSize );
 
     TIFFSetField( hTIFF, TIFFTAG_SUBFILETYPE, FILETYPE_REDUCEDIMAGE );
-    
+
+    if( nPhotometric == PHOTOMETRIC_YCBCR || nPhotometric == PHOTOMETRIC_ITULAB )
+    {
+        TIFFSetField( hTIFF, TIFFTAG_YCBCRSUBSAMPLING, nHorSubsampling, nVerSubsampling);
+        /* TODO: also write YCbCrPositioning and YCbCrCoefficients tag identical to source IFD */
+    }
+    /* TODO: add command-line parameter for selecting jpeg compression quality
+     * that gets ignored when compression isn't jpeg */
+
 /* -------------------------------------------------------------------- */
 /*	Write color table if one is present.				*/
 /* -------------------------------------------------------------------- */
@@ -146,9 +141,11 @@ uint32 TIFF_WriteOverview( TIFF *hTIFF, int nXSize, int nYSize,
 /* -------------------------------------------------------------------- */
 /*      Write directory, and return byte offset.                        */
 /* -------------------------------------------------------------------- */
-    TIFFWriteCheck( hTIFF, bTiled, "TIFFBuildOverviews" );
+    if( TIFFWriteCheck( hTIFF, bTiled, "TIFFBuildOverviews" ) == 0 )
+        return 0;
+
     TIFFWriteDirectory( hTIFF );
-    TIFFSetDirectory( hTIFF, TIFFNumberOfDirectories(hTIFF)-1 );
+    TIFFSetDirectory( hTIFF, (tdir_t) (TIFFNumberOfDirectories(hTIFF)-1) );
 
     nOffset = TIFFCurrentDirOffset( hTIFF );
 
@@ -284,9 +281,9 @@ void TIFF_DownSample( unsigned char *pabySrcTile,
     {
         if( j + nTYOff >= nOBlockYSize )
             break;
-            
-        pabyDst = pabyOTile
-            + ((j+nTYOff)*nOBlockXSize + nTXOff) * nPixelBytes;
+
+        pabyDst = pabyOTile + ((j+nTYOff)*nOBlockXSize + nTXOff)
+            * nPixelBytes * nPixelGroupBytes;
 
 /* -------------------------------------------------------------------- */
 /*      Handler nearest resampling ... we don't even care about the     */
@@ -308,10 +305,9 @@ void TIFF_DownSample( unsigned char *pabySrcTile,
                  */
 
                 for( k = 0; k < nPixelBytes; k++ )
-                {
-                    *(pabyDst++) = pabySrc[k];
-                }
-            
+                    pabyDst[k] = pabySrc[k];
+
+                pabyDst += nPixelBytes * nPixelGroupBytes;
                 pabySrc += nOMult * nPixelGroupBytes;
             }
         }
@@ -320,7 +316,7 @@ void TIFF_DownSample( unsigned char *pabySrcTile,
 /*      Handle the case of averaging.  For this we also have to         */
 /*      handle each sample format we are concerned with.                */
 /* -------------------------------------------------------------------- */
-        else if( strncmp(pszResampling,"averag",6) == 0 
+        else if( strncmp(pszResampling,"averag",6) == 0
                  || strncmp(pszResampling,"AVERAG",6) == 0 )
         {
             pabySrc = pabySrcTile + j*nOMult*nBlockXSize * nPixelGroupBytes;
@@ -337,12 +333,12 @@ void TIFF_DownSample( unsigned char *pabySrcTile,
                 nXSize = MIN(nOMult,nBlockXSize-i);
                 nYSize = MIN(nOMult,nBlockYSize-j);
 
-                TIFF_GetSourceSamples( padfSamples, pabySrc, 
-                                       nPixelBytes, nSampleFormat, 
-                                       nXSize, nYSize, 
-                                       nPixelGroupBytes, 
+                TIFF_GetSourceSamples( padfSamples, pabySrc,
+                                       nPixelBytes, nSampleFormat,
+                                       nXSize, nYSize,
+                                       nPixelGroupBytes,
                                        nPixelGroupBytes * nBlockXSize );
-                
+
                 dfTotal = 0;
                 for( iSample = 0; iSample < nXSize*nYSize; iSample++ )
                 {
@@ -361,6 +357,187 @@ void TIFF_DownSample( unsigned char *pabySrcTile,
     free( padfSamples );
 }
 
+static
+void TIFF_DownSample_Subsampled( unsigned char *pabySrcTile, int nSample,
+                                 int nBlockXSize, int nBlockYSize,
+                                 unsigned char * pabyOTile,
+                                 int nOBlockXSize, int nOBlockYSize,
+                                 int nTXOff, int nTYOff, int nOMult,
+                                 const char * pszResampling,
+                                 int nHorSubsampling, int nVerSubsampling )
+{
+    /* TODO: test with variety of subsampling values, and incovinient tile/strip sizes */
+	int nSampleBlockSize;
+    int nSourceSampleRowSize;
+    int nDestSampleRowSize;
+    int nSourceX, nSourceY;
+    int nSourceXSec, nSourceYSec;
+    int nSourceXSecEnd, nSourceYSecEnd;
+    int nDestX, nDestY;
+    int nSampleOffsetInSampleBlock;
+    unsigned char * pSourceBase;
+    unsigned char * pDestBase;
+    int nSourceBaseInc;
+    unsigned char * pSourceBaseEnd;
+    unsigned int nCummulator;
+    unsigned int nCummulatorCount;
+
+    nSampleBlockSize = nHorSubsampling * nVerSubsampling + 2;
+    nSourceSampleRowSize = ( ( nBlockXSize + nHorSubsampling - 1 ) / nHorSubsampling ) * nSampleBlockSize;
+    nDestSampleRowSize = ( ( nOBlockXSize + nHorSubsampling - 1 ) / nHorSubsampling ) * nSampleBlockSize;
+
+    if( strncmp(pszResampling,"nearest",4) == 0
+            || strncmp(pszResampling,"NEAR",4) == 0 )
+	{
+    	if( nSample == 0 )
+        {
+#ifdef NOOPTIMIZATION
+        	/*
+             * This version is not optimized, and should not be used except as documentation and as more clear
+             * starting point for bug fixes (hope not) and extension
+             */
+             for( nSourceY = 0, nDestY = nTYOff; nSourceY < nBlockYSize; nSourceY += nOMult, nDestY ++)
+             {
+                for( nSourceX = 0, nDestX = nTXOff; nSourceX < nBlockXSize; nSourceX += nOMult, nDestX ++)
+                {
+                    * ( pabyOTile + ( nDestY / nVerSubsampling ) * nDestSampleRowSize
+                                  + ( nDestY % nVerSubsampling ) * nHorSubsampling
+                                  + ( nDestX / nHorSubsampling ) * nSampleBlockSize
+                                  + ( nDestX % nHorSubsampling ) ) =
+                        * ( pabySrcTile + ( nSourceY / nVerSubsampling ) * nSourceSampleRowSize
+                                        + ( nSourceY % nVerSubsampling ) * nHorSubsampling
+                                        + ( nSourceX / nHorSubsampling ) * nSampleBlockSize
+                                        + ( nSourceX % nHorSubsampling ) );
+                }
+            }
+#else
+            for( nSourceY = 0, nDestY = nTYOff; nSourceY < nBlockYSize; nSourceY += nOMult, nDestY ++)
+            {
+                pSourceBase = pabySrcTile + ( nSourceY / nVerSubsampling ) * nSourceSampleRowSize
+                                          + ( nSourceY % nVerSubsampling ) * nHorSubsampling;
+                pDestBase = pabyOTile + ( nDestY / nVerSubsampling ) * nDestSampleRowSize
+                                      + ( nDestY % nVerSubsampling ) * nHorSubsampling;
+                for( nSourceX = 0, nDestX = nTXOff; nSourceX < nBlockXSize; nSourceX += nOMult, nDestX ++)
+                {
+                    * ( pDestBase + ( nDestX / nHorSubsampling ) * nSampleBlockSize
+                                  + ( nDestX % nHorSubsampling ) ) =
+                        * ( pSourceBase + ( nSourceX / nHorSubsampling ) * nSampleBlockSize
+                                        + ( nSourceX % nHorSubsampling ) );
+                }
+            }
+#endif
+        }
+        else
+        {
+#ifdef NOOPTIMIZATION
+        	/*
+             * This version is not optimized, and should not be used except as documentation and as more clear
+             * starting point for bug fixes (hope not) and extension
+             */
+            nSampleOffsetInSampleBlock = nHorSubsampling * nVerSubsampling + nSample - 1;
+            for( nSourceY = 0, nDestY = ( nTYOff / nVerSubsampling ); nSourceY < ( nBlockYSize / nVerSubsampling );
+                                nSourceY += nOMult, nDestY ++)
+            {
+            	for( nSourceX = 0, nDestX = ( nTXOff / nHorSubsampling ); nSourceX < ( nBlockXSize / nHorSubsampling );
+                	                 nSourceX += nOMult, nDestX ++)
+                {
+                    * ( pabyOTile + nDestY * nDestSampleRowSize
+                                  + nDestX * nSampleBlockSize
+                                  + nSampleOffsetInSampleBlock ) =
+                    	* ( pabySrcTile + nSourceY * nSourceSampleRowSize
+                                        + nSourceX * nSampleBlockSize
+                                        + nSampleOffsetInSampleBlock );
+                }
+            }
+#else
+            nSampleOffsetInSampleBlock = nHorSubsampling * nVerSubsampling + nSample - 1;
+            nSourceBaseInc = nOMult * nSampleBlockSize;
+            for( nSourceY = 0, nDestY = ( nTYOff / nVerSubsampling ); nSourceY < ( nBlockYSize / nVerSubsampling);
+                                nSourceY += nOMult, nDestY ++)
+            {
+                pSourceBase = pabySrcTile + nSourceY * nSourceSampleRowSize
+                                          + nSampleOffsetInSampleBlock;
+                pSourceBaseEnd = pSourceBase + ( ( ( nBlockXSize / nHorSubsampling ) + nOMult - 1 ) / nOMult ) * nSourceBaseInc;
+                pDestBase = pabyOTile + nDestY * nDestSampleRowSize
+                                      + ( nTXOff / nHorSubsampling ) * nSampleBlockSize
+                                      + nSampleOffsetInSampleBlock;
+                for( ; pSourceBase < pSourceBaseEnd; pSourceBase += nSourceBaseInc, pDestBase += nSampleBlockSize)
+                    * pDestBase = * pSourceBase;
+            }
+#endif
+        }
+    }
+    else if( strncmp(pszResampling,"averag",6) == 0
+                 || strncmp(pszResampling,"AVERAG",6) == 0 )
+    {
+    	if( nSample == 0 )
+        {
+            for( nSourceY = 0, nDestY = nTYOff; nSourceY < nBlockYSize; nSourceY += nOMult, nDestY ++)
+            {
+                for( nSourceX = 0, nDestX = nTXOff; nSourceX < nBlockXSize; nSourceX += nOMult, nDestX ++)
+                {
+                    nSourceXSecEnd = nSourceX + nOMult;
+                    if( nSourceXSecEnd > nBlockXSize )
+                        nSourceXSecEnd = nBlockXSize;
+                    nSourceYSecEnd = nSourceY + nOMult;
+                    if( nSourceYSecEnd > nBlockYSize )
+                        nSourceYSecEnd = nBlockYSize;
+                    nCummulator = 0;
+                    for( nSourceYSec = nSourceY; nSourceYSec < nSourceYSecEnd; nSourceYSec ++)
+                    {
+                        for( nSourceXSec = nSourceX; nSourceXSec < nSourceXSecEnd; nSourceXSec ++)
+                        {
+                            nCummulator += * ( pabySrcTile + ( nSourceYSec / nVerSubsampling ) * nSourceSampleRowSize
+                                                           + ( nSourceYSec % nVerSubsampling ) * nHorSubsampling
+                                                           + ( nSourceXSec / nHorSubsampling ) * nSampleBlockSize
+                                                           + ( nSourceXSec % nHorSubsampling ) );
+                        }
+                    }
+                    nCummulatorCount = ( nSourceXSecEnd - nSourceX ) * ( nSourceYSecEnd - nSourceY );
+                    * ( pabyOTile + ( nDestY / nVerSubsampling ) * nDestSampleRowSize
+                                  + ( nDestY % nVerSubsampling ) * nHorSubsampling
+                                  + ( nDestX / nHorSubsampling ) * nSampleBlockSize
+                                  + ( nDestX % nHorSubsampling ) ) =
+                        ( ( nCummulator + ( nCummulatorCount >> 1 ) ) / nCummulatorCount );
+                }
+            }
+        }
+        else
+        {
+            nSampleOffsetInSampleBlock = nHorSubsampling * nVerSubsampling + nSample - 1;
+            for( nSourceY = 0, nDestY = ( nTYOff / nVerSubsampling ); nSourceY < ( nBlockYSize / nVerSubsampling );
+                             nSourceY += nOMult, nDestY ++)
+            {
+                for( nSourceX = 0, nDestX = ( nTXOff / nHorSubsampling ); nSourceX < ( nBlockXSize / nHorSubsampling );
+                                 nSourceX += nOMult, nDestX ++)
+                {
+                    nSourceXSecEnd = nSourceX + nOMult;
+                    if( nSourceXSecEnd > ( nBlockXSize / nHorSubsampling ) )
+                        nSourceXSecEnd = ( nBlockXSize / nHorSubsampling );
+                    nSourceYSecEnd = nSourceY + nOMult;
+                    if( nSourceYSecEnd > ( nBlockYSize / nVerSubsampling ) )
+                        nSourceYSecEnd = ( nBlockYSize / nVerSubsampling );
+                    nCummulator = 0;
+                    for( nSourceYSec = nSourceY; nSourceYSec < nSourceYSecEnd; nSourceYSec ++)
+                    {
+                        for( nSourceXSec = nSourceX; nSourceXSec < nSourceXSecEnd; nSourceXSec ++)
+                        {
+                            nCummulator += * ( pabySrcTile + nSourceYSec * nSourceSampleRowSize
+                                                           + nSourceXSec * nSampleBlockSize
+                                                           + nSampleOffsetInSampleBlock );
+                        }
+                    }
+                    nCummulatorCount = ( nSourceXSecEnd - nSourceX ) * ( nSourceYSecEnd - nSourceY );
+                    * ( pabyOTile + nDestY * nDestSampleRowSize
+                                  + nDestX * nSampleBlockSize
+                                  + nSampleOffsetInSampleBlock ) =
+                        ( ( nCummulator + ( nCummulatorCount >> 1 ) ) / nCummulatorCount );
+                }
+            }
+        }
+    }
+}
+
 /************************************************************************/
 /*                      TIFF_ProcessFullResBlock()                      */
 /*                                                                      */
@@ -369,8 +546,9 @@ void TIFF_DownSample( unsigned char *pabySrcTile,
 /************************************************************************/
 
 void TIFF_ProcessFullResBlock( TIFF *hTIFF, int nPlanarConfig,
+                               int bSubsampled, int nHorSubsampling, int nVerSubsampling,
                                int nOverviews, int * panOvList,
-                               int nBitsPerPixel, 
+                               int nBitsPerPixel,
                                int nSamples, TIFFOvrCache ** papoRawBIs,
                                int nSXOff, int nSYOff,
                                unsigned char *pabySrcTile,
@@ -393,14 +571,15 @@ void TIFF_ProcessFullResBlock( TIFF *hTIFF, int nPlanarConfig,
             {
                 TIFFReadEncodedTile( hTIFF,
                                      TIFFComputeTile(hTIFF, nSXOff, nSYOff,
-                                                     0, iSample ),
+                                                     0, (tsample_t)iSample ),
                                      pabySrcTile,
                                      TIFFTileSize(hTIFF));
             }
             else
             {
                 TIFFReadEncodedStrip( hTIFF,
-                                      TIFFComputeStrip(hTIFF, nSYOff, iSample),
+                                      TIFFComputeStrip(hTIFF, nSYOff,
+                                                       (tsample_t) iSample),
                                       pabySrcTile,
                                       TIFFStripSize(hTIFF) );
             }
@@ -424,46 +603,78 @@ void TIFF_ProcessFullResBlock( TIFF *hTIFF, int nPlanarConfig,
             nOMult = panOvList[iOverview];
             nOXOff = (nSXOff/nOMult) / nOBlockXSize;
             nOYOff = (nSYOff/nOMult) / nOBlockYSize;
-            pabyOTile = TIFFGetOvrBlock( poRBI, nOXOff, nOYOff, iSample );
-                
-            /*
-             * Establish the offset into this tile at which we should
-             * start placing data.
-             */
-            nTXOff = (nSXOff - nOXOff*nOMult*nOBlockXSize) / nOMult;
-            nTYOff = (nSYOff - nOYOff*nOMult*nOBlockYSize) / nOMult;
 
-            /*
-             * Figure out the skew (extra space between ``our samples'') and
-             * the byte offset to the first sample.
-             */
-            assert( (nBitsPerPixel % 8) == 0 );
-            if( nPlanarConfig == PLANARCONFIG_SEPARATE )
+            if( bSubsampled )
             {
-                nSkewBits = 0;
-                nSampleByteOffset = 0;
+                pabyOTile = TIFFGetOvrBlock_Subsampled( poRBI, nOXOff, nOYOff );
+
+                /*
+                 * Establish the offset into this tile at which we should
+                 * start placing data.
+                 */
+                nTXOff = (nSXOff - nOXOff*nOMult*nOBlockXSize) / nOMult;
+                nTYOff = (nSYOff - nOYOff*nOMult*nOBlockYSize) / nOMult;
+
+
+#ifdef DBMALLOC
+                malloc_chain_check( 1 );
+#endif
+                TIFF_DownSample_Subsampled( pabySrcTile, iSample,
+                                            nBlockXSize, nBlockYSize,
+                                            pabyOTile,
+                                            poRBI->nBlockXSize, poRBI->nBlockYSize,
+                                            nTXOff, nTYOff,
+                                            nOMult, pszResampling,
+                                            nHorSubsampling, nVerSubsampling );
+#ifdef DBMALLOC
+                malloc_chain_check( 1 );
+#endif
+
             }
             else
             {
-                nSkewBits = nBitsPerPixel * (nSamples-1);
-                nSampleByteOffset = (nBitsPerPixel/8) * iSample;
-            }
-            
-            /*
-             * Perform the downsampling.
-             */
+
+                pabyOTile = TIFFGetOvrBlock( poRBI, nOXOff, nOYOff, iSample );
+
+                /*
+                 * Establish the offset into this tile at which we should
+                 * start placing data.
+                 */
+                nTXOff = (nSXOff - nOXOff*nOMult*nOBlockXSize) / nOMult;
+                nTYOff = (nSYOff - nOYOff*nOMult*nOBlockYSize) / nOMult;
+
+                /*
+                 * Figure out the skew (extra space between ``our samples'') and
+                 * the byte offset to the first sample.
+                 */
+                assert( (nBitsPerPixel % 8) == 0 );
+                if( nPlanarConfig == PLANARCONFIG_SEPARATE )
+                {
+                    nSkewBits = 0;
+                    nSampleByteOffset = 0;
+                }
+                else
+                {
+                    nSkewBits = nBitsPerPixel * (nSamples-1);
+                    nSampleByteOffset = (nBitsPerPixel/8) * iSample;
+                }
+
+                /*
+                 * Perform the downsampling.
+                 */
 #ifdef DBMALLOC
-            malloc_chain_check( 1 );
+                malloc_chain_check( 1 );
 #endif
-            TIFF_DownSample( pabySrcTile + nSampleByteOffset,
-                             nBlockXSize, nBlockYSize,
-                             nSkewBits, nBitsPerPixel, pabyOTile,
-                             poRBI->nBlockXSize, poRBI->nBlockYSize,
-                             nTXOff, nTYOff,
-                             nOMult, nSampleFormat, pszResampling );
+                TIFF_DownSample( pabySrcTile + nSampleByteOffset,
+                               nBlockXSize, nBlockYSize,
+                               nSkewBits, nBitsPerPixel, pabyOTile,
+                               poRBI->nBlockXSize, poRBI->nBlockYSize,
+                               nTXOff, nTYOff,
+                               nOMult, nSampleFormat, pszResampling );
 #ifdef DBMALLOC
-            malloc_chain_check( 1 );
-#endif            
+                malloc_chain_check( 1 );
+#endif
+            }
         }
     }
 }
@@ -487,7 +698,9 @@ void TIFFBuildOverviews( TIFF *hTIFF, int nOverviews, int * panOvList,
     TIFFOvrCache	**papoRawBIs;
     uint32		nXSize, nYSize, nBlockXSize, nBlockYSize;
     uint16		nBitsPerPixel, nPhotometric, nCompressFlag, nSamples,
-                        nPlanarConfig, nSampleFormat;
+        nPlanarConfig, nSampleFormat;
+    int         bSubsampled;
+    uint16      nHorSubsampling, nVerSubsampling;
     int			bTiled, nSXOff, nSYOff, i;
     unsigned char	*pabySrcTile;
     uint16		*panRedMap, *panGreenMap, *panBlueMap;
@@ -500,6 +713,7 @@ void TIFFBuildOverviews( TIFF *hTIFF, int nOverviews, int * panOvList,
     TIFFGetField( hTIFF, TIFFTAG_IMAGELENGTH, &nYSize );
 
     TIFFGetField( hTIFF, TIFFTAG_BITSPERSAMPLE, &nBitsPerPixel );
+    /* TODO: nBitsPerPixel seems misnomer and may need renaming to nBitsPerSample */
     TIFFGetField( hTIFF, TIFFTAG_SAMPLESPERPIXEL, &nSamples );
     TIFFGetFieldDefaulted( hTIFF, TIFFTAG_PLANARCONFIG, &nPlanarConfig );
 
@@ -507,15 +721,41 @@ void TIFFBuildOverviews( TIFF *hTIFF, int nOverviews, int * panOvList,
     TIFFGetFieldDefaulted( hTIFF, TIFFTAG_COMPRESSION, &nCompressFlag );
     TIFFGetFieldDefaulted( hTIFF, TIFFTAG_SAMPLEFORMAT, &nSampleFormat );
 
-    if( nBitsPerPixel < 8 )
+    if( nPhotometric == PHOTOMETRIC_YCBCR || nPhotometric == PHOTOMETRIC_ITULAB )
     {
-        TIFFError( "TIFFBuildOverviews",
-                   "File `%s' has samples of %d bits per sample.  Sample\n"
-                   "sizes of less than 8 bits per sample are not supported.\n",
-                   TIFFFileName(hTIFF), nBitsPerPixel );
-        return;
+        if( nBitsPerPixel != 8 || nSamples != 3 || nPlanarConfig != PLANARCONFIG_CONTIG ||
+            nSampleFormat != SAMPLEFORMAT_UINT)
+        {
+            /* TODO: use of TIFFError is inconsistent with use of fprintf in addtiffo.c, sort out */
+            TIFFErrorExt( TIFFClientdata(hTIFF), "TIFFBuildOverviews",
+                          "File `%s' has an unsupported subsampling configuration.\n",
+                          TIFFFileName(hTIFF) );
+            /* If you need support for this particular flavor, please contact either
+             * Frank Warmerdam warmerdam@pobox.com
+             * Joris Van Damme info@awaresystems.be
+             */
+            return;
+        }
+        bSubsampled = 1;
+        TIFFGetField( hTIFF, TIFFTAG_YCBCRSUBSAMPLING, &nHorSubsampling, &nVerSubsampling );
+        /* TODO: find out if maybe TIFFGetFieldDefaulted is better choice for YCbCrSubsampling tag */
     }
-    
+    else
+    {
+        if( nBitsPerPixel < 8 )
+        {
+            /* TODO: use of TIFFError is inconsistent with use of fprintf in addtiffo.c, sort out */
+            TIFFErrorExt( TIFFClientdata(hTIFF), "TIFFBuildOverviews",
+                          "File `%s' has samples of %d bits per sample.  Sample\n"
+                          "sizes of less than 8 bits per sample are not supported.\n",
+                          TIFFFileName(hTIFF), nBitsPerPixel );
+            return;
+        }
+        bSubsampled = 0;
+        nHorSubsampling = 1;
+        nVerSubsampling = 1;
+    }
+
 /* -------------------------------------------------------------------- */
 /*      Turn off warnings to avoid alot of repeated warnings while      */
 /*      rereading directories.                                          */
@@ -544,14 +784,15 @@ void TIFFBuildOverviews( TIFF *hTIFF, int nOverviews, int * panOvList,
                       &panRedMap, &panGreenMap, &panBlueMap ) )
     {
         uint16		*panRed2, *panGreen2, *panBlue2;
+        int             nColorCount = 1 << nBitsPerPixel;
 
-        panRed2 = (uint16 *) _TIFFmalloc(2*256);
-        panGreen2 = (uint16 *) _TIFFmalloc(2*256);
-        panBlue2 = (uint16 *) _TIFFmalloc(2*256);
+        panRed2 = (uint16 *) _TIFFmalloc(2*nColorCount);
+        panGreen2 = (uint16 *) _TIFFmalloc(2*nColorCount);
+        panBlue2 = (uint16 *) _TIFFmalloc(2*nColorCount);
 
-        memcpy( panRed2, panRedMap, 512 );
-        memcpy( panGreen2, panGreenMap, 512 );
-        memcpy( panBlue2, panBlueMap, 512 );
+        memcpy( panRed2, panRedMap, 2 * nColorCount );
+        memcpy( panGreen2, panGreenMap, 2 * nColorCount );
+        memcpy( panBlue2, panBlueMap, 2 * nColorCount );
 
         panRedMap = panRed2;
         panGreenMap = panGreen2;
@@ -561,7 +802,7 @@ void TIFFBuildOverviews( TIFF *hTIFF, int nOverviews, int * panOvList,
     {
         panRedMap = panGreenMap = panBlueMap = NULL;
     }
-        
+
 /* -------------------------------------------------------------------- */
 /*      Initialize overviews.                                           */
 /* -------------------------------------------------------------------- */
@@ -582,18 +823,19 @@ void TIFFBuildOverviews( TIFF *hTIFF, int nOverviews, int * panOvList,
         {
             if( (nOBlockXSize % 16) != 0 )
                 nOBlockXSize = nOBlockXSize + 16 - (nOBlockXSize % 16);
-            
+
             if( (nOBlockYSize % 16) != 0 )
                 nOBlockYSize = nOBlockYSize + 16 - (nOBlockYSize % 16);
         }
 
         nDirOffset = TIFF_WriteOverview( hTIFF, nOXSize, nOYSize,
-                                         nBitsPerPixel, nSamples,
-                                         nOBlockXSize, nOBlockYSize,
+                                         nBitsPerPixel, nPlanarConfig,
+                                         nSamples, nOBlockXSize, nOBlockYSize,
                                          bTiled, nCompressFlag, nPhotometric,
                                          nSampleFormat,
                                          panRedMap, panGreenMap, panBlueMap,
-                                         bUseSubIFDs );
+                                         bUseSubIFDs,
+                                         nHorSubsampling, nVerSubsampling );
         
         papoRawBIs[i] = TIFFCreateOvrCache( hTIFF, nDirOffset );
     }
@@ -626,6 +868,7 @@ void TIFFBuildOverviews( TIFF *hTIFF, int nOverviews, int * panOvList,
              */
             
             TIFF_ProcessFullResBlock( hTIFF, nPlanarConfig,
+                                      bSubsampled,nHorSubsampling,nVerSubsampling,
                                       nOverviews, panOvList,
                                       nBitsPerPixel, nSamples, papoRawBIs,
                                       nSXOff, nSYOff, pabySrcTile,
@@ -649,3 +892,5 @@ void TIFFBuildOverviews( TIFF *hTIFF, int nOverviews, int * panOvList,
 
     TIFFSetWarningHandler( pfnWarning );
 }
+
+

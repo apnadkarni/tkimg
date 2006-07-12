@@ -730,15 +730,9 @@ JPEGSetupDecode(tif)
  */
 
 static int
-#ifdef _USING_PROTOTYPES_
 JPEGPreDecode (
     TIFF* tif,
     tsample_t s)
-#else
-JPEGPreDecode(tif, s)
-    TIFF* tif;
-    tsample_t s;
-#endif
 {
 	JPEGState *sp = JState(tif);
 	TIFFDirectory *td = &tif->tif_dir;
@@ -1076,19 +1070,22 @@ JPEGSetupEncode(tif)
 		 * default value is inappropriate for YCbCr.  Fill in the
 		 * proper value if application didn't set it.
 		 */
-#ifdef COLORIMETRY_SUPPORT
-		if (!TIFFFieldSet(tif, FIELD_REFBLACKWHITE)) {
-			float refbw[6];
-			long top = 1L << td->td_bitspersample;
-			refbw[0] = 0;
-			refbw[1] = (float)(top-1L);
-			refbw[2] = (float)(top>>1);
-			refbw[3] = refbw[1];
-			refbw[4] = refbw[2];
-			refbw[5] = refbw[1];
-			TIFFSetField(tif, TIFFTAG_REFERENCEBLACKWHITE, refbw);
+		{
+			float *ref;
+			if (!TIFFGetField(tif, TIFFTAG_REFERENCEBLACKWHITE,
+					  &ref)) {
+				float refbw[6];
+				long top = 1L << td->td_bitspersample;
+				refbw[0] = 0;
+				refbw[1] = (float)(top-1L);
+				refbw[2] = (float)(top>>1);
+				refbw[3] = refbw[1];
+				refbw[4] = refbw[2];
+				refbw[5] = refbw[1];
+				TIFFSetField(tif, TIFFTAG_REFERENCEBLACKWHITE,
+					     refbw);
+			}
 		}
-#endif
 		break;
 	case PHOTOMETRIC_PALETTE:		/* disallowed by Tech Note */
 	case PHOTOMETRIC_MASK:

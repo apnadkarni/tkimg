@@ -302,7 +302,8 @@ EXTERN int		TIFFPredictorInit _ANSI_ARGS_((TIFF* tiffptr));
 /* Slot 108 is reserved */
 /* Slot 109 is reserved */
 /* 110 */
-EXTERN void		_TIFFSetupFieldInfo _ANSI_ARGS_((TIFF* tiffptr));
+EXTERN void		_TIFFSetupFieldInfo _ANSI_ARGS_((TIFF* tiffptr,
+				const TIFFFieldInfo a[], size_t b));
 /* 111 */
 EXTERN void		TIFFMergeFieldInfo _ANSI_ARGS_((TIFF* tiffptr, 
 				const TIFFFieldInfo* a, int b));
@@ -369,7 +370,7 @@ EXTERN int		TIFFDefaultDirectory _ANSI_ARGS_((TIFF* tiffptr));
 EXTERN int		TIFFSetCompressionScheme _ANSI_ARGS_((TIFF* tiffptr, 
 				int a));
 /* 137 */
-EXTERN int		_TIFFSetDefaultCompressionState _ANSI_ARGS_((
+EXTERN void		_TIFFSetDefaultCompressionState _ANSI_ARGS_((
 				TIFF* tiffptr));
 /* 138 */
 EXTERN uint32		_TIFFDefaultStripSize _ANSI_ARGS_((TIFF* tiffptr, 
@@ -379,21 +380,21 @@ EXTERN void		_TIFFDefaultTileSize _ANSI_ARGS_((TIFF* tiffptr,
 				uint32* a, uint32* b));
 /* 140 */
 EXTERN void		_TIFFsetByteArray _ANSI_ARGS_((void** a, void* b, 
-				long c));
+				uint32 c));
 /* 141 */
 EXTERN void		_TIFFsetString _ANSI_ARGS_((char** a, char* b));
 /* 142 */
 EXTERN void		_TIFFsetShortArray _ANSI_ARGS_((uint16** a, 
-				uint16* b, long c));
+				uint16* b, uint32 c));
 /* 143 */
 EXTERN void		_TIFFsetLongArray _ANSI_ARGS_((uint32** a, uint32* b, 
-				long c));
+				uint32 c));
 /* 144 */
 EXTERN void		_TIFFsetFloatArray _ANSI_ARGS_((float** a, float* b, 
-				long c));
+				uint32 c));
 /* 145 */
 EXTERN void		_TIFFsetDoubleArray _ANSI_ARGS_((double** a, 
-				double* b, long c));
+				double* b, uint32 c));
 /* 146 */
 EXTERN void		_TIFFprintAscii _ANSI_ARGS_((FILE* a, const char* b));
 /* 147 */
@@ -545,7 +546,7 @@ typedef struct TifftclStubs {
     void *reserved107;
     void *reserved108;
     void *reserved109;
-    void (*_TIFFSetupFieldInfo) _ANSI_ARGS_((TIFF* tiffptr)); /* 110 */
+    void (*_TIFFSetupFieldInfo) _ANSI_ARGS_((TIFF* tiffptr, const TIFFFieldInfo a[], size_t b)); /* 110 */
     void (*tIFFMergeFieldInfo) _ANSI_ARGS_((TIFF* tiffptr, const TIFFFieldInfo* a, int b)); /* 111 */
     void (*_TIFFPrintFieldInfo) _ANSI_ARGS_((TIFF* tiffptr, FILE* a)); /* 112 */
     const TIFFFieldInfo* (*tIFFFindFieldInfo) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, TIFFDataType b)); /* 113 */
@@ -572,15 +573,15 @@ typedef struct TifftclStubs {
     void (*tIFFFreeDirectory) _ANSI_ARGS_((TIFF* tiffptr)); /* 134 */
     int (*tIFFDefaultDirectory) _ANSI_ARGS_((TIFF* tiffptr)); /* 135 */
     int (*tIFFSetCompressionScheme) _ANSI_ARGS_((TIFF* tiffptr, int a)); /* 136 */
-    int (*_TIFFSetDefaultCompressionState) _ANSI_ARGS_((TIFF* tiffptr)); /* 137 */
+    void (*_TIFFSetDefaultCompressionState) _ANSI_ARGS_((TIFF* tiffptr)); /* 137 */
     uint32 (*_TIFFDefaultStripSize) _ANSI_ARGS_((TIFF* tiffptr, uint32 a)); /* 138 */
     void (*_TIFFDefaultTileSize) _ANSI_ARGS_((TIFF* tiffptr, uint32* a, uint32* b)); /* 139 */
-    void (*_TIFFsetByteArray) _ANSI_ARGS_((void** a, void* b, long c)); /* 140 */
+    void (*_TIFFsetByteArray) _ANSI_ARGS_((void** a, void* b, uint32 c)); /* 140 */
     void (*_TIFFsetString) _ANSI_ARGS_((char** a, char* b)); /* 141 */
-    void (*_TIFFsetShortArray) _ANSI_ARGS_((uint16** a, uint16* b, long c)); /* 142 */
-    void (*_TIFFsetLongArray) _ANSI_ARGS_((uint32** a, uint32* b, long c)); /* 143 */
-    void (*_TIFFsetFloatArray) _ANSI_ARGS_((float** a, float* b, long c)); /* 144 */
-    void (*_TIFFsetDoubleArray) _ANSI_ARGS_((double** a, double* b, long c)); /* 145 */
+    void (*_TIFFsetShortArray) _ANSI_ARGS_((uint16** a, uint16* b, uint32 c)); /* 142 */
+    void (*_TIFFsetLongArray) _ANSI_ARGS_((uint32** a, uint32* b, uint32 c)); /* 143 */
+    void (*_TIFFsetFloatArray) _ANSI_ARGS_((float** a, float* b, uint32 c)); /* 144 */
+    void (*_TIFFsetDoubleArray) _ANSI_ARGS_((double** a, double* b, uint32 c)); /* 145 */
     void (*_TIFFprintAscii) _ANSI_ARGS_((FILE* a, const char* b)); /* 146 */
     void (*_TIFFprintAsciiTag) _ANSI_ARGS_((FILE* a, const char* b, const char* c)); /* 147 */
     int (*tIFFInitDumpMode) _ANSI_ARGS_((TIFF* tiffptr, int a)); /* 148 */

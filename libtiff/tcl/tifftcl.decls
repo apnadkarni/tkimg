@@ -319,7 +319,7 @@ declare 100 generic {
 
 # Source: tif_dir.h ...
 declare 110 generic {
-    void _TIFFSetupFieldInfo(TIFF* tiffptr)
+    void _TIFFSetupFieldInfo(TIFF* tiffptr, const TIFFFieldInfo a[], size_t b)
 }
 declare 111 generic {
     void TIFFMergeFieldInfo(TIFF* tiffptr, const TIFFFieldInfo* a, int b)
@@ -392,7 +392,7 @@ declare 136 generic {
     int TIFFSetCompressionScheme(TIFF* tiffptr, int a)
 }
 declare 137 generic {
-    int _TIFFSetDefaultCompressionState(TIFF* tiffptr)
+    void _TIFFSetDefaultCompressionState(TIFF* tiffptr)
 }
 declare 138 generic {
     uint32 _TIFFDefaultStripSize(TIFF* tiffptr, uint32 a)
@@ -407,16 +407,16 @@ declare 141 generic {
     void _TIFFsetString(char** a, char* b)
 }
 declare 142 generic {
-    void _TIFFsetShortArray(uint16** a, uint16* b, long c)
+    void _TIFFsetShortArray(uint16** a, uint16* b, uint32 c)
 }
 declare 143 generic {
-    void _TIFFsetLongArray(uint32** a, uint32* b, long c)
+    void _TIFFsetLongArray(uint32** a, uint32* b, uint32 c)
 }
 declare 144 generic {
-    void _TIFFsetFloatArray(float** a, float* b, long c)
+    void _TIFFsetFloatArray(float** a, float* b, uint32 c)
 }
 declare 145 generic {
-    void _TIFFsetDoubleArray(double** a, double* b, long c)
+    void _TIFFsetDoubleArray(double** a, double* b, uint32 c)
 }
 declare 146 generic {
     void _TIFFprintAscii(FILE* a, const char* b)

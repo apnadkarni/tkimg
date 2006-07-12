@@ -1,4 +1,4 @@
-/* $Header$ */
+/* $Id$ */
 
 /*
  * Apply median cut on an image.
@@ -7,7 +7,6 @@
  *     -C n		- set colortable size.  Default is 256.
  *     -f		- use Floyd-Steinberg dithering.
  *     -c lzw		- compress output with LZW 
- *                        (no longer supported by default due to unisys patent enforcement) 
  *     -c none		- use no compression on output
  *     -c packbits	- use packbits compression on output
  *     -r n		- create output with n rows/strip of data
@@ -41,9 +40,15 @@
  *	Siggraph '82 proceedings, pp. 297-307
  */
 
+#include "tif_config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif
 
 #include "tiffio.h"
 
@@ -313,7 +318,6 @@ char* stuff[] = {
 " -C #		create a colormap with # entries",
 " -f		use Floyd-Steinberg dithering",
 " -c lzw[:opts]	compress output with Lempel-Ziv & Welch encoding",
-"               (no longer supported by default due to Unisys patent enforcement)", 
 " -c zip[:opts]	compress output with deflate encoding",
 " -c packbits	compress output with packbits encoding",
 " -c none	use no compression algorithm on output",
@@ -403,7 +407,7 @@ static void
 splitbox(Colorbox* ptr)
 {
 	uint32		hist2[B_LEN];
-	int		first, last;
+	int		first=0, last=0;
 	register Colorbox	*new;
 	register uint32	*iptr, *histp;
 	register int	i, j;
@@ -760,7 +764,7 @@ quant(TIFF* in, TIFF* out)
 			red = *inptr++ >> COLOR_SHIFT;
 			green = *inptr++ >> COLOR_SHIFT;
 			blue = *inptr++ >> COLOR_SHIFT;
-			*outptr++ = histogram[red][green][blue];
+			*outptr++ = (unsigned char)histogram[red][green][blue];
 		}
 		if (TIFFWriteScanline(out, outline, i, 0) < 0)
 			break;

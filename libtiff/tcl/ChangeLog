@@ -1,3 +1,10 @@
+2006-06-09  Jan Nijtmans  <nijtmans@users.sourceforge.net>
+
+	* libtiff/tcl: Changed version of wrapper to 3.8.2, synchronized to
+	  version of libtiff.
+	* libtiff:     Updated libtiff from version 3.6.1 to 3.8.2.
+	* libtiff/tcl: Updated to handle the new version of libtiff.
+
 2004-08-18  Andreas Kupries  <andreas_kupries@users.sourceforge.net>
 
 	*

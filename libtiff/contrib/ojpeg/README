@@ -4,7 +4,8 @@ necessary:
 
  o Ensure you are able to build with JPEG support (see config.site).
 
- o #define OJPEG_SUPPORT somewhere.  This can be put in tiffconf.h for
+ o Uncomment OJPEG="yes" statement in config.site file or
+   #define OJPEG_SUPPORT somewhere.  This can be put in tiffconf.h for
    instance.
 
  o Append the jdhuff_add.c code to the end of jdhuff.c within the IJG JPEG

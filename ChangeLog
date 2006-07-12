@@ -1,5 +1,9 @@
 2006-06-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
+	* upgrade to libtiff 3.8.2
+
+2006-06-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
 	* upgrade to libpng 1.2.10
 
 2006-06-06  Paul Obermeier <obermeier@users.sourceforge.net>

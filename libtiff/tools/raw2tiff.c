@@ -2,10 +2,10 @@
  *
  * Project:  libtiff tools
  * Purpose:  Convert raw byte sequences in TIFF images
- * Author:   Andrey Kiselev, dron@remotesensing.org
+ * Author:   Andrey Kiselev, dron@ak4719.spb.edu
  *
  ******************************************************************************
- * Copyright (c) 2002, Andrey Kiselev <dron@remotesensing.org>
+ * Copyright (c) 2002, Andrey Kiselev <dron@ak4719.spb.edu>
  *
  * Permission to use, copy, modify, distribute, and sell this software and 
  * its documentation for any purpose is hereby granted without fee, provided
@@ -27,14 +27,41 @@
  * OF THIS SOFTWARE.
  */
 
+#include "tif_config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <math.h>
 #include <ctype.h>
 
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+
+#if HAVE_FCNTL_H
+# include <fcntl.h>
+#endif
+
+#if HAVE_SYS_TYPES_H
+# include <sys/types.h>
+#endif
+
+#if HAVE_IO_H
+# include <io.h>
+#endif
+
 #include "tiffio.h"
+
+#ifndef HAVE_GETOPT
+extern int getopt(int, char**, char*);
+#endif
+
+#ifndef O_BINARY
+# define O_BINARY 0
+#endif
 
 typedef enum {
 	PIXEL,
@@ -47,7 +74,7 @@ static	int quality = 75;		/* JPEG quality */
 static	uint16 predictor = 0;
 
 static void swapBytesInScanline(void *, uint32, TIFFDataType);
-static int guessSize(FILE *, TIFFDataType, uint32, int, int,
+static int guessSize(int, TIFFDataType, off_t, uint32, int,
 		     uint32 *, uint32 *);
 static double correlation(void *, void *, uint32, TIFFDataType);
 static void usage(void);
@@ -56,28 +83,28 @@ static	int processCompressOptions(char*);
 int
 main(int argc, char* argv[])
 {
-	uint32	width = 0, length = 0, hdr_size = 0, linebytes, bufsize;
-	int	nbands = 1;		    /* number of bands in input image*/
+	uint32	width = 0, length = 0, linebytes, bufsize;
+	uint32	nbands = 1;		    /* number of bands in input image*/
+	off_t	hdr_size = 0;		    /* size of the header to skip */
 	TIFFDataType dtype = TIFF_BYTE;
-	int	depth = 1;		    /* bytes per pixel in input image */
+	int16	depth = 1;		    /* bytes per pixel in input image */
 	int	swab = 0;		    /* byte swapping flag */
 	InterleavingType interleaving = 0;  /* interleaving type flag */
-	uint32 rowsperstrip = (uint32) -1;
+	uint32  rowsperstrip = (uint32) -1;
 	uint16	photometric = PHOTOMETRIC_MINISBLACK;
 	uint16	config = PLANARCONFIG_CONTIG;
 	uint16	fillorder = FILLORDER_LSB2MSB;
-	FILE	*in;
+	int	fd;
 	char	*outfilename = NULL;
 	TIFF	*out;
-	
+
 	uint32 row, col, band;
 	int	c;
 	unsigned char *buf = NULL, *buf1 = NULL;
 	extern int optind;
 	extern char* optarg;
-	
 
-	while ((c = getopt(argc, argv, "c:r:H:w:l:b:d:LMp:si:o:h")) != -1)
+	while ((c = getopt(argc, argv, "c:r:H:w:l:b:d:LMp:si:o:h")) != -1) {
 		switch (c) {
 		case 'c':		/* compression scheme */
 			if (!processCompressOptions(optarg))
@@ -164,16 +191,19 @@ main(int argc, char* argv[])
 		default:
 			break;
 		}
-	if (argc - optind < 2)
+        }
+
+        if (argc - optind < 2)
 		usage();
-	in = fopen(argv[optind], "rb");
-	if (in == NULL) {
+
+        fd = open(argv[optind], O_RDONLY|O_BINARY, 0);
+	if (fd < 0) {
 		fprintf(stderr, "%s: %s: Cannot open input file.\n",
 			argv[0], argv[optind]);
 		return (-1);
 	}
 
-	if (guessSize(in, dtype, hdr_size, nbands, swab, &width, &length) < 0)
+	if (guessSize(fd, dtype, hdr_size, nbands, swab, &width, &length) < 0)
 		return 1;
 
 	if (outfilename == NULL)
@@ -240,17 +270,22 @@ main(int argc, char* argv[])
 	}
 	bufsize = width * nbands * depth;
 	buf1 = (unsigned char *)_TIFFmalloc(bufsize);
-	TIFFSetField(out, TIFFTAG_ROWSPERSTRIP,
-	    TIFFDefaultStripSize(out, rowsperstrip));
-	fseek(in, hdr_size, SEEK_SET);		/* Skip the file header */
+
+	rowsperstrip = TIFFDefaultStripSize(out, rowsperstrip);
+	if (rowsperstrip > length) {
+		rowsperstrip = length;
+	}
+	TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, rowsperstrip );
+
+	lseek(fd, hdr_size, SEEK_SET);		/* Skip the file header */
 	for (row = 0; row < length; row++) {
 		switch(interleaving) {
 		case BAND:			/* band interleaved data */
 			for (band = 0; band < nbands; band++) {
-				fseek(in,
+				lseek(fd,
 				      hdr_size + (length*band+row)*linebytes,
 				      SEEK_SET);
-				if (fread(buf, linebytes, 1, in) != 1) {
+				if (read(fd, buf, linebytes) < 0) {
 					fprintf(stderr,
 					"%s: %s: scanline %lu: Read error.\n",
 					argv[0], argv[optind],
@@ -266,7 +301,7 @@ main(int argc, char* argv[])
 			break;
 		case PIXEL:			/* pixel interleaved data */
 		default:
-			if (fread(buf1, bufsize, 1, in) != 1) {
+			if (read(fd, buf1, bufsize) < 0) {
 				fprintf(stderr,
 					"%s: %s: scanline %lu: Read error.\n",
 					argv[0], argv[optind],
@@ -298,15 +333,18 @@ swapBytesInScanline(void *buf, uint32 width, TIFFDataType dtype)
 	switch (dtype) {
 		case TIFF_SHORT:
 		case TIFF_SSHORT:
-			TIFFSwabArrayOfShort((uint16*)buf, width);
+			TIFFSwabArrayOfShort((uint16*)buf,
+                                             (unsigned long)width);
 			break;
 		case TIFF_LONG:
 		case TIFF_SLONG:
-			TIFFSwabArrayOfLong((uint32*)buf, width);
+			TIFFSwabArrayOfLong((uint32*)buf,
+                                            (unsigned long)width);
 			break;
 		/* case TIFF_FLOAT: */	/* FIXME */
 		case TIFF_DOUBLE:
-			TIFFSwabArrayOfDouble((double*)buf, width);
+			TIFFSwabArrayOfDouble((double*)buf,
+                                              (unsigned long)width);
 			break;
 		default:
 			break;
@@ -314,17 +352,17 @@ swapBytesInScanline(void *buf, uint32 width, TIFFDataType dtype)
 }
 
 static int
-guessSize(FILE *fp, TIFFDataType dtype, uint32 hdr_size, int nbands, int swab,
-	  uint32 *width, uint32 *length)
+guessSize(int fd, TIFFDataType dtype, off_t hdr_size, uint32 nbands,
+	  int swab, uint32 *width, uint32 *length)
 {
 	const float longt = 40.0;    /* maximum possible height/width ratio */
 	char	    *buf1, *buf2;
 	struct stat filestat;
 	uint32	    w, h, scanlinesize, imagesize;
-	int	    depth = TIFFDataWidth(dtype);
+	uint32	    depth = TIFFDataWidth(dtype);
 	float	    cor_coef = 0, tmp;
 
-	fstat(fileno(fp), &filestat);
+	fstat(fd, &filestat);
 
 	if (filestat.st_size < hdr_size) {
 		fprintf(stderr, "Too large header size specified.\n");
@@ -338,7 +376,8 @@ guessSize(FILE *fp, TIFFDataType dtype, uint32 hdr_size, int nbands, int swab,
 
 		*length = imagesize / *width;
 		
-		fprintf(stderr, "Height is guessed as %ld.\n", *length);
+		fprintf(stderr, "Height is guessed as %lu.\n",
+			(unsigned long)*length);
 
 		return 1;
 	} else if (*width == 0 && *length != 0) {
@@ -346,13 +385,14 @@ guessSize(FILE *fp, TIFFDataType dtype, uint32 hdr_size, int nbands, int swab,
 
 		*width = imagesize / *length;
 		
-		fprintf(stderr,	"Width is guessed as %ld.\n", *width);
+		fprintf(stderr,	"Width is guessed as %lu.\n",
+			(unsigned long)*width);
 
 		return 1;
 	} else if (*width == 0 && *length == 0) {
 		fprintf(stderr,	"Image width and height are not specified.\n");
 
-		for (w = sqrt(imagesize / longt);
+		for (w = (uint32) sqrt(imagesize / longt);
 		     w < sqrt(imagesize * longt);
 		     w++) {
 			if (imagesize % w == 0) {
@@ -360,15 +400,16 @@ guessSize(FILE *fp, TIFFDataType dtype, uint32 hdr_size, int nbands, int swab,
 				buf1 = _TIFFmalloc(scanlinesize);
 				buf2 = _TIFFmalloc(scanlinesize);
 				h = imagesize / w;
-				fseek(fp, hdr_size + (int)(h/2)*scanlinesize,
+				lseek(fd, hdr_size + (int)(h/2)*scanlinesize,
 				      SEEK_SET);
-				fread(buf1, scanlinesize, 1, fp);
-				fread(buf2, scanlinesize, 1, fp);
+				read(fd, buf1, scanlinesize);
+				read(fd, buf2, scanlinesize);
 				if (swab) {
 					swapBytesInScanline(buf1, w, dtype);
 					swapBytesInScanline(buf2, w, dtype);
 				}
-				tmp = fabs(correlation(buf1, buf2, w, dtype));
+				tmp = (float) fabs(correlation(buf1, buf2,
+							       w, dtype));
 				if (tmp > cor_coef) {
 					cor_coef = tmp;
 					*width = w, *length = h;
@@ -380,12 +421,12 @@ guessSize(FILE *fp, TIFFDataType dtype, uint32 hdr_size, int nbands, int swab,
 		}
 
 		fprintf(stderr,
-			"Width is guessed as %ld, height is guessed as %ld.\n",
-			*width, *length);
+			"Width is guessed as %lu, height is guessed as %lu.\n",
+			(unsigned long)*width, (unsigned long)*length);
 
 		return 1;
 	} else {
-		if (filestat.st_size<hdr_size+(*width)*(*length)*nbands*depth) {
+		if (filestat.st_size<(off_t)(hdr_size+(*width)*(*length)*nbands*depth)) {
 			fprintf(stderr, "Input file too small.\n");
 		return -1;
 		}
@@ -398,15 +439,15 @@ guessSize(FILE *fp, TIFFDataType dtype, uint32 hdr_size, int nbands, int swab,
 static double
 correlation(void *buf1, void *buf2, uint32 n_elem, TIFFDataType dtype)
 {
-	float	X, Y, M1 = 0.0, M2 = 0.0, D1 = 0.0, D2 = 0.0, K = 0.0;
-	int	i;
+	double	X, Y, M1 = 0.0, M2 = 0.0, D1 = 0.0, D2 = 0.0, K = 0.0;
+	uint32	i;
 
 	switch (dtype) {
 		case TIFF_BYTE:
 		default:
                         for (i = 0; i < n_elem; i++) {
-				X = ((u_char *)buf1)[i];
-				Y = ((u_char *)buf2)[i];
+				X = ((unsigned char *)buf1)[i];
+				Y = ((unsigned char *)buf2)[i];
 				M1 += X, M2 += Y;
 				D1 += X * X, D2 += Y * Y;
 				K += X * Y;
@@ -495,11 +536,19 @@ processCompressOptions(char* opt)
 		compression = COMPRESSION_PACKBITS;
 	else if (strncmp(opt, "jpeg", 4) == 0) {
 		char* cp = strchr(opt, ':');
-		if (cp && isdigit(cp[1]))
+
+                compression = COMPRESSION_JPEG;
+                while( cp )
+                {
+                    if (isdigit((int)cp[1]))
 			quality = atoi(cp+1);
-		if (cp && strchr(cp, 'r'))
+                    else if (cp[1] == 'r' )
 			jpegcolormode = JPEGCOLORMODE_RAW;
-		compression = COMPRESSION_JPEG;
+                    else
+                        usage();
+
+                    cp = strchr(cp+1,':');
+                }
 	} else if (strncmp(opt, "lzw", 3) == 0) {
 		char* cp = strchr(opt, ':');
 		if (cp)
@@ -515,8 +564,8 @@ processCompressOptions(char* opt)
 	return (1);
 }
 
-char* stuff[] = {
-"raw2tiff --- tool to converting raw byte sequences in TIFF images",
+static char* stuff[] = {
+"raw2tiff --- tool for converting raw byte sequences in TIFF images",
 "usage: raw2tiff [options] input.raw output.tif",
 "where options are:",
 " -L		input data has LSB2MSB bit order (default)",
@@ -557,9 +606,8 @@ char* stuff[] = {
 " band		band interleaved data",
 "",
 " -c lzw[:opts]	compress output with Lempel-Ziv & Welch encoding",
-"               (no longer supported by default due to Unisys patent enforcement)", 
 " -c zip[:opts]	compress output with deflate encoding",
-" -c jpeg[:opts]compress output with JPEG encoding",
+" -c jpeg[:opts]	compress output with JPEG encoding",
 " -c packbits	compress output with packbits encoding",
 " -c none	use no compression algorithm on output",
 "",
@@ -589,3 +637,4 @@ usage(void)
 	exit(-1);
 }
 
+/* vim: set ts=8 sts=8 sw=8 noet: */

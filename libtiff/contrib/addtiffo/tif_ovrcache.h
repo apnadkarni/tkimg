@@ -1,10 +1,10 @@
 /******************************************************************************
- * $Id$
+ * tif_ovrcache.h,v 1.3 2005/05/25 09:03:16 dron Exp
  *
  * Project:  TIFF Overview Builder
  * Purpose:  Library functions to maintain two rows of tiles or two strips
  *           of data for output overviews as an output cache. 
- * Author:   Frank Warmerdam, warmerda@home.com
+ * Author:   Frank Warmerdam, warmerdam@pobox.com
  *
  * This code could potentially be used by other applications wanting to
  * manage a once-through write cache. 
@@ -30,30 +30,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  ******************************************************************************
- *
- * $Log$
- * Revision 1.1  2004/08/13 22:02:09  andreas_kupries
- * 	* libtiff:     Updated libtiff from version 3.5.5 to 3.6.1.
- * 	* libtiff/tcl: Updated to handle the new version of libtiff.
- *
- * Revision 1.1  2000/01/28 15:03:32  warmerda
- * New
- *
  */
 
 #ifndef TIF_OVRCACHE_H_INCLUDED
 #define TIF_OVRCACHE_H_INCLUDED
 
+#include "tiffio.h"
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+    
 typedef struct 
 {
     uint32	nXSize;
     uint32	nYSize;
 
-    uint32	nBlockXSize;
-    uint32	nBlockYSize;
     uint16	nBitsPerPixel;
     uint16	nSamples;
-    int		nBytesPerBlock;
+    uint16      nPlanarConfig;
+    uint32	nBlockXSize;
+    uint32	nBlockYSize;
+    uint32	nBytesPerBlock;
+    uint32      nBytesPerRow;
 
     int		nBlocksPerRow;
     int		nBlocksPerColumn;
@@ -69,8 +68,34 @@ typedef struct
 } TIFFOvrCache;
 
 TIFFOvrCache *TIFFCreateOvrCache( TIFF *hTIFF, int nDirOffset );
-unsigned char *TIFFGetOvrBlock( TIFFOvrCache *, int, int, int );
+unsigned char *TIFFGetOvrBlock( TIFFOvrCache *psCache, int iTileX, int iTileY,
+                                int iSample );
+unsigned char *TIFFGetOvrBlock_Subsampled( TIFFOvrCache *psCache, int iTileX, int iTileY );
 void           TIFFDestroyOvrCache( TIFFOvrCache * );
 
+void TIFFBuildOverviews( TIFF *, int, int *, int, const char *,
+                         int (*)(double,void*), void * );
+
+void TIFF_ProcessFullResBlock( TIFF *hTIFF, int nPlanarConfig,
+                               int bSubsampled, int nHorSamples, int nVerSamples,
+                               int nOverviews, int * panOvList,
+                               int nBitsPerPixel, 
+                               int nSamples, TIFFOvrCache ** papoRawBIs,
+                               int nSXOff, int nSYOff,
+                               unsigned char *pabySrcTile,
+                               int nBlockXSize, int nBlockYSize,
+                               int nSampleFormat, const char * pszResampling );
+
+uint32 TIFF_WriteOverview( TIFF *, int, int, int, int, int, int, int,
+                           int, int, int, int, unsigned short *,
+                           unsigned short *, unsigned short *, int,
+                           int, int);
+
+
+
+#if defined(__cplusplus)
+}
+#endif
+    
 #endif /* ndef TIF_OVRCACHE_H_INCLUDED */
 
