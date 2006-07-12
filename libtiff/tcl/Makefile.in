@@ -352,7 +352,7 @@ dist_orig:
 #========================================================================
 
 tif_fax3sm.c: mkg3states$(EXEEXT)
-	./mkg3states$(EXEEXT) -c const tif_fax3sm.c
+	./mkg3states$(EXEEXT) -b -c const tif_fax3sm.c
 
 mkg3states$(EXEEXT): mkg3states.c
 	$(COMPILE) `@CYGPATH@ $<` -o $@

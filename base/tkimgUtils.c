@@ -35,7 +35,6 @@ int
 TkimgInitUtilities (interp)
     Tcl_Interp *interp;
 {
-    Tcl_CmdInfo cmdInfo;
 #ifdef _LANG
     initialized = IMG_PERL;
     return initialized;

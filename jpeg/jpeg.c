@@ -539,7 +539,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     int srcX, srcY;		/* Coordinates of top-left pixel to be used
 				 * in image being read. */
 {
-    static char *jpegReadOptions[] = {"-fast", "-grayscale", NULL};
+    static const char *jpegReadOptions[] = {"-fast", "-grayscale", NULL};
     int fileWidth, fileHeight, stopY, curY, outY, outWidth, outHeight;
     myblock bl;
 #define block bl.ck
@@ -813,7 +813,7 @@ CommonWrite(interp, cinfo, format, blockPtr)
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
-    static char *jpegWriteOptions[] = {"-grayscale", "-optimize",
+    static const char *jpegWriteOptions[] = {"-grayscale", "-optimize",
 	"-progressive", "-quality", "-smooth", NULL};
     JSAMPROW row_pointer[1];	/* pointer to original data scanlines */
     JSAMPARRAY buffer;		/* Intermediate row buffer */

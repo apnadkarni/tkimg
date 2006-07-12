@@ -249,7 +249,7 @@ CommonRead(interp, handle, format, imageHandle,
     int srcX, srcY;
 {
 #ifndef MAC_TCL
-    char *argv[10];
+    const char *argv[10];
     int len, i, j, fileWidth, fileHeight, maxintensity, index;
     char *p, type;
     unsigned char buffer[1025], *line = NULL, *line3 = NULL;

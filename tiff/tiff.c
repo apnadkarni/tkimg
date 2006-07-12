@@ -740,7 +740,18 @@ ChnWrite(interp, filename, format, blockPtr)
     Tcl_DString nameBuffer; 
     char *fullname, *mode;
 
-    if (!(fullname=Tcl_TranslateFileName(interp, filename, &nameBuffer))) {
+    /* HACK: de-CONST 'filename' if compiled against 8.3.
+     * The API has no CONST despite not modifying the argument
+     * And a debug build with high warning-level on windows
+     * will abort the compilation.
+     */
+#if ((TCL_MAJOR_VERSION < 8) || ((TCL_MAJOR_VERSION == 8) && (TCL_MINOR_VERSION < 4)))
+#define UNCONST (char*)
+#else
+#define UNCONST 
+#endif
+
+    if (!(fullname=Tcl_TranslateFileName(interp, UNCONST filename, &nameBuffer))) {
 	return TCL_ERROR;
     }
 

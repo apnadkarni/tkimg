@@ -105,7 +105,9 @@ typedef struct {
 } RLEBUF;
 
 /* Forward declarations of static functions. */
+/* This function is commented out because it is not used anywhere
 static void byte2bit (UByte *byteline, int width, UByte *bitline, int invert);
+*/
 
 static void rle_startread (tkimg_MFile *ifp);
 static int rle_fread (char *ptr, int sz, int nelem, tkimg_MFile *ifp);
@@ -115,7 +117,9 @@ static int sun_getc (tkimg_MFile *ifp);
 #define rle_getc(fp) ((rlebuf.n > 0) ? (rlebuf.n)--,rlebuf.val : rle_fgetc (fp))
 
 static void rle_startwrite (tkimg_MFile *ofp);
+/* This function is commented out because it is not used anywhere
 static int rle_fwrite (char *ptr, int sz, int nelem, tkimg_MFile *ofp);
+*/
 static int rle_fputc (int val, tkimg_MFile *ofp);
 static int rle_putrun (int n, int val, tkimg_MFile *ofp);
 static void rle_endwrite (tkimg_MFile *ofp);
@@ -123,7 +127,9 @@ static void rle_endwrite (tkimg_MFile *ofp);
 static Boln read_sun_header  (tkimg_MFile *ifp, SUNHEADER *sunhdr);
 static Boln write_sun_header (tkimg_MFile *ofp, SUNHEADER *sunhdr);
 static Boln read_sun_cols  (tkimg_MFile *ifp, SUNHEADER *sunhdr, UByte *colormap);
+/* This function is commented out because it is not used anywhere
 static Boln write_sun_cols (tkimg_MFile *ofp, SUNHEADER *sunhdr, UByte *colormap);
+*/
 
 static RLEBUF 
 	rlebuf;
@@ -185,6 +191,7 @@ static Boln writeUInt (tkimg_MFile *ofp, UInt c)
 }
 
 /* Convert n bytes of 0/1 to a line of bits */
+/* This function is commented out because it is not used anywhere
 static void byte2bit (UByte *byteline, int width,
                       UByte *bitline, int invert)
 {
@@ -219,6 +226,7 @@ static void byte2bit (UByte *byteline, int width,
        *bitline = invert ? ~bitval : bitval;
     }
 }
+*/
 
 /* Start reading Runlength Encoded Data */
 static void rle_startread (tkimg_MFile *ifp)
@@ -304,6 +312,7 @@ static void rle_startwrite (tkimg_MFile *ofp)
 }
 
 /* Write uncompressed elements to RLE-stream */
+/* This function is commented out because it is not used anywhere
 static int rle_fwrite (char *ptr, int sz, int nelem, tkimg_MFile *ofp)
 {
     int elem_write, cnt, val, err = 0;
@@ -322,6 +331,7 @@ static int rle_fwrite (char *ptr, int sz, int nelem, tkimg_MFile *ofp)
     }
     return elem_write;
 }
+*/
 
 /* Write uncompressed character to RLE-stream */
 static int rle_fputc (int val, tkimg_MFile *ofp)
@@ -475,6 +485,7 @@ static Boln read_sun_cols (tkimg_MFile *ifp, SUNHEADER *sunhdr, UByte *colormap)
 }
 
 /* Write a sun colourmap */
+/* This function is commented out because it is not used anywhere
 static Boln write_sun_cols (tkimg_MFile *ofp, SUNHEADER *sunhdr, UByte *colormap)
 {
     int ncols;
@@ -485,6 +496,7 @@ static Boln write_sun_cols (tkimg_MFile *ofp, SUNHEADER *sunhdr, UByte *colormap
     }
     return TRUE;
 }
+*/
 
 typedef struct myblock {
     Tk_PhotoImageBlock ck;
@@ -816,7 +828,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static char *sunOptions[] = {"-compression", "-verbose", "-matte"};
+    static const char *sunOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     char *compression, *verbose, *transp;

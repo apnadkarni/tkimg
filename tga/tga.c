@@ -141,11 +141,13 @@ static Boln readError (Tcl_Interp *interp)
     return FALSE;
 }
 
+/* This function is commented out because it is not used anywhere
 static Boln writeError (Tcl_Interp *interp)
 {
     Tcl_AppendResult(interp, "Error writing to file", (char *) NULL); 
     return FALSE;
 }
+*/
 
 /* Read 1 byte, representing an unsigned integer number. */
 
@@ -597,7 +599,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static char *tgaOptions[] = {"-compression", "-verbose", "-matte"};
+    static const char *tgaOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     char *compression, *verbose, *transp;

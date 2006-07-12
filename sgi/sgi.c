@@ -247,10 +247,12 @@ static void isetname(IMAGE *image, char *name)
     strncpy(image->name,name,80);
 }
 
+/* This function is commented out because it is not used anywhere
 static void isetcolormap(IMAGE *image, int colormap)
 {
     image->colormap = colormap;
 }
+*/
 
 static void cvtshorts( buffer, n)
 register unsigned short buffer[];
@@ -428,6 +430,7 @@ static int imgopen(int f, MYCHANNEL file, IMAGE *image, char *mode,
 }
 
 
+/* This function is commented out because it is not used anywhere
 static long reverse(lwrd) 
 register unsigned long lwrd;
 {
@@ -436,6 +439,7 @@ register unsigned long lwrd;
 	   ((lwrd<<8) & 0xff0000) |
 	   (lwrd<<24) 		);
 }
+*/
 
 /*
  *	iclose and iflush -
@@ -514,6 +518,7 @@ static int iflush(IMAGE *image)
  *
  */
 
+/* This function is commented out because it is not used anywhere
 static int ifilbuf(IMAGE *image)
 {
     if ((image->flags&_IOREAD) == 0)
@@ -546,6 +551,7 @@ static int ifilbuf(IMAGE *image)
     }
     return *image->ptr++ & 0xffff;
 }
+*/
 
 /*
  *	iflsbuf -
@@ -554,6 +560,7 @@ static int ifilbuf(IMAGE *image)
  *
  */
 
+/* This function is commented out because it is not used anywhere
 static unsigned int iflsbuf(IMAGE *image, unsigned int c)
 {
     register unsigned short *base;
@@ -587,6 +594,7 @@ static unsigned int iflsbuf(IMAGE *image, unsigned int c)
     }
     return(c);
 }
+*/
 
 
 /*
@@ -687,6 +695,7 @@ static unsigned long img_optseek(IMAGE *image, unsigned long offset)
 #undef getpix
 #undef putpix
 
+/* These functions are commented out because they are not used anywhere
 static int getpix(IMAGE *image)
 {
     if(--(image)->cnt>=0)
@@ -702,6 +711,7 @@ static unsigned int putpix(IMAGE *image, unsigned int pix)
     else
 	return iflsbuf(image,pix);
 }
+*/
 
 /*
  *	img_getrowsize, img_setrowsize, img_rle_compact, img_rle_expand -
@@ -1284,7 +1294,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static char *sgiOptions[] = {"-compression", "-verbose", "-matte"};
+    static const char *sgiOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     char *compression, *verbose, *transp;
@@ -1590,7 +1600,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    block.offset[3] = matte? 3: 0;
 	    break;
 	default:
-	    printf ("Invalid number of channels: %d\n", nchan);
+	    printf ("Invalid number of channels: %d\n", (int) nchan);
 	    return TCL_ERROR;
 	    break;
     }

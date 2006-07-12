@@ -425,7 +425,7 @@ static int ParseFormatOpts (interp, format, opts)
     Tcl_Obj *format;
     FMTOPT *opts;
 {
-    static char *icoOptions[] = {
+    static const char *icoOptions[] = {
          "-verbose", "-index"
     };
     int objc, length, c, i, index;

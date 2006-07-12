@@ -440,7 +440,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static char *pcxOptions[] = {"-compression", "-verbose", "-matte"};
+    static const char *pcxOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     char *compression, *verbose, *transp;
@@ -647,7 +647,6 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     int outWidth, outHeight;
     int retCode = TCL_OK;
     PCXHEADER ph;
-    UByte *pcxcolmap = NULL;
     int compr, verbose, matte;
     char errMsg[200];
 
