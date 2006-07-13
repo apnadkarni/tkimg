@@ -5,9 +5,7 @@
  *
  * Written by:
  *	Jan Nijtmans
- *	CMG Oost-Nederland B.V.
- *	email: j.nijtmans@chello.nl (private)
- *	       jan.nijtmans@cmg.nl (work)
+ *	email: nijtmans@users.sourceforge.net
  *	url:   http://purl.oclc.org/net/nijtmans/
  *
  * (with some code stolen from the XPM image type and the GIF handler)

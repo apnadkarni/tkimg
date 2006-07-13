@@ -545,7 +545,7 @@ CommonMatchPDF(handle, format, widthPtr, heightPtr)
     /* Here w and h should be set to the bounding box of the pdf
      * data. But I don't know how to extract that from the file.
      * For now I just assume A4-size with 72 pixels/inch. If anyone
-     * has a better idea, please mail to <j.nijtmans@chello.nl>.
+     * has a better idea, please mail to <nijtmans@users.sourceforge.net>.
      */
 
     w = 612/10;

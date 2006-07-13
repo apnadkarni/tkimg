@@ -43,7 +43,7 @@
  * Author: Tom Lane (tgl@sss.pgh.pa.us)
  *
  * Modified for dynamical loading, reading from channels and Tcl_Obj's by:
- *	Jan Nijtmans (j.nijtmans@chello.nl)
+ *	Jan Nijtmans (nijtmans@users.sourceforge.net)
  *
  * $Id$
  */

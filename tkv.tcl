@@ -158,7 +158,7 @@ proc save_image window {
 
 proc About {} {
     tk_dialog .about "[mmc [mc &About]] tkv.tcl" "[mc {Tiny Image viewer}]\n[mc {written by}]\
-	    Jan Nijtmans <j.nijtmans@chello.nl>" {} 0 [mc O.K.]
+	    Jan Nijtmans <nijtmans@users.sourceforge.net>" {} 0 [mc O.K.]
 }
 
 set w [lindex $argv 1]

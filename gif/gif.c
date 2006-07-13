@@ -1045,7 +1045,7 @@ GetCode(handle, code_size, flag)
  * Date:            		Fri September 20 1996
  *
  * Modified for transparency handling (gif89a) and miGIF compression
- * by Jan Nijtmans <j.nijtmans@chello.nl>
+ * by Jan Nijtmans <nijtmans@users.sourceforge.net>
  *
  *----------------------------------------------------------------------
  * FileWriteGIF-

@@ -6,11 +6,11 @@
 
 This file contains a collection of format handlers for the Tk photo
 image type, and a new image type, pixmaps.  It can be used in
-combination with Tcl/Tk 8.0 or later but 8.3.2 (or 8.4, when
+combination with Tcl/Tk 8.2 or later but 8.3.2 (or 8.4, when
 available) are highly recommended.
 
 Included in this distribution are the most recent versions (as of
-august 2000) of the libz, libpng, libungif, libjpeg, and libtiff
+july 2006) of the libz, libpng, libungif, libjpeg, and libtiff
 libraries. These are not required, unless you need support for the
 PNG, JPEG, or TIFF format. Note that you have to build these libraries
 to support the named formats, even if your system already has shared
@@ -234,13 +234,12 @@ Feedback about other OS's and compilers is appreciated. Please
 help me in making this package better.
 
 --
-		Jan Nijtmans, CMG Oost-Nederland B.V.
-		email: jan.nijtmans@xs4all.nl (private)
-		       jan.nijtmans@cmg.nl    (work)
+		Jan Nijtmans
+		email: nijtmans@users.sourceforge.net
 		url:   http://purl.oclc.org/net/nijtmans/
 
 		Andreas Kupries, ActiveState Corp
-		email:	andreas_kupries@users.sourceforg.net	(private)
+		email:	andreas_kupries@users.sourceforge.net	(private)
 			akupries@shaw.ca			(private)
 			andreask@activestate.com		(work)
 		url:	http://www.purl.org/NET/akupries/
