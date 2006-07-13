@@ -125,14 +125,14 @@ static UShort qtohs (UShort x)
 static Boln readUByte (tkimg_MFile *handle, UByte *b)
 {
     char buf[1];
-    if (1 != tkimg_Read (handle, buf, 1))
+    if (1 != tkimg_Read (handle, (char *) buf, 1))
         return FALSE;
     *b = buf[0];
     return TRUE;
 }
 #else
     /* Use this macro for better performance, esp. when reading RLE files. */
-    #define readUByte(h,b) (1 == tkimg_Read((h),(b),1))
+    #define readUByte(h,b) (1 == tkimg_Read((h),(char *)(b),1))
 #endif
 
 /* Write 1 byte, representing an unsigned integer to a file. */
@@ -440,7 +440,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static const char *pcxOptions[] = {"-compression", "-verbose", "-matte"};
+    static CONST84 char *pcxOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     char *compression, *verbose, *transp;
@@ -711,7 +711,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
 static int ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

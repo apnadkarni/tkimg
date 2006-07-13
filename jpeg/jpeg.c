@@ -539,7 +539,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     int srcX, srcY;		/* Coordinates of top-left pixel to be used
 				 * in image being read. */
 {
-    static const char *jpegReadOptions[] = {"-fast", "-grayscale", NULL};
+    static CONST84 char *jpegReadOptions[] = {"-fast", "-grayscale", NULL};
     int fileWidth, fileHeight, stopY, curY, outY, outWidth, outHeight;
     myblock bl;
 #define block bl.ck
@@ -679,7 +679,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
 static int
 ChnWrite(interp, fileName, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *fileName;
+    CONST84 char *fileName;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
@@ -813,7 +813,7 @@ CommonWrite(interp, cinfo, format, blockPtr)
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
-    static const char *jpegWriteOptions[] = {"-grayscale", "-optimize",
+    static CONST84 char *jpegWriteOptions[] = {"-grayscale", "-optimize",
 	"-progressive", "-quality", "-smooth", NULL};
     JSAMPROW row_pointer[1];	/* pointer to original data scanlines */
     JSAMPARRAY buffer;		/* Intermediate row buffer */
@@ -989,7 +989,7 @@ fill_input_buffer(cinfo)
   src_ptr src = (src_ptr) cinfo->src;
   int nbytes;
 
-  nbytes = tkimg_Read(&src->handle, src->buffer, STRING_BUF_SIZE);
+  nbytes = tkimg_Read(&src->handle, (char *) src->buffer, STRING_BUF_SIZE);
 
   if (nbytes <= 0) {
     /* Insert a fake EOI marker */

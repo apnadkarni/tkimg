@@ -182,7 +182,7 @@ typedef struct tkimg_MFile {
 
 #ifdef USE_TKIMG_STUBS
 EXTERN CONST char *
-Tkimg_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST char *version, int exact));
+Tkimg_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *version, int exact));
 #else
 /*
  * When not using stubs, make it a macro.

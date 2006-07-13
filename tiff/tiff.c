@@ -731,7 +731,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
 static int
 ChnWrite(interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
@@ -740,18 +740,7 @@ ChnWrite(interp, filename, format, blockPtr)
     Tcl_DString nameBuffer; 
     char *fullname, *mode;
 
-    /* HACK: de-CONST 'filename' if compiled against 8.3.
-     * The API has no CONST despite not modifying the argument
-     * And a debug build with high warning-level on windows
-     * will abort the compilation.
-     */
-#if ((TCL_MAJOR_VERSION < 8) || ((TCL_MAJOR_VERSION == 8) && (TCL_MINOR_VERSION < 4)))
-#define UNCONST (char*)
-#else
-#define UNCONST 
-#endif
-
-    if (!(fullname=Tcl_TranslateFileName(interp, UNCONST filename, &nameBuffer))) {
+    if (!(fullname=Tcl_TranslateFileName(interp, filename, &nameBuffer))) {
 	return TCL_ERROR;
     }
 

@@ -462,7 +462,7 @@ tkimg_ReadInit(data, c, handle)
     int c;
     tkimg_MFile *handle;		/* mmdecode "file" handle */
 {
-    handle->data = tkimg_GetByteArrayFromObj(data, &handle->length);
+    handle->data = (char *) tkimg_GetByteArrayFromObj(data, &handle->length);
     if (*handle->data == c) {
 	handle->state = IMG_STRING;
 	return 1;
@@ -503,15 +503,16 @@ tkimg_ReadInit(data, c, handle)
 Tcl_Channel
 tkimg_OpenFileChannel(interp, fileName, permissions)
     Tcl_Interp *interp;
-    CONST char *fileName;
+    CONST84 char *fileName;
     int permissions;
 {
-    Tcl_Channel chan = Tcl_OpenFileChannel(interp, (char *) fileName,
+    Tcl_Channel chan = Tcl_OpenFileChannel(interp, fileName,
 	    permissions?"w":"r", permissions);
     if (!chan) {
 	return (Tcl_Channel) NULL;
     }
-    if (Tcl_SetChannelOption(interp, chan, "-buffersize", "131072") != TCL_OK) {        Tcl_Close(interp, chan);
+    if (Tcl_SetChannelOption(interp, chan, "-buffersize", "131072") != TCL_OK) {
+        Tcl_Close(interp, chan);
         return (Tcl_Channel) NULL;
     }
     if (Tcl_SetChannelOption(interp, chan, "-translation", "binary") != TCL_OK) {
@@ -520,4 +521,3 @@ tkimg_OpenFileChannel(interp, fileName, permissions)
     }
     return chan;
 }
-

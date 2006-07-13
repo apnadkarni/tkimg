@@ -299,7 +299,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
  	/* Don't read the whole image. Skip first "srcY" lines. */
 	pixelPtr = (unsigned char *) ckalloc((unsigned) block.pitch);
 	for (h=0; h<srcY; h++) {
-	    if (block.pitch != tkimg_Read (handle, pixelPtr, block.pitch)) {
+	    if (block.pitch != tkimg_Read(handle, (char *) pixelPtr, block.pitch)) {
 		Tcl_AppendResult (interp, "Error reading PPM image file \"",
 				  filename, "\": ", (char *) NULL);
 		ckfree((char *) pixelPtr);
@@ -369,7 +369,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
 static int ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

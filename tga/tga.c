@@ -599,7 +599,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static const char *tgaOptions[] = {"-compression", "-verbose", "-matte"};
+    static CONST84 char *tgaOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     char *compression, *verbose, *transp;
@@ -886,7 +886,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
 static int ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

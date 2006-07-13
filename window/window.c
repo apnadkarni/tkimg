@@ -102,7 +102,7 @@ ChnRead (interp, chan, fileName, format, imageHandle,
 static int
 ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

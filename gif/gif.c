@@ -83,7 +83,7 @@ static int	CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
 #define CM_ALPHA		3
 #define MAX_LWZ_BITS		12
 #define LM_to_uint(a,b)         (((b)<<8)|(a))
-#define ReadOK(handle,buffer,len)	(tkimg_Read(handle, buffer, len) == len)
+#define ReadOK(handle,buf,len)	(tkimg_Read(handle, (char *)(buf), len) == len)
 
 /*
  * Prototypes for local procedures defined in this file:
@@ -240,7 +240,7 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
     Tcl_Obj **objv = NULL;
     myblock bl;
     unsigned char buf[100];
-    unsigned char *trashBuffer = NULL;
+    char *trashBuffer = NULL;
     unsigned char *pixBuf = NULL;
     int bitPixel;
     unsigned int colorResolution;
@@ -278,7 +278,7 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
 	return TCL_ERROR;
     }
 
-    if (tkimg_Read(handle, buf, 3) != 3) {
+    if (tkimg_Read(handle, (char *)buf, 3) != 3) {
 	return TCL_OK;
     }
 
@@ -316,7 +316,7 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
     block.pixelPtr = NULL;
 
     while (1) {
-	if (tkimg_Read(handle, buf, 1) != 1) {
+	if (tkimg_Read(handle, (char *)buf, 1) != 1) {
 	    /*
 	     * Premature end of image.  We should really notify
 	     * the user, but for now just show garbage.
@@ -340,7 +340,7 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
 	     * This is a GIF extension.
 	     */
 
-	    if (tkimg_Read(handle, buf, 1) != 1) {
+	    if (tkimg_Read(handle, (char *)buf, 1) != 1) {
 		Tcl_AppendResult(interp,
 			"error reading extension function code in GIF image",
 			(char *) NULL);
@@ -361,7 +361,7 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
 	    continue;
 	}
 
-	if (tkimg_Read(handle, buf, 9) != 9) {
+	if (tkimg_Read(handle, (char *)buf, 9) != 9) {
 	    Tcl_AppendResult(interp,
 		    "couldn't read left/top/width/height in GIF image",
 		    (char *) NULL);
@@ -386,8 +386,7 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
 	    /* If we've not yet allocated a trash buffer, do so now */
 	    if (trashBuffer == NULL) {
 		nBytes = fileWidth * fileHeight * 3;
-		trashBuffer =
-		    (unsigned char *) ckalloc((unsigned int) nBytes);
+		trashBuffer = (char *) ckalloc((unsigned int) nBytes);
 	    }
 
 	    /*
@@ -590,13 +589,13 @@ ReadGIFHeader(handle, widthPtr, heightPtr)
 {
     unsigned char buf[7];
 
-    if ((tkimg_Read(handle, buf, 6) != 6)
+    if ((tkimg_Read(handle, (char *)buf, 6) != 6)
 	    || ((strncmp(GIF87a, (char *) buf, 6) != 0)
 	    && (strncmp(GIF89a, (char *) buf, 6) != 0))) {
 	return 0;
     }
 
-    if (tkimg_Read(handle, buf, 4) != 4) {
+    if (tkimg_Read(handle, (char *)buf, 4) != 4) {
 	return 0;
     }
 
@@ -1107,7 +1106,7 @@ static int no_bits _ANSI_ARGS_((int colors));
 static int
 ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
-    CONST char	*filename;
+    CONST84 char	*filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

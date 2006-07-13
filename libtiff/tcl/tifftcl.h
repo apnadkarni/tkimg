@@ -138,7 +138,7 @@
 
 #ifdef USE_TIFFTCL_STUBS
 EXTERN CONST char *
-Tifftcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST char *version, int exact));
+Tifftcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *version, int exact));
 #else
 
 /*

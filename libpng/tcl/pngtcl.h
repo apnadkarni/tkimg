@@ -138,7 +138,7 @@
 
 #ifdef USE_PNGTCL_STUBS
 EXTERN CONST char *
-Pngtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST char *version, int exact));
+Pngtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *version, int exact));
 #else
 /*
  * When not using stubs, make it a macro.

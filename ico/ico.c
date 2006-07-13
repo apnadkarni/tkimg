@@ -425,7 +425,7 @@ static int ParseFormatOpts (interp, format, opts)
     Tcl_Obj *format;
     FMTOPT *opts;
 {
-    static const char *icoOptions[] = {
+    static CONST84 char *icoOptions[] = {
          "-verbose", "-index"
     };
     int objc, length, c, i, index;
@@ -808,7 +808,7 @@ error:
 
 static int ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

@@ -142,12 +142,12 @@ static Boln readUByte (tkimg_MFile *handle, UByte *b)
     char buf[1];
     if (1 != tkimg_Read (handle, buf, 1))
         return FALSE;
-    *b = buf[0];
+    *b = (UByte) buf[0];
     return TRUE;
 }
 #else
     /* Use this macro for better performance, esp. when reading RLE files. */
-    #define readUByte(h,b) (1 == tkimg_Read((h),(b),1))
+    #define readUByte(h,b) (1 == tkimg_Read((h),(char *)(b),1))
 #endif
 
 static Boln writeUByte (tkimg_MFile *handle, UByte b)
@@ -828,7 +828,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static const char *sunOptions[] = {"-compression", "-verbose", "-matte"};
+    static CONST84 char *sunOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     char *compression, *verbose, *transp;
@@ -1102,7 +1102,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	/* This type of colourmap is not supported. Ignore it. */
 	length = (sizeof (SUNHEADER)/sizeof (UInt)) * 4 + sh.ras_maplength;
 	for (d=0; d<length; d++) {
-	    readUByte (handle, dummy);
+	    (void) readUByte (handle, dummy);
 	}
     }
 
@@ -1150,7 +1150,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
 static int ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

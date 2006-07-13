@@ -46,25 +46,13 @@ JpegtclStubs *jpegtclStubsPtr;
 CONST char *
 Jpegtcl_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
-    CONST char *version;
+    CONST84 char *version;
     int exact;
 {
     CONST char *result;
     ClientData data;
 
-    /* HACK: de-CONST 'version' if compiled against 8.3.
-     * The API has no CONST despite not modifying the argument
-     * And a debug build with high warning-level on windows
-     * will abort the compilation.
-     */
-
-#if ((TCL_MAJOR_VERSION < 8) || ((TCL_MAJOR_VERSION == 8) && (TCL_MINOR_VERSION < 4)))
-#define UNCONST (char*)
-#else
-#define UNCONST 
-#endif
-
-    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, UNCONST version, exact, &data);
+    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, version, exact, &data);
     if (!result || !data) {
         return (char *) NULL;
     }
@@ -72,4 +60,3 @@ Jpegtcl_InitStubs(interp, version, exact)
     jpegtclStubsPtr = (JpegtclStubs *) data;
     return result;
 }
-#undef UNCONST

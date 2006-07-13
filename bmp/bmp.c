@@ -132,7 +132,7 @@ ObjRead (interp, data, format, imageHandle,
 static int
 ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
@@ -385,7 +385,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 	    case 32:
 		block.pixelPtr = expline = (unsigned char *) ckalloc(3*width);
 		for( y = height-1; y>=0; y--) {
-		    tkimg_Read(handle, line, bytesPerLine);
+		    tkimg_Read(handle, (char *)line, bytesPerLine);
 		    for (x = srcX; x < (srcX+width); x++) {
                         *expline++ = line[x*4 + 0];
                         *expline++ = line[x*4 + 1];
@@ -399,7 +399,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 	    case 24:
 		block.pixelPtr = line + srcX*3;
 		for( y = height-1; y>=0; y--) {
-		    tkimg_Read(handle, line, bytesPerLine);
+		    tkimg_Read(handle, (char *)line, bytesPerLine);
 		    tkimg_PhotoPutBlockTk(interp, imageHandle, &block,
                                           destX, destY+y, width, 1);
 		}
@@ -407,7 +407,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
             case 16:
 		block.pixelPtr = expline = (unsigned char *) ckalloc(3*width);
 		for( y = height-1; y>=0; y--) {
-		    tkimg_Read(handle, line, bytesPerLine);
+		    tkimg_Read(handle, (char *)line, bytesPerLine);
 		    for (x = srcX; x < (srcX+width); x++) {
                         rgb = getUInt16 (&line[x*2]);
                         *expline++ = ((rgb & masks[2].mask) >> masks[2].shiftin) << masks[2].shiftout;
@@ -422,7 +422,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 	    case 8:
 		block.pixelPtr = expline = (unsigned char *) ckalloc(3*width);
 		for( y = height-1; y>=0; y--) {
-		    tkimg_Read(handle, line, bytesPerLine);
+		    tkimg_Read(handle, (char *)line, bytesPerLine);
 		    for (x = srcX; x < (srcX+width); x++) {
 			memcpy(expline, colorMap+(3*line[x]),3);
 			expline += 3;
@@ -436,7 +436,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 		block.pixelPtr = expline = (unsigned char *) ckalloc(3*width);
 		for( y = height-1; y>=0; y--) {
 		    int c;
-		    tkimg_Read(handle, line, bytesPerLine);
+		    tkimg_Read(handle, (char *)line, bytesPerLine);
 		    for (x = srcX; x < (srcX+width); x++) {
 			if (x&1) {
 			    c = line[x/2] & 0x0f;
@@ -455,7 +455,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 		block.pixelPtr = expline = (unsigned char *) ckalloc(3*width);
 		for( y = height-1; y>=0; y--) {
 		    int c;
-		    tkimg_Read(handle, line, bytesPerLine);
+		    tkimg_Read(handle, (char *)line, bytesPerLine);
 		    for (x = srcX; x < (srcX+width); x++) {
 			c = (line[x/8] >> (7-(x%8))) & 1;
 			memcpy(expline, colorMap+(3*c),3);

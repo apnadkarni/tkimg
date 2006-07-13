@@ -156,22 +156,22 @@ CommonMatchPS(handle, format, widthPtr, heightPtr)
     Tcl_Obj *format;
     int *widthPtr, *heightPtr;
 {
-    unsigned char buf[42];
+    char buf[41];
 
-    if ((tkimg_Read(handle, (char *) buf, 11) != 11)
-	    || (strncmp("%!PS-Adobe-", (char *) buf, 11) != 0)) {
+    if ((tkimg_Read(handle, buf, 11) != 11)
+	    || (strncmp("%!PS-Adobe-", buf, 11) != 0)) {
 	return 0;
     }
-    while (tkimg_Read(handle,(char *) buf, 1) == 1) {
+    while (tkimg_Read(handle,buf, 1) == 1) {
 	if (buf[0] == '%' &&
-		(tkimg_Read(handle, (char *) buf, 2) == 2) &&
+		(tkimg_Read(handle, buf, 2) == 2) &&
 		(!memcmp(buf, "%B", 2) &&
-		(tkimg_Read(handle, (char *) buf, 11) == 11) &&
+		(tkimg_Read(handle, buf, 11) == 11) &&
 		(!memcmp(buf, "oundingBox:", 11)) &&
-		(tkimg_Read(handle, (char *) buf, 40) == 40))) {
+		(tkimg_Read(handle, buf, 40) == 40))) {
 	    int w, h, zoomx, zoomy;
 	    char *p = buf;
-	    buf[41] = 0;
+	    buf[40] = 0;
 	    w = - (int) strtoul(p, &p, 0);
 	    h = - (int) strtoul(p, &p, 0);
 	    w += strtoul(p, &p, 0);
@@ -249,10 +249,11 @@ CommonRead(interp, handle, format, imageHandle,
     int srcX, srcY;
 {
 #ifndef MAC_TCL
-    const char *argv[10];
+    CONST84 char *argv[10];
     int len, i, j, fileWidth, fileHeight, maxintensity, index;
     char *p, type;
-    unsigned char buffer[1025], *line = NULL, *line3 = NULL;
+    char buffer[1025];
+    unsigned char *line = NULL, *line3 = NULL;
 	char zoom[64], papersize[64];
     Tcl_Channel chan;
     Tcl_DString dstring;
@@ -437,7 +438,7 @@ CommonRead(interp, handle, format, imageHandle,
 static int
 ChnWrite(interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    CONST84 char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

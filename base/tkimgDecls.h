@@ -24,7 +24,7 @@
 
 /* 0 */
 EXTERN Tcl_Channel	tkimg_OpenFileChannel _ANSI_ARGS_((
-				Tcl_Interp * interp, CONST char * fileName, 
+				Tcl_Interp * interp, CONST84 char * fileName, 
 				int permissions));
 /* 1 */
 EXTERN int		tkimg_ReadInit _ANSI_ARGS_((Tcl_Obj * data, int c, 
@@ -86,7 +86,7 @@ EXTERN void		tkimg_FixStringWriteProc _ANSI_ARGS_((
 EXTERN char*		tkimg_GetStringFromObj _ANSI_ARGS_((Tcl_Obj * objPtr, 
 				int * lengthPtr));
 /* 31 */
-EXTERN char*		tkimg_GetByteArrayFromObj _ANSI_ARGS_((
+EXTERN unsigned char*	tkimg_GetByteArrayFromObj _ANSI_ARGS_((
 				Tcl_Obj * objPtr, int * lengthPtr));
 /* 32 */
 EXTERN int		tkimg_ListObjGetElements _ANSI_ARGS_((
@@ -97,7 +97,7 @@ typedef struct TkimgStubs {
     int magic;
     struct TkimgStubHooks *hooks;
 
-    Tcl_Channel (*tkimg_OpenFileChannel) _ANSI_ARGS_((Tcl_Interp * interp, CONST char * fileName, int permissions)); /* 0 */
+    Tcl_Channel (*tkimg_OpenFileChannel) _ANSI_ARGS_((Tcl_Interp * interp, CONST84 char * fileName, int permissions)); /* 0 */
     int (*tkimg_ReadInit) _ANSI_ARGS_((Tcl_Obj * data, int c, tkimg_MFile * handle)); /* 1 */
     void (*tkimg_WriteInit) _ANSI_ARGS_((Tcl_DString * buffer, tkimg_MFile * handle)); /* 2 */
     int (*tkimg_Getc) _ANSI_ARGS_((tkimg_MFile * handle)); /* 3 */
@@ -128,7 +128,7 @@ typedef struct TkimgStubs {
     void *reserved28;
     void *reserved29;
     char* (*tkimg_GetStringFromObj) _ANSI_ARGS_((Tcl_Obj * objPtr, int * lengthPtr)); /* 30 */
-    char* (*tkimg_GetByteArrayFromObj) _ANSI_ARGS_((Tcl_Obj * objPtr, int * lengthPtr)); /* 31 */
+    unsigned char* (*tkimg_GetByteArrayFromObj) _ANSI_ARGS_((Tcl_Obj * objPtr, int * lengthPtr)); /* 31 */
     int (*tkimg_ListObjGetElements) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * objPtr, int * argc, Tcl_Obj *** argv)); /* 32 */
 } TkimgStubs;
 

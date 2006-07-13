@@ -32,32 +32,46 @@ static int initialized = 0;
 static Tcl_ObjType* byteArrayType = 0;
 
 int
-TkimgInitUtilities (interp)
+TkimgInitUtilities(interp)
     Tcl_Interp *interp;
 {
 #ifdef _LANG
-    initialized = IMG_PERL;
-    return initialized;
+    initialized = IMG_PERL|IMG_NEWPHOTO;
 #else
 
     int major, minor, patchlevel, type;
     initialized = IMG_TCL;
 
-    Tcl_GetVersion (&major, &minor, &patchlevel, &type);
+    Tcl_GetVersion(&major, &minor, &patchlevel, &type);
 
     if ((major > 8) || ((major == 8) && (minor > 0))) {
 	initialized |= IMG_UTF;
     }
     if ((major > 8) || ((major == 8) && (minor > 2))) {
-        initialized |= IMG_NEWPHOTO;
+	initialized |= IMG_NEWPHOTO;
+    } else {
+	/* If our Tcl version is lower than 8.2, then it still might be
+	 * that it supports the patch known as "Img-patch". So, check
+	 * for this and if it succeeds then set IMG_NEWPHOTO as well
+	 */
+	Tcl_CmdInfo cmdInfo;
+	if (!Tcl_GetCommandInfo(interp,"image", &cmdInfo)) {
+		    Tcl_AppendResult(interp, "cannot find the \"image\" command",
+			(char *) NULL);
+		initialized = 0;
+		return TCL_ERROR;
+	}
+	if (cmdInfo.isNativeObjectProc == 1) {
+	    initialized |= IMG_NEWPHOTO;
+	}
     }
 
     /* Check for the presence of 'ByteArray's.
      */
 
-    byteArrayType = Tcl_GetObjType ("bytearray");
-    return initialized;
+    byteArrayType = Tcl_GetObjType("bytearray");
 #endif
+    return initialized;
 }
 
 
@@ -114,7 +128,15 @@ tkimg_GetStringFromObj(objPtr, lengthPtr)
 	return string;
     }
 #else /* _LANG */
-    return Tcl_GetStringFromObj(objPtr, lengthPtr);
+    if (initialized & IMG_OBJS) {
+	return Tcl_GetStringFromObj(objPtr, lengthPtr);
+    } else {
+	char *string =  (char *) objPtr;
+	if (lengthPtr != NULL) {
+	    *lengthPtr = string ? strlen(string) : 0;
+	}
+	return string;
+    }
 #endif /* _LANG */
 }
 /*
@@ -139,7 +161,7 @@ tkimg_GetStringFromObj(objPtr, lengthPtr)
  *
  *----------------------------------------------------------------------
  */
-char *
+unsigned char *
 tkimg_GetByteArrayFromObj(objPtr, lengthPtr)
     register Tcl_Obj *objPtr;	/* Object whose string rep byte pointer
 				 * should be returned, or NULL */
@@ -152,21 +174,17 @@ tkimg_GetByteArrayFromObj(objPtr, lengthPtr)
     if (lengthPtr != NULL) {
 	*lengthPtr = string ? strlen(string) : 0;
     }
-    return string;
+    return (unsigned char *) string;
 #else /* _LANG */
 
-    if (byteArrayType != (Tcl_ObjType*) NULL) {
-      /* ByteArrays are present, use the core accessor function
-       * to perform the operation.
-       */
-
-      return Tcl_GetByteArrayFromObj (objPtr, lengthPtr);
+    if (initialized & IMG_OBJS) {
+	return Tcl_GetByteArrayFromObj (objPtr, lengthPtr);
     } else {
-      /* This core does not support byte-arrays. This means
-       * that the binary data we want is the string itself.
-       */
-
-      return Tcl_GetStringFromObj(objPtr, lengthPtr);
+	char *string =  (char *) objPtr;
+	if (lengthPtr != NULL) {
+	    *lengthPtr = string ? strlen(string) : 0;
+	}
+	return string;
     }
 #endif /* _LANG */
 }
@@ -199,10 +217,22 @@ tkimg_ListObjGetElements(interp, objPtr, objc, objv)
     int *objc;
     Tcl_Obj ***objv;
 {
+#ifndef _LANG
+    static Tcl_Obj *staticObj = (Tcl_Obj *) NULL;
+#endif
     if (objPtr == NULL) {
 	*objc = 0;
 	return TCL_OK;
     }
+#ifndef _LANG
+    if (!(initialized & IMG_OBJS)) {
+	if (staticObj != (Tcl_Obj *) NULL) {
+	    Tcl_DecrRefCount(staticObj);
+	}
+	objPtr = staticObj = Tcl_NewStringObj((char *) objPtr, -1);
+	Tcl_IncrRefCount(staticObj);
+    }
+#endif
     return Tcl_ListObjGetElements(interp, objPtr, objc, objv);
 }
 
@@ -216,7 +246,7 @@ tkimg_ListObjGetElements(interp, objPtr, objc, objv)
  * Results:
  *	The functions below allow an image type to distinguish
  *	between a call made by Tk 8.3.2 or earlier (4 arguments), versus 8.3
- *	or later (3 arguments) and adaptb at runtime. This adaption is done
+ *	or later (3 arguments) and adapt at runtime. This adaption is done
  *	by shuffling the incoming arguments around to their correct positions.
  *
  * Side effects:
@@ -239,12 +269,12 @@ tkimg_FixChanMatchProc(interp, chan, file, format, width, height)
     if (initialized & IMG_PERL) {
 	return;
     }
-    if (!(initialized & IMG_NEWPHOTO)) {
+    if (initialized & IMG_NEWPHOTO) {
+        tmp = (Tcl_Interp *) *height;
+    } else {
         /* Old-style call signature */
-        return;
+        tmp = (Tcl_Interp *) NULL;
     }
-
-    tmp = (Tcl_Interp *) *height;
 
     *height = *width;
     *width = (int *) *format;
@@ -267,9 +297,11 @@ tkimg_FixObjMatchProc(interp, data, format, width, height)
     if (initialized & IMG_PERL) {
 	return;
     }
-    if (!(initialized & IMG_NEWPHOTO)) {
+    if (initialized & IMG_NEWPHOTO) {
+        tmp = (Tcl_Interp *) *height;
+    } else {
         /* Old-style call signature */
-        return;
+        tmp = (Tcl_Interp *) NULL;
     }
 
     tmp = (Tcl_Interp *) *height;

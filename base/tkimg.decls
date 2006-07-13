@@ -22,7 +22,7 @@ interface tkimg
 
 declare 0 generic {
     Tcl_Channel tkimg_OpenFileChannel (Tcl_Interp *interp, 
-	CONST char *fileName, int permissions)
+	CONST84 char *fileName, int permissions)
 }
 declare 1 generic {
     int tkimg_ReadInit (Tcl_Obj *data, int c, tkimg_MFile *handle)
@@ -78,7 +78,7 @@ declare 30 generic {
     char* tkimg_GetStringFromObj (Tcl_Obj *objPtr, int *lengthPtr)
 }
 declare 31 generic {
-    char* tkimg_GetByteArrayFromObj (Tcl_Obj *objPtr, int *lengthPtr)
+    unsigned char* tkimg_GetByteArrayFromObj (Tcl_Obj *objPtr, int *lengthPtr)
 }
 declare 32 generic {
     int tkimg_ListObjGetElements (Tcl_Interp *interp, Tcl_Obj *objPtr, int *argc, Tcl_Obj ***argv)
