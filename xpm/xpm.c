@@ -401,7 +401,7 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
     block.offset[3] = (nchan == 4 && matte? 3: 0);
     block.pixelPtr = (unsigned char *) ckalloc((unsigned) nchan * width);
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + width, destY + height);
+    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
 
     i = srcY;
     while (i-- > 0) {

@@ -1106,7 +1106,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	}
     }
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + outWidth, destY + outHeight);
+    tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight);
 
     nchan = (sh.ras_depth == 32? 4: 3);
 

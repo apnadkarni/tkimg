@@ -1259,7 +1259,7 @@ Tkimgpixmap_Init (interp)
     }
 #endif
 #ifdef USE_TKIMG_STUBS
-    if (Tkimg_InitStubs(interp, "1.3", 0) == NULL) {
+    if (Tkimg_InitStubs(interp, TKIMG_VERSION, 0) == NULL) {
         return TCL_ERROR;
     }
 #endif

@@ -1573,7 +1573,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	return TCL_OK;
     }
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + outWidth, destY + outHeight);
+    tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight);
 
     nchan = tf.th.zsize;
 

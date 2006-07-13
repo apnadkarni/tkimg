@@ -167,10 +167,10 @@ typedef struct tkimg_MFile {
 #endif
 
 #if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
-#define tkimg_PhotoExpand(hdl,interp,w,h)  Tk_PhotoExpand(interp, hdl, w, h)
+#define tkimg_PhotoExpand(interp,hdl,w,h)  Tk_PhotoExpand(interp, hdl, w, h)
 #define tkimg_PhotoSetSize(interp,hdl,w,h) Tk_PhotoSetSize(interp, hdl, w, h)
 #else
-#define tkimg_PhotoExpand(hdl,interp,w,h)  Tk_PhotoExpand(hdl, w, h)
+#define tkimg_PhotoExpand(interp,hdl,w,h)  Tk_PhotoExpand(hdl, w, h)
 #define tkimg_PhotoSetSize(interp,hdl,w,h) Tk_PhotoSetSize(hdl, w, h)
 #endif
 

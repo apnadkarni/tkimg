@@ -630,7 +630,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     block.pitch = block.pixelSize * fileWidth;
     block.offset[3] = block.offset[0];
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + outWidth, destY + outHeight);
+    tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight);
 
     /* Make a temporary one-row-high sample array */
     buffer = (*cinfo->mem->alloc_sarray)

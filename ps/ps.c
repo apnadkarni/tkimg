@@ -346,7 +346,7 @@ CommonRead(interp, handle, format, imageHandle,
 	Tcl_DStringFree(&dstring);
 	return TCL_OK;
     }
-    tkimg_PhotoExpand(imageHandle, interp, destX + width, destY + height);
+    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
 
     maxintensity = strtoul(p, &p, 0);
     if ((type != '4') && !maxintensity) {

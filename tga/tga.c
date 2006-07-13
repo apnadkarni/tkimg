@@ -836,7 +836,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     }
 
     tf.scanmode = TGA_MODE_DIFF;
-    tkimg_PhotoExpand(imageHandle, interp, destX + outWidth, destY + outHeight);
+    tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight);
 
     nchan = NCHAN (tf.th.pixsize);
 

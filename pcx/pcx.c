@@ -676,7 +676,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     if (ph.compression)
 	tkimg_ReadBuffer (1);
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + outWidth, destY + outHeight);
+    tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight);
 
     nchan = ph.planes;
 

@@ -306,7 +306,7 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
 	return TCL_OK;
     }
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + width, destY + height);
+    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
 
     block.pixelSize = 4;
     block.offset[0] = 0;

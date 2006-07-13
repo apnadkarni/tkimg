@@ -360,7 +360,7 @@ static int ObjRead(interp, data, format, imageHandle,
     XQueryColors(Tk_Display(tkwin), cmap, cdata.colors, ncolors);
 #endif
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + width, destY + height);
+    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
     block.offset[0] = 0;
     block.offset[3] = 0;
 #ifndef	__WIN32__

@@ -360,7 +360,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 	tkimg_ReadBuffer (1);
     }
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + width, destY + height);
+    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
 
     bytesPerLine = ((numBits * fileWidth + 31)/32)*4;
 

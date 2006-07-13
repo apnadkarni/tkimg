@@ -293,7 +293,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     block.width = width;
     block.pitch = block.pixelSize * fileWidth;
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + width, destY + height);
+    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
 
     if (srcY > 0) {
  	/* Don't read the whole image. Skip first "srcY" lines. */

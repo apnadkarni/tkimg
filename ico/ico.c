@@ -687,7 +687,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     }
 
     tkimg_PhotoSetSize (interp, imageHandle, destX + outWidth, destY + outHeight);
-    tkimg_PhotoExpand  (imageHandle, interp, destX + outWidth, destY + outHeight);
+    tkimg_PhotoExpand  (interp, imageHandle, destX + outWidth, destY + outHeight);
 
     bytesPerLine = ((infoHeader.nBitsPerPixel * fileWidth + 31)/32)*4;
 

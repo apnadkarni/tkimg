@@ -198,7 +198,7 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
 	return TCL_OK;
     }
 
-    tkimg_PhotoExpand(imageHandle, interp, destX + width, destY + height);
+    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
 
     numBytes = ((fileWidth+7)/8)*32;
     block.width = fileWidth;
