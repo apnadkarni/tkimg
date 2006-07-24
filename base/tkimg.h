@@ -41,6 +41,13 @@
 #   define CONST84
 #endif
 
+#ifndef TK_PHOTO_COMPOSITE_OVERLAY
+#   define TK_PHOTO_COMPOSITE_OVERLAY 0
+#endif
+#ifndef TK_PHOTO_COMPOSITE_SET
+#   define TK_PHOTO_COMPOSITE_SET 1
+#endif
+
 /*
  * Fix the Borland bug that's in the EXTERN macro from tcl.h.
  */
