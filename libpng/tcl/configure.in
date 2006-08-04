@@ -8,7 +8,7 @@ AC_REVISION($Id$)
 # TEA compliant.
 #--------------------------------------------------------------------
 
-AC_INIT([pngtcl],[1.2.10])
+AC_INIT([pngtcl],[1.2.12])
 
 TEA_INIT([3.5])
 

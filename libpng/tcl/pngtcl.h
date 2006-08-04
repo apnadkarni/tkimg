@@ -28,8 +28,8 @@
 #define PNGTCL_RELEASE_LEVEL	TCL_RELEASE
 #define PNGTCL_RELEASE_SERIAL	10
 
-#define PNGTCL_VERSION		"1.2.10"
-#define PNGTCL_PATCH_LEVEL	"1.2.10"
+#define PNGTCL_VERSION		"1.2.12"
+#define PNGTCL_PATCH_LEVEL	"1.2.12"
 
 /*
  * Used to block the rest of this header file from resource compilers so
