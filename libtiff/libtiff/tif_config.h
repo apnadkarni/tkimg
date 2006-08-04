@@ -145,7 +145,7 @@
 #define HOST_FILLORDER FILLORDER_LSB2MSB
 
 /* Support JPEG compression (requires IJG JPEG library) */
-#define JPEG_SUPPORT 1
+/* #undef JPEG_SUPPORT */
 
 /* Support LogLuv high dynamic range encoding */
 #define LOGLUV_SUPPORT 1
@@ -173,14 +173,11 @@
 /* Name of package */
 #define PACKAGE "tiff"
 
-/* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "tiff@lists.maptools.org"
-
 /* Support Macintosh PackBits algorithm */
 #define PACKBITS_SUPPORT 1
 
 /* Support Pixar log-format algorithm (requires Zlib) */
-#define PIXARLOG_SUPPORT 1
+/* #undef PIXARLOG_SUPPORT */
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -225,7 +222,7 @@
 /* #undef X_DISPLAY_MISSING */
 
 /* Support Deflate compression */
-#define ZIP_SUPPORT 1
+/* #undef ZIP_SUPPORT */
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 #define _FILE_OFFSET_BITS 64
