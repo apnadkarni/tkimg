@@ -29,7 +29,7 @@
  */
 
 static int initialized = 0;
-static Tcl_ObjType* byteArrayType = 0;
+static const Tcl_ObjType* byteArrayType = 0;
 
 int
 TkimgInitUtilities(interp)
@@ -40,7 +40,7 @@ TkimgInitUtilities(interp)
 #else
 
     int major, minor, patchlevel, type;
-    initialized = IMG_TCL;
+    initialized = IMG_TCL|IMG_OBJS;
 
     Tcl_GetVersion(&major, &minor, &patchlevel, &type);
 
@@ -178,7 +178,7 @@ tkimg_GetByteArrayFromObj(objPtr, lengthPtr)
 #else /* _LANG */
 
     if (initialized & IMG_OBJS) {
-	return Tcl_GetByteArrayFromObj (objPtr, lengthPtr);
+	return Tcl_GetByteArrayFromObj(objPtr, lengthPtr);
     } else {
 	char *string =  (char *) objPtr;
 	if (lengthPtr != NULL) {
@@ -303,8 +303,6 @@ tkimg_FixObjMatchProc(interp, data, format, width, height)
         /* Old-style call signature */
         tmp = (Tcl_Interp *) NULL;
     }
-
-    tmp = (Tcl_Interp *) *height;
 
     *height = *width;
     *width = (int *) *format;
