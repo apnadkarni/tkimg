@@ -346,7 +346,7 @@ CommonRead(interp, handle, format, imageHandle,
 	Tcl_DStringFree(&dstring);
 	return TCL_OK;
     }
-    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
+    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
 
     maxintensity = strtoul(p, &p, 0);
     if ((type != '4') && !maxintensity) {
@@ -377,7 +377,7 @@ CommonRead(interp, handle, format, imageHandle,
 	        for (j = 0; j < width; j++) {
 		    line3[j] = ((line[(j+srcX)/8]>>(7-(j+srcX)%8) & 1)) ? 0 : 255;
 	        }
-		tkimg_PhotoPutBlockTk (interp, imageHandle, &block, destX, destY++, width, 1);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
 	    }
 	    break;
 	case '5':
@@ -395,7 +395,7 @@ CommonRead(interp, handle, format, imageHandle,
 			c++;
 		    }
 		}
-		tkimg_PhotoPutBlockTk(interp, imageHandle, &block, destX, destY++, width, 1);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
 	    }
 	    break;
 	case '6':
@@ -417,7 +417,7 @@ CommonRead(interp, handle, format, imageHandle,
 			c++;
 		    }
 		}
-		tkimg_PhotoPutBlockTk(interp, imageHandle, &block, destX, destY++, width, 1);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
 	    }
 	    break;
     }

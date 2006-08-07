@@ -306,7 +306,7 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
 	return TCL_OK;
     }
 
-    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
+    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
 
     block.pixelSize = 4;
     block.offset[0] = 0;
@@ -467,11 +467,8 @@ CommonRead(interp, handle, fileName, format, imageHandle, destX, destY,
     }
 
     block.pixelPtr = pixBuf + srcY * block.pitch + srcX * block.pixelSize;
-    if (transparent == -1) {
-	tkimg_PhotoPutBlockTk (interp, imageHandle, &block, destX, destY, width, height);
-    } else {
-	tkimg_PhotoPutBlockTk (interp, imageHandle, &block, destX, destY, width, height);
-    }
+    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height,
+	    (transparent == -1)? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
 
     noerror:
     if (pixBuf) {

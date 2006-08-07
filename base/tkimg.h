@@ -21,6 +21,8 @@
 #ifndef __TKIMG_H__
 #define __TKIMG_H__
 
+#define USE_PANIC_ON_PHOTO_ALLOC_FAILURE
+
 #include <stdio.h> /* stdout, and other definitions */
 #include <string.h>
 #include <stdlib.h>
@@ -139,11 +141,32 @@ typedef struct tkimg_MFile {
 #define IMG_CHAN        (IMG_SPECIAL+5)
 #define IMG_STRING	(IMG_SPECIAL+6)
 
+/*
+ * The variable "tkimg_initialized" contains flags indicating which
+ * version of Tcl or Perl we are running:
+ *
+ *	IMG_TCL		Tcl
+ *	IMG_OBJS	using Tcl_Obj's in stead of char* (Tk 8.3 or higher)
+ *      IMG_PERL	perl
+ *      IMG_UTF		Tcl 8.1 or higher
+ *      IMG_NEWPHOTO	Tcl 8.3 or higher
+ *      IMG_COMPOSITE	Tcl 8.4 or higher
+ *      IMG_NOPANIC	Tcl 8.5 or higher
+ *
+ * These flags will be determined at runtime (except the IMG_PERL
+ * flag, for now), so we can use the same dynamic library for all
+ * Tcl/Tk versions (and for Perl/Tk in the future).
+ */
+
+extern int tkimg_initialized;
+
 #define IMG_TCL		(1<<9)
 #define IMG_OBJS	(1<<10)
 #define IMG_PERL	(1<<11)
 #define IMG_UTF		(1<<12)
 #define IMG_NEWPHOTO	(1<<13)
+#define IMG_COMPOSITE	(1<<14)
+#define IMG_NOPANIC	(1<<15)
 
 /*
  *----------------------------------------------------------------------------
@@ -152,34 +175,6 @@ typedef struct tkimg_MFile {
  */
 
 #include "tkimgDecls.h"
-
-/*
- * Convenience macro dealing with the 8.3 / 8.4 difference regarding
- * the signature of Tk_PhotoPutBlock [TIP 98].
- *
- * Note: The current implementation makes this a compile time decision.
- *       In the future we might realize a runtime decision instead.
- *
- * Default to TK_PHOTO_COMPOSITE_SET (not TK_PHOTO_COMPOSITE_OVERLAY)
- * to have the initial load of images with alpha channels be correct.
- */
-
-#if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
-/* TIP 116 */
-#define tkimg_PhotoPutBlockTk(interp,hdl,b,x,y,w,h) Tk_PhotoPutBlock(interp,hdl, b, x, y, w, h, TK_PHOTO_COMPOSITE_SET)
-#elif (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 3))
-#define tkimg_PhotoPutBlockTk(interp,hdl,b,x,y,w,h) Tk_PhotoPutBlock(hdl, b, x, y, w, h, TK_PHOTO_COMPOSITE_SET)
-#else
-#define tkimg_PhotoPutBlockTk(interp,hdl,b,x,y,w,h) Tk_PhotoPutBlock(hdl, b, x, y, w, h)
-#endif
-
-#if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
-#define tkimg_PhotoExpand(interp,hdl,w,h)  Tk_PhotoExpand(interp, hdl, w, h)
-#define tkimg_PhotoSetSize(interp,hdl,w,h) Tk_PhotoSetSize(interp, hdl, w, h)
-#else
-#define tkimg_PhotoExpand(interp,hdl,w,h)  Tk_PhotoExpand(hdl, w, h)
-#define tkimg_PhotoSetSize(interp,hdl,w,h) Tk_PhotoSetSize(hdl, w, h)
-#endif
 
 /*
  *----------------------------------------------------------------------------

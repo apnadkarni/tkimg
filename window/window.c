@@ -360,7 +360,7 @@ static int ObjRead(interp, data, format, imageHandle,
     XQueryColors(Tk_Display(tkwin), cmap, cdata.colors, ncolors);
 #endif
 
-    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
+    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
     block.offset[0] = 0;
     block.offset[3] = 0;
 #ifndef	__WIN32__
@@ -412,7 +412,7 @@ static int ObjRead(interp, data, format, imageHandle,
 	}
     }
 
-    tkimg_PhotoPutBlockTk(interp, imageHandle, &block, destX, destY, width, height);
+    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 
 #ifndef	__WIN32__
     XDestroyImage(ximage);

@@ -50,8 +50,8 @@ declare 7 generic {
 ###  Specialized put block handling transparency
 
 declare 10 generic {
-    int tkimg_PhotoPutBlock (Tk_PhotoHandle handle,
-	Tk_PhotoImageBlock *blockPtr, int x, int y, int width, int height)
+    int tkimg_PhotoPutBlock (Tcl_Interp *interp, Tk_PhotoHandle handle,
+	Tk_PhotoImageBlock *blockPtr, int x, int y, int width, int height, int flags)
 }
 
 #########################################################################

@@ -9,7 +9,6 @@
  *
  */
 
-#include "tk.h"
 #include "tkimg.h"
 
 #ifndef MORE_INITIALIZATION

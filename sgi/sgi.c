@@ -1147,17 +1147,17 @@ static void printImgInfo (IMAGE *th, CONST char *filename, CONST char *msg)
     if (!outChan) {
         return;
     }
-    sprintf (str, "%s %s\n", msg, filename);                                      OUT;
-    sprintf (str, "\tSize in pixel      : %d x %d\n", th->xsize, th->ysize);      OUT;
-    sprintf (str, "\tNo. of channels    : %d\n", (th->zsize));                    OUT;
-    sprintf (str, "\tBytes per pixel    : %d\n", BPP(th->type));                  OUT;
-    sprintf (str, "\tCompression        : %s\n", ISRLE(th->type)? "RLE": "None"); OUT;
-    Tcl_Flush (outChan);
+    sprintf(str, "%s %s\n", msg, filename);                                      OUT;
+    sprintf(str, "\tSize in pixel      : %d x %d\n", th->xsize, th->ysize);      OUT;
+    sprintf(str, "\tNo. of channels    : %d\n", (th->zsize));                    OUT;
+    sprintf(str, "\tBytes per pixel    : %d\n", BPP(th->type));                  OUT;
+    sprintf(str, "\tCompression        : %s\n", ISRLE(th->type)? "RLE": "None"); OUT;
+    Tcl_Flush(outChan);
 }
 #undef OUT
 static Boln readHeader (tkimg_MFile *handle, IMAGE *th)
 {
-    if (sizeof (IMAGE) != tkimg_Read (handle, (char *)th, sizeof(IMAGE))) {
+    if (sizeof (IMAGE) != tkimg_Read(handle, (char *)th, sizeof(IMAGE))) {
 	return FALSE;
     }
 										    if( ((th->imagic>>8) | ((th->imagic&0xff)<<8)) == IMAGIC ) {
@@ -1173,7 +1173,7 @@ static Boln readHeader (tkimg_MFile *handle, IMAGE *th)
     return TRUE;
 }
 
-static Boln writeHeader (tkimg_MFile *handle, IMAGE *th, UInt type, UInt dim,
+static Boln writeHeader(tkimg_MFile *handle, IMAGE *th, UInt type, UInt dim,
                          UInt xsize, UInt ysize, UInt zsize)
 {
     if (!imgOpenWrite ((MYCHANNEL)handle->data, th, "w",
@@ -1253,7 +1253,7 @@ static Boln writeChannel (SGIFILE *tf, UByte *src, Int sgichn, Int y, Int n)
     return TRUE;
 }
 
-static Boln sgiWriteScan (Tcl_Interp *interp, tkimg_MFile *handle,
+static Boln sgiWriteScan(Tcl_Interp *interp, tkimg_MFile *handle,
                           SGIFILE *tf, Int y)
 {
     if (!writeChannel (tf, tf->redScan,   0, y, tf->th.xsize) ||
@@ -1303,19 +1303,19 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     *verb  = 0;
     *matte = 1;
 
-    if (tkimg_ListObjGetElements (interp, format, &objc, &objv) != TCL_OK)
+    if (tkimg_ListObjGetElements(interp, format, &objc, &objv) != TCL_OK)
 	return TCL_ERROR;
     if (objc) {
 	compression = "rle";
 	verbose     = "0";
 	transp      = "1";
 	for (i=1; i<objc; i++) {
-	    if (Tcl_GetIndexFromObj (interp, objv[i], sgiOptions,
+	    if (Tcl_GetIndexFromObj(interp, objv[i], sgiOptions,
 		    "format option", 0, &index) != TCL_OK) {
 		return TCL_ERROR;
 	    }
 	    if (++i >= objc) {
-		Tcl_AppendResult (interp, "No value for option \"",
+		Tcl_AppendResult(interp, "No value for option \"",
 			Tcl_GetStringFromObj (objv[--i], (int *) NULL),
 			"\"", (char *) NULL);
 		return TCL_ERROR;
@@ -1339,7 +1339,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 	} else if ((c == 'r') && (!strncmp (compression, "rle",length))) {
 	    *comp = ITYPE_RLE;
 	} else {
-	    Tcl_AppendResult (interp, "invalid compression mode \"",
+	    Tcl_AppendResult(interp, "invalid compression mode \"",
 		    compression, "\": should be rle or none", (char *) NULL);
 	    return TCL_ERROR;
 	}
@@ -1354,7 +1354,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 	    !strncmp (verbose, "off", length)) {
 	    *verb = 0;
 	} else {
-	    Tcl_AppendResult (interp, "invalid verbose mode \"", verbose, 
+	    Tcl_AppendResult(interp, "invalid verbose mode \"", verbose, 
                               "\": should be 1 or 0, on or off, true or false",
 			      (char *) NULL);
 	    return TCL_ERROR;
@@ -1370,7 +1370,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 	    !strncmp (transp, "off", length)) {
 	    *matte = 0;
 	} else {
-	    Tcl_AppendResult (interp, "invalid alpha (matte) mode \"", verbose, 
+	    Tcl_AppendResult(interp, "invalid alpha (matte) mode \"", verbose, 
                               "\": should be 1 or 0, on or off, true or false",
 			      (char *) NULL);
 	    return TCL_ERROR;
@@ -1379,7 +1379,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     return TCL_OK;
 }
 
-static int ChnMatch (interp, chan, filename, format, widthPtr, heightPtr)
+static int ChnMatch(interp, chan, filename, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;
     CONST char *filename;
@@ -1394,10 +1394,10 @@ static int ChnMatch (interp, chan, filename, format, widthPtr, heightPtr)
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
 
-    return CommonMatch (&handle, widthPtr, heightPtr, NULL);
+    return CommonMatch(&handle, widthPtr, heightPtr, NULL);
 }
 
-static int ObjMatch (interp, data, format, widthPtr, heightPtr)
+static int ObjMatch(interp, data, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Obj *data;
     Tcl_Obj *format;
@@ -1410,10 +1410,10 @@ static int ObjMatch (interp, data, format, widthPtr, heightPtr)
     if (!tkimg_ReadInit(data, '\001', &handle)) {
         return 0;
     }
-    return CommonMatch (&handle, widthPtr, heightPtr, NULL);
+    return CommonMatch(&handle, widthPtr, heightPtr, NULL);
 }
 
-static int CommonMatch (handle, widthPtr, heightPtr, sgiHeaderPtr)
+static int CommonMatch(handle, widthPtr, heightPtr, sgiHeaderPtr)
     tkimg_MFile *handle;
     int *widthPtr;
     int *heightPtr;
@@ -1439,7 +1439,7 @@ static int CommonMatch (handle, widthPtr, heightPtr, sgiHeaderPtr)
     return 1;
 }
 
-static int ChnRead (interp, chan, filename, format, imageHandle,
+static int ChnRead(interp, chan, filename, format, imageHandle,
 	               destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
     Tcl_Channel chan;
@@ -1491,10 +1491,10 @@ static int ObjRead (interp, data, format, imageHandle,
 	return TCL_ERROR;
     }
 
-    count = tkimg_Read (&handle, buffer, BUFLEN);
+    count = tkimg_Read(&handle, buffer, BUFLEN);
     while (count == BUFLEN) {
 	Tcl_Write (outchan, buffer, count);
-	count = tkimg_Read (&handle, buffer, BUFLEN);
+	count = tkimg_Read(&handle, buffer, BUFLEN);
     }
     if (count>0) {
 	Tcl_Write (outchan, buffer, count);
@@ -1554,7 +1554,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
         return TCL_ERROR;
     }
 
-    CommonMatch (handle, &fileWidth, &fileHeight, &tf.th);
+    CommonMatch(handle, &fileWidth, &fileHeight, &tf.th);
     if (verbose)
 	printImgInfo (&tf.th, filename, "Reading image:");
 
@@ -1573,7 +1573,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	return TCL_OK;
     }
 
-    tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight);
+    Tk_PhotoExpand(imageHandle, destX + outWidth, destY + outHeight);
 
     nchan = tf.th.zsize;
 
@@ -1600,7 +1600,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    block.offset[3] = matte? 3: 0;
 	    break;
 	default:
-	    printf ("Invalid number of channels: %d\n", (int) nchan);
+	    printf("Invalid number of channels: %d\n", (int) nchan);
 	    return TCL_ERROR;
 	    break;
     }
@@ -1612,7 +1612,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     for (y=0; y<stopY; y++) {
 	sgiReadScan (interp, handle, &tf, fileHeight-1-y);
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlockTk(interp, imageHandle, &block, destX, outY, outWidth, 1);
+	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, TK_PHOTO_COMPOSITE_OVERLAY);
 	    outY++;
 	}
     }
@@ -1693,11 +1693,11 @@ static int StringWrite (interp, dataPtr, format, blockPtr)
 
     count = Tcl_Read (inchan, buffer, BUFLEN);
     while (count == BUFLEN) {
-	tkimg_Write (&handle, buffer, count);
+	tkimg_Write(&handle, buffer, count);
 	count = Tcl_Read (inchan, buffer, BUFLEN);
     }
     if (count>0) {
-	tkimg_Write (&handle, buffer, count);
+	tkimg_Write(&handle, buffer, count);
     }
     if (Tcl_Close (interp, inchan) == TCL_ERROR) {
 	return TCL_ERROR;
@@ -1754,7 +1754,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     tf.th.imagic = IMAGIC;
     tf.th.dorev  = isIntel();
 
-    if (!writeHeader (handle, &tf.th,
+    if (!writeHeader(handle, &tf.th,
                       compr? RLE(bpp): UNCOMPRESSED(bpp),
                       nchan, blockPtr->width, blockPtr->height, nchan)) {
 	return TCL_ERROR;
@@ -1777,7 +1777,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
 	    }
 	    pixelPtr += blockPtr->pixelSize;
 	}
-	if (!sgiWriteScan (interp, handle, &tf, y)) {
+	if (!sgiWriteScan(interp, handle, &tf, y)) {
 	    sgiClose (&tf);
 	    return TCL_ERROR;
 	}

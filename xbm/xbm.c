@@ -196,7 +196,7 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
 	return TCL_OK;
     }
 
-    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
+    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
 
     numBytes = ((fileWidth+7)/8)*32;
     block.width = fileWidth;
@@ -230,7 +230,7 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
 	    }
 	}
 	if (row >= srcY) {
-	    tkimg_PhotoPutBlockTk(interp, imageHandle, &block, destX, destY++, width, 1);
+	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
 	}
     }
     ckfree((char *) data);

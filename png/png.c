@@ -161,7 +161,7 @@ tk_png_flush(png_ptr)
 }
 
 static int
-ChnMatch (interp, chan, fileName, format, widthPtr, heightPtr)
+ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;
     CONST char *fileName;
@@ -179,7 +179,7 @@ ChnMatch (interp, chan, fileName, format, widthPtr, heightPtr)
 }
 
 static int
-ObjMatch (interp, data, format, widthPtr, heightPtr)
+ObjMatch(interp, data, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Obj *data;
     Tcl_Obj *format;
@@ -215,7 +215,7 @@ CommonMatchPNG(handle, widthPtr, heightPtr)
 }
 
 static int
-ChnRead (interp, chan, fileName, format, imageHandle,
+ChnRead(interp, chan, fileName, format, imageHandle,
 	destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
     Tcl_Channel chan;
@@ -332,7 +332,7 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
 	return TCL_OK;
     }
 
-    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
+    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
 
     Tk_PhotoGetImage(imageHandle, &block);
 
@@ -389,7 +389,8 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
 
     png_read_image(png_ptr,(png_bytepp) png_data);
 
-    tkimg_PhotoPutBlock(imageHandle,&block,destX,destY,width,height);
+    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height,
+	    block.offset[3]? TK_PHOTO_COMPOSITE_SET: TK_PHOTO_COMPOSITE_OVERLAY);
 
     ckfree((char *) png_data);
     png_destroy_read_struct(&png_ptr,&info_ptr,&end_info);

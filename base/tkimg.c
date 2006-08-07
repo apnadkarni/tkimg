@@ -55,21 +55,6 @@ static int fromb64 _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
 #endif
 
 /*
- * The variable "initialized" contains flags indicating which
- * version of Tcl or Perl we are running:
- *
- *	IMG_TCL		Tcl
- *	IMG_OBJS	using Tcl_Obj's in stead of char* (Tk 8.3 or higher)
- *      IMG_PERL	perl
- *
- * These flags will be determined at runtime (except the IMG_PERL
- * flag, for now), so we can use the same dynamic library for all
- * Tcl/Tk versions (and for Perl/Tk in the future).
- */
-
-static int initialized = 0;
-
-/*
  *----------------------------------------------------------------------------
  *
  * Tkimg_Init --
@@ -98,18 +83,16 @@ Tkimg_Init (interp)
 
 #ifdef USE_TCL_STUBS
     if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
-        return TCL_ERROR;
+	return TCL_ERROR;
     }
 #endif
 #ifdef USE_TK_STUBS
     if (Tk_InitStubs(interp, "8.1", 0) == NULL) {
-        return TCL_ERROR;
+	return TCL_ERROR;
     }
 #endif
-    if (!initialized) {
-	if (!(initialized = TkimgInitUtilities (interp))) {
-	    return TCL_ERROR;
-	}
+    if (!TkimgInitUtilities(interp)) {
+	return TCL_ERROR;
     }
 #ifdef ALLOW_B64 /* Undocumented feature */
     Tcl_CreateObjCommand(interp,"img_to_base64",   tob64,   (ClientData) NULL, NULL);
@@ -118,16 +101,16 @@ Tkimg_Init (interp)
 
 #if TCL_DOES_STUBS
     if (Tcl_PkgProvideEx(interp, PACKAGE_TCLNAME, PACKAGE_VERSION,
-			 (ClientData) &tkimgStubs) != TCL_OK) {
-        return TCL_ERROR;
+	    (ClientData) &tkimgStubs) != TCL_OK) {
+	return TCL_ERROR;
     }
 #else
     if (Tcl_PkgProvide(interp, PACKAGE_TCLNAME, PACKAGE_VERSION) != TCL_OK) {
-        return TCL_ERROR;
+	return TCL_ERROR;
     }
 #endif
 
-  return TCL_OK;
+    return TCL_OK;
 }
 
 /*

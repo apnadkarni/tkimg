@@ -54,7 +54,7 @@ static void putint _ANSI_ARGS_((tkimg_MFile *handle, int i));
  */
 
 static int
-ChnMatch (interp, chan, fileName, format, widthPtr, heightPtr)
+ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;
     CONST char *fileName;
@@ -68,12 +68,12 @@ ChnMatch (interp, chan, fileName, format, widthPtr, heightPtr)
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
 
-    return CommonMatch (&handle, widthPtr, heightPtr,
+    return CommonMatch(&handle, widthPtr, heightPtr,
                         NULL, NULL, NULL, NULL, NULL);
 }
 
 static int
-ObjMatch (interp, data, format, widthPtr, heightPtr)
+ObjMatch(interp, data, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Obj *data;
     Tcl_Obj *format;
@@ -86,12 +86,12 @@ ObjMatch (interp, data, format, widthPtr, heightPtr)
     if (!tkimg_ReadInit(data,'B',&handle)) {
 	return 0;
     }
-    return CommonMatch (&handle, widthPtr, heightPtr,
+    return CommonMatch(&handle, widthPtr, heightPtr,
                         NULL, NULL, NULL, NULL, NULL);
 }
 
 static int
-ChnRead (interp, chan, fileName, format, imageHandle,
+ChnRead(interp, chan, fileName, format, imageHandle,
 	destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
     Tcl_Channel chan;
@@ -107,12 +107,12 @@ ChnRead (interp, chan, fileName, format, imageHandle,
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
 
-    return CommonRead (interp, &handle, imageHandle, destX, destY,
+    return CommonRead(interp, &handle, imageHandle, destX, destY,
 	    width, height, srcX, srcY);
 }
 
 static int
-ObjRead (interp, data, format, imageHandle,
+ObjRead(interp, data, format, imageHandle,
 	destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
     Tcl_Obj *data;
@@ -125,12 +125,12 @@ ObjRead (interp, data, format, imageHandle,
     tkimg_MFile handle;
 
     tkimg_ReadInit(data,'B',&handle);
-    return CommonRead (interp, &handle, imageHandle, destX, destY,
+    return CommonRead(interp, &handle, imageHandle, destX, destY,
 	    width, height, srcX, srcY);
 }
 
 static int
-ChnWrite (interp, filename, format, blockPtr)
+ChnWrite(interp, filename, format, blockPtr)
     Tcl_Interp *interp;
     CONST84 char *filename;
     Tcl_Obj *format;
@@ -148,7 +148,7 @@ ChnWrite (interp, filename, format, blockPtr)
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
 
-    result = CommonWrite (interp, &handle, blockPtr);
+    result = CommonWrite(interp, &handle, blockPtr);
     if (Tcl_Close(interp, chan) == TCL_ERROR) {
 	return TCL_ERROR;
     }
@@ -156,7 +156,7 @@ ChnWrite (interp, filename, format, blockPtr)
 }
 
 static int
-StringWrite (interp, dataPtr, format, blockPtr)
+StringWrite(interp, dataPtr, format, blockPtr)
     Tcl_Interp *interp;
     Tcl_DString *dataPtr;
     Tcl_Obj *format;
@@ -169,7 +169,7 @@ StringWrite (interp, dataPtr, format, blockPtr)
     tkimg_FixStringWriteProc(&data, &interp, &dataPtr, &format, &blockPtr);
 
     tkimg_WriteInit(dataPtr, &handle);
-    result = CommonWrite (interp, &handle, blockPtr);
+    result = CommonWrite(interp, &handle, blockPtr);
     tkimg_Putc(IMG_DONE, &handle);
 
     if ((result == TCL_OK) && (dataPtr == &data)) {
@@ -179,21 +179,21 @@ StringWrite (interp, dataPtr, format, blockPtr)
 }
 
 static unsigned int
-getUInt32 (buf)
+getUInt32(buf)
     unsigned char *buf;
 {
     return (buf[0] | buf[1] << 8 | buf[2] << 16 | buf[3] << 24);
 }
 
 static unsigned int
-getUInt16 (buf)
+getUInt16(buf)
     unsigned char *buf;
 {
     return (buf[0] | buf[1] << 8);
 }
 
 static void
-GetChannelMasks (intMask, masks)
+GetChannelMasks(intMask, masks)
     unsigned int *intMask;
     BitmapChannel *masks;
 {
@@ -201,7 +201,7 @@ GetChannelMasks (intMask, masks)
     int i, nbits, offset, bit;
 
     for (i=0; i<3; i++) {
-        mask = getUInt32 ((unsigned char *) &intMask[i]);
+        mask = getUInt32((unsigned char *) &intMask[i]);
         masks[i].mask = mask;
         nbits = 0;
         offset = -1;
@@ -224,7 +224,7 @@ GetChannelMasks (intMask, masks)
  */
 
 static int
-CommonMatch (handle, widthPtr, heightPtr, colorMap, numBits, numCols, comp, mask)
+CommonMatch(handle, widthPtr, heightPtr, colorMap, numBits, numCols, comp, mask)
     tkimg_MFile *handle;
     int *widthPtr, *heightPtr;
     unsigned char **colorMap;
@@ -271,9 +271,9 @@ CommonMatch (handle, widthPtr, heightPtr, colorMap, numBits, numCols, comp, mask
             /* Read the channel masks. */
             tkimg_Read(handle, (char *) buf, 3*4);
             if (mask) {
-                mask[0] = getUInt32 ((unsigned char *) &buf[0]);
-                mask[1] = getUInt32 ((unsigned char *) &buf[4]);
-                mask[2] = getUInt32 ((unsigned char *) &buf[8]);
+                mask[0] = getUInt32((unsigned char *) &buf[0]);
+                mask[1] = getUInt32((unsigned char *) &buf[4]);
+                mask[2] = getUInt32((unsigned char *) &buf[8]);
             }
 	    offBits -= 3*4;
         }
@@ -317,7 +317,7 @@ typedef struct myblock {
 #define block bl.ck
 
 static int
-CommonRead (interp, handle, imageHandle, destX, destY,
+CommonRead(interp, handle, imageHandle, destX, destY,
 	width, height, srcX, srcY)
     Tcl_Interp *interp;
     tkimg_MFile *handle;
@@ -336,12 +336,12 @@ CommonRead (interp, handle, imageHandle, destX, destY,
     unsigned char *line = NULL, *expline = NULL;
     unsigned short rgb;
 
-    CommonMatch (handle, &fileWidth, &fileHeight, &colorMap, &numBits,
+    CommonMatch(handle, &fileWidth, &fileHeight, &colorMap, &numBits,
 	         &numCols, &comp, intMask);
 
     if (numBits == 16) {
         if (comp == BI_BITFIELDS) {
-            GetChannelMasks (intMask, masks);
+            GetChannelMasks(intMask, masks);
         } else {
             masks[0].mask     = 0x7c00;
             masks[0].shiftin  = 10;
@@ -357,15 +357,15 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 
     /* printf("reading %d-bit BMP %dx%d\n", numBits, width, height); */
     if (comp == BI_RLE8 || comp == BI_RLE4) {
-	tkimg_ReadBuffer (1);
+	tkimg_ReadBuffer(1);
     }
 
-    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
+    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
 
     bytesPerLine = ((numBits * fileWidth + 31)/32)*4;
 
-    /* printf ("bytesPerLine = %d numBits=%d (%dx%d)\n",
-     *          bytesPerLine, numBits, width, height);
+    /* printf("bytesPerLine = %d numBits=%d (%dx%d)\n",
+     *         bytesPerLine, numBits, width, height);
      */
     block.pixelSize = 3;
     block.pitch = width * 3;
@@ -391,8 +391,10 @@ CommonRead (interp, handle, imageHandle, destX, destY,
                         *expline++ = line[x*4 + 1];
                         *expline++ = line[x*4 + 2];
                     }
-		    tkimg_PhotoPutBlockTk(interp, imageHandle, &block, 
-                                          destX, destY+y, width, 1);
+		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, 
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			return TCL_ERROR;
+		    }
 		    expline = block.pixelPtr;
 		}
 		break;
@@ -400,8 +402,10 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 		block.pixelPtr = line + srcX*3;
 		for( y = height-1; y>=0; y--) {
 		    tkimg_Read(handle, (char *)line, bytesPerLine);
-		    tkimg_PhotoPutBlockTk(interp, imageHandle, &block,
-                                          destX, destY+y, width, 1);
+		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			return TCL_ERROR;
+		    }
 		}
 		break;
             case 16:
@@ -414,8 +418,10 @@ CommonRead (interp, handle, imageHandle, destX, destY,
                         *expline++ = ((rgb & masks[1].mask) >> masks[1].shiftin) << masks[1].shiftout;
                         *expline++ = ((rgb & masks[0].mask) >> masks[0].shiftin) << masks[0].shiftout;
                     }
-		    tkimg_PhotoPutBlockTk(interp, imageHandle, &block, 
-                                          destX, destY+y, width, 1);
+		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			return TCL_ERROR;
+		    }
 		    expline = block.pixelPtr;
                 }
                 break;
@@ -427,8 +433,10 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 			memcpy(expline, colorMap+(3*line[x]),3);
 			expline += 3;
 		    }
-		    tkimg_PhotoPutBlockTk(interp, imageHandle, &block,
-					   destX, destY+y, width, 1);
+		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			return TCL_ERROR;
+		    }
 		    expline = block.pixelPtr;
 		}
 		break;
@@ -446,8 +454,10 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 			memcpy(expline, colorMap+(3*c),3);
 			expline += 3;
 		    }
-		    tkimg_PhotoPutBlockTk(interp, imageHandle, &block, destX, destY+y,
-					   width, 1);
+		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			return TCL_ERROR;
+		    }
 		    expline = block.pixelPtr;
 		}
 		break;
@@ -461,8 +471,10 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 			memcpy(expline, colorMap+(3*c),3);
 			expline += 3;
 		    }
-		    tkimg_PhotoPutBlockTk(interp, imageHandle, &block, destX, destY+y,
-			    width, 1);
+		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			return TCL_ERROR;
+		    }
 		    expline = block.pixelPtr;
 		}
 		break;
@@ -485,17 +497,17 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 
 	if (numBits != 4 && numBits != 8) {
 	    sprintf (buf, "%d", numBits);
-	    Tcl_AppendResult (interp, "RLE compression not supported for ",
+	    Tcl_AppendResult(interp, "RLE compression not supported for ",
                               buf, "-bit pixel values", (char *) NULL);
 	    goto error;
 	}
 
 	while (1) {
-	    if (2 != tkimg_Read (handle, (char *)rleBuf, 2)) {
+	    if (2 != tkimg_Read(handle, (char *)rleBuf, 2)) {
 		Tcl_AppendResult(interp, "Unexpected EOF", (char *) NULL);
 		goto error;
 	    }
-	    /* printf ("In: (%d %d) --> \n", rleBuf[0], rleBuf[1]); */
+	    /* printf("In: (%d %d) --> \n", rleBuf[0], rleBuf[1]); */
 	    if (rleBuf[0] != 0) {
 		howMuch = rleBuf[0];
 		for (i=0; i<howMuch; i++, x++) {
@@ -509,7 +521,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 			    } else {
 				c = rleBuf[1] >> 4;
 			    }
-			    memcpy (expline, colorMap + 3*c, 3);
+			    memcpy(expline, colorMap + 3*c, 3);
 			break;
 		    }
 		    expline += 3;
@@ -520,13 +532,13 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 		howMuch = rleBuf[1];
 		/* printf ("Uncompressed: %d\n", howMuch); fflush (stdout); */
 		for (i=0; i<howMuch; i+=(8/numBits), x++) {
-		    if (1 != tkimg_Read (handle, (char *)&val, 1)) {
+		    if (1 != tkimg_Read(handle, (char *)&val, 1)) {
 			Tcl_AppendResult(interp, "Unexpected EOF", (char *)NULL);
 			goto error;
 		    }
 		    switch (numBits) {
 			case 8:
-			    memcpy (expline, colorMap + 3*val, 3);
+			    memcpy(expline, colorMap + 3*val, 3);
 			break;
 			case 4:
 			    if (x&1) {
@@ -534,7 +546,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 			    } else {
 				c = val >> 4;
 			    }
-			    memcpy (expline, colorMap + 3*c, 3);
+			    memcpy(expline, colorMap + 3*c, 3);
 			break;
 		    }
 		    expline += 3;
@@ -545,7 +557,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 		}
 
 		if ((howMuch / (8 / numBits)) % 2) {
-		    if (1 != tkimg_Read (handle, (char *)&val, 1)) {
+		    if (1 != tkimg_Read(handle, (char *)&val, 1)) {
 			Tcl_AppendResult(interp, "Unexpected EOF", (char *)NULL);
 			goto error;
 		    }
@@ -553,9 +565,9 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 	    }
 	    if ((rleBuf[0]==0) && (rleBuf[1]==0)) {
 		/* End of line */
-		/* printf ("New line: y=%d x=%d\n", y, x); fflush (stdout); */
-		tkimg_PhotoPutBlockTk (interp, imageHandle, &block, destX, destY+y,
-			width, 1);
+		/* printf("New line: y=%d x=%d\n", y, x); fflush(stdout); */
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY+y,
+			width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
 		y--;
 		x=0;
 		expline = block.pixelPtr;
@@ -566,8 +578,8 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 	    }
 	    if ((rleBuf[0]==0) && (rleBuf[1]==2)) {
 		/* Deltarecord */
-		/* printf ("Deltarecord\n"); fflush (stdout); */
-		if (2 != tkimg_Read (handle, (char *)rleDelta, 2)) {
+		/* printf("Deltarecord\n"); fflush(stdout); */
+		if (2 != tkimg_Read(handle, (char *) rleDelta, 2)) {
 		    Tcl_AppendResult(interp, "Unexpected EOF", (char *) NULL);
 		    goto error;
 		}
@@ -576,7 +588,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
 	    }
 	}
     }
-    tkimg_ReadBuffer (0);
+    tkimg_ReadBuffer(0);
 
     if (colorMap) {
 	ckfree((char *) colorMap);
@@ -590,7 +602,7 @@ CommonRead (interp, handle, imageHandle, destX, destY,
     return TCL_OK ;
 
 error:
-    tkimg_ReadBuffer (0);
+    tkimg_ReadBuffer(0);
     if (colorMap) {
 	ckfree((char *) colorMap);
     }
@@ -604,7 +616,7 @@ error:
 }
 
 static int
-CommonWrite (interp, handle, blockPtr)
+CommonWrite(interp, handle, blockPtr)
     Tcl_Interp *interp;
     tkimg_MFile *handle;
     Tk_PhotoImageBlock *blockPtr;

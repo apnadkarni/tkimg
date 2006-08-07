@@ -642,8 +642,8 @@ CommonRead(interp, tif, format, imageHandle,
     block.pixelPtr += srcY * block.pitch
 	    + srcX * block.pixelSize;
     block.offset[3] = block.offset[0]; /* don't use transparency */
-    tkimg_PhotoPutBlock(imageHandle, &block, destX,
-			destY, width, height);
+    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX,
+			destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 
     TkimgTIFFfree (raster);
     TIFFClose(tif);

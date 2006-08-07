@@ -399,7 +399,7 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
     block.offset[3] = (nchan == 4 && matte? 3: 0);
     block.pixelPtr = (unsigned char *) ckalloc((unsigned) nchan * width);
 
-    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
+    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
 
     i = srcY;
     while (i-- > 0) {
@@ -466,7 +466,7 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
 			    col = (int)0;
 		    }
 		} while ((i < width) && col);
-		tkimg_PhotoPutBlockTk(interp, imageHandle, &block, destX+j, destY, len, 1);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX+j, destY, len, 1, TK_PHOTO_COMPOSITE_OVERLAY);
 	    } else {
 	        p += byteSize;
 	        i++;

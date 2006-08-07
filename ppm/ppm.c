@@ -112,7 +112,7 @@ static int ReadPPMFileHeader _ANSI_ARGS_((tkimg_MFile *handle,
  *----------------------------------------------------------------------
  */
 
-static int ChnMatch (interp, chan, filename, format, widthPtr, heightPtr)
+static int ChnMatch(interp, chan, filename, format, widthPtr, heightPtr)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     Tcl_Channel chan;		/* The image file, open for reading. */
     CONST char *filename;	/* The name of the image file. */
@@ -130,10 +130,10 @@ static int ChnMatch (interp, chan, filename, format, widthPtr, heightPtr)
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;    
 
-    return CommonMatch (&handle, widthPtr, heightPtr, &dummy);
+    return CommonMatch(&handle, widthPtr, heightPtr, &dummy);
 }
 
-static int ObjMatch (interp, data, format, widthPtr, heightPtr)
+static int ObjMatch(interp, data, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Obj *data;
     Tcl_Obj *format;
@@ -145,10 +145,10 @@ static int ObjMatch (interp, data, format, widthPtr, heightPtr)
     tkimg_FixObjMatchProc (&interp, &data, &format, &widthPtr, &heightPtr);
 
     tkimg_ReadInit(data, 'P', &handle);
-    return CommonMatch (&handle, widthPtr, heightPtr, &dummy);
+    return CommonMatch(&handle, widthPtr, heightPtr, &dummy);
 }
 
-static int CommonMatch (handle, widthPtr, heightPtr, maxIntensityPtr)
+static int CommonMatch(handle, widthPtr, heightPtr, maxIntensityPtr)
     tkimg_MFile *handle;
     int *widthPtr;
     int *heightPtr;
@@ -178,7 +178,7 @@ static int CommonMatch (handle, widthPtr, heightPtr, maxIntensityPtr)
  *----------------------------------------------------------------------
  */
 
-static int ChnRead (interp, chan, filename, format, imageHandle, 
+static int ChnRead(interp, chan, filename, format, imageHandle, 
                     destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     Tcl_Channel chan;		/* The image file, open for reading. */
@@ -246,13 +246,13 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
     type = ReadPPMFileHeader (handle, &fileWidth, &fileHeight, &maxIntensity);
     if (type == 0) {
-	Tcl_AppendResult (interp, "couldn't read raw PPM header from file \"",
+	Tcl_AppendResult(interp, "couldn't read raw PPM header from file \"",
 			  filename, "\"", NULL);
 	return TCL_ERROR;
     }
 
     if ((fileWidth <= 0) || (fileHeight <= 0)) {
-	Tcl_AppendResult (interp, "PPM image file \"", filename,
+	Tcl_AppendResult(interp, "PPM image file \"", filename,
 			  "\" has dimension(s) <= 0", (char *) NULL);
 	return TCL_ERROR;
     }
@@ -260,7 +260,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	char buffer[TCL_INTEGER_SPACE];
 
 	sprintf(buffer, "%d", maxIntensity);
-	Tcl_AppendResult (interp, "PPM image file \"", filename,
+	Tcl_AppendResult(interp, "PPM image file \"", filename,
 			  "\" has bad maximum intensity value ", buffer,
 			  (char *) NULL);
 	return TCL_ERROR;
@@ -293,14 +293,14 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     block.width = width;
     block.pitch = block.pixelSize * fileWidth;
 
-    tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height);
+    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
 
     if (srcY > 0) {
  	/* Don't read the whole image. Skip first "srcY" lines. */
 	pixelPtr = (unsigned char *) ckalloc((unsigned) block.pitch);
 	for (h=0; h<srcY; h++) {
 	    if (block.pitch != tkimg_Read(handle, (char *) pixelPtr, block.pitch)) {
-		Tcl_AppendResult (interp, "Error reading PPM image file \"",
+		Tcl_AppendResult(interp, "Error reading PPM image file \"",
 				  filename, "\": ", (char *) NULL);
 		ckfree((char *) pixelPtr);
 		return TCL_ERROR;
@@ -325,9 +325,9 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    nLines = h;
 	    nBytes = nLines * block.pitch;
 	}
-	count = tkimg_Read (handle, (char *) pixelPtr, nBytes);
+	count = tkimg_Read(handle, (char *) pixelPtr, nBytes);
 	if (count != nBytes) {
-	    Tcl_AppendResult (interp, "Error reading PPM image file \"",
+	    Tcl_AppendResult(interp, "Error reading PPM image file \"",
 		    filename, "\": ", (char *) NULL);
 	    ckfree((char *) pixelPtr);
 	    return TCL_ERROR;
@@ -340,7 +340,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    }
 	}
 	block.height = nLines;
-	tkimg_PhotoPutBlockTk (interp, imageHandle, &block, destX, destY, width, nLines);
+	tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, nLines, TK_PHOTO_COMPOSITE_OVERLAY);
 	destY += nLines;
     }
 
@@ -427,8 +427,8 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     unsigned char *pixelPtr, *pixLinePtr;
     char header[16 + TCL_INTEGER_SPACE * 2];
 
-    sprintf (header, "P6\n%d %d\n255\n", blockPtr->width, blockPtr->height);
-    if (tkimg_Write (handle, header, strlen (header)) != strlen (header)) {
+    sprintf(header, "P6\n%d %d\n255\n", blockPtr->width, blockPtr->height);
+    if (tkimg_Write(handle, header, strlen (header)) != strlen (header)) {
 	goto writeerror;
     }
 	
@@ -448,7 +448,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
 	    *(scanlinePtr++) = pixelPtr[blueOff];	
 	    pixelPtr += blockPtr->pixelSize;
 	}
-	if (tkimg_Write (handle, (char *) scanline, nBytes) != nBytes) {
+	if (tkimg_Write(handle, (char *) scanline, nBytes) != nBytes) {
 	    goto writeerror;
 	}
 	pixLinePtr += blockPtr->pitch;
@@ -457,7 +457,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     return TCL_OK;
 
  writeerror:
-    Tcl_AppendResult (interp, "Error writing \"", filename, "\": ", 
+    Tcl_AppendResult(interp, "Error writing \"", filename, "\": ", 
                       (char *) NULL);
     return TCL_ERROR;
 }
@@ -504,7 +504,7 @@ ReadPPMFileHeader (handle, widthPtr, heightPtr, maxIntensityPtr)
      * comments (any line that starts with "#").
      */
 
-    if (tkimg_Read (handle, &c, 1) != 1) {
+    if (tkimg_Read(handle, &c, 1) != 1) {
 	return 0;
     }
     i = 0;

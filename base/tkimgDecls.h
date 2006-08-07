@@ -47,10 +47,10 @@ EXTERN void		tkimg_ReadBuffer _ANSI_ARGS_((int onOff));
 /* Slot 8 is reserved */
 /* Slot 9 is reserved */
 /* 10 */
-EXTERN int		tkimg_PhotoPutBlock _ANSI_ARGS_((
+EXTERN int		tkimg_PhotoPutBlock _ANSI_ARGS_((Tcl_Interp * interp, 
 				Tk_PhotoHandle handle, 
 				Tk_PhotoImageBlock * blockPtr, int x, int y, 
-				int width, int height));
+				int width, int height, int flags));
 /* Slot 11 is reserved */
 /* Slot 12 is reserved */
 /* Slot 13 is reserved */
@@ -107,7 +107,7 @@ typedef struct TkimgStubs {
     void (*tkimg_ReadBuffer) _ANSI_ARGS_((int onOff)); /* 7 */
     void *reserved8;
     void *reserved9;
-    int (*tkimg_PhotoPutBlock) _ANSI_ARGS_((Tk_PhotoHandle handle, Tk_PhotoImageBlock * blockPtr, int x, int y, int width, int height)); /* 10 */
+    int (*tkimg_PhotoPutBlock) _ANSI_ARGS_((Tcl_Interp * interp, Tk_PhotoHandle handle, Tk_PhotoImageBlock * blockPtr, int x, int y, int width, int height, int flags)); /* 10 */
     void *reserved11;
     void *reserved12;
     void *reserved13;

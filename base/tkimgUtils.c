@@ -8,7 +8,7 @@
 #include "tkimg.h"
 
 /*
- * The variable "initialized" contains flags indicating which
+ * The variable "tkimg_initialized" contains flags indicating which
  * version of Tcl or Perl we are running:
  *
  *      IMG_PERL	perl
@@ -16,6 +16,7 @@
  *	IMG_OBJS	using (Tcl_Obj *) in stead of (char *)
  *	IMG_UTF		Tcl supports UTF-8
  *	IMG_NEWPHOTO	Photo image type proc signatures are 8.3 or higher.
+ *	IMG_COMPOSITE	Photo image type proc signatures are 8.4 or higher.
  *
  * These flags will be determined at runtime (except the IMG_PERL
  * flag, for now), so we can use the same dynamic library for all
@@ -23,32 +24,31 @@
  *
  * The existence of the CPP macro _LANG implies usage in Perl/Tk.
  *
- * Img 2.0: Support for Tcl 7.6 is dropped. This implies that IMG_OBJS
+ * Img 1.2: Support for Tcl 7.6 is dropped. This implies that IMG_OBJS
  *          is always set. Therefore this flag is dropped as well, and
  *          also all code for !IMG_OBJS.
  */
 
-static int initialized = 0;
-static const Tcl_ObjType* byteArrayType = 0;
+int tkimg_initialized = 0;
 
 int
 TkimgInitUtilities(interp)
     Tcl_Interp *interp;
 {
 #ifdef _LANG
-    initialized = IMG_PERL|IMG_NEWPHOTO;
+    tkimg_initialized = IMG_PERL|IMG_NEWPHOTO;
 #else
 
     int major, minor, patchlevel, type;
-    initialized = IMG_TCL|IMG_OBJS;
+    tkimg_initialized = IMG_TCL;
 
     Tcl_GetVersion(&major, &minor, &patchlevel, &type);
 
     if ((major > 8) || ((major == 8) && (minor > 0))) {
-	initialized |= IMG_UTF;
+	tkimg_initialized |= IMG_UTF;
     }
     if ((major > 8) || ((major == 8) && (minor > 2))) {
-	initialized |= IMG_NEWPHOTO;
+	tkimg_initialized |= IMG_NEWPHOTO;
     } else {
 	/* If our Tcl version is lower than 8.2, then it still might be
 	 * that it supports the patch known as "Img-patch". So, check
@@ -58,23 +58,25 @@ TkimgInitUtilities(interp)
 	if (!Tcl_GetCommandInfo(interp,"image", &cmdInfo)) {
 		    Tcl_AppendResult(interp, "cannot find the \"image\" command",
 			(char *) NULL);
-		initialized = 0;
+		tkimg_initialized = 0;
 		return TCL_ERROR;
 	}
 	if (cmdInfo.isNativeObjectProc == 1) {
-	    initialized |= IMG_NEWPHOTO;
+	    tkimg_initialized |= IMG_NEWPHOTO;
 	}
     }
+    if ((major > 8) || ((major == 8) && (minor > 3))) {
+	tkimg_initialized |= IMG_COMPOSITE;
+    }
+    if ((major > 8) || ((major == 8) && (minor > 4))) {
+	tkimg_initialized |= IMG_NOPANIC;
+    }
 
-    /* Check for the presence of 'ByteArray's.
-     */
-
-    byteArrayType = Tcl_GetObjType("bytearray");
 #endif
-    return initialized;
+    return tkimg_initialized;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -128,7 +130,7 @@ tkimg_GetStringFromObj(objPtr, lengthPtr)
 	return string;
     }
 #else /* _LANG */
-    if (initialized & IMG_OBJS) {
+    if (tkimg_initialized & IMG_NEWPHOTO) {
 	return Tcl_GetStringFromObj(objPtr, lengthPtr);
     } else {
 	char *string =  (char *) objPtr;
@@ -139,6 +141,8 @@ tkimg_GetStringFromObj(objPtr, lengthPtr)
     }
 #endif /* _LANG */
 }
+
+
 /*
  *----------------------------------------------------------------------
  *
@@ -177,7 +181,7 @@ tkimg_GetByteArrayFromObj(objPtr, lengthPtr)
     return (unsigned char *) string;
 #else /* _LANG */
 
-    if (initialized & IMG_OBJS) {
+    if (tkimg_initialized & IMG_NEWPHOTO) {
 	return Tcl_GetByteArrayFromObj(objPtr, lengthPtr);
     } else {
 	char *string =  (char *) objPtr;
@@ -189,6 +193,7 @@ tkimg_GetByteArrayFromObj(objPtr, lengthPtr)
 #endif /* _LANG */
 }
 
+
 /*
  *----------------------------------------------------------------------
  *
@@ -225,7 +230,7 @@ tkimg_ListObjGetElements(interp, objPtr, objc, objv)
 	return TCL_OK;
     }
 #ifndef _LANG
-    if (!(initialized & IMG_OBJS)) {
+    if (!(tkimg_initialized & IMG_NEWPHOTO)) {
 	if (staticObj != (Tcl_Obj *) NULL) {
 	    Tcl_DecrRefCount(staticObj);
 	}
@@ -266,10 +271,10 @@ tkimg_FixChanMatchProc(interp, chan, file, format, width, height)
 {
     Tcl_Interp *tmp;
 
-    if (initialized & IMG_PERL) {
+    if (tkimg_initialized & IMG_PERL) {
 	return;
     }
-    if (initialized & IMG_NEWPHOTO) {
+    if (tkimg_initialized & IMG_NEWPHOTO) {
         tmp = (Tcl_Interp *) *height;
     } else {
         /* Old-style call signature */
@@ -294,10 +299,10 @@ tkimg_FixObjMatchProc(interp, data, format, width, height)
 {
     Tcl_Interp *tmp;
 
-    if (initialized & IMG_PERL) {
+    if (tkimg_initialized & IMG_PERL) {
 	return;
     }
-    if (initialized & IMG_NEWPHOTO) {
+    if (tkimg_initialized & IMG_NEWPHOTO) {
         tmp = (Tcl_Interp *) *height;
     } else {
         /* Old-style call signature */
