@@ -364,7 +364,7 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
 
 	memcpy(&color1, p+1, byteSize);
 	p = useName;
-	while ((*p != 0) && (*p != '"') && (*p != ' ') && (*p != '\t')) {
+	while ((*p != 0) && (*p != '"') && (*p != '\t')) {
 	    p++;
 	}
 	*p = 0;
