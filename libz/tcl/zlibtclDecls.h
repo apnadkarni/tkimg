@@ -109,7 +109,7 @@ EXTERN int		gzsetparams _ANSI_ARGS_((gzFile file, int level,
 EXTERN int		gzread _ANSI_ARGS_((gzFile file, voidp buf, 
 				unsigned len));
 /* 34 */
-EXTERN int		gzwrite _ANSI_ARGS_((gzFile file, const voidpc buf, 
+EXTERN int		gzwrite _ANSI_ARGS_((gzFile file, voidpc buf, 
 				unsigned len));
 /* Slot 35 is reserved */
 /* 36 */

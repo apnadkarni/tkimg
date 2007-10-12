@@ -507,6 +507,48 @@ AC_SUBST(LIBDIR)
 
 AC_CONFIG_HEADERS([libtiff/tif_config.h libtiff/tiffconf.h])
 
+AH_VERBATIM([PACKAGE_BUGREPORT],
+[/* Define to the address where bug reports for this package should be sent. */
+#ifndef PACKAGE_BUGREPORT
+#undef PACKAGE_BUGREPORT
+#endif])
+AH_VERBATIM([PACKAGE_NAME],
+[/* Define to the full name of this package. */
+#ifndef PACKAGE_NAME
+#undef PACKAGE_NAME
+#endif])
+AH_VERBATIM([PACKAGE_STRING],
+[/* Define to the full name and version of this package. */
+#ifndef PACKAGE_STRING
+#undef PACKAGE_STRING
+#endif])
+AH_VERBATIM([PACKAGE_TARNAME],
+[/* Define to the one symbol short name of this package. */
+#ifndef PACKAGE_TARNAME
+#undef PACKAGE_TARNAME
+#endif])
+AH_VERBATIM([PACKAGE_VERSION],
+[/* Define to the version of this package. */
+#ifndef PACKAGE_VERSION
+#undef PACKAGE_VERSION
+#endif])
+AH_TOP([#ifndef _TIF_CONFIG_
+#define _TIF_CONFIG_])
+AH_BOTTOM([#ifdef __APPLE__
+/* override */ #undef HOST_BIGENDIAN
+/* override */ #undef WORDS_BIGENDIAN
+/* override */ #undef HOST_FILLORDER
+#ifdef __BIG_ENDIAN__
+/* override */ #define HOST_BIGENDIAN 1
+/* override */ #define WORDS_BIGENDIAN 1
+/* override */ #define HOST_FILLORDER FILLORDER_MSB2LSB
+#else /* !__BIG_ENDIAN__ */
+/* override */ #define HOST_BIGENDIAN 0
+/* override */ #define HOST_FILLORDER FILLORDER_LSB2MSB
+#endif /* __BIG_ENDIAN__ */
+#endif /* __APPLE__ */
+#endif /* _TIF_CONFIG_ */])
+
 AC_CONFIG_FILES([Makefile \
 		 contrib/Makefile \
 		 contrib/acorn/Makefile \

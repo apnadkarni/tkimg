@@ -10,7 +10,7 @@ AC_REVISION($Id$)
 
 AC_INIT([pngtcl],[1.2.12])
 
-TEA_INIT([3.5])
+TEA_INIT([3.6])
 
 AC_CONFIG_AUX_DIR(../../tclconfig)
 
@@ -67,6 +67,7 @@ TEA_ADD_SOURCES([
 	../pngrtran.c	../pngrutil.c	../pngset.c
 	../pngtrans.c	../pngwio.c	../pngwrite.c
 	../pngwtran.c	../pngwutil.c	../pngget.c
+	../pnggccrd.c
 ])
 
 TEA_ADD_HEADERS([pngtcl.h pngtclDecls.h])

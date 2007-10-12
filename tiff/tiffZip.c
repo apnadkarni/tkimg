@@ -360,7 +360,8 @@ TkimgTIFFInitZip(handle, scheme)
 {
     TIFF* tif = (TIFF *) handle;
     ZIPState* sp;
-    assert(scheme == COMPRESSION_DEFLATE);
+	assert( (scheme == COMPRESSION_DEFLATE)
+		|| (scheme == COMPRESSION_ADOBE_DEFLATE));
 
     /*
      * We assume here that package zlibtcl is loaded and its stub

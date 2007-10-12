@@ -1,5 +1,8 @@
 /* libtiff/tif_config.h.in.  Generated from configure.ac by autoheader.  */
 
+#ifndef _TIF_CONFIG_
+#define _TIF_CONFIG_
+
 /* Support CCITT Group 3 & 4 algorithms */
 #undef CCITT_SUPPORT
 
@@ -173,7 +176,29 @@
 #undef PACKAGE
 
 /* Define to the address where bug reports for this package should be sent. */
+#ifndef PACKAGE_BUGREPORT
 #undef PACKAGE_BUGREPORT
+#endif
+
+/* Define to the full name of this package. */
+#ifndef PACKAGE_NAME
+#undef PACKAGE_NAME
+#endif
+
+/* Define to the full name and version of this package. */
+#ifndef PACKAGE_STRING
+#undef PACKAGE_STRING
+#endif
+
+/* Define to the one symbol short name of this package. */
+#ifndef PACKAGE_TARNAME
+#undef PACKAGE_TARNAME
+#endif
+
+/* Define to the version of this package. */
+#ifndef PACKAGE_VERSION
+#undef PACKAGE_VERSION
+#endif
 
 /* Support Macintosh PackBits algorithm */
 #undef PACKBITS_SUPPORT
@@ -246,3 +271,18 @@
 
 /* Define to `unsigned' if <sys/types.h> does not define. */
 #undef size_t
+
+#ifdef __APPLE__
+/* override */ #undef HOST_BIGENDIAN
+/* override */ #undef WORDS_BIGENDIAN
+/* override */ #undef HOST_FILLORDER
+#ifdef __BIG_ENDIAN__
+/* override */ #define HOST_BIGENDIAN 1
+/* override */ #define WORDS_BIGENDIAN 1
+/* override */ #define HOST_FILLORDER FILLORDER_MSB2LSB
+#else /* !__BIG_ENDIAN__ */
+/* override */ #define HOST_BIGENDIAN 0
+/* override */ #define HOST_FILLORDER FILLORDER_LSB2MSB
+#endif /* __BIG_ENDIAN__ */
+#endif /* __APPLE__ */
+#endif /* _TIF_CONFIG_ */

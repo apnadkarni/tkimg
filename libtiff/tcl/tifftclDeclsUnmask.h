@@ -119,6 +119,7 @@
 #undef TIFFDefaultDirectory
 #undef TIFFSetCompressionScheme
 #undef TIFFSetDefaultCompressionState
+#undef _TIFFSetDefaultCompressionState
 #undef _TIFFDefaultStripSize
 #undef _TIFFDefaultTileSize
 #undef _TIFFsetByteArray

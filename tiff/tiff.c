@@ -123,6 +123,7 @@ SetupTiffLibrary (interp)
 	    return TCL_ERROR;
 	  }
 	  TIFFRegisterCODEC (COMPRESSION_DEFLATE,  "Deflate",  TkimgTIFFInitZip);
+	  TIFFRegisterCODEC (COMPRESSION_ADOBE_DEFLATE, "AdobeDeflate", TkimgTIFFInitZip);
 
 	  if (Jpegtcl_InitStubs(interp, "1.0", 0) == NULL) {
 	    return TCL_ERROR;

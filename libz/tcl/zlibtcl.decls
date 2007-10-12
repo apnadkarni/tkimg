@@ -123,7 +123,7 @@ declare 33 generic {
     int gzread  (gzFile file, voidp buf, unsigned len)
 }
 declare 34 generic {
-    int gzwrite (gzFile file, const voidpc buf, unsigned len)
+    int gzwrite (gzFile file, voidpc buf, unsigned len)
 }
 # gzprintf - signature cannot be handled by current stubs mechanism
 if {0} {

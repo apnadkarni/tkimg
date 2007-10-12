@@ -96,7 +96,7 @@ all:
 	do	\
 		here=`pwd` && \
 		cd $$sub && \
-		$(MAKE) all || break && \
+		$(MAKE) all || exit $$? && \
 		cd $$here ; \
 	done
 
@@ -105,7 +105,7 @@ test:	all
 	do	\
 		here=`pwd` && \
 		cd $$sub && \
-		$(MAKE) test || break && \
+		$(MAKE) test || exit $$? && \
 		cd $$here ; \
 	done
 
@@ -122,7 +122,7 @@ collate: all
 			pkglibdir=$$here/Img/exec_prefix/lib/Img	\
 			libdir=$$here/Img/exec_prefix/lib		\
 			DESTDIR=					\
-			|| break &&					\
+			|| exit $$? &&					\
 		cd $$here && \
 		cat Img/exec_prefix/lib/Img/pkgIndex.tcl >> pkgIndex.tcl ; \
 	done
@@ -157,7 +157,7 @@ clean:
 	do	\
 		here=`pwd` && \
 		cd $$sub && \
-		$(MAKE) clean || break && \
+		$(MAKE) clean || exit $$? && \
 		cd $$here ; \
 	done
 	rm -rf Img
@@ -169,7 +169,7 @@ distclean:	clean
 	do	\
 		here=`pwd` && \
 		cd $$sub && \
-		$(MAKE) distclean || break && \
+		$(MAKE) distclean || exit $$? && \
 		cd $$here ; \
 	done
 

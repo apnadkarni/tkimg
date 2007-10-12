@@ -851,7 +851,7 @@ fi
 if eval "test \"`echo '$ac_cv_header_'$ac_safe`\" = yes"; then
   echo "$ac_t""yes" 1>&6
   cat >> confdefs.h <<\EOF
-#define HAVE_STDLIB_H 
+#define HAVE_STDLIB_H 1
 EOF
 
 else

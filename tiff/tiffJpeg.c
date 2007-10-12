@@ -1518,9 +1518,7 @@ JPEGVGetField(tif, tag, ap)
 
 	switch (tag) {
 	case TIFFTAG_JPEGTABLES:
-		/* u_short is bogus --- should be uint32 ??? */
-		/* TIFFWriteNormalTag needs fixed  XXX */
-		*va_arg(ap, u_short*) = (u_short) sp->jpegtables_length;
+		*va_arg(ap, uint32*) = (uint32) sp->jpegtables_length;
 		*va_arg(ap, void**) = sp->jpegtables;
 		break;
 	case TIFFTAG_JPEGQUALITY:

@@ -731,7 +731,7 @@
 #    define PNG_MMX_CODE_SUPPORTED
 #  endif
 #  if !defined(PNG_USE_PNGGCCRD) && !defined(PNG_NO_MMX_CODE) && \
-     !defined(PNG_USE_PNGVCRD) && defined(__MMX__)
+     !defined(PNG_USE_PNGVCRD) && defined(__MMX__) && !defined(__x86_64__)
 #    define PNG_USE_PNGGCCRD
 #  endif
 #endif

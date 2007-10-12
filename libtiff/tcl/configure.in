@@ -10,7 +10,7 @@ AC_REVISION($Id$)
 
 AC_INIT([tifftcl],[3.8.2])
 
-TEA_INIT([3.5])
+TEA_INIT([3.6])
 
 AC_CONFIG_AUX_DIR(../../tclconfig)
 
@@ -44,6 +44,29 @@ AC_HEADER_STDC
 TIFFCC=`echo "$CC" | sed -e 's/-pipe//'`
 TIFFCC=`which $TIFFCC 2>/dev/null`
 
+#--------------------------------------------------------------------
+# Run the configuration of TIFF itself, and do some special checks
+# to if the configuration agress with the sources of tiff itself.
+# F.e. tiff is hardwired to use "stdarg.h". If the chosen compiler
+# does not support this we have to bail out.
+#--------------------------------------------------------------------
+
+if test `grep STDC_HEADERS confdefs.h | wc -l` -eq 0
+then
+    AC_MSG_ERROR([Compiler does not use stdarg.h, required for TIFF])
+fi
+
+mv -f confdefs.h tifftcl_confdefs.h
+if test "X$host" = X -o "X$host" = XNONE
+then
+    TIFFHOST=""
+else
+    TIFFHOST="$host"
+fi
+${srcdir}/../configure --disable-zlib --disable-pixarlog --disable-jpeg \
+	"--with-CC=$TIFFCC" $TIFFHOST
+mv -f tifftcl_confdefs.h confdefs.h
+
 #-----------------------------------------------------------------------
 # Specify the C source files to compile in TEA_ADD_SOURCES,
 # public headers that need to be installed in TEA_ADD_HEADERS,
@@ -71,11 +94,9 @@ TEA_ADD_SOURCES([
 
 TEA_ADD_HEADERS([tifftcl.h tifftclDecls.h])
 TEA_ADD_HEADERS([tifftclDeclsMask.h tifftclDeclsUnmask.h])
-
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}`\"])
 TEA_ADD_INCLUDES([-I\"./libtiff\"])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}/../libtiff`\"])
-TEA_ADD_CFLAGS([-DZLIBTCL_VERSION=\\\"${zlibtcl_VERSION}\\\"])
 TEA_ADD_STUB_SOURCES([tifftclStubLib.c])
 TEA_ADD_SOURCES([tifftclStubLib.c])
 TEA_ADD_TCL_SOURCES([])
@@ -184,33 +205,6 @@ fi
 
 TEA_PROG_TCLSH
 TEA_EXPORT_CONFIG(tifftcl)
-
-#--------------------------------------------------------------------
-# Run the configuration of TIFF itself, and do some special checks
-# to if the configuration agress with the sources of tiff itself.
-# F.e. tiff is hardwired to use "stdarg.h". If the chosen compiler
-# does not support this we have to bail out.
-#--------------------------------------------------------------------
-
-if test `grep STDC_HEADERS confdefs.h | wc -l` -eq 0
-then
-    AC_MSG_ERROR([Compiler does not use stdarg.h, required for TIFF])
-fi
-
-if test "X$host" = X -o "X$host" = XNONE
-then
-    ${srcdir}/../configure --noninteractive "--with-CC=$TIFFCC"
-else
-    ${srcdir}/../configure --noninteractive "--with-CC=$TIFFCC" $host
-fi
-
-# If the TIFF configure fails we use a predefined 'port.unix' to setup
-# the configuration.
-
-if test ! -r libtiff/port.h
-then
-    cp ${srcdir}/libtiff/port.unix port.h
-fi
 
 #--------------------------------------------------------------------
 # Finally, substitute all of the various values into the Makefile.
