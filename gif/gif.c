@@ -212,7 +212,7 @@ ChnRead(interp, chan, fileName, format, imageHandle, destX, destY,
  *----------------------------------------------------------------------
  */
 
-typedef struct myblock {
+typedef struct {
     Tk_PhotoImageBlock ck;
     int dummy; /* extra space for offset[3], if not included already
 		  in Tk_PhotoImageBlock */
@@ -675,8 +675,6 @@ DoExtension(handle, label, transparent)
     return count;
 }
 
-static int ZeroDataBlock = 0;
-
 static int
 GetDataBlock(handle, buf)
      tkimg_MFile *handle;
@@ -687,8 +685,6 @@ GetDataBlock(handle, buf)
     if (! ReadOK(handle,&count,1)) {
 	return -1;
     }
-
-    ZeroDataBlock = count == 0;
 
     if ((count != 0) && (! ReadOK(handle, buf, count))) {
 	return -1;
@@ -1412,17 +1408,14 @@ static void char_init _ANSI_ARGS_((void));
 static void char_out _ANSI_ARGS_((int c));
 static void flush_char _ANSI_ARGS_((void));
 
-static int n_bits;		/* number of bits/code */
-static int maxbits = GIFBITS;	/* user settable max # bits/code */
-static long maxcode;		/* maximum code, given n_bits */
-static long maxmaxcode = (long)1 << GIFBITS;
-				/* should NEVER generate this code */
 #define MAXCODE(n_bits)		(((long) 1 << (n_bits)) - 1)
-
-static int		htab[HSIZE];
-static unsigned int	codetab[HSIZE];
 #define HashTabOf(i)	htab[i]
 #define CodeTabOf(i)	codetab[i]
+
+static int n_bits;		/* number of bits/code */
+static long maxcode;		/* maximum code, given n_bits */
+static int		htab[HSIZE];
+static unsigned int	codetab[HSIZE];
 
 static long hsize = HSIZE;	/* for dynamic table sizing */
 
@@ -1468,6 +1461,19 @@ static tkimg_MFile *g_outfile;
 
 static int ClearCode;
 static int EOFCode;
+
+static unsigned long cur_accum = 0;
+static int  cur_bits = 0;
+
+/*
+ * Number of characters so far in this 'packet'
+ */
+static int a_count;
+
+/*
+ * Define the storage for the packet accumulator
+ */
+static unsigned char accum[256];
 
 static void compress( init_bits, handle, readValue )
     int init_bits;
@@ -1524,7 +1530,7 @@ static void compress( init_bits, handle, readValue )
 
         in_count++;
 
-        fcode = (long) (((long) c << maxbits) + ent);
+        fcode = (long) (((long) c << GIFBITS) + ent);
         i = (((long)c << hshift) ^ ent);    /* xor hashing */
 
         if ( HashTabOf (i) == fcode ) {
@@ -1550,9 +1556,9 @@ nomatch:
         out_count++;
         ent = c;
 #ifdef SIGNED_COMPARE_SLOW
-        if ( (unsigned) free_ent < (unsigned) maxmaxcode) {
+        if ( (unsigned) free_ent < (unsigned) ((long)1 << GIFBITS)) {
 #else
-        if ( free_ent < maxmaxcode ) {
+        if ( free_ent < ((long)1 << GIFBITS) ) {
 #endif
             CodeTabOf (i) = free_ent++; /* code -> hashtable */
             HashTabOf (i) = fcode;
@@ -1586,10 +1592,7 @@ nomatch:
  * code in turn.  When the buffer fills up empty it and start over.
  */
 
-static unsigned long cur_accum = 0;
-static int  cur_bits = 0;
-
-static
+static const
 unsigned long masks[] = { 0x0000, 0x0001, 0x0003, 0x0007, 0x000F,
                                   0x001F, 0x003F, 0x007F, 0x00FF,
                                   0x01FF, 0x03FF, 0x07FF, 0x0FFF,
@@ -1626,8 +1629,8 @@ output(code)
 	    clear_flg = 0;
 	} else {
 	    n_bits++;
-	    if (n_bits == maxbits) {
-		maxcode = maxmaxcode;
+	    if (n_bits == GIFBITS) {
+		maxcode = (long)1 << GIFBITS;
 	    } else {
 		maxcode = MAXCODE(n_bits);
 	    }
@@ -1703,11 +1706,6 @@ cl_hash(hsize)          /* reset code table */
  ******************************************************************************/
 
 /*
- * Number of characters so far in this 'packet'
- */
-static int a_count;
-
-/*
  * Set up the 'byte output' routine
  */
 static void
@@ -1717,11 +1715,6 @@ char_init()
     cur_accum = 0;
     cur_bits = 0;
 }
-
-/*
- * Define the storage for the packet accumulator
- */
-static unsigned char accum[256];
 
 /*
  * Add a character to the end of the current packet, and if it is 254

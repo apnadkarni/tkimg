@@ -113,7 +113,7 @@ static	int JPEGEncodeRaw _ANSI_ARGS_((TIFF*, tidata_t, tsize_t, tsample_t));
 
 #define	FIELD_JPEGTABLES	(FIELD_CODEC+0)
 
-static const TIFFFieldInfo jpegFieldInfo[] = {
+static CONST TIFFFieldInfo jpegFieldInfo[] = {
     { TIFFTAG_JPEGTABLES,	 -1,-1,	TIFF_UNDEFINED,	FIELD_JPEGTABLES,
       FALSE,	TRUE,	"JPEGTables" },
     { TIFFTAG_JPEGQUALITY,	 0, 0,	TIFF_ANY,	FIELD_PSEUDO,
@@ -551,7 +551,7 @@ std_init_source(cinfo)
     JPEGState* sp = (JPEGState*) cinfo;
     TIFF* tif = sp->tif;
 
-    sp->src.next_input_byte = (const JOCTET*) tif->tif_rawdata;
+    sp->src.next_input_byte = (CONST JOCTET*) tif->tif_rawdata;
     sp->src.bytes_in_buffer = (size_t) tif->tif_rawcc;
 }
 
@@ -560,7 +560,7 @@ std_fill_input_buffer(cinfo)
     j_decompress_ptr cinfo;
 {
     JPEGState* sp = (JPEGState* ) cinfo;
-    static const JOCTET dummy_EOI[2] = { 0xFF, JPEG_EOI };
+    static CONST JOCTET dummy_EOI[2] = { 0xFF, JPEG_EOI };
 
     /*
      * Should never get here since entire strip/tile is
@@ -629,7 +629,7 @@ tables_init_source(cinfo)
 {
     JPEGState* sp = (JPEGState*) cinfo;
 
-    sp->src.next_input_byte = (const JOCTET*) sp->jpegtables;
+    sp->src.next_input_byte = (CONST JOCTET*) sp->jpegtables;
     sp->src.bytes_in_buffer = (size_t) sp->jpegtables_length;
 }
 

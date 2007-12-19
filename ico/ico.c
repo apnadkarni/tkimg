@@ -430,7 +430,7 @@ static int ParseFormatOpts (interp, format, opts)
     };
     int objc, length, c, i, index;
     Tcl_Obj **objv;
-    char *indexStr, *verboseStr;
+    CONST84 char *indexStr, *verboseStr;
 
     /* Initialize format options with default values. */
     verboseStr = "0";

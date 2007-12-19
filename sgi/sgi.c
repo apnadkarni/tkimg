@@ -214,7 +214,7 @@ static int img_write(IMAGE *image, char *buffer,int count);
 static int iflush(IMAGE *image);
 static unsigned short *ibufalloc(IMAGE *image);
 static unsigned long img_optseek(IMAGE *image, unsigned long offset);
-static int imgopen(int, MYCHANNEL, IMAGE *, char *,unsigned int, unsigned int,
+static int imgopen(int, MYCHANNEL, IMAGE *, CONST char *,unsigned int, unsigned int,
 		unsigned int, unsigned int, unsigned int);
 static int getrow(IMAGE *image, unsigned short *buffer,
 		unsigned int y, unsigned int z);
@@ -242,7 +242,7 @@ char *fmt;
  *
  */
 
-static void isetname(IMAGE *image, char *name)
+static void isetname(IMAGE *image, CONST char *name)
 {
     strncpy(image->name,name,80);
 }
@@ -306,7 +306,7 @@ static unsigned short *ibufalloc(IMAGE *image)
     return (unsigned short *)malloc(IBUFSIZE(image->xsize));
 }
 
-static int imgOpenRead (MYCHANNEL file, IMAGE *image, char *mode)
+static int imgOpenRead (MYCHANNEL file, IMAGE *image, CONST char *mode)
 {
     #if defined (TCLSEEK_WORKAROUND)
 	ioMode = 0;
@@ -314,7 +314,7 @@ static int imgOpenRead (MYCHANNEL file, IMAGE *image, char *mode)
     return imgopen (0, file, image, mode, 0, 0, 0, 0, 0);
 }
 
-static int imgOpenWrite (MYCHANNEL file, IMAGE *image, char *mode,
+static int imgOpenWrite (MYCHANNEL file, IMAGE *image, CONST char *mode,
                      unsigned int type, unsigned int dim, 
                      unsigned int xsize, unsigned int ysize, unsigned int zsize)
 {
@@ -324,7 +324,7 @@ static int imgOpenWrite (MYCHANNEL file, IMAGE *image, char *mode,
     return imgopen (0, file, image, mode, type, dim, xsize, ysize, zsize);
 }
 
-static int imgopen(int f, MYCHANNEL file, IMAGE *image, char *mode,
+static int imgopen(int f, MYCHANNEL file, IMAGE *image, CONST char *mode,
 		unsigned int type, unsigned int dim,
 		unsigned int xsize, unsigned int ysize, unsigned int zsize)
 {
@@ -1297,7 +1297,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     static CONST84 char *sgiOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
-    char *compression, *verbose, *transp;
+    CONST84 char *compression, *verbose, *transp;
 
     *comp  = 1;
     *verb  = 0;

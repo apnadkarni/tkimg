@@ -658,7 +658,7 @@ PixarLogSetupDecode(tif)
 {
     TIFFDirectory *td = &tif->tif_dir;
     PixarLogState* sp = DecoderState(tif);
-    static const char module[] = "PixarLogSetupDecode";
+    static CONST char module[] = "PixarLogSetupDecode";
 
     assert(sp != NULL);
 
@@ -719,7 +719,7 @@ PixarLogDecode(
 {
 	TIFFDirectory *td = &tif->tif_dir;
 	PixarLogState* sp = DecoderState(tif);
-	static const char module[] = "PixarLogDecode";
+	static CONST char module[] = "PixarLogDecode";
 	int i, nsamples, llen;
 	uint16 *up;
 
@@ -831,7 +831,7 @@ PixarLogSetupEncode(tif)
 {
     TIFFDirectory *td = &tif->tif_dir;
     PixarLogState* sp = EncoderState(tif);
-    static const char module[] = "PixarLogSetupEncode";
+    static CONST char module[] = "PixarLogSetupEncode";
 
     assert(sp != NULL);
 
@@ -1065,7 +1065,7 @@ PixarLogEncode(
 {
 	TIFFDirectory *td = &tif->tif_dir;
 	PixarLogState *sp = EncoderState(tif);
-	static const char module[] = "PixarLogEncode";
+	static CONST char module[] = "PixarLogEncode";
 	int 	i, n, llen;
 	unsigned short * up;
 
@@ -1147,7 +1147,7 @@ PixarLogPostEncode(tif)
     TIFF* tif;
 {
 	PixarLogState *sp = EncoderState(tif);
-	static const char module[] = "PixarLogPostEncode";
+	static CONST char module[] = "PixarLogPostEncode";
 	int state;
 
 	sp->stream.avail_in = 0;
@@ -1226,7 +1226,7 @@ PixarLogVSetField(tif, tag, ap)
 {
     PixarLogState *sp = (PixarLogState *)tif->tif_data;
     int result;
-    static const char module[] = "PixarLogVSetField";
+    static CONST char module[] = "PixarLogVSetField";
 
     switch (tag) {
      case TIFFTAG_PIXARLOGQUALITY:
@@ -1321,7 +1321,7 @@ PixarLogFree(opaque, address)
     TkimgTIFFfree((tdata_t) address);
 }
 
-static const TIFFFieldInfo pixarlogFieldInfo[] = {
+static CONST TIFFFieldInfo pixarlogFieldInfo[] = {
     {TIFFTAG_PIXARLOGDATAFMT,0,0,TIFF_ANY,  FIELD_PSEUDO,FALSE,FALSE,""},
     {TIFFTAG_PIXARLOGQUALITY,0,0,TIFF_ANY,  FIELD_PSEUDO,FALSE,FALSE,""}
 };

@@ -831,7 +831,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     static CONST84 char *sunOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
-    char *compression, *verbose, *transp;
+    CONST84 char *compression, *verbose, *transp;
 
     *comp = 1;
     *verb = 0;

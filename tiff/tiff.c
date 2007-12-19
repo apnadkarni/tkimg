@@ -54,7 +54,7 @@ static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, TIFF *tif,
 	int comp, Tk_PhotoImageBlock *blockPtr));
 
 static int ParseWriteFormat _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *format,
-	int *comp, char **mode));
+	int *comp, CONST char **mode));
 
 static void  _TIFFerr    _ANSI_ARGS_((CONST char *, CONST char *, va_list));
 static void  _TIFFwarn   _ANSI_ARGS_((CONST char *, CONST char *, va_list));
@@ -663,7 +663,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
     tkimg_MFile handle;
     char tempFileName[256];
     Tcl_DString dstring;
-    char *mode;
+    CONST char *mode;
     Tcl_DString data;
 
     tkimg_FixStringWriteProc(&data, &interp, &dataPtr, &format, &blockPtr);
@@ -739,7 +739,7 @@ ChnWrite(interp, filename, format, blockPtr)
     TIFF *tif;
     int result, comp;
     Tcl_DString nameBuffer; 
-    char *fullname, *mode;
+    CONST char *fullname, *mode;
 
     if (!(fullname=Tcl_TranslateFileName(interp, filename, &nameBuffer))) {
 	return TCL_ERROR;
@@ -769,7 +769,7 @@ ParseWriteFormat(interp, format, comp, mode)
     Tcl_Interp *interp;
     Tcl_Obj *format;
     int *comp;
-    char **mode;
+    CONST char **mode;
 {
     static CONST84 char *tiffWriteOptions[] = {
       "-compression",
@@ -778,7 +778,7 @@ ParseWriteFormat(interp, format, comp, mode)
     };
     int objc, length, c, i, index;
     Tcl_Obj **objv;
-    char *compression, *byteorder;
+    CONST84 char *compression, *byteorder;
 
     *comp = COMPRESSION_NONE;
     *mode = "w";

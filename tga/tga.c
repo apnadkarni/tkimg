@@ -602,7 +602,7 @@ static int ParseFormatOpts(interp, format, comp, verb, matte)
     static CONST84 char *tgaOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
-    char *compression, *verbose, *transp;
+    CONST84 char *compression, *verbose, *transp;
 
     *comp = TGA_RGB_COMP;
     *verb = 0;
