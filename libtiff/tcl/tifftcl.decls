@@ -401,7 +401,7 @@ declare 139 generic {
     void _TIFFDefaultTileSize(TIFF* tiffptr, uint32* a, uint32* b)
 }
 declare 140 generic {
-    void _TIFFsetByteArray(void** a, void* b, long c)
+    void _TIFFsetByteArray(void** a, void* b, uint32 c)
 }
 declare 141 generic {
     void _TIFFsetString(char** a, char* b)

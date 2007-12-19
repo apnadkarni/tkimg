@@ -302,7 +302,7 @@ EXTERN int		TIFFPredictorInit _ANSI_ARGS_((TIFF* tiffptr));
 /* Slot 108 is reserved */
 /* Slot 109 is reserved */
 /* 110 */
-EXTERN void		_TIFFSetupFieldInfo _ANSI_ARGS_((TIFF* tiffptr,
+EXTERN void		_TIFFSetupFieldInfo _ANSI_ARGS_((TIFF* tiffptr, 
 				const TIFFFieldInfo a[], size_t b));
 /* 111 */
 EXTERN void		TIFFMergeFieldInfo _ANSI_ARGS_((TIFF* tiffptr, 

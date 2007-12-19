@@ -1,16 +1,18 @@
 # genStubs.tcl --
 #
 #	This script generates a set of stub files for a given
-#	interface.  
-#	
+#	interface.
+#
 #
 # Copyright (c) 1998-1999 by Scriptics Corporation.
+# Copyright (c) 2007 Daniel A. Steffen <das@users.sourceforge.net>
+#
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
-# 
+#
 # RCS: @(#) $Id$
 
-package require Tcl 8
+package require Tcl 8.4
 
 namespace eval genStubs {
     # libraryName --
@@ -57,6 +59,13 @@ namespace eval genStubs {
     #	The directory where the generated files should be placed.
 
     variable outDir .
+
+    # stdarg --
+    #
+    # Boolean flag. Set to true if and only if the stub table depends
+    # on the usage of <stdarg.h>.
+
+    variable stdarg 0
 }
 
 # genStubs::library --
@@ -122,7 +131,7 @@ proc genStubs::hooks {names} {
 # Arguments:
 #	index		The index number of the interface.
 #	platform	The platform the interface belongs to.  Should be one
-#			of generic, win, unix, or mac.
+#			of generic, win, unix, or macosx or aqua or x11.
 #	decl		The C function declaration, or {} for an undefined
 #			entry.
 #
@@ -180,19 +189,16 @@ proc genStubs::declare {args} {
 #	None.
 
 proc genStubs::rewriteFile {file text} {
-    if {![file exist $file]} {
+    if {![file exists $file]} {
 	puts stderr "Cannot find file: $file"
 	return
     }
     set in [open ${file} r]
     set out [open ${file}.new w]
 
-    # Always write out the file with LF termination
-    fconfigure $out -translation lf
-
     while {![eof $in]} {
 	set line [gets $in]
-	if {[regexp {!BEGIN!} $line]} {
+	if {[string match "*!BEGIN!*" $line]} {
 	    break
 	}
 	puts $out $line
@@ -201,7 +207,7 @@ proc genStubs::rewriteFile {file text} {
     puts $out $text
     while {![eof $in]} {
 	set line [gets $in]
-	if {[regexp {!END!} $line]} {
+	if {[string match "*!END!*" $line]} {
 	    break
 	}
     }
@@ -223,19 +229,51 @@ proc genStubs::rewriteFile {file text} {
 # Results:
 #	Returns the original text inside an appropriate #ifdef.
 
-proc genStubs::addPlatformGuard {plat text} {
+proc genStubs::addPlatformGuard {plat iftxt {eltxt {}}} {
+    set text ""
     switch $plat {
 	win {
-	    return "#ifdef __WIN32__\n${text}#endif /* __WIN32__ */\n"
+	    append text "#ifdef __WIN32__ /* WIN */\n${iftxt}"
+	    if {$eltxt ne ""} {
+		append text "#else /* WIN */\n${eltxt}"
+	    }
+	    append text "#endif /* WIN */\n"
 	}
 	unix {
-	    return "#if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */\n${text}#endif /* UNIX */\n"
-	}		    
-	mac {
-	    return "#ifdef MAC_TCL\n${text}#endif /* MAC_TCL */\n"
+	    append text "#if !defined(__WIN32__) && !defined(MAC_OSX_TCL)\
+		    /* UNIX */\n${iftxt}"
+	    if {$eltxt ne ""} {
+		append text "#else /* UNIX */\n${eltxt}"
+	    }
+	    append text "#endif /* UNIX */\n"
+	}
+	macosx {
+	    append text "#ifdef MAC_OSX_TCL /* MACOSX */\n${iftxt}"
+	    if {$eltxt ne ""} {
+		append text "#else /* MACOSX */\n${eltxt}"
+	    }
+	    append text "#endif /* MACOSX */\n"
+	}
+	aqua {
+	    append text "#ifdef MAC_OSX_TK /* AQUA */\n${iftxt}"
+	    if {$eltxt ne ""} {
+		append text "#else /* AQUA */\n${eltxt}"
+	    }
+	    append text "#endif /* AQUA */\n"
+	}
+	x11 {
+	    append text "#if !(defined(__WIN32__) || defined(MAC_OSX_TK))\
+		    /* X11 */\n${iftxt}"
+	    if {$eltxt ne ""} {
+		append text "#else /* X11 */\n${eltxt}"
+	    }
+	    append text "#endif /* X11 */\n"
+	}
+	default {
+	    append text "${iftxt}${eltxt}"
 	}
     }
-    return "$text"
+    return $text
 }
 
 # genStubs::emitSlots --
@@ -273,9 +311,11 @@ proc genStubs::emitSlots {name textVar} {
 #	then an error is displayed and the return value is {}.
 
 proc genStubs::parseDecl {decl} {
+    variable stdarg
+
     if {![regexp {^(.*)\((.*)\)$} $decl all prefix args]} {
-	puts stderr "Malformed declaration: $decl"
-	return
+	set prefix $decl
+	set args {}
     }
     set prefix [string trim $prefix]
     if {![regexp {^(.+[ ][*]*)([^ *]+)$} $prefix all rtype fname]} {
@@ -283,19 +323,40 @@ proc genStubs::parseDecl {decl} {
 	return
     }
     set rtype [string trim $rtype]
+    if {$args == ""} {
+	return [list $rtype $fname {}]
+    }
     foreach arg [split $args ,] {
 	lappend argList [string trim $arg]
     }
     if {![string compare [lindex $argList end] "..."]} {
 	if {[llength $argList] != 2} {
-	    puts stderr "Only one argument is allowed in varargs form: $decl"
+	    set stdarg 1
+
+	    # Parsing all arguments as usual except for the last one (...).
+
+	    set args {}
+	    foreach arg [lrange $argList 0 end-1] {
+		set argInfo [parseArg $arg]
+		if {![string compare $argInfo "void"]} {
+		    lappend args "void"
+		    break
+		} elseif {[llength $argInfo] == 2 || [llength $argInfo] == 3} {
+		    lappend args $argInfo
+		} else {
+		    puts stderr "Bad argument: '$arg' in '$decl'"
+		    return
+		}
+	    }
+	    lappend args ...
+	} else {
+	    set arg [parseArg [lindex $argList 0]]
+	    if {$arg == "" || ([llength $arg] != 2)} {
+		puts stderr "Bad argument: '[lindex $argList 0]' in '$decl'"
+		return
+	    }
+	    set args [list TCL_VARARGS $arg]
 	}
-	set arg [parseArg [lindex $argList 0]]
-	if {$arg == "" || ([llength $arg] != 2)} {
-	    puts stderr "Bad argument: '[lindex $argList 0]' in '$decl'"
-	    return
-	}
-	set args [list TCL_VARARGS $arg]
     } else {
 	set args {}
 	foreach arg $argList {
@@ -365,6 +426,12 @@ proc genStubs::makeDecl {name decl index} {
 	append line " "
 	set pad 0
     }
+    if {$args == ""} {
+	append line $fname
+	append text $line
+	append text ";\n"
+	return $text
+    }
     append line "$fname _ANSI_ARGS_("
 
     set arg1 [lindex $args 0]
@@ -421,6 +488,11 @@ proc genStubs::makeMacro {name decl index} {
     append lfname [string range $fname 1 end]
 
     set text "#ifndef $fname\n#define $fname"
+    if {$args == ""} {
+	append text " \\\n\t(*${name}StubsPtr->$lfname)"
+	append text " /* $index */\n#endif\n"
+	return $text
+    }
     set arg1 [lindex $args 0]
     set argList ""
     switch -exact $arg1 {
@@ -529,6 +601,10 @@ proc genStubs::makeSlot {name decl index} {
     append lfname [string range $fname 1 end]
 
     set text "    "
+    if {$args == ""} {
+	append text $rtype " *" $lfname "; /* $index */\n"
+	return $text
+    }
     append text $rtype " (*" $lfname ") _ANSI_ARGS_("
 
     set arg1 [lindex $args 0]
@@ -550,7 +626,7 @@ proc genStubs::makeSlot {name decl index} {
 	    append text ")"
 	}
     }
-    
+
     append text "); /* $index */\n"
     return $text
 }
@@ -642,7 +718,8 @@ proc genStubs::forAllStubs {name slotProc onAll textVar \
 	    set emit 0
 	    if {[info exists stubs($name,generic,$i)]} {
 		if {[llength $slots] > 1} {
-		    puts stderr "platform entry duplicates generic entry: $i"
+		    puts stderr "conflicting generic and platform entries:\
+			    $name $i"
 		}
 		append text [$slotProc $name $stubs($name,generic,$i) $i]
 		set emit 1
@@ -696,7 +773,20 @@ proc genStubs::forAllStubs {name slotProc onAll textVar \
 
 proc genStubs::emitDeclarations {name textVar} {
     variable stubs
+    variable stdarg
     upvar $textVar text
+
+    if {$stdarg} {
+	# Write a check ensuring that we are using a compiler
+	# supporting <stdarg.h>.
+
+	append text "\n/*\n * Ensure usage of <stdarg.h>\n */\n\n"
+	append text "#if defined(NO_STDARG)\n"
+	append text "#  error \"This code requires <stdarg.h>\"\n"
+	append text "#else\n"
+	append text "#  include <stdarg.h>\n"
+	append text "#endif\n"
+    }
 
     append text "\n/*\n * Exported function declarations:\n */\n\n"
     forAllStubs $name makeDecl 0 text
@@ -720,12 +810,14 @@ proc genStubs::emitMacros {name textVar} {
     upvar $textVar text
 
     set upName [string toupper $libraryName]
-    append text "\n#if defined(USE_${upName}_STUBS) && !defined(USE_${upName}_STUB_PROCS)\n"
+    append text "\n#if defined(USE_${upName}_STUBS) &&\
+	    !defined(USE_${upName}_STUB_PROCS)\n"
     append text "\n/*\n * Inline function declarations:\n */\n\n"
-    
+
     forAllStubs $name makeMacro 0 text
 
-    append text "\n#endif /* defined(USE_${upName}_STUBS) && !defined(USE_${upName}_STUB_PROCS) */\n"
+    append text "\n#endif /* defined(USE_${upName}_STUBS) &&\
+	    !defined(USE_${upName}_STUB_PROCS) */\n"
     return
 }
 
@@ -794,7 +886,7 @@ proc genStubs::emitStubs {name} {
     forAllStubs $name makeStub 0 text
 
     rewriteFile [file join $outDir ${name}Stubs.c] $text
-    return    
+    return
 }
 
 # genStubs::emitInit --
@@ -817,7 +909,7 @@ proc genStubs::emitInit {name textVar} {
     append capName [string range $name 1 end]
 
     if {[info exists hooks($name)]} {
- 	append text "\nstatic ${capName}StubHooks ${name}StubHooks = \{\n"
+	append text "\nstatic ${capName}StubHooks ${name}StubHooks = \{\n"
 	set sep "    "
 	foreach sub $hooks($name) {
 	    append text $sep "&${sub}Stubs"
@@ -832,7 +924,7 @@ proc genStubs::emitInit {name textVar} {
     } else {
 	append text "    NULL,\n"
     }
-    
+
     forAllStubs $name makeInit 1 text {"    NULL, /* $i */\n"}
 
     append text "\};\n"
@@ -923,13 +1015,14 @@ proc genStubs::init {} {
 # Results:
 #	Returns any values that were not assigned to variables.
 
-proc lassign {valueList args} {
-  if {[llength $args] == 0} {
-      error "wrong # args: lassign list varname ?varname..?"
-  }
-
-  uplevel [list foreach $args $valueList {break}]
-  return [lrange $valueList [llength $args] end]
+if {[string length [namespace which lassign]] == 0} {
+    proc lassign {valueList args} {
+	if {[llength $args] == 0} {
+	    error "wrong # args: lassign list varname ?varname..?"
+	}
+	uplevel [list foreach $args $valueList {break}]
+	return [lrange $valueList [llength $args] end]
+    }
 }
 
 genStubs::init
