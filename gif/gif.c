@@ -756,6 +756,10 @@ ReadImage(interp, imagePtr, handle, len, rows, cmap,
 		Tcl_PosixError(interp), (char *) NULL);
 	return TCL_ERROR;
     }
+    if (initialCodeSize > MAX_LWZ_BITS) {
+	Tcl_AppendResult(interp, "error reading GIF image: malformed image", (char *) NULL);
+	return TCL_ERROR;
+    }
     if (transparent!=-1) {
 	cmap[transparent][CM_RED] = 0;
 	cmap[transparent][CM_GREEN] = 0;
