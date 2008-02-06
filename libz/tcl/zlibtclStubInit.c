@@ -55,7 +55,7 @@ ZlibtclStubs zlibtclStubs = {
     gzsetparams, /* 32 */
     gzread, /* 33 */
     gzwrite, /* 34 */
-    NULL, /* 35 */
+    gzprintf, /* 35 */
     gzputs, /* 36 */
     gzgets, /* 37 */
     gzputc, /* 38 */

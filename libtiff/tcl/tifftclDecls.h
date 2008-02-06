@@ -15,6 +15,8 @@
  */
 
 #include <tcl.h>
+#include <stdarg.h>
+
 /*
  * The macro INLINE might be defined both in tcl.h and libtiff/port.h,
  * so better prevent a conflict here.
@@ -28,16 +30,6 @@
 #include <tifftclDeclsUnmask.h>
 
 /* !BEGIN!: Do not edit below this line. */
-
-/*
- * Ensure usage of <stdarg.h>
- */
-
-#if defined(NO_STDARG)
-#  error "This code requires <stdarg.h>"
-#else
-#  include <stdarg.h>
-#endif
 
 /*
  * Exported function declarations:
@@ -73,14 +65,13 @@ EXTERN int		TIFFFlush _ANSI_ARGS_((TIFF* tiffptr));
 /* 12 */
 EXTERN int		TIFFFlushData _ANSI_ARGS_((TIFF* tiffptr));
 /* 13 */
-EXTERN int		TIFFGetField _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, 
-				... ));
+EXTERN int		TIFFGetField _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, ...));
 /* 14 */
 EXTERN int		TIFFVGetField _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, 
 				va_list b));
 /* 15 */
 EXTERN int		TIFFGetFieldDefaulted _ANSI_ARGS_((TIFF* tiffptr, 
-				ttag_t a, ... ));
+				ttag_t a, ...));
 /* 16 */
 EXTERN int		TIFFVGetFieldDefaulted _ANSI_ARGS_((TIFF* tiffptr, 
 				ttag_t a, va_list b));
@@ -153,8 +144,7 @@ EXTERN int		TIFFSetSubDirectory _ANSI_ARGS_((TIFF* tiffptr,
 EXTERN int		TIFFUnlinkDirectory _ANSI_ARGS_((TIFF* tiffptr, 
 				tdir_t a));
 /* 47 */
-EXTERN int		TIFFSetField _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, 
-				... ));
+EXTERN int		TIFFSetField _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, ...));
 /* 48 */
 EXTERN int		TIFFVSetField _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, 
 				va_list b));
@@ -206,11 +196,10 @@ EXTERN TIFF*		TIFFClientOpen _ANSI_ARGS_((const char* a,
 /* 64 */
 EXTERN const char*	TIFFFileName _ANSI_ARGS_((TIFF* tiffptr));
 /* 65 */
-EXTERN void		TIFFError _ANSI_ARGS_((const char* a, const char* b, 
-				... ));
+EXTERN void		TIFFError _ANSI_ARGS_((const char* a, const char* b, ...));
 /* 66 */
 EXTERN void		TIFFWarning _ANSI_ARGS_((const char* a, 
-				const char* b, ... ));
+				const char* b, ...));
 /* 67 */
 EXTERN TIFFErrorHandler	 TIFFSetErrorHandler _ANSI_ARGS_((TIFFErrorHandler a));
 /* 68 */
@@ -449,9 +438,9 @@ typedef struct TifftclStubs {
     void (*tIFFClose) _ANSI_ARGS_((TIFF* tiffptr)); /* 10 */
     int (*tIFFFlush) _ANSI_ARGS_((TIFF* tiffptr)); /* 11 */
     int (*tIFFFlushData) _ANSI_ARGS_((TIFF* tiffptr)); /* 12 */
-    int (*tIFFGetField) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, ... )); /* 13 */
+    int (*tIFFGetField) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, ...)); /* 13 */
     int (*tIFFVGetField) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, va_list b)); /* 14 */
-    int (*tIFFGetFieldDefaulted) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, ... )); /* 15 */
+    int (*tIFFGetFieldDefaulted) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, ...)); /* 15 */
     int (*tIFFVGetFieldDefaulted) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, va_list b)); /* 16 */
     int (*tIFFReadDirectory) _ANSI_ARGS_((TIFF* tiffptr)); /* 17 */
     tsize_t (*tIFFScanlineSize) _ANSI_ARGS_((TIFF* tiffptr)); /* 18 */
@@ -483,7 +472,7 @@ typedef struct TifftclStubs {
     int (*tIFFSetDirectory) _ANSI_ARGS_((TIFF* tiffptr, tdir_t a)); /* 44 */
     int (*tIFFSetSubDirectory) _ANSI_ARGS_((TIFF* tiffptr, uint32 a)); /* 45 */
     int (*tIFFUnlinkDirectory) _ANSI_ARGS_((TIFF* tiffptr, tdir_t a)); /* 46 */
-    int (*tIFFSetField) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, ... )); /* 47 */
+    int (*tIFFSetField) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, ...)); /* 47 */
     int (*tIFFVSetField) _ANSI_ARGS_((TIFF* tiffptr, ttag_t a, va_list b)); /* 48 */
     int (*tIFFWriteDirectory) _ANSI_ARGS_((TIFF * tiffptr)); /* 49 */
     int (*tIFFReassignTagToIgnore) _ANSI_ARGS_((enum TIFFIgnoreSense a, int b)); /* 50 */
@@ -501,8 +490,8 @@ typedef struct TifftclStubs {
     TIFF* (*tIFFFdOpen) _ANSI_ARGS_((int a, const char* b, const char* c)); /* 62 */
     TIFF* (*tIFFClientOpen) _ANSI_ARGS_((const char* a, const char* b, thandle_t c, TIFFReadWriteProc d, TIFFReadWriteProc e, TIFFSeekProc f, TIFFCloseProc g, TIFFSizeProc h, TIFFMapFileProc i, TIFFUnmapFileProc j)); /* 63 */
     const char* (*tIFFFileName) _ANSI_ARGS_((TIFF* tiffptr)); /* 64 */
-    void (*tIFFError) _ANSI_ARGS_((const char* a, const char* b, ... )); /* 65 */
-    void (*tIFFWarning) _ANSI_ARGS_((const char* a, const char* b, ... )); /* 66 */
+    void (*tIFFError) _ANSI_ARGS_((const char* a, const char* b, ...)); /* 65 */
+    void (*tIFFWarning) _ANSI_ARGS_((const char* a, const char* b, ...)); /* 66 */
     TIFFErrorHandler (*tIFFSetErrorHandler) _ANSI_ARGS_((TIFFErrorHandler a)); /* 67 */
     TIFFErrorHandler (*tIFFSetWarningHandler) _ANSI_ARGS_((TIFFErrorHandler a)); /* 68 */
     TIFFExtendProc (*tIFFSetTagExtender) _ANSI_ARGS_((TIFFExtendProc a)); /* 69 */

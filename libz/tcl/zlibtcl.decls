@@ -125,11 +125,8 @@ declare 33 generic {
 declare 34 generic {
     int gzwrite (gzFile file, voidpc buf, unsigned len)
 }
-# gzprintf - signature cannot be handled by current stubs mechanism
-if {0} {
-    declare 35 generic {
-	int gzprintf (gzFile file, const char *format, ...)
-    }
+declare 35 generic {
+    int gzprintf (gzFile file, const char *format, ...)
 }
 declare 36 generic {
     int gzputs (gzFile file, const char *s)
