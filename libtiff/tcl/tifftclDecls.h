@@ -423,7 +423,7 @@ EXTERN int		TIFFInitSGILog _ANSI_ARGS_((TIFF* tiffptr, int a));
 
 typedef struct TifftclStubs {
     int magic;
-    struct TifftclStubHooks *hooks;
+    CONST struct TifftclStubHooks *hooks;
 
     const char* (*tIFFGetVersion) _ANSI_ARGS_((void)); /* 0 */
     const TIFFCodec* (*tIFFFindCODEC) _ANSI_ARGS_((uint16 a)); /* 1 */
@@ -593,7 +593,7 @@ typedef struct TifftclStubs {
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern TifftclStubs *tifftclStubsPtr;
+extern CONST TifftclStubs *tifftclStubsPtr;
 #ifdef __cplusplus
 }
 #endif

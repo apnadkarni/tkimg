@@ -19,7 +19,7 @@
 
 #include "tkimg.h"
 
-TkimgStubs *tkimgStubsPtr;
+const TkimgStubs *tkimgStubsPtr;
 
 /*
  *----------------------------------------------------------------------
@@ -43,20 +43,20 @@ TkimgStubs *tkimgStubsPtr;
 #undef Tkimg_InitStubs
 #endif
 
-CONST char *
+const char *
 Tkimg_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
     CONST84 char *version;
     int exact;
 {
-    CONST char *result;
+    const char *result;
     ClientData data;
 
     result = Tcl_PkgRequireEx(interp, PACKAGE_TCLNAME, version, exact, &data);
     if (!result || !data) {
-        return (char *) NULL;
+        return NULL;
     }
 
-    tkimgStubsPtr = (TkimgStubs *) data;
+    tkimgStubsPtr = (const TkimgStubs *) data;
     return result;
 }

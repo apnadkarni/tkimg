@@ -1107,7 +1107,7 @@ EXTERN void		png_push_read_iTXt _ANSI_ARGS_((png_structp png_ptr,
 
 typedef struct PngtclStubs {
     int magic;
-    struct PngtclStubHooks *hooks;
+    CONST struct PngtclStubHooks *hooks;
 
     png_uint_32 (*png_access_version_number) _ANSI_ARGS_((void)); /* 0 */
     void (*png_set_sig_bytes) _ANSI_ARGS_((png_structp png_ptr, int num_bytes)); /* 1 */
@@ -1432,7 +1432,7 @@ typedef struct PngtclStubs {
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern PngtclStubs *pngtclStubsPtr;
+extern CONST PngtclStubs *pngtclStubsPtr;
 #ifdef __cplusplus
 }
 #endif

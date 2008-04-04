@@ -140,7 +140,7 @@ EXTERN const char*	gzerror _ANSI_ARGS_((gzFile file, int * errnum));
 
 typedef struct ZlibtclStubs {
     int magic;
-    struct ZlibtclStubHooks *hooks;
+    CONST struct ZlibtclStubHooks *hooks;
 
     CONST char* (*zlibVersion) _ANSI_ARGS_((void)); /* 0 */
     CONST char* (*zError) _ANSI_ARGS_((int err)); /* 1 */
@@ -194,7 +194,7 @@ typedef struct ZlibtclStubs {
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern ZlibtclStubs *zlibtclStubsPtr;
+extern CONST ZlibtclStubs *zlibtclStubsPtr;
 #ifdef __cplusplus
 }
 #endif

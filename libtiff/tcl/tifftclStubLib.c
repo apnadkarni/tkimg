@@ -19,7 +19,7 @@
 
 #include "tifftcl.h"
 
-TifftclStubs *tifftclStubsPtr;
+const TifftclStubs *tifftclStubsPtr;
 
 /*
  *----------------------------------------------------------------------
@@ -43,20 +43,20 @@ TifftclStubs *tifftclStubsPtr;
 #undef Tifftcl_InitStubs
 #endif
 
-CONST char *
+const char *
 Tifftcl_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
     CONST84 char *version;
     int exact;
 {
-    CONST char *result;
+    const char *result;
     ClientData data;
 
     result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, version, exact, &data);
     if (!result || !data) {
-        return (char *) NULL;
+        return NULL;
     }
 
-    tifftclStubsPtr = (TifftclStubs *) data;
+    tifftclStubsPtr = (const TifftclStubs *) data;
     return result;
 }

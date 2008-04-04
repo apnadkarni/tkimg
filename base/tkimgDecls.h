@@ -95,7 +95,7 @@ EXTERN int		tkimg_ListObjGetElements _ANSI_ARGS_((
 
 typedef struct TkimgStubs {
     int magic;
-    struct TkimgStubHooks *hooks;
+    CONST struct TkimgStubHooks *hooks;
 
     Tcl_Channel (*tkimg_OpenFileChannel) _ANSI_ARGS_((Tcl_Interp * interp, CONST84 char * fileName, int permissions)); /* 0 */
     int (*tkimg_ReadInit) _ANSI_ARGS_((Tcl_Obj * data, int c, tkimg_MFile * handle)); /* 1 */
@@ -135,7 +135,7 @@ typedef struct TkimgStubs {
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern TkimgStubs *tkimgStubsPtr;
+extern CONST TkimgStubs *tkimgStubsPtr;
 #ifdef __cplusplus
 }
 #endif

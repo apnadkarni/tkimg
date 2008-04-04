@@ -201,7 +201,7 @@ EXTERN boolean		jpeg_resync_to_restart _ANSI_ARGS_((
 
 typedef struct JpegtclStubs {
     int magic;
-    struct JpegtclStubHooks *hooks;
+    CONST struct JpegtclStubHooks *hooks;
 
     struct jpeg_error_mgr * (*jpeg_std_error) _ANSI_ARGS_((struct jpeg_error_mgr * err)); /* 0 */
     void (*jpeg_CreateCompress) _ANSI_ARGS_((j_compress_ptr cinfo, int version, size_t structsize)); /* 1 */
@@ -256,7 +256,7 @@ typedef struct JpegtclStubs {
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern JpegtclStubs *jpegtclStubsPtr;
+extern CONST JpegtclStubs *jpegtclStubsPtr;
 #ifdef __cplusplus
 }
 #endif

@@ -19,7 +19,7 @@
 
 #include "zlibtcl.h"
 
-ZlibtclStubs *zlibtclStubsPtr;
+const ZlibtclStubs *zlibtclStubsPtr;
 
 /*
  *----------------------------------------------------------------------
@@ -43,13 +43,13 @@ ZlibtclStubs *zlibtclStubsPtr;
 #undef Zlibtcl_InitStubs
 #endif
 
-CONST char *
+const char *
 Zlibtcl_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
     CONST84 char *version;
     int exact;
 {
-    CONST char *result;
+    const char *result;
     ClientData data;
 
     result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, version, exact, &data);
@@ -57,6 +57,6 @@ Zlibtcl_InitStubs(interp, version, exact)
         return (char *) NULL;
     }
 
-    zlibtclStubsPtr = (ZlibtclStubs *) data;
+    zlibtclStubsPtr = (const ZlibtclStubs *) data;
     return result;
 }
