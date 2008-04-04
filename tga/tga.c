@@ -812,7 +812,8 @@ static int CommonRead(interp, handle, filename, format, imageHandle,
 	return TCL_ERROR;
     } 
 
-    CommonMatch(handle, &fileWidth, &fileHeight, &tf.th);
+    if (!CommonMatch(handle, &fileWidth, &fileHeight, &tf.th))
+	return TCL_ERROR;
     if (verbose)
 	printImgInfo (&tf.th, filename, "Reading image:");
 

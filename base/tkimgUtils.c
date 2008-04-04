@@ -188,7 +188,7 @@ tkimg_GetByteArrayFromObj(objPtr, lengthPtr)
 	if (lengthPtr != NULL) {
 	    *lengthPtr = string ? strlen(string) : 0;
 	}
-	return string;
+	return (unsigned char *) string;
     }
 #endif /* _LANG */
 }

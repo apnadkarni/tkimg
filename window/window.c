@@ -233,18 +233,19 @@ static int ObjRead(interp, data, format, imageHandle,
 {
     myblock bl;
     Tk_Window tkwin;
-    int fileWidth, fileHeight, i, depth, ncolors, nBytes, x, y;
+    int fileWidth, fileHeight, depth, nBytes, x, y;
     char *name;
 #ifndef	__WIN32__
     XImage *ximage;
     ColormapData cdata;
+    Colormap cmap;
+    int i, ncolors;
 #else
 #   undef XGetPixel
 #   define XGetPixel(P,X,Y) GetPixel(P, X, Y)
     TkWinDCState DCi;
     HDC			ximage;
 #endif
-    Colormap cmap;
     Visual *visual;
     unsigned char *p;
 #ifdef X_GetImage
