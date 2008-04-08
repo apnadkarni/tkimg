@@ -38,15 +38,7 @@ static int SetupPngLibrary _ANSI_ARGS_ ((Tcl_Interp *interp));
 
 typedef struct png_text_struct_compat
 {
-   int  compression;       /* compression value:
-                             -1: tEXt, none
-                              0: zTXt, deflate
-                              1: iTXt, none
-                              2: iTXt, deflate  */
-   png_charp key;          /* keyword, 1-79 character description of "text" */
-   png_charp text;         /* comment, may be an empty string (ie "")
-                              or a NULL pointer */
-   png_size_t text_length; /* length of the text string */
+   png_text compat;
    png_size_t itxt_length; /* length of the itxt string */
    png_charp lang;         /* language code, 0-79 characters
                               or a NULL pointer */
@@ -503,7 +495,7 @@ CommonWritePNG(interp, png_ptr, info_ptr, format, blockPtr)
     if (tkimg_ListObjGetElements(interp, format, &tagcount, &tags) != TCL_OK) {
 	return TCL_ERROR;
     }
-    tagcount = (tagcount > 1) ? (tagcount/2 - 1) : 0;
+    tagcount = (tagcount > 1) ? (tagcount - 1) / 2: 0;
 
     if (setjmp((((cleanup_info *) png_get_error_ptr(png_ptr))->jmpbuf))) {
 	if (row_pointers) {
@@ -558,12 +550,10 @@ CommonWritePNG(interp, png_ptr, info_ptr, format, blockPtr)
     }
 
     if (tagcount > 0) {
-	union {
-	    png_text_compat compat;
-	    png_text orig;
-	} text;
+	png_text_compat text;
 	for(I=0;I<tagcount;I++) {
 	    int length;
+	    memset(&text, 0, sizeof(png_text_compat));
 	    text.compat.key = Tcl_GetStringFromObj(tags[2*I+1], (int *) NULL);
 	    text.compat.text = Tcl_GetStringFromObj(tags[2*I+2], &length);
 	    text.compat.text_length = length;
@@ -572,8 +562,7 @@ CommonWritePNG(interp, png_ptr, info_ptr, format, blockPtr)
 	    } else {
 		text.compat.compression = PNG_TEXT_COMPRESSION_NONE;
 	    }
-	    text.compat.lang = NULL;
-	    png_set_text(png_ptr, info_ptr, &text.orig, 1);
+	    png_set_text(png_ptr, info_ptr, &text.compat, 1);
         }
     }
     png_write_info(png_ptr,info_ptr);
