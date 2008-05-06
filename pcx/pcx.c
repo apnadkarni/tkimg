@@ -141,7 +141,7 @@ static Boln writeUByte (tkimg_MFile *handle, UByte b)
 {
     UByte buf[1];
     buf[0] = b;
-    if (1 != tkimg_Write(handle, (CONST char *)buf, 1))
+    if (1 != tkimg_Write(handle, (const char *)buf, 1))
         return FALSE;
     return TRUE;
 }
@@ -165,7 +165,7 @@ static Boln read_pcx_header (tkimg_MFile *ifp, PCXHEADER *pcxhdr)
 }
 
 #define OUT Tcl_WriteChars (outChan, str, -1)
-static void printImgInfo (PCXHEADER *ph, CONST char *filename, CONST char *msg)
+static void printImgInfo (PCXHEADER *ph, const char *filename, const char *msg)
 {
     Tcl_Channel outChan;
     char str[256];
@@ -426,11 +426,11 @@ static int   ParseFormatOpts _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *format,
 static int   CommonMatch _ANSI_ARGS_((tkimg_MFile *handle, int *widthPtr,
 	         int *heightPtr, PCXHEADER *pcxHeaderPtr));
 static int   CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
-	         CONST char *filename, Tcl_Obj *format,
+	         const char *filename, Tcl_Obj *format,
 	         Tk_PhotoHandle imageHandle, int destX, int destY,
 		 int width, int height, int srcX, int srcY));
 static int   CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, 
-                 CONST char *filename, Tcl_Obj *format,
+                 const char *filename, Tcl_Obj *format,
                  tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr));
 
 static int ParseFormatOpts (interp, format, comp, verb, matte)
@@ -527,7 +527,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 static int ChnMatch(interp, chan, filename, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *filename;
+    const char *filename;
     Tcl_Obj *format;
     int *widthPtr, *heightPtr;
 {
@@ -591,7 +591,7 @@ static int ChnRead(interp, chan, filename, format, imageHandle,
 	            destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     Tcl_Channel chan;		/* The image channel, open for reading. */
-    CONST char *filename;	/* The name of the image file. */
+    const char *filename;	/* The name of the image file. */
     Tcl_Obj *format;		/* User-specified format object, or NULL. */
     Tk_PhotoHandle imageHandle;	/* The photo image to write into. */
     int destX, destY;		/* Coordinates of top-left pixel in
@@ -632,7 +632,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 		       destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;         /* Interpreter to use for reporting errors. */
     tkimg_MFile *handle;        /* The image file, open for reading. */
-    CONST char *filename;       /* The name of the image file. */
+    const char *filename;       /* The name of the image file. */
     Tcl_Obj *format;            /* User-specified format object, or NULL. */
     Tk_PhotoHandle imageHandle; /* The photo image to write into. */
     int destX, destY;           /* Coordinates of top-left pixel in
@@ -758,7 +758,7 @@ static int StringWrite (interp, dataPtr, format, blockPtr)
 
 static int CommonWrite (interp, filename, format, handle, blockPtr)
     Tcl_Interp *interp;
-    CONST char *filename;
+    const char *filename;
     Tcl_Obj *format;
     tkimg_MFile *handle;
     Tk_PhotoImageBlock *blockPtr;
@@ -810,7 +810,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     ph.vdpi = htoqs (300);
     ph.reserved = 0;
 
-    if (tkimg_Write(handle, (CONST char *)&ph, 128) != 128) {
+    if (tkimg_Write(handle, (const char *)&ph, 128) != 128) {
 	Tcl_AppendResult(interp, "Can't write PCX header.", (char *)NULL);
 	return TCL_ERROR;
     }
@@ -827,7 +827,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
 		row[x + 2*blockPtr->width] = pixelPtr[blueOffset];
 		pixelPtr += blockPtr->pixelSize;
 	    }
-	    if (nBytes != tkimg_Write(handle, (CONST char *)row, nBytes)) {
+	    if (nBytes != tkimg_Write(handle, (const char *)row, nBytes)) {
 		sprintf(errMsg, "Can't write %d bytes to image file.", nBytes); 
 		Tcl_AppendResult(interp, errMsg, (char *)NULL); 
 		ckfree ((char *)row);

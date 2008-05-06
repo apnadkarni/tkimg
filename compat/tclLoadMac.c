@@ -92,7 +92,7 @@ static Str255 errName;
 
 VOID *
 dlopen(path, mode)
-    CONST char *path;
+    const char *path;
     int mode;
 {
     CFragConnectionID connID;
@@ -104,7 +104,7 @@ dlopen(path, mode)
     UInt32 offset = 0;
     UInt32 length = kCFragGoesToEOF;
     char packageName[255];
-    CONST char* pkgGuess;
+    const char* pkgGuess;
     char* p;
     
     /*
@@ -221,7 +221,7 @@ dlopen(path, mode)
 VOID *
 dlsym(handle, symbol)
     VOID *handle;
-    CONST char *symbol;
+    const char *symbol;
 {
     VOID *procPtr;
     char sym1[255];

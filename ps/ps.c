@@ -119,7 +119,7 @@ static int
 ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *fileName;
+    const char *fileName;
     Tcl_Obj *format;
     int *widthPtr, *heightPtr;
 {
@@ -194,7 +194,7 @@ ChnRead(interp, chan, fileName, format, imageHandle,
 	destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *fileName;
+    const char *fileName;
     Tcl_Obj *format;
     Tk_PhotoHandle imageHandle;
     int destX, destY;
@@ -496,7 +496,7 @@ static int
 ChnMatchBeta (interp, chan, fileName, format, widthPtr, heightPtr) /* PDF */
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *fileName;
+    const char *fileName;
     Tcl_Obj *format;
     int *widthPtr, *heightPtr;
 {

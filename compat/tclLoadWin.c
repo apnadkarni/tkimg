@@ -51,7 +51,7 @@ static void 		UnloadLibraries _ANSI_ARGS_((ClientData clientData));
  */
 
 VOID *dlopen(path, mode)
-    CONST char *path;
+    const char *path;
     int mode;
 {
     VOID *handle;
@@ -137,7 +137,7 @@ dlclose(handle)
 
 VOID *dlsym(handle, symbol)
     VOID *handle;
-    CONST char *symbol;
+    const char *symbol;
 {
     return (VOID *) GetProcAddress((HINSTANCE) handle, symbol);
 }

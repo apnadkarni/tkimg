@@ -168,7 +168,7 @@ static Boln writeUByte (tkimg_MFile *handle, UByte b)
 {
     UByte buf[1];
     buf[0] = b;
-    if (1 != tkimg_Write(handle, (CONST char *)buf, 1)) {
+    if (1 != tkimg_Write(handle, (const char *)buf, 1)) {
         return FALSE;
     }
     return TRUE;
@@ -206,7 +206,7 @@ static Boln writeUInt (tkimg_MFile *handle, UInt i)
 
 #define OUT Tcl_WriteChars (outChan, str, -1)
 static void printImgInfo (ICOHEADER *th, INFOHEADER *ih, FMTOPT *opts,
-                          CONST char *filename, CONST char *msg) 
+                          const char *filename, const char *msg) 
 {
     Tcl_Channel outChan;
     char str[256];
@@ -414,7 +414,7 @@ static int ParseFormatOpts _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *format,
 static int CommonMatch _ANSI_ARGS_((tkimg_MFile *handle, int *widthPtr,
 	       int *heightPtr, ICOHEADER *icoHeaderPtr));
 static int CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
-	       CONST char *filename, Tcl_Obj *format,
+	       const char *filename, Tcl_Obj *format,
 	       Tk_PhotoHandle imageHandle, int destX, int destY,
 	       int width, int height, int srcX, int srcY));
 static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
@@ -486,7 +486,7 @@ static int ParseFormatOpts (interp, format, opts)
 static int ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *fileName;
+    const char *fileName;
     Tcl_Obj *format;
     int *widthPtr, *heightPtr;
 {
@@ -545,7 +545,7 @@ static int ChnRead(interp, chan, filename, format, imageHandle,
                     destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *filename;
+    const char *filename;
     Tcl_Obj *format;
     Tk_PhotoHandle imageHandle;
     int destX, destY;
@@ -591,7 +591,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
                        destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;         /* Interpreter to use for reporting errors. */
     tkimg_MFile *handle;              /* The image file, open for reading. */
-    CONST char *filename;       /* The name of the image file. */
+    const char *filename;       /* The name of the image file. */
     Tcl_Obj *format;            /* User-specified format object, or NULL. */
     Tk_PhotoHandle imageHandle; /* The photo image to write into. */
     int destX, destY;           /* Coordinates of top-left pixel in

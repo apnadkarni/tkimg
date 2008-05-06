@@ -75,7 +75,7 @@ typedef struct {
  */
 
 static int      CommonRead  _ANSI_ARGS_((Tcl_Interp *interp,
-		    GIFImageConfig *gifConfPtr, CONST char *fileName, Tcl_Obj *format,
+		    GIFImageConfig *gifConfPtr, const char *fileName, Tcl_Obj *format,
 		    Tk_PhotoHandle imageHandle, int destX, int destY,
 		    int width, int height, int srcX, int srcY));
 
@@ -142,7 +142,7 @@ static int
 ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     Tcl_Interp *interp;		/* interpreter */
     Tcl_Channel chan;		/* The image channel, open for reading. */
-    CONST char *fileName;	/* The name of the image file. */
+    const char *fileName;	/* The name of the image file. */
     Tcl_Obj *format;		/* User-specified format object, or NULL. */
     int *widthPtr, *heightPtr;	/* The dimensions of the image are
 				 * returned here if the file is a valid
@@ -185,7 +185,7 @@ ChnRead(interp, chan, fileName, format, imageHandle, destX, destY,
 	width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     Tcl_Channel chan;		/* The image channel, open for reading. */
-    CONST char *fileName;	/* The name of the image file. */
+    const char *fileName;	/* The name of the image file. */
     Tcl_Obj *format;		/* User-specified format object, or NULL. */
     Tk_PhotoHandle imageHandle;	/* The photo image to write into. */
     int destX, destY;		/* Coordinates of top-left pixel in
@@ -239,7 +239,7 @@ CommonRead(interp, gifConfPtr, fileName, format, imageHandle, destX, destY,
 	width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     GIFImageConfig *gifConfPtr;		/* The image file, open for reading. */
-    CONST char *fileName;	/* The name of the image file. */
+    const char *fileName;	/* The name of the image file. */
     Tcl_Obj *format;		/* User-specified format object, or NULL. */
     Tk_PhotoHandle imageHandle;	/* The photo image to write into. */
     int destX, destY;		/* Coordinates of top-left pixel in
@@ -757,8 +757,8 @@ ReadImage(interp, imagePtr, gifConfPtr, len, rows, cmap,
     int v;
     int xpos = 0, ypos = 0, pass = 0, i;
     register char *pixelPtr;
-    CONST static int interlaceStep[] = { 8, 8, 4, 2 };
-    CONST static int interlaceStart[] = { 0, 4, 2, 1 };
+    const static int interlaceStep[] = { 8, 8, 4, 2 };
+    const static int interlaceStart[] = { 0, 4, 2, 1 };
     unsigned short prefix[(1 << MAX_LWZ_BITS)];
     unsigned char  append[(1 << MAX_LWZ_BITS)];
     unsigned char  stack[(1 << MAX_LWZ_BITS)*2];
@@ -1195,7 +1195,7 @@ CommonWrite(interp, handle, format, blockPtr)
 	state.alphaOffset = 0;
     }
 
-    tkimg_Write(handle, (CONST char *) (state.alphaOffset ? GIF89a:GIF87a), 6);
+    tkimg_Write(handle, (const char *) (state.alphaOffset ? GIF89a:GIF87a), 6);
 
     for (x=0;x<MAXCOLORMAPSIZE;x++) {
 	state.mapa[x][CM_RED] = 255;
@@ -1768,8 +1768,8 @@ flush_char(statePtr)
     unsigned char c;
     if (statePtr->a_count > 0) {
 	c = statePtr->a_count;
-	tkimg_Write(statePtr->g_outfile, (CONST char *) &c, 1);
-	tkimg_Write(statePtr->g_outfile, (CONST char *) statePtr->accum, statePtr->a_count);
+	tkimg_Write(statePtr->g_outfile, (const char *) &c, 1);
+	tkimg_Write(statePtr->g_outfile, (const char *) statePtr->accum, statePtr->a_count);
 	statePtr->a_count = 0;
     }
 }

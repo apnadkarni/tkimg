@@ -42,7 +42,7 @@ static int returnCode = 0;
 extern char *tclExecutableName;
 
 VOID *dlopen(path, mode)
-    CONST char *path;
+    const char *path;
     int mode;
 {
     static int firstTime = 1;
@@ -74,7 +74,7 @@ VOID *dlopen(path, mode)
 VOID *
 dlsym(handle, symbol)
     VOID *handle;
-    CONST char *symbol;
+    const char *symbol;
 {
     return (VOID *) dld_get_func(symbol);
 }

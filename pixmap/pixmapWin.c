@@ -198,7 +198,7 @@ TkimgXpmRealizePixmap(masterPtr, instancePtr, image, mask, isTransp)
 	 * There are transparent pixels. We need a mask.
 	 */
 	maskDC = CreateCompatibleDC(dc);
-	maskBm = CreateBitmap(w, h, 1, 1, (CONST VOID*)mask->data);
+	maskBm = CreateBitmap(w, h, 1, 1, (const VOID*)mask->data);
 	maskBmOld = SelectObject(maskDC, maskBm);
 
 	BitBlt(bitmapDC, 0, 0, w, h, maskDC, 0, 0, SRCAND);

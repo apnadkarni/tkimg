@@ -330,7 +330,7 @@ ZIPVGetField(tif, tag, ap)
     return (1);
 }
 
-static CONST TIFFFieldInfo zipFieldInfo[] = {
+static const TIFFFieldInfo zipFieldInfo[] = {
     { TIFFTAG_ZIPQUALITY,	 0, 0,	TIFF_ANY,	FIELD_PSEUDO,
       TRUE,	FALSE,	"" },
 };
@@ -389,7 +389,7 @@ TkimgTIFFInitZip(handle, scheme)
      * override parent get/set field methods.
      */
 
-    _TIFFMergeFieldInfo(tif, (CONST VOID *) zipFieldInfo, N(zipFieldInfo));
+    _TIFFMergeFieldInfo(tif, (const VOID *) zipFieldInfo, N(zipFieldInfo));
     sp->vgetparent     = tif->tif_tagmethods.vgetfield;
     tif->tif_tagmethods.vgetfield = ZIPVGetField;	/* hook for codec tags */
     sp->vsetparent     = tif->tif_tagmethods.vsetfield;

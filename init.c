@@ -42,14 +42,14 @@ EXTERN int @CPACKAGE@_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
  */
 
 static int ChnMatch _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
-	CONST char *fileName, Tcl_Obj *format, int *widthPtr,
+	const char *fileName, Tcl_Obj *format, int *widthPtr,
 	int *heightPtr));
 
 static int ObjMatch _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
 	Tcl_Obj *format, int *widthPtr, int *heightPtr));
 
 static int ChnRead _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
-	CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+	const char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 	int destX, int destY, int width, int height, int srcX, int srcY));
 
 static int ObjRead _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
@@ -83,7 +83,7 @@ static Tk_PhotoImageFormat format = {
 #ifndef SECOND_CHNMATCH
 #define SECOND_CHNMATCH ChnMatchBeta
 static int ChnMatchBeta _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
-	CONST char *fileName, Tcl_Obj *format, int *widthPtr,
+	const char *fileName, Tcl_Obj *format, int *widthPtr,
 	int *heightPtr));
 #endif
 #ifndef SECOND_OBJMATCH
@@ -94,7 +94,7 @@ static int ObjMatchBeta _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
 #ifndef SECOND_CHNREAD
 #define SECOND_CHNREAD ChnReadBeta
 static int ChnReadBeta _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
-	CONST char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+	const char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 	int destX, int destY, int width, int height, int srcX, int srcY));
 #endif
 #ifndef SECOND_OBJREAD

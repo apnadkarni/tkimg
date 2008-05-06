@@ -302,7 +302,7 @@ tkimg_Getc(handle)
 int
 tkimg_Write(handle, src, count)
     tkimg_MFile *handle;	/* mmencode "file" handle */
-    CONST char *src;	/* where to get the data */
+    const char *src;	/* where to get the data */
     int count;		/* number of bytes */
 {
     register int i;

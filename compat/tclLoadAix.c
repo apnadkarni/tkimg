@@ -250,7 +250,7 @@ caterr(s)
 VOID *
 dlsym(handle, symbol)
     VOID *handle;
-    CONST char *symbol;
+    const char *symbol;
 {
 	register ModulePtr mp = (ModulePtr)handle;
 	register ExportPtr ep;

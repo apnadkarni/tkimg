@@ -34,7 +34,7 @@ static int SetupTiffLibrary _ANSI_ARGS_ ((Tcl_Interp *interp));
 #include <tiffInt.h>
 
 
-extern int unlink _ANSI_ARGS_((CONST char *));
+extern int unlink _ANSI_ARGS_((const char *));
 
 /*
  * Prototypes for local procedures defined in this file:
@@ -54,10 +54,10 @@ static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, TIFF *tif,
 	int comp, Tk_PhotoImageBlock *blockPtr));
 
 static int ParseWriteFormat _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *format,
-	int *comp, CONST char **mode));
+	int *comp, const char **mode));
 
-static void  _TIFFerr    _ANSI_ARGS_((CONST char *, CONST char *, va_list));
-static void  _TIFFwarn   _ANSI_ARGS_((CONST char *, CONST char *, va_list));
+static void  _TIFFerr    _ANSI_ARGS_((const char *, const char *, va_list));
+static void  _TIFFwarn   _ANSI_ARGS_((const char *, const char *, va_list));
 
 /*
  * The functions for the TIFF input handler
@@ -165,8 +165,8 @@ getint(buf, format, order)
 
 static void
 _TIFFerr(module, fmt, ap)
-     CONST char *module;
-     CONST char *fmt;
+     const char *module;
+     const char *fmt;
      va_list     ap;
 {
   char buf [2048];
@@ -188,8 +188,8 @@ _TIFFerr(module, fmt, ap)
 /* warnings are not processed in Tcl */
 static void
 _TIFFwarn(module, fmt, ap)
-     CONST char *module;
-     CONST char *fmt;
+     const char *module;
+     const char *fmt;
      va_list     ap;
 {
 }
@@ -377,7 +377,7 @@ static int
 ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *fileName;
+    const char *fileName;
     Tcl_Obj *format;
     int *widthPtr, *heightPtr;
 {
@@ -519,7 +519,7 @@ ChnRead(interp, chan, fileName, format, imageHandle,
 	destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *fileName;
+    const char *fileName;
     Tcl_Obj *format;
     Tk_PhotoHandle imageHandle;
     int destX, destY;
@@ -663,7 +663,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
     tkimg_MFile handle;
     char tempFileName[256];
     Tcl_DString dstring;
-    CONST char *mode;
+    const char *mode;
     Tcl_DString data;
 
     tkimg_FixStringWriteProc(&data, &interp, &dataPtr, &format, &blockPtr);
@@ -739,7 +739,7 @@ ChnWrite(interp, filename, format, blockPtr)
     TIFF *tif;
     int result, comp;
     Tcl_DString nameBuffer; 
-    CONST char *fullname, *mode;
+    const char *fullname, *mode;
 
     if (!(fullname=Tcl_TranslateFileName(interp, filename, &nameBuffer))) {
 	return TCL_ERROR;
@@ -769,7 +769,7 @@ ParseWriteFormat(interp, format, comp, mode)
     Tcl_Interp *interp;
     Tcl_Obj *format;
     int *comp;
-    CONST char **mode;
+    const char **mode;
 {
     static CONST84 char *tiffWriteOptions[] = {
       "-compression",

@@ -264,7 +264,7 @@ void
 tkimg_FixChanMatchProc(interp, chan, file, format, width, height)
     Tcl_Interp **interp;
     Tcl_Channel *chan;
-    CONST char **file;
+    const char **file;
     Tcl_Obj **format;
     int **width;
     int **height;
@@ -284,7 +284,7 @@ tkimg_FixChanMatchProc(interp, chan, file, format, width, height)
     *height = *width;
     *width = (int *) *format;
     *format = (Tcl_Obj *) *file;
-    *file = (CONST char *) *chan;
+    *file = (const char *) *chan;
     *chan = (Tcl_Channel) *interp;
     *interp = tmp;
 }

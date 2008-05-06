@@ -49,9 +49,9 @@ EXTERN int Tkimg_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
 
 #ifdef ALLOW_B64
 static int tob64 _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
-		int argc, Tcl_Obj *CONST objv[]));
+		int argc, Tcl_Obj *const objv[]));
 static int fromb64 _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
-		int argc, Tcl_Obj *CONST objv[]));
+		int argc, Tcl_Obj *const objv[]));
 #endif
 
 /*
@@ -157,7 +157,7 @@ int tob64(clientData, interp, argc, objv)
     ClientData clientData;
     Tcl_Interp *interp;
     int argc;
-    Tcl_Obj *CONST objv[];
+    Tcl_Obj *const objv[];
 {
     Tcl_DString dstring;
     tkimg_MFile handle;
@@ -215,7 +215,7 @@ int fromb64(clientData, interp, argc, objv)
     ClientData clientData;
     Tcl_Interp *interp;
     int argc;
-    Tcl_Obj *CONST objv[];
+    Tcl_Obj *const objv[];
 {
     tkimg_MFile handle;
     Tcl_Channel chan;

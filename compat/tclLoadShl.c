@@ -33,7 +33,7 @@
 
 VOID *
 dlopen(path, mode)
-    CONST char *path;
+    const char *path;
     int mode;
 {
     int flags, length;
@@ -55,7 +55,7 @@ dlopen(path, mode)
 VOID *
 dlsym(handle, symbol)
     VOID *handle;
-    CONST char *symbol;
+    const char *symbol;
 {   VOID *address;
 
     if (shl_findsym((shl_t *)&handle, symbol,

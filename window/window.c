@@ -89,7 +89,7 @@ ChnRead (interp, chan, fileName, format, imageHandle,
          destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *fileName;
+    const char *fileName;
     Tcl_Obj *format;
     Tk_PhotoHandle imageHandle;
     int destX, destY;
@@ -140,7 +140,7 @@ StringWrite (interp, dataPtr, format, blockPtr)
 static int ChnMatch(interp, chan, filename, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;
-    CONST char *filename;
+    const char *filename;
     Tcl_Obj *format;
     int *widthPtr, *heightPtr;
 {

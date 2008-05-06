@@ -62,7 +62,7 @@ static int	CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
 		    Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 		    int destX, int destY, int width, int height,
 		    int srcX, int srcY));
-static int	CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, CONST char *fileName,
+static int	CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, const char *fileName,
 		    Tcl_DString *dataPtr, Tcl_Obj *format,
 		    Tk_PhotoImageBlock *blockPtr));
 
@@ -174,7 +174,7 @@ static int
 ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;		/* The image channel, open for reading. */
-    CONST char *fileName;	/* The name of the image file. */
+    const char *fileName;	/* The name of the image file. */
     Tcl_Obj *format;		/* User-specified format object, or NULL. */
     int *widthPtr, *heightPtr;	/* The dimensions of the image are
 				 * returned here if the file is a valid
@@ -507,7 +507,7 @@ ChnRead(interp, chan, fileName, format, imageHandle, destX, destY,
 	width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     Tcl_Channel chan;		/* The image channel, open for reading. */
-    CONST char *fileName;	/* The name of the image file. */
+    const char *fileName;	/* The name of the image file. */
     Tcl_Obj *format;		/* User-specified format object, or NULL. */
     Tk_PhotoHandle imageHandle;	/* The photo image to write into. */
     int destX, destY;		/* Coordinates of top-left pixel in
@@ -861,7 +861,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
 static int
 CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     Tcl_Interp *interp;
-    CONST char *fileName;
+    const char *fileName;
     Tcl_DString *dataPtr;
     Tcl_Obj *format;    
     Tk_PhotoImageBlock *blockPtr;

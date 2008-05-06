@@ -517,7 +517,7 @@ static struct {
  *----------------------------------------------------------------------
  */
 VOID *dlopen(path, mode)
-    CONST char *path;
+    const char *path;
     int mode;
 {
     return (VOID *) (dictionary[0].value != NULL);
@@ -525,7 +525,7 @@ VOID *dlopen(path, mode)
 
 VOID *dlsym(handle, symbol)
     VOID *handle;
-    CONST char *symbol;
+    const char *symbol;
 {
     int i;
     for (i = 0; dictionary[i].name != 0; ++i) {

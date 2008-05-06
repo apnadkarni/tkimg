@@ -241,7 +241,7 @@ static int
 ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     Tcl_Interp *interp;
     Tcl_Channel chan;		/* The image channel, open for reading. */
-    CONST char *fileName;	/* The name of the image file. */
+    const char *fileName;	/* The name of the image file. */
     Tcl_Obj *format;		/* User-specified format string, or NULL. */
     int *widthPtr, *heightPtr;	/* The dimensions of the image are
 				 * returned here if the file is a valid
@@ -395,7 +395,7 @@ ChnRead(interp, chan, fileName, format, imageHandle, destX, destY,
 	width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     Tcl_Channel chan;		/* The image channel, open for reading. */
-    CONST char *fileName;	/* The name of the image file. */
+    const char *fileName;	/* The name of the image file. */
     Tcl_Obj *format;		/* User-specified format string, or NULL. */
     Tk_PhotoHandle imageHandle;	/* The photo image to write into. */
     int destX, destY;		/* Coordinates of top-left pixel in

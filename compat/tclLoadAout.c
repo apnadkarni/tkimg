@@ -94,7 +94,7 @@ static char * SymbolTableFile = NULL;
  * Prototypes for procedures referenced only in this file:
  */
 
-static int FindLibraries _ANSI_ARGS_((CONST char *fileName, Tcl_DString *buf));
+static int FindLibraries _ANSI_ARGS_((const char *fileName, Tcl_DString *buf));
 static void UnlinkSymbolTable _ANSI_ARGS_((void));
 static void Seterror _ANSI_ARGS_((char *message));
 static char *errorMessage = NULL;
@@ -139,7 +139,7 @@ static char *errorMessage = NULL;
 
 VOID *
 dlopen(path, flags)
-    CONST char *path;
+    const char *path;
     int flags;
 {
   char * inputSymbolTable;	/* Name of the file containing the 
@@ -157,7 +157,7 @@ dlopen(path, flags)
   char * startAddress;		/* Starting address of the module */
   int status;			/* Status return from Tcl_ calls */
   char *p, *q;
-  CONST char *r, *pkgGuess;
+  const char *r, *pkgGuess;
   Tcl_Interp *interp = NULL;
   Tcl_DString fullPath;
 
@@ -398,10 +398,10 @@ error:
 
 VOID *dlsym(handle, symbol)
     VOID *handle;
-    CONST char *symbol;
+    const char *symbol;
 {
     if ((handle != NULL) && (symbol != NULL)) {
-	return ((VOID * (*) _ANSI_ARGS_((CONST char *))) handle) (symbol);
+	return ((VOID * (*) _ANSI_ARGS_((const char *))) handle) (symbol);
     } else {
 	return (VOID *) NULL;
     }
@@ -496,7 +496,7 @@ Seterror(message)
 
 static int
 FindLibraries (fileName, buf)
-     CONST char * fileName;	/* Name of the load module */
+     const char * fileName;	/* Name of the load module */
      Tcl_DString * buf;		/* Buffer where the -l an -L flags */
 {
   FILE * f;			/* The load module */
