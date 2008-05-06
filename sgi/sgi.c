@@ -81,18 +81,18 @@
 #if defined (TCLSEEK_WORKAROUND)
     static int ioMode = 0; /* Needed for Windows patch */
 
-    static int MyWrite (FILE *chan, char *buf, int size) 
+    static int MyWrite (Tcl_Channel chan, char *buf, int size) 
     {
-	if (1 == fwrite (buf, size, 1, chan)) {
+	if (1 == fwrite(buf, size, 1, (FILE *)chan)) {
 	    return size;
 	} else {
 	    return -1;
 	}
     }
 
-    static int MyClose (Tcl_Interp *interp, FILE *chan) 
+    static int MyClose (Tcl_Interp *interp, Tcl_Channel chan) 
     {
-	if (0 == fclose (chan)) {
+	if (0 == fclose((FILE *)chan)) {
 	    return TCL_OK;
 	} else {
 	    return TCL_ERROR;
@@ -104,12 +104,14 @@
 	if (ioMode == 0) { /* Read mode */
 	    return Tcl_Seek (chan, offset, seekMode);
 	} else {
-	    return fseek (chan, offset, seekMode);
+	    return fseek((FILE *)chan, offset, seekMode);
 	}
     }
 
-    #define MYCHANNEL FILE*
+    #define MYCHANNEL Tcl_Channel
+    #undef Tcl_Seek
     #define Tcl_Seek  MySeek
+    #undef Tcl_Write
     #define Tcl_Write MyWrite
     #define MYCLOSE   MyClose
 #else
@@ -1483,7 +1485,7 @@ static int ObjRead (interp, data, format, imageHandle,
 
     tmpnam(tempFileName);
 #if defined (TCLSEEK_WORKAROUND)
-    outchan = fopen (tempFileName, "wb");
+    outchan = (Tcl_Channel)fopen (tempFileName, "wb");
 #else
     outchan = tkimg_OpenFileChannel (interp, tempFileName, 0644);
 #endif
@@ -1631,7 +1633,7 @@ static int ChnWrite (interp, filename, format, blockPtr)
     int result;
 
 #if defined (TCLSEEK_WORKAROUND)
-    chan = fopen (filename, "wb");
+    chan = (Tcl_Channel)fopen(filename, "wb");
 #else
     chan = tkimg_OpenFileChannel (interp, filename, 0644);
 #endif
@@ -1668,7 +1670,7 @@ static int StringWrite (interp, dataPtr, format, blockPtr)
 
     tmpnam(tempFileName);
 #if defined (TCLSEEK_WORKAROUND)
-    outchan = fopen (tempFileName, "wb");
+    outchan = (Tcl_Channel)fopen(tempFileName, "wb");
 #else
     outchan = tkimg_OpenFileChannel (interp, tempFileName, 0644);
 #endif
