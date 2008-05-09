@@ -482,7 +482,7 @@ CommonRead(interp, gifConfPtr, fileName, format, imageHandle, destX, destY,
 
     block.pixelPtr = pixBuf + srcY * block.pitch + srcX * block.pixelSize;
     tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height,
-	    (transparent == -1)? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
+	    (transparent == -1)? TK_PHOTO_COMPOSITE_SET: TK_PHOTO_COMPOSITE_OVERLAY);
 
     noerror:
     if (pixBuf) {
