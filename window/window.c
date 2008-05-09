@@ -413,7 +413,7 @@ static int ObjRead(interp, data, format, imageHandle,
 	}
     }
 
-    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
+    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_SET);
 
 #ifndef	__WIN32__
     XDestroyImage(ximage);

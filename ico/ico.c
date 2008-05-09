@@ -786,7 +786,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     for (y=fileHeight-1; y>=0; y--) {
         if (y >= srcY && y < srcY + outHeight) {
 	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY,
-		    outWidth, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+		    outWidth, 1, TK_PHOTO_COMPOSITE_SET);
 	    outY--;
         }
         block.pixelPtr += 4 * fileWidth;

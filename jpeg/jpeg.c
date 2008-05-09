@@ -644,7 +644,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     for (curY = 0; curY < stopY; curY++) {
       jpeg_read_scanlines(cinfo, buffer, 1);
       if (curY >= srcY) {
-	tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+	tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, TK_PHOTO_COMPOSITE_SET);
 	outY++;
       }
     }

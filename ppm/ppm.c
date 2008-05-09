@@ -278,18 +278,16 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     }
 
     if (type == PGM) {
-        block.pixelSize = 1;
-        block.offset[0] = 0;
+	block.pixelSize = 1;
 	block.offset[1] = 0;
 	block.offset[2] = 0;
     }
     else {
-        block.pixelSize = 3;
-        block.offset[0] = 0;
+	block.pixelSize = 3;
 	block.offset[1] = 1;
 	block.offset[2] = 2;
     }
-    block.offset[3] = 0;
+    block.offset[3] = block.offset[0] = 0;
     block.width = width;
     block.pitch = block.pixelSize * fileWidth;
 
@@ -340,7 +338,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    }
 	}
 	block.height = nLines;
-	tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, nLines, TK_PHOTO_COMPOSITE_OVERLAY);
+	tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, nLines, TK_PHOTO_COMPOSITE_SET);
 	destY += nLines;
     }
 

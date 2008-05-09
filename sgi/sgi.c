@@ -1614,7 +1614,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     for (y=0; y<stopY; y++) {
 	sgiReadScan (interp, handle, &tf, fileHeight-1-y);
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, matte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
 	    outY++;
 	}
     }

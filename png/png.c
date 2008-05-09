@@ -382,7 +382,7 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
     png_read_image(png_ptr,(png_bytepp) png_data);
 
     tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height,
-	    block.offset[3]? TK_PHOTO_COMPOSITE_SET: TK_PHOTO_COMPOSITE_OVERLAY);
+	    block.offset[3]? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
 
     ckfree((char *) png_data);
     png_destroy_read_struct(&png_ptr,&info_ptr,&end_info);

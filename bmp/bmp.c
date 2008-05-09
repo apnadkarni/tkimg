@@ -392,7 +392,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
                         *expline++ = line[x*4 + 2];
                     }
 		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, 
-			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
 			return TCL_ERROR;
 		    }
 		    expline = block.pixelPtr;
@@ -403,7 +403,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
 		for( y = height-1; y>=0; y--) {
 		    tkimg_Read(handle, (char *)line, bytesPerLine);
 		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
-			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
 			return TCL_ERROR;
 		    }
 		}
@@ -419,7 +419,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
                         *expline++ = ((rgb & masks[0].mask) >> masks[0].shiftin) << masks[0].shiftout;
                     }
 		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
-			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
 			return TCL_ERROR;
 		    }
 		    expline = block.pixelPtr;
@@ -434,7 +434,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
 			expline += 3;
 		    }
 		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
-			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
 			return TCL_ERROR;
 		    }
 		    expline = block.pixelPtr;
@@ -455,7 +455,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
 			expline += 3;
 		    }
 		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
-			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
 			return TCL_ERROR;
 		    }
 		    expline = block.pixelPtr;
@@ -472,7 +472,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
 			expline += 3;
 		    }
 		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
-			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
 			return TCL_ERROR;
 		    }
 		    expline = block.pixelPtr;
@@ -567,7 +567,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
 		/* End of line */
 		/* printf("New line: y=%d x=%d\n", y, x); fflush(stdout); */
 		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY+y,
-			width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+			width, 1, TK_PHOTO_COMPOSITE_SET);
 		y--;
 		x=0;
 		expline = block.pixelPtr;

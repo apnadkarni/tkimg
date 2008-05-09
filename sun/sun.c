@@ -585,7 +585,7 @@ static Boln load_sun_d1 (Tcl_Interp *interp, tkimg_MFile *ifp,
 	    return FALSE;
         }
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
 	    outY++;
 	}
     }
@@ -694,7 +694,7 @@ static Boln load_sun_d8 (Tcl_Interp *interp, tkimg_MFile *ifp,
 	}
 
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
 	    outY++;
 	}
     }
@@ -734,7 +734,10 @@ static Boln load_rgb (Tcl_Interp *interp, tkimg_MFile *ifp,
     block.offset[0] = 0;
     block.offset[1] = 1;
     block.offset[2] = 2;
-    block.offset[3] = (nchan == 4 && showMatte? 3: 0);
+    if (nchan < 4) {
+	showMatte = 0;
+    }
+    block.offset[3] = showMatte? 3: 0;
 
     block.pixelPtr = pixbuf + srcX * nchan;
 
@@ -793,7 +796,7 @@ static Boln load_rgb (Tcl_Interp *interp, tkimg_MFile *ifp,
 		    }
 		}
 	    }
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, showMatte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
 	    outY++;
 	}
     }

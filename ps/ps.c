@@ -377,7 +377,7 @@ CommonRead(interp, handle, format, imageHandle,
 	        for (j = 0; j < width; j++) {
 		    line3[j] = ((line[(j+srcX)/8]>>(7-(j+srcX)%8) & 1)) ? 0 : 255;
 	        }
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET);
 	    }
 	    break;
 	case '5':
@@ -395,7 +395,7 @@ CommonRead(interp, handle, format, imageHandle,
 			c++;
 		    }
 		}
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET);
 	    }
 	    break;
 	case '6':
@@ -417,7 +417,7 @@ CommonRead(interp, handle, format, imageHandle,
 			c++;
 		    }
 		}
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET);
 	    }
 	    break;
     }

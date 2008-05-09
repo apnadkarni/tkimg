@@ -310,7 +310,7 @@ static Boln load_8 (Tcl_Interp *interp, tkimg_MFile *ifp,
             buffer[x * 3 + 1] = cmap[indBuf[y*fileWidth + x]*3 + 1 ];
             buffer[x * 3 + 2] = cmap[indBuf[y*fileWidth + x]*3 + 2 ];
         }
-        tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+        tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
         outY++;
     }
     ckfree ((char *) line);
@@ -358,7 +358,7 @@ static Boln load_24 (Tcl_Interp *interp, tkimg_MFile *ifp,
 	    }
 	}
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
 	    outY++;
 	}
     }
@@ -408,7 +408,7 @@ static Boln load_1 (Tcl_Interp *interp, tkimg_MFile *ifp,
 	    }
 	}
         if (y >= srcY) {
-            tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+            tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
             outY++;
         }
     }

@@ -46,7 +46,7 @@ tkimg_PhotoPutBlock(interp, handle, blockPtr, x, y, width, height, flags)
 #else
 #   define Tk_PhotoPutBlock_NoComposite Tk_PhotoPutBlock
 #endif
-    if (flags == TK_PHOTO_COMPOSITE_SET) {
+    if (flags == TK_PHOTO_COMPOSITE_OVERLAY) {
 	int alphaOffset = blockPtr->offset[3];
 	if ((alphaOffset< 0) || (alphaOffset>= blockPtr->pixelSize)) {
 	    alphaOffset = blockPtr->offset[0];

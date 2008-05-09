@@ -856,7 +856,10 @@ static int CommonRead(interp, handle, filename, format, imageHandle,
     block.offset[0] = 0;
     block.offset[1] = 1;
     block.offset[2] = 2;
-    block.offset[3] = (nchan == 4 && matte? 3: 0);
+    if (nchan < 4) {
+	matte = 0;
+    }
+    block.offset[3] = matte? 3: 0;
     block.pixelPtr = tf.pixbuf + srcX * nchan;
 
     stopY = srcY + outHeight;
@@ -866,7 +869,7 @@ static int CommonRead(interp, handle, filename, format, imageHandle,
 	for (y=0; y<stopY; y++) {
 	    tgaReadScan(interp, handle, &tf, y);
 	    if (y >= srcY) {
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, matte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
 		outY++;
 	    }
 	}
@@ -875,7 +878,7 @@ static int CommonRead(interp, handle, filename, format, imageHandle,
 	for (y=fileHeight-1; y>=0; y--) {
 	    tgaReadScan(interp, handle, &tf, y);
 	    if (y >= srcY && y < stopY) {
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
 		outY--;
 	    }
 	}

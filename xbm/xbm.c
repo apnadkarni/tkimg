@@ -230,7 +230,7 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
 	    }
 	}
 	if (row >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET);
 	}
     }
     ckfree((char *) data);

@@ -466,7 +466,7 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
 			    col = (unsigned int) 0;
 		    }
 		} while ((i < width) && col);
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX+j, destY, len, 1, TK_PHOTO_COMPOSITE_OVERLAY);
+		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX+j, destY, len, 1, TK_PHOTO_COMPOSITE_SET);
 	    } else {
 	        p += byteSize;
 	        i++;
