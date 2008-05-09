@@ -41,6 +41,7 @@ tkimg_PhotoPutBlock(interp, handle, blockPtr, x, y, width, height, flags)
 #if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 3))
     if (tkimg_initialized & IMG_COMPOSITE) {
 	Tk_PhotoPutBlock(handle, blockPtr, x, y, width, height, flags);
+	return TCL_OK;
     }
 #else
 #   define Tk_PhotoPutBlock_NoComposite Tk_PhotoPutBlock
