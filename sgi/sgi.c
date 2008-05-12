@@ -127,8 +127,8 @@ typedef unsigned char UByte;	/* Unsigned  8 bit integer */
 typedef char  Byte;		/* Signed    8 bit integer */
 typedef short Short;		/* Signed   16 bit integer */
 typedef unsigned short UShort;	/* Unsigned 16 bit integer */
-typedef long Int;		/* Signed   32 bit integer */
-typedef unsigned long UInt;	/* Unsigned 32 bit integer */
+typedef int Int;		/* Signed   32 bit integer */
+typedef unsigned int UInt;	/* Unsigned 32 bit integer */
 
 
 /* Start of original code from SGI image library, slightly modified. */
@@ -215,7 +215,7 @@ static int img_badrow(IMAGE *image, unsigned int y, unsigned int z);
 static int img_write(IMAGE *image, char *buffer,int count);
 static int iflush(IMAGE *image);
 static unsigned short *ibufalloc(IMAGE *image);
-static unsigned long img_optseek(IMAGE *image, unsigned long offset);
+static unsigned int img_optseek(IMAGE *image, unsigned int offset);
 static int imgopen(int, MYCHANNEL, IMAGE *, const char *,unsigned int, unsigned int,
 		unsigned int, unsigned int, unsigned int);
 static int getrow(IMAGE *image, unsigned short *buffer,
@@ -258,10 +258,10 @@ static void isetcolormap(IMAGE *image, int colormap)
 
 static void cvtshorts( buffer, n)
 register unsigned short buffer[];
-register long n;
+register int n;
 {
     register short i;
-    register long nshorts = n>>1;
+    register int nshorts = n>>1;
     register unsigned short swrd;
 
     for(i=0; i<nshorts; i++) {
@@ -271,12 +271,12 @@ register long n;
 }
 
 static void cvtlongs( buffer, n)
-register long buffer[];
-register long n;
+register int buffer[];
+register int n;
 {
     register short i;
-    register long nlongs = n>>2;
-    register long lwrd;
+    register int nlongs = n>>2;
+    register int lwrd;
     Byte *bytePtr;
 
     bytePtr = (Byte *) buffer;
@@ -290,7 +290,7 @@ register long n;
 }
 
 static void cvtimage( buffer )
-long buffer[];
+int buffer[];
 {
     cvtshorts((unsigned short *)buffer,12);
     cvtlongs(buffer+3,12);
@@ -371,7 +371,7 @@ static int imgopen(int f, MYCHANNEL file, IMAGE *image, const char *mode,
 	}
 	if( ((image->imagic>>8) | ((image->imagic&0xff)<<8)) == IMAGIC ) {
 	    image->dorev = 1;
-	    cvtimage((long *)image);
+	    cvtimage((int *)image);
 	} else
 	    image->dorev = 0;
 	if (image->imagic != IMAGIC) {
@@ -386,9 +386,9 @@ static int imgopen(int f, MYCHANNEL file, IMAGE *image, const char *mode,
     else
 	image->flags = _IOREAD;
     if(ISRLE(image->type)) {
-	tablesize = image->ysize*image->zsize*sizeof(long);
-	image->rowstart = (unsigned long *)malloc(tablesize);
-	image->rowsize = (long *)malloc(tablesize);
+	tablesize = image->ysize*image->zsize*sizeof(int);
+	image->rowstart = (unsigned int *)malloc(tablesize);
+	image->rowsize = (int *)malloc(tablesize);
 	if( image->rowstart == 0 || image->rowsize == 0 ) {
 	    i_errhdlr("iopen: error on table alloc\n");
 	    return 0;
@@ -401,7 +401,7 @@ static int imgopen(int f, MYCHANNEL file, IMAGE *image, const char *mode,
 		image->rowsize[i] = -1;
 	    }
 	} else {
-	    tablesize = image->ysize*image->zsize*sizeof(long);
+	    tablesize = image->ysize*image->zsize*sizeof(int);
 	    Tcl_Seek (file, 512L, 0);
 	    if (tablesize != Tcl_Read (file, (char *)image->rowstart, tablesize)) {
 		i_errhdlr("iopen: error on read of rowstart\n");
@@ -432,17 +432,6 @@ static int imgopen(int f, MYCHANNEL file, IMAGE *image, const char *mode,
 }
 
 
-/* This function is commented out because it is not used anywhere
-static long reverse(lwrd) 
-register unsigned long lwrd;
-{
-    return ((lwrd>>24) 		| 
-	   ((lwrd>>8) & 0xff00) 	|
-	   ((lwrd<<8) & 0xff0000) |
-	   (lwrd<<24) 		);
-}
-*/
-
 /*
  *	iclose and iflush -
  *
@@ -452,22 +441,22 @@ register unsigned long lwrd;
 
 static int iclose(IMAGE *image)
 {
-    long tablesize;
+    int tablesize;
 
     iflush(image);
     img_optseek(image, 0);
     if (image->flags&_IOWRT) {
 	if(image->dorev)
-	    cvtimage((long *)image);
+	    cvtimage((int *)image);
 	if (img_write(image,(char *)image,sizeof(IMAGE)) != sizeof(IMAGE)) {
 	    i_errhdlr("iclose: error on write of image header\n");
 	    return EOF;
 	}
 	if(image->dorev)
-	    cvtimage((long *)image);
+	    cvtimage((int *)image);
 	if(ISRLE(image->type)) {
 	    img_optseek(image, 512L);
-	    tablesize = image->ysize*image->zsize*sizeof(long);
+	    tablesize = image->ysize*image->zsize*sizeof(int);
 	    if(image->dorev)
 		cvtlongs(image->rowstart,tablesize);
 	    if (img_write(image,(char *)(image->rowstart),tablesize) != tablesize) {
@@ -606,7 +595,7 @@ static unsigned int iflsbuf(IMAGE *image, unsigned int c)
  *
  */
 
-static unsigned long img_seek(IMAGE *image, unsigned int y, unsigned int z)
+static unsigned int img_seek(IMAGE *image, unsigned int y, unsigned int z)
 {
     if(img_badrow(image,y,z)) {
 	i_errhdlr("img_seek: row number out of range\n");
@@ -643,7 +632,7 @@ static unsigned long img_seek(IMAGE *image, unsigned int y, unsigned int z)
 	}
     } else 
 	i_errhdlr("img_seek: weird image type\n");
-    return((unsigned long)-1);
+    return((unsigned int)-1);
 }
 
 static int img_badrow(IMAGE *image, unsigned int y, unsigned int z)
@@ -678,11 +667,11 @@ static int img_read(IMAGE *image, char *buffer, int count)
     return retval;
 }
 
-static unsigned long img_optseek(IMAGE *image, unsigned long offset)
+static unsigned int img_optseek(IMAGE *image, unsigned int offset)
 {
     if(image->offset != offset) {
        image->offset = offset;
-       return ((unsigned long) Tcl_Seek (image->file,offset,0));
+       return ((unsigned int) Tcl_Seek (image->file,offset,0));
    }
    return offset;
 }
@@ -722,7 +711,7 @@ static unsigned int putpix(IMAGE *image, unsigned int pix)
  *
  */
 
-static long img_getrowsize(IMAGE *image)
+static int img_getrowsize(IMAGE *image)
 {
     switch(image->dim) {
 	case 1:
@@ -735,9 +724,9 @@ static long img_getrowsize(IMAGE *image)
     return -1;
 }
 
-static void img_setrowsize(IMAGE *image, long cnt, long y, long z)
+static void img_setrowsize(IMAGE *image, int cnt, int y, int z)
 {
-    long *sizeptr;
+    int *sizeptr;
 
     if(img_badrow(image,y,z)) 
 	return;
@@ -802,7 +791,7 @@ static int img_rle_compact(unsigned short *expbuf, int ibpp,
 	register unsigned char *sptr;
 	register unsigned char *optr = (unsigned char *)rlebuf;
 	register short todo, cc;
-	register long count;
+	register int count;
 
 	docompact;
 	return optr - (unsigned char *)rlebuf;
@@ -812,7 +801,7 @@ static int img_rle_compact(unsigned short *expbuf, int ibpp,
 	register unsigned char *sptr;
 	register unsigned short *optr = rlebuf;
 	register short todo, cc;
-	register long count;
+	register int count;
 
 	docompact;
 	return optr - rlebuf;
@@ -822,7 +811,7 @@ static int img_rle_compact(unsigned short *expbuf, int ibpp,
 	register unsigned short *sptr;
 	register unsigned char *optr = (unsigned char *)rlebuf;
 	register short todo, cc;
-	register long count;
+	register int count;
 
 	docompact;
 	return optr - (unsigned char *)rlebuf;
@@ -832,7 +821,7 @@ static int img_rle_compact(unsigned short *expbuf, int ibpp,
 	register unsigned short *sptr;
 	register unsigned short *optr = rlebuf;
 	register short todo, cc;
-	register long count;
+	register int count;
 
 	docompact;
 	return optr - rlebuf;
@@ -901,8 +890,8 @@ static int putrow(IMAGE *image, unsigned short *buffer,
     register unsigned short 	*sptr;
     register unsigned char      *cptr;
     register unsigned int x;
-    register unsigned long min, max;
-    register long cnt;
+    register unsigned int min, max;
+    register int cnt;
 
     if( !(image->flags & (_IORW|_IOWRT)) )
 	return -1;
@@ -1123,7 +1112,7 @@ typedef struct {
 static int isIntel (void)
 {
     char order[] = { 1, 2, 3, 4};
-    unsigned long val = (unsigned long)*((short *)order);
+    unsigned int val = (unsigned int)*((short *)order);
     /* On Intel (little-endian) systems this value is equal to 513.
        On big-endian systems this value equals 258. */
     return (val == 513);
@@ -1164,7 +1153,7 @@ static Boln readHeader (tkimg_MFile *handle, IMAGE *th)
     }
 										    if( ((th->imagic>>8) | ((th->imagic&0xff)<<8)) == IMAGIC ) {
 	th->dorev = 1;
-	cvtimage((long *)th);
+	cvtimage((int *)th);
     } else {
 	th->dorev = 0;
     }
