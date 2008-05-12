@@ -14,6 +14,7 @@
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
 
+#include <string.h>
 #include "init.c"
 
 /* Compression types */
