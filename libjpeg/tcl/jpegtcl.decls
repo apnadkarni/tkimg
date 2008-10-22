@@ -21,7 +21,7 @@ interface jpegtcl
 ###  JPEG interface
 
 declare 0 generic {
-    struct jpeg_error_mgr * jpeg_std_error (struct jpeg_error_mgr * err)
+    struct jpeg_error_mgr *jpeg_std_error (struct jpeg_error_mgr *err)
 }
 declare 1 generic {
     void jpeg_CreateCompress (j_compress_ptr cinfo, int version, size_t structsize)
@@ -36,10 +36,10 @@ declare 4 generic {
     void jpeg_destroy_decompress (j_decompress_ptr cinfo)
 }
 declare 5 generic {
-    void jpeg_stdio_dest (j_compress_ptr cinfo, FILE * outfile)
+    void jpeg_stdio_dest (j_compress_ptr cinfo, FILE *outfile)
 }
 declare 6 generic {
-    void jpeg_stdio_src (j_decompress_ptr cinfo, FILE * infile)
+    void jpeg_stdio_src (j_decompress_ptr cinfo, FILE *infile)
 }
 declare 7 generic {
     void jpeg_set_defaults (j_compress_ptr cinfo)
@@ -71,10 +71,10 @@ declare 15 generic {
     void jpeg_suppress_tables (j_compress_ptr cinfo, boolean suppress)
 }
 declare 16 generic {
-    JQUANT_TBL * jpeg_alloc_quant_table (j_common_ptr cinfo)
+    JQUANT_TBL *jpeg_alloc_quant_table (j_common_ptr cinfo)
 }
 declare 17 generic {
-    JHUFF_TBL * jpeg_alloc_huff_table (j_common_ptr cinfo)
+    JHUFF_TBL *jpeg_alloc_huff_table (j_common_ptr cinfo)
 }
 declare 18 generic {
     void jpeg_start_compress (j_compress_ptr cinfo, boolean write_all_tables)
@@ -92,7 +92,7 @@ declare 21 generic {
 }
 declare 22 generic {
     void jpeg_write_marker (j_compress_ptr cinfo, int marker,
-	const JOCTET * dataptr, unsigned int datalen)
+	const JOCTET *dataptr, unsigned int datalen)
 }
 declare 23 generic {
     void jpeg_write_m_header (j_compress_ptr cinfo, int marker, unsigned int datalen)
@@ -150,11 +150,11 @@ declare 39 generic {
 	jpeg_marker_parser_method routine)
 }
 declare 40 generic {
-    jvirt_barray_ptr * jpeg_read_coefficients (j_decompress_ptr cinfo)
+    jvirt_barray_ptr *jpeg_read_coefficients (j_decompress_ptr cinfo)
 }
 declare 41 generic {
     void jpeg_write_coefficients (j_compress_ptr cinfo,
-	jvirt_barray_ptr * coef_arrays)
+	jvirt_barray_ptr *coef_arrays)
 }
 declare 42 generic {
     void jpeg_copy_critical_parameters (j_decompress_ptr srcinfo,

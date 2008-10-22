@@ -47,11 +47,11 @@ EXTERN struct jpeg_error_mgr * jpeg_std_error _ANSI_ARGS_((
 				struct jpeg_error_mgr * err));
 /* 1 */
 EXTERN void		jpeg_CreateCompress _ANSI_ARGS_((
-				j_compress_ptr cinfo, int version, 
+				j_compress_ptr cinfo, int version,
 				size_t structsize));
 /* 2 */
 EXTERN void		jpeg_CreateDecompress _ANSI_ARGS_((
-				j_decompress_ptr cinfo, int version, 
+				j_decompress_ptr cinfo, int version,
 				size_t structsize));
 /* 3 */
 EXTERN void		jpeg_destroy_compress _ANSI_ARGS_((
@@ -60,31 +60,31 @@ EXTERN void		jpeg_destroy_compress _ANSI_ARGS_((
 EXTERN void		jpeg_destroy_decompress _ANSI_ARGS_((
 				j_decompress_ptr cinfo));
 /* 5 */
-EXTERN void		jpeg_stdio_dest _ANSI_ARGS_((j_compress_ptr cinfo, 
+EXTERN void		jpeg_stdio_dest _ANSI_ARGS_((j_compress_ptr cinfo,
 				FILE * outfile));
 /* 6 */
-EXTERN void		jpeg_stdio_src _ANSI_ARGS_((j_decompress_ptr cinfo, 
+EXTERN void		jpeg_stdio_src _ANSI_ARGS_((j_decompress_ptr cinfo,
 				FILE * infile));
 /* 7 */
 EXTERN void		jpeg_set_defaults _ANSI_ARGS_((j_compress_ptr cinfo));
 /* 8 */
 EXTERN void		jpeg_set_colorspace _ANSI_ARGS_((
-				j_compress_ptr cinfo, 
+				j_compress_ptr cinfo,
 				J_COLOR_SPACE colorspace));
 /* 9 */
 EXTERN void		jpeg_default_colorspace _ANSI_ARGS_((
 				j_compress_ptr cinfo));
 /* 10 */
-EXTERN void		jpeg_set_quality _ANSI_ARGS_((j_compress_ptr cinfo, 
+EXTERN void		jpeg_set_quality _ANSI_ARGS_((j_compress_ptr cinfo,
 				int quality, boolean force_baseline));
 /* 11 */
 EXTERN void		jpeg_set_linear_quality _ANSI_ARGS_((
-				j_compress_ptr cinfo, int scale_factor, 
+				j_compress_ptr cinfo, int scale_factor,
 				boolean force_baseline));
 /* 12 */
 EXTERN void		jpeg_add_quant_table _ANSI_ARGS_((
-				j_compress_ptr cinfo, int which_tbl, 
-				const unsigned int * basic_table, 
+				j_compress_ptr cinfo, int which_tbl,
+				const unsigned int * basic_table,
 				int scale_factor, boolean force_baseline));
 /* 13 */
 EXTERN int		jpeg_quality_scaling _ANSI_ARGS_((int quality));
@@ -102,48 +102,48 @@ EXTERN JHUFF_TBL *	jpeg_alloc_huff_table _ANSI_ARGS_((
 				j_common_ptr cinfo));
 /* 18 */
 EXTERN void		jpeg_start_compress _ANSI_ARGS_((
-				j_compress_ptr cinfo, 
+				j_compress_ptr cinfo,
 				boolean write_all_tables));
 /* 19 */
 EXTERN JDIMENSION	jpeg_write_scanlines _ANSI_ARGS_((
-				j_compress_ptr cinfo, JSAMPARRAY scanlines, 
+				j_compress_ptr cinfo, JSAMPARRAY scanlines,
 				JDIMENSION num_lines));
 /* 20 */
 EXTERN void		jpeg_finish_compress _ANSI_ARGS_((
 				j_compress_ptr cinfo));
 /* 21 */
 EXTERN JDIMENSION	jpeg_write_raw_data _ANSI_ARGS_((
-				j_compress_ptr cinfo, JSAMPIMAGE data, 
+				j_compress_ptr cinfo, JSAMPIMAGE data,
 				JDIMENSION num_lines));
 /* 22 */
-EXTERN void		jpeg_write_marker _ANSI_ARGS_((j_compress_ptr cinfo, 
-				int marker, const JOCTET * dataptr, 
+EXTERN void		jpeg_write_marker _ANSI_ARGS_((j_compress_ptr cinfo,
+				int marker, const JOCTET * dataptr,
 				unsigned int datalen));
 /* 23 */
 EXTERN void		jpeg_write_m_header _ANSI_ARGS_((
-				j_compress_ptr cinfo, int marker, 
+				j_compress_ptr cinfo, int marker,
 				unsigned int datalen));
 /* 24 */
-EXTERN void		jpeg_write_m_byte _ANSI_ARGS_((j_compress_ptr cinfo, 
+EXTERN void		jpeg_write_m_byte _ANSI_ARGS_((j_compress_ptr cinfo,
 				int val));
 /* 25 */
 EXTERN void		jpeg_write_tables _ANSI_ARGS_((j_compress_ptr cinfo));
 /* 26 */
-EXTERN int		jpeg_read_header _ANSI_ARGS_((j_decompress_ptr cinfo, 
+EXTERN int		jpeg_read_header _ANSI_ARGS_((j_decompress_ptr cinfo,
 				boolean require_image));
 /* 27 */
 EXTERN boolean		jpeg_start_decompress _ANSI_ARGS_((
 				j_decompress_ptr cinfo));
 /* 28 */
 EXTERN JDIMENSION	jpeg_read_scanlines _ANSI_ARGS_((
-				j_decompress_ptr cinfo, JSAMPARRAY scanlines, 
+				j_decompress_ptr cinfo, JSAMPARRAY scanlines,
 				JDIMENSION max_lines));
 /* 29 */
 EXTERN boolean		jpeg_finish_decompress _ANSI_ARGS_((
 				j_decompress_ptr cinfo));
 /* 30 */
 EXTERN JDIMENSION	jpeg_read_raw_data _ANSI_ARGS_((
-				j_decompress_ptr cinfo, JSAMPIMAGE data, 
+				j_decompress_ptr cinfo, JSAMPIMAGE data,
 				JDIMENSION max_lines));
 /* 31 */
 EXTERN boolean		jpeg_has_multiple_scans _ANSI_ARGS_((
@@ -168,22 +168,22 @@ EXTERN void		jpeg_calc_output_dimensions _ANSI_ARGS_((
 				j_decompress_ptr cinfo));
 /* 38 */
 EXTERN void		jpeg_save_markers _ANSI_ARGS_((
-				j_decompress_ptr cinfo, int marker_code, 
+				j_decompress_ptr cinfo, int marker_code,
 				unsigned int length_limit));
 /* 39 */
 EXTERN void		jpeg_set_marker_processor _ANSI_ARGS_((
-				j_decompress_ptr cinfo, int marker_code, 
+				j_decompress_ptr cinfo, int marker_code,
 				jpeg_marker_parser_method routine));
 /* 40 */
 EXTERN jvirt_barray_ptr * jpeg_read_coefficients _ANSI_ARGS_((
 				j_decompress_ptr cinfo));
 /* 41 */
 EXTERN void		jpeg_write_coefficients _ANSI_ARGS_((
-				j_compress_ptr cinfo, 
+				j_compress_ptr cinfo,
 				jvirt_barray_ptr * coef_arrays));
 /* 42 */
 EXTERN void		jpeg_copy_critical_parameters _ANSI_ARGS_((
-				j_decompress_ptr srcinfo, 
+				j_decompress_ptr srcinfo,
 				j_compress_ptr dstinfo));
 /* 43 */
 EXTERN void		jpeg_abort_compress _ANSI_ARGS_((
@@ -201,7 +201,7 @@ EXTERN boolean		jpeg_resync_to_restart _ANSI_ARGS_((
 
 typedef struct JpegtclStubs {
     int magic;
-    CONST struct JpegtclStubHooks *hooks;
+    const struct JpegtclStubHooks *hooks;
 
     struct jpeg_error_mgr * (*jpeg_std_error) _ANSI_ARGS_((struct jpeg_error_mgr * err)); /* 0 */
     void (*jpeg_CreateCompress) _ANSI_ARGS_((j_compress_ptr cinfo, int version, size_t structsize)); /* 1 */
@@ -256,7 +256,7 @@ typedef struct JpegtclStubs {
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern CONST JpegtclStubs *jpegtclStubsPtr;
+extern const JpegtclStubs *jpegtclStubsPtr;
 #ifdef __cplusplus
 }
 #endif

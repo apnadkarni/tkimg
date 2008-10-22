@@ -40,7 +40,7 @@ declare 5 generic {
     int tkimg_Putc (int c, tkimg_MFile *handle)
 }
 declare 6 generic {
-    int tkimg_Write (tkimg_MFile *handle, CONST char *src, int count)
+    int tkimg_Write (tkimg_MFile *handle, const char *src, int count)
 }
 declare 7 generic {
     void tkimg_ReadBuffer (int onOff)
@@ -59,7 +59,7 @@ declare 10 generic {
 
 declare 20 generic {
     void tkimg_FixChanMatchProc (Tcl_Interp **interp, Tcl_Channel *chan,
-	CONST char **file, Tcl_Obj **format, int **width, int **height)
+	const char **file, Tcl_Obj **format, int **width, int **height)
 }
 declare 21 generic {
     void tkimg_FixObjMatchProc (Tcl_Interp **interp, Tcl_Obj **data,
@@ -75,10 +75,10 @@ declare 22 generic {
 ###  The byte array function also handles both UTF and non-UTF cores.
 
 declare 30 generic {
-    char* tkimg_GetStringFromObj (Tcl_Obj *objPtr, int *lengthPtr)
+    char *tkimg_GetStringFromObj (Tcl_Obj *objPtr, int *lengthPtr)
 }
 declare 31 generic {
-    unsigned char* tkimg_GetByteArrayFromObj (Tcl_Obj *objPtr, int *lengthPtr)
+    unsigned char *tkimg_GetByteArrayFromObj (Tcl_Obj *objPtr, int *lengthPtr)
 }
 declare 32 generic {
     int tkimg_ListObjGetElements (Tcl_Interp *interp, Tcl_Obj *objPtr, int *argc, Tcl_Obj ***argv)

@@ -1,5 +1,11 @@
 2008-10-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
+	* CONST -> const in *.decls, genenerate all header files
+	* white spacing fixes.
+	* eliminate genStubs.tcl in other places than the main "tools"
+
+2008-10-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
 	* Introduce the use of CONST86 for compiling against Tcl 8.6
 
 2008-02-06  Jan Nijtmans <nijtmans@users.sourceforge.net>

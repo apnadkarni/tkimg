@@ -21,11 +21,11 @@ interface zlibtcl
 ###  Misc. interfaces
 
 declare 0 generic {
-    CONST char* zlibVersion (void)
+    const char *zlibVersion (void)
 }
 
 declare 1 generic {
-    CONST char* zError (int err)
+    const char *zError (int err)
 }
 
 declare 2 generic {
@@ -40,12 +40,12 @@ declare 3 generic {
 ###  Deflate = Compression
 
 declare 10 generic {
-    int deflateInit_ (z_streamp stream, int level, const char* version, int stream_size)
+    int deflateInit_ (z_streamp stream, int level, const char *version, int stream_size)
 }
 declare 11 generic {
     int deflateInit2_ (z_streamp stream, int level, 
 	int method, int windowBits, int memLevel, int strategy,
-	const char* version, int stream_size)
+	const char *version, int stream_size)
 }
 declare 12 generic {
     int deflate (z_streamp stream, int flush)
@@ -54,7 +54,7 @@ declare 13 generic {
     int deflateEnd (z_streamp stream)
 }
 declare 14 generic {
-    int deflateSetDictionary (z_streamp stream, CONST Bytef* dict, uInt dictLength)
+    int deflateSetDictionary (z_streamp stream, const Bytef *dict, uInt dictLength)
 }
 declare 15 generic {
     int deflateCopy (z_streamp dst, z_streamp src)
@@ -69,20 +69,20 @@ declare 17 generic {
 #########################################################################
 
 declare 18 generic {
-    int compress (Bytef *dest, uLongf *destLen, CONST Bytef *source, uLong sourceLen)
+    int compress (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen)
 }
 declare 19 generic {
-    int compress2 (Bytef *dest, uLongf *destLen, CONST Bytef *source, uLong sourceLen, int level)
+    int compress2 (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen, int level)
 }
 
 #########################################################################
 ###  Inflate = Decompression
 
 declare 20 generic {
-    int inflateInit_ (z_streamp stream, const char* version, int stream_size)
+    int inflateInit_ (z_streamp stream, const char *version, int stream_size)
 }
 declare 21 generic {
-    int inflateInit2_ (z_streamp stream, int windowBits, const char* version,
+    int inflateInit2_ (z_streamp stream, int windowBits, const char *version,
 			int stream_size)
 }
 declare 22 generic {
@@ -92,7 +92,7 @@ declare 23 generic {
     int inflateEnd (z_streamp stream)
 }
 declare 24 generic {
-    int inflateSetDictionary (z_streamp stream, CONST Bytef* dict, uInt dictLength)
+    int inflateSetDictionary (z_streamp stream, const Bytef *dict, uInt dictLength)
 }
 declare 25 generic {
     int inflateSync (z_streamp stream)
@@ -104,7 +104,7 @@ declare 26 generic {
 #########################################################################
 
 declare 27 generic {
-    int uncompress (Bytef *dest, uLongf *destLen, CONST Bytef *source, uLong sourceLen)
+    int uncompress (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen)
 }
 
 #########################################################################
@@ -132,7 +132,7 @@ declare 36 generic {
     int gzputs (gzFile file, const char *s)
 }
 declare 37 generic {
-    char* gzgets (gzFile file, char *buf, int len)
+    char *gzgets (gzFile file, char *buf, int len)
 }
 declare 38 generic {
     int gzputc (gzFile file, int c)
@@ -159,7 +159,7 @@ declare 45 generic {
     int gzclose (gzFile file)
 }
 declare 46 generic {
-    const char* gzerror (gzFile file, int *errnum)
+    const char *gzerror (gzFile file, int *errnum)
 }
 
 #########################################################################

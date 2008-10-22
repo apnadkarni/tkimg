@@ -93,7 +93,7 @@ declare 20 generic {!PNG_TIME_RFC1123_SUPPORTED} {
     png_charp png_convert_to_rfc1123 (png_structp png_ptr, png_timep ptime)
 }
 declare 21 generic {_WIN32_WCE !PNG_WRITE_tIME_SUPPORTED} {
-    void png_convert_from_struct_tm (png_timep ptime, struct tm FAR * ttime)
+    void png_convert_from_struct_tm (png_timep ptime, struct tm FAR *ttime)
 }
 declare 22 generic {_WIN32_WCE !PNG_WRITE_tIME_SUPPORTED} {
     void png_convert_from_time_t (png_timep ptime, time_t ttime)
@@ -432,7 +432,7 @@ declare 127 generic {
     png_bytep png_get_signature (png_structp png_ptr, png_infop info_ptr)
 }
 declare 128 generic {!PNG_READ_bKGD_SUPPORTED} {
-    png_uint_32 png_get_bKGD (png_structp png_ptr, png_infop info_ptr, png_color_16p* background)
+    png_uint_32 png_get_bKGD (png_structp png_ptr, png_infop info_ptr, png_color_16p *background)
 }
 declare 129 generic {!PNG_bKGD_SUPPORTED} {
     void png_set_bKGD (png_structp png_ptr, png_infop info_ptr, png_color_16p background)
@@ -463,7 +463,7 @@ declare 134 generic {!PNG_READ_gAMA_SUPPORTED !PNG_FLOATING_POINT_SUPPORTED} {
     png_uint_32 png_get_gAMA (png_structp png_ptr, png_infop info_ptr, double *file_gamma)
 }
 declare 135 generic {!PNG_READ_gAMA_SUPPORTED} {
-    png_uint_32 png_get_gAMA_fixed (png_structp png_ptr, png_infop info_ptr, png_fixed_point* int_file_gamma)
+    png_uint_32 png_get_gAMA_fixed (png_structp png_ptr, png_infop info_ptr, png_fixed_point *int_file_gamma)
 }
 declare 136 generic {!PNG_gAMA_SUPPORTED !PNG_FLOATING_POINT_SUPPORTED} {
     void png_set_gAMA (png_structp png_ptr, png_infop info_ptr, double file_gamma)
@@ -509,7 +509,7 @@ declare 149 generic {
 }
 
 declare 150 generic {!PNG_READ_sBIT_SUPPORTED} {
-    png_uint_32 png_get_sBIT (png_structp png_ptr, png_infop info_ptr, png_color_8p* sig_bit)
+    png_uint_32 png_get_sBIT (png_structp png_ptr, png_infop info_ptr, png_color_8p *sig_bit)
 }
 declare 151 generic {!PNG_sBIT_SUPPORTED} {
     void png_set_sBIT (png_structp png_ptr, png_infop info_ptr, png_color_8p sig_bit)
