@@ -39,7 +39,7 @@
  *                  format is printed to stdout. Default is "false".
  * -index <uint>:   Read the icon with specified index. Default is 0.
  *
- * Notes: 
+ * Notes:
  *
  *
  * ENDHEADER
@@ -82,7 +82,7 @@ typedef struct {
 /* ICO file header structure */
 typedef struct {
    UShort   nIcons;
-   ICOENTRY *entries; 
+   ICOENTRY *entries;
 } ICOHEADER;
 
 typedef struct {
@@ -114,7 +114,7 @@ typedef struct {
 
 /* OPA TODO: Change from ANSI-C arguments to _ANSI_ARGS_ macro. */
 
-static Boln readUByte (tkimg_MFile *handle, UByte *b) 
+static Boln readUByte (tkimg_MFile *handle, UByte *b)
 {
     char buf[1];
     if (1 != tkimg_Read(handle, buf, 1)) {
@@ -128,7 +128,7 @@ static Boln readUByte (tkimg_MFile *handle, UByte *b)
    <LowByte, HighByte>, from a file and convert them into the current
    machine's format. */
 
-static Boln readUShort (tkimg_MFile *handle, UShort *s) 
+static Boln readUShort (tkimg_MFile *handle, UShort *s)
 {
     char buf[2];
     UShort tmp;
@@ -146,7 +146,7 @@ static Boln readUShort (tkimg_MFile *handle, UShort *s)
    <LowByte, HighByte>, from a file and convert them into the current
    machine's format. */
 
-static Boln readUInt (tkimg_MFile *handle, UInt *i) 
+static Boln readUInt (tkimg_MFile *handle, UInt *i)
 {
     char buf[4];
     UInt tmp;
@@ -164,7 +164,7 @@ static Boln readUInt (tkimg_MFile *handle, UInt *i)
 
 /* Write a byte, representing an unsigned integer to a file. */
 
-static Boln writeUByte (tkimg_MFile *handle, UByte b) 
+static Boln writeUByte (tkimg_MFile *handle, UByte b)
 {
     UByte buf[1];
     buf[0] = b;
@@ -177,7 +177,7 @@ static Boln writeUByte (tkimg_MFile *handle, UByte b)
 /* Convert a unsigned 16 bit integer number into the format
    <LowByte, HighByte> (an array of 2 bytes) and write the array to a file. */
 
-static Boln writeUShort (tkimg_MFile *handle, UShort s) 
+static Boln writeUShort (tkimg_MFile *handle, UShort s)
 {
     Byte buf[2];
     buf[0] = s;
@@ -191,7 +191,7 @@ static Boln writeUShort (tkimg_MFile *handle, UShort s)
 /* Convert a unsigned 32 bit integer number into the format
    <LowByte, HighByte> (an array of 4 bytes) and write the array to a file. */
 
-static Boln writeUInt (tkimg_MFile *handle, UInt i) 
+static Boln writeUInt (tkimg_MFile *handle, UInt i)
 {
     Byte buf[4];
     buf[0] = i;
@@ -206,7 +206,7 @@ static Boln writeUInt (tkimg_MFile *handle, UInt i)
 
 #define OUT Tcl_WriteChars (outChan, str, -1)
 static void printImgInfo (ICOHEADER *th, INFOHEADER *ih, FMTOPT *opts,
-                          const char *filename, const char *msg) 
+                          const char *filename, const char *msg)
 {
     Tcl_Channel outChan;
     char str[256];
@@ -229,7 +229,7 @@ static void printImgInfo (ICOHEADER *th, INFOHEADER *ih, FMTOPT *opts,
 }
 #undef OUT
 
-static Boln readIcoHeader (tkimg_MFile *handle, ICOHEADER *th) 
+static Boln readIcoHeader (tkimg_MFile *handle, ICOHEADER *th)
 {
     int    i;
     UByte  nColors;
@@ -277,11 +277,11 @@ static Boln readIcoHeader (tkimg_MFile *handle, ICOHEADER *th)
     return TRUE;
 }
 
-static Boln writeIcoHeader (tkimg_MFile *handle, ICOHEADER *th) 
+static Boln writeIcoHeader (tkimg_MFile *handle, ICOHEADER *th)
 {
     int    i;
     UByte  nColors;
-    UShort reserved = 0, 
+    UShort reserved = 0,
            type = 1;
 
     if (!writeUShort (handle, reserved)) {
@@ -309,7 +309,7 @@ static Boln writeIcoHeader (tkimg_MFile *handle, ICOHEADER *th)
     return TRUE;
 }
 
-static Boln readInfoHeader (tkimg_MFile *handle, INFOHEADER *ih) 
+static Boln readInfoHeader (tkimg_MFile *handle, INFOHEADER *ih)
 {
     if (!readUInt   (handle, &ih->size) ||
 	!readUInt   (handle, &ih->width) ||
@@ -341,7 +341,7 @@ static Boln readInfoHeader (tkimg_MFile *handle, INFOHEADER *ih)
     return TRUE;
 }
 
-static Boln writeInfoHeader (tkimg_MFile *handle, INFOHEADER *ih) 
+static Boln writeInfoHeader (tkimg_MFile *handle, INFOHEADER *ih)
 {
     if (!writeUInt   (handle, ih->size) ||
 	!writeUInt   (handle, ih->width) ||
@@ -373,7 +373,7 @@ static Boln writeInfoHeader (tkimg_MFile *handle, INFOHEADER *ih)
     return TRUE;
 }
 
-static Boln readColorMap (tkimg_MFile *handle, int mapSize, ICOCOLOR *colorMap) 
+static Boln readColorMap (tkimg_MFile *handle, int mapSize, ICOCOLOR *colorMap)
 {
     int i;
     ICOCOLOR color;
@@ -425,7 +425,7 @@ static int ParseFormatOpts (interp, format, opts)
     Tcl_Obj *format;
     FMTOPT *opts;
 {
-    static CONST84 char *icoOptions[] = {
+    static const char *const icoOptions[] = {
          "-verbose", "-index"
     };
     int objc, length, c, i, index;
@@ -440,7 +440,7 @@ static int ParseFormatOpts (interp, format, opts)
 	return TCL_ERROR;
     if (objc) {
 	for (i=1; i<objc; i++) {
-	    if (Tcl_GetIndexFromObj(interp, objv[i], icoOptions,
+	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)icoOptions,
 		    "format option", 0, &index) != TCL_OK) {
 		return TCL_ERROR;
 	    }
@@ -452,10 +452,10 @@ static int ParseFormatOpts (interp, format, opts)
 	    }
 	    switch(index) {
 		case 0:
-		    verboseStr = Tcl_GetStringFromObj(objv[i], (int *) NULL); 
+		    verboseStr = Tcl_GetStringFromObj(objv[i], (int *) NULL);
 		    break;
 		case 1:
-		    indexStr = Tcl_GetStringFromObj(objv[i], (int *) NULL); 
+		    indexStr = Tcl_GetStringFromObj(objv[i], (int *) NULL);
 		    break;
 	    }
 	}
@@ -474,7 +474,7 @@ static int ParseFormatOpts (interp, format, opts)
 	!strncmp (verboseStr, "off", length)) {
 	opts->verbose = 0;
     } else {
-	Tcl_AppendResult(interp, "invalid verbose mode \"", verboseStr, 
+	Tcl_AppendResult(interp, "invalid verbose mode \"", verboseStr,
 			  "\": should be 1 or 0, on or off, true or false",
 			  (char *) NULL);
 	return TCL_ERROR;
@@ -632,8 +632,8 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
         goto error;
     }
 
-    /* Instead of seeking, which does not work on strings, 
-       we calculate the number of bytes from the current position 
+    /* Instead of seeking, which does not work on strings,
+       we calculate the number of bytes from the current position
        till the start of the INFOHEADER and read these bytes with tkimg_Read. */
     nBytesToSkip = icoHeader.entries[opts.index].fileOffset -6 -
                    16 * icoHeader.nIcons;
@@ -682,7 +682,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     }
 
     if (opts.verbose) {
-        printImgInfo (&icoHeader, &infoHeader, &opts, 
+        printImgInfo (&icoHeader, &infoHeader, &opts,
 		      filename, "Reading image:");
     }
 
@@ -698,7 +698,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     block.offset[0] = 0;
     block.offset[1] = 1;
     block.offset[2] = 2;
-    block.offset[3] = 3; 
+    block.offset[3] = 3;
     block.pixelPtr = (unsigned char *) ckalloc (4 * fileWidth * fileHeight);
     expline = block.pixelPtr;
 
@@ -757,13 +757,13 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    }
 	    break;
 	default:
-	    sprintf(msgStr,"%d-bits ICO file not supported", 
+	    sprintf(msgStr,"%d-bits ICO file not supported",
                      infoHeader.nBitsPerPixel);
 	    Tcl_AppendResult(interp, msgStr, (char *)NULL);
 	    errorFlag = TCL_ERROR;
 	    goto error;
     }
-    
+
     /* Read XAND bitmap. */
     bytesPerLine = ((1 * fileWidth + 31)/32)*4;
 
@@ -901,7 +901,7 @@ static int CommonWrite (interp, handle, blockPtr)
 		}
 		foundColor = 0;
 		for (i=0; i<ncolors; i++) {
-		    if (pixel.red   == colorMap[i].red && 
+		    if (pixel.red   == colorMap[i].red &&
                         pixel.green == colorMap[i].green &&
                         pixel.blue  == colorMap[i].blue) {
 			foundColor = 1;
@@ -944,7 +944,7 @@ static int CommonWrite (interp, handle, blockPtr)
     icoHeader.entries[0].reserved    = 0;
     icoHeader.entries[0].nPlanes     = 1;
     icoHeader.entries[0].bitCount    = (ncolors > 0? 8: 24);
-    icoHeader.entries[0].sizeInBytes = sizeof (INFOHEADER) + 
+    icoHeader.entries[0].sizeInBytes = sizeof (INFOHEADER) +
 				       ncolors * sizeof (ICOCOLOR) +
                                        bytesPerLineXOR * blockPtr->height +
                                        bytesPerLineAND * blockPtr->height;

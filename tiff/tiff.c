@@ -738,7 +738,7 @@ ChnWrite(interp, filename, format, blockPtr)
 {
     TIFF *tif;
     int result, comp;
-    Tcl_DString nameBuffer; 
+    Tcl_DString nameBuffer;
     const char *fullname, *mode;
 
     if (!(fullname=Tcl_TranslateFileName(interp, filename, &nameBuffer))) {
@@ -771,7 +771,7 @@ ParseWriteFormat(interp, format, comp, mode)
     int *comp;
     const char **mode;
 {
-    static CONST84 char *tiffWriteOptions[] = {
+    static const char *const tiffWriteOptions[] = {
       "-compression",
       "-byteorder",
       NULL
@@ -788,7 +788,7 @@ ParseWriteFormat(interp, format, comp, mode)
 	compression = "none";
 	byteorder = "";
 	for (i=1; i<objc; i++) {
-	    if (Tcl_GetIndexFromObj(interp, objv[i], tiffWriteOptions,
+	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)tiffWriteOptions,
 		    "format option", 0, &index) !=TCL_OK) {
 		return TCL_ERROR;
 	    }

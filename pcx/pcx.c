@@ -40,7 +40,7 @@
  * -compression <type>: Set the compression mode to either "none" or "rle".
  *			Default is "rle".
  *
- * Notes: 
+ * Notes:
  *
  * - Part of this code was taken from the "pcx" GIMP plugin:
  *
@@ -101,7 +101,7 @@ typedef struct {
 
 static int isIntel (void)
 {
-    char order[] = { 1, 2, 3, 4}; 
+    char order[] = { 1, 2, 3, 4};
     unsigned long val = (unsigned long)*((short *)order);
     /* On Intel (little-endian) systems this value is equal to 513.
        On big-endian systems this value equals 258. */
@@ -187,7 +187,7 @@ static void printImgInfo (PCXHEADER *ph, const char *filename, const char *msg)
 }
 #undef OUT
 
-static Boln readline (tkimg_MFile *handle, UByte *buffer, Int bytes, Int compr) 
+static Boln readline (tkimg_MFile *handle, UByte *buffer, Int bytes, Int compr)
 {
     static UByte count = 0, value = 0;
 
@@ -217,7 +217,7 @@ static Boln readline (tkimg_MFile *handle, UByte *buffer, Int bytes, Int compr)
     return TRUE;
 }
 
-static Boln writeline (tkimg_MFile *handle, UByte *buffer, Int bytes) 
+static Boln writeline (tkimg_MFile *handle, UByte *buffer, Int bytes)
 {
     UByte value, count;
     UByte *finish = buffer + bytes;
@@ -225,7 +225,7 @@ static Boln writeline (tkimg_MFile *handle, UByte *buffer, Int bytes)
     while (buffer < finish) {
         value = *(buffer++);
         count = 1;
-      
+
         while (buffer < finish && count < 63 && *buffer == value) {
 	    count++;
             buffer++;
@@ -278,12 +278,12 @@ static Boln load_8 (Tcl_Interp *interp, tkimg_MFile *ifp,
     block.offset[1] = 1;
     block.offset[2] = 2;
     block.offset[3] = 0;
- 
+
     block.pixelPtr = buffer + srcX * 3;
- 
+
     stopY = srcY + height;
     outY  = destY;
- 
+
     /* Read in the whole image data as indices. */
     for (y=0; y<stopY; y++) {
         if (!readline (ifp, line, bytesPerLine, compr)) {
@@ -388,9 +388,9 @@ static Boln load_1 (Tcl_Interp *interp, tkimg_MFile *ifp,
     block.offset[1] = 0;
     block.offset[2] = 0;
     block.offset[3] = 0;
- 
+
     block.pixelPtr = buffer + srcX * 1;
- 
+
     stopY = srcY + height;
     outY  = destY;
 
@@ -429,7 +429,7 @@ static int   CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
 	         const char *filename, Tcl_Obj *format,
 	         Tk_PhotoHandle imageHandle, int destX, int destY,
 		 int width, int height, int srcX, int srcY));
-static int   CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, 
+static int   CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
                  const char *filename, Tcl_Obj *format,
                  tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr));
 
@@ -440,7 +440,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static CONST84 char *pcxOptions[] = {"-compression", "-verbose", "-matte"};
+    static const char *const pcxOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     CONST84 char *compression, *verbose, *transp;
@@ -455,7 +455,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 	verbose     = "0";
 	transp      = "1";
 	for (i=1; i<objc; i++) {
-	    if (Tcl_GetIndexFromObj(interp, objv[i], pcxOptions,
+	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)pcxOptions,
 		    "format option", 0, &index) != TCL_OK) {
 		return TCL_ERROR;
 	    }
@@ -470,10 +470,10 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 		    compression = Tcl_GetStringFromObj(objv[i], (int *) NULL);
 		    break;
 		case 1:
-		    verbose = Tcl_GetStringFromObj(objv[i], (int *) NULL); 
+		    verbose = Tcl_GetStringFromObj(objv[i], (int *) NULL);
 		    break;
 		case 2:
-		    transp = Tcl_GetStringFromObj(objv[i], (int *) NULL); 
+		    transp = Tcl_GetStringFromObj(objv[i], (int *) NULL);
 		    break;
 	    }
 	}
@@ -499,7 +499,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 	    !strncmp (verbose, "off", length)) {
 	    *verb = 0;
 	} else {
-	    Tcl_AppendResult(interp, "invalid verbose mode \"", verbose, 
+	    Tcl_AppendResult(interp, "invalid verbose mode \"", verbose,
                               "\": should be 1 or 0, on or off, true or false",
 			      (char *) NULL);
 	    return TCL_ERROR;
@@ -519,7 +519,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
                               "\": should be 1 or 0, on or off, true or false",
                               (char *) NULL);
             return TCL_ERROR;
-        }   
+        }
     }
     return TCL_OK;
 }
@@ -577,7 +577,7 @@ static int CommonMatch(handle, widthPtr, heightPtr, pcxHeaderPtr)
 	return 0;
 
     *widthPtr  = qtohs (ph.x2) - offset_x + 1;
-    *heightPtr = qtohs (ph.y2) - offset_y + 1;      
+    *heightPtr = qtohs (ph.y2) - offset_y + 1;
 
     if (*widthPtr < 1 || *heightPtr < 1)
 	return 0;
@@ -764,7 +764,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     Tk_PhotoImageBlock *blockPtr;
 {
     int     x, y, nchan, nBytes;
-    int     redOffset, greenOffset, blueOffset, alphaOffset; 
+    int     redOffset, greenOffset, blueOffset, alphaOffset;
     UByte   *pixelPtr, *pixRowPtr;
     PCXHEADER ph;
     UByte *row;
@@ -786,7 +786,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     if (++alphaOffset < blockPtr->pixelSize) {
         alphaOffset -= blockPtr->offset[0];
     } else {
-        alphaOffset = 0;   
+        alphaOffset = 0;
     }
 
     nchan   = 3;
@@ -796,7 +796,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     memset (&ph, 0, sizeof (PCXHEADER));
     ph.manufacturer = 0x0a;
     ph.version = 5;
-    ph.compression = compr; 
+    ph.compression = compr;
     ph.bpp = 8;
     ph.planes = 3;
     ph.color = htoqs (1);
@@ -828,8 +828,8 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
 		pixelPtr += blockPtr->pixelSize;
 	    }
 	    if (nBytes != tkimg_Write(handle, (const char *)row, nBytes)) {
-		sprintf(errMsg, "Can't write %d bytes to image file.", nBytes); 
-		Tcl_AppendResult(interp, errMsg, (char *)NULL); 
+		sprintf(errMsg, "Can't write %d bytes to image file.", nBytes);
+		Tcl_AppendResult(interp, errMsg, (char *)NULL);
 		ckfree ((char *)row);
 		return TCL_ERROR;
 	    }
@@ -845,8 +845,8 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
 		pixelPtr += blockPtr->pixelSize;
 	    }
 	    if (!writeline (handle, row, nBytes)) {
-		sprintf(errMsg, "Can't write %d bytes to image file.", nBytes); 
-		Tcl_AppendResult(interp, errMsg, (char *)NULL); 
+		sprintf(errMsg, "Can't write %d bytes to image file.", nBytes);
+		Tcl_AppendResult(interp, errMsg, (char *)NULL);
 		ckfree ((char *)row);
 		return TCL_ERROR;
 	    }

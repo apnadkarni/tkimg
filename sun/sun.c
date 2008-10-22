@@ -831,7 +831,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static CONST84 char *sunOptions[] = {"-compression", "-verbose", "-matte"};
+    static const char *const sunOptions[] = {"-compression", "-verbose", "-matte"};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     CONST84 char *compression, *verbose, *transp;
@@ -846,7 +846,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 	verbose     = "0";
 	transp      = "1";
 	for (i=1; i<objc; i++) {
-	    if (Tcl_GetIndexFromObj(interp, objv[i], sunOptions,
+	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)sunOptions,
 		    "format option", 0, &index) != TCL_OK) {
 		return TCL_ERROR;
 	    }

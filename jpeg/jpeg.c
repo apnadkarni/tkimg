@@ -539,7 +539,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     int srcX, srcY;		/* Coordinates of top-left pixel to be used
 				 * in image being read. */
 {
-    static CONST84 char *jpegReadOptions[] = {"-fast", "-grayscale", NULL};
+    static const char *const jpegReadOptions[] = {"-fast", "-grayscale", NULL};
     int fileWidth, fileHeight, stopY, curY, outY, outWidth, outHeight;
     myblock bl;
 #define block bl.ck
@@ -563,7 +563,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     }
     if (objc) {
 	for (i=1; i<objc; i++) {
-	    if (Tcl_GetIndexFromObj(interp, objv[i], jpegReadOptions, "format option",
+	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)jpegReadOptions, "format option",
 		    0, &index)!=TCL_OK) {
 		return TCL_ERROR;
 	    }
@@ -809,11 +809,11 @@ writeend:
 static int
 CommonWrite(interp, cinfo, format, blockPtr)
     Tcl_Interp *interp;
-    j_compress_ptr cinfo;	
+    j_compress_ptr cinfo;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
-    static CONST84 char *jpegWriteOptions[] = {"-grayscale", "-optimize",
+    static const char *const jpegWriteOptions[] = {"-grayscale", "-optimize",
 	"-progressive", "-quality", "-smooth", NULL};
     JSAMPROW row_pointer[1];	/* pointer to original data scanlines */
     JSAMPARRAY buffer;		/* Intermediate row buffer */
@@ -851,7 +851,7 @@ CommonWrite(interp, cinfo, format, blockPtr)
     }
     if (objc) {
 	for (i=1; i<objc; i++) {
-	    if (Tcl_GetIndexFromObj(interp, objv[i], jpegWriteOptions,
+	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)jpegWriteOptions,
 		    "format option", 0, &index)!=TCL_OK) {
 		return TCL_ERROR;
 	    }
@@ -911,7 +911,7 @@ CommonWrite(interp, cinfo, format, blockPtr)
     }
 
     jpeg_start_compress(cinfo, TRUE);
-    
+
     /* note: we assume libjpeg is configured for standard RGB pixel order. */
     if ((greenOffset == 1) && (blueOffset == 2)
 	&& (blockPtr->pixelSize == 3)) {

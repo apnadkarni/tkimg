@@ -1,3 +1,7 @@
+2008-10-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Introduce the use of CONST86 for compiling against Tcl 8.6
+
 2008-02-06  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Updated genStubs.tcl to match with the version in Tcl8.5.1
