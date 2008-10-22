@@ -43,7 +43,7 @@ declare 10 generic {
     int deflateInit_ (z_streamp stream, int level, const char *version, int stream_size)
 }
 declare 11 generic {
-    int deflateInit2_ (z_streamp stream, int level, 
+    int deflateInit2_ (z_streamp stream, int level,
 	int method, int windowBits, int memLevel, int strategy,
 	const char *version, int stream_size)
 }

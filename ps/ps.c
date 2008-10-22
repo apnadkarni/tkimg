@@ -225,7 +225,7 @@ ObjRead(interp, data, format, imageHandle,
 
     tkimg_ReadInit(data,'%',&handle);
 
-    return CommonRead(interp, &handle, format, imageHandle, 
+    return CommonRead(interp, &handle, format, imageHandle,
 	    destX, destY, width, height, srcX, srcY);
 }
 

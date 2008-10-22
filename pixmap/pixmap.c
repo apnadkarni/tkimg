@@ -42,7 +42,7 @@ static int		TkimgXpmCreate _ANSI_ARGS_((Tcl_Interp *interp,
 static ClientData	TkimgXpmGet _ANSI_ARGS_((Tk_Window tkwin,
 			    ClientData clientData));
 static void		TkimgXpmDisplay _ANSI_ARGS_((ClientData clientData,
-			    Display *display, Drawable drawable, 
+			    Display *display, Drawable drawable,
 			    int imageX, int imageY, int width, int height,
 			    int drawableX, int drawableY));
 static void		TkimgXpmFree _ANSI_ARGS_((ClientData clientData,
@@ -369,7 +369,7 @@ TkimgXpmGetData(interp, masterPtr)
     if (listArgv) {
 	ckfree((char*)listArgv);
     }
-		   
+
     return code;
 }
 
@@ -639,7 +639,7 @@ GetColor(colorDefn, colorName, type_ret)
 	if (GetType(colorDefn, &dummy) == NULL) {
 	    /* the next string should also be considered as a part of a color
 	     * name */
-	    
+
 	    while (*colorDefn && isspace(UCHAR(*colorDefn))) {
 		*p++ = *colorDefn++;
 	    }
@@ -772,7 +772,7 @@ TkimgXpmGetPixmapFromData(interp, masterPtr, instancePtr)
 	} else {
 	    strncpy(colors[i].cstring, masterPtr->data[i+lOffset],
 		(size_t)masterPtr->cpp);
-	} 
+	}
 
 	if (found) {
 	    if (strncasecmp(useName, "none", 5) != 0) {
@@ -814,7 +814,7 @@ TkimgXpmGetPixmapFromData(interp, masterPtr, instancePtr)
 		}
 	    } else {
 		for (k=0; k<masterPtr->ncolors; k++) {
-		    if (strncmp(p, colors[k].cstring, 
+		    if (strncmp(p, colors[k].cstring,
 			    (size_t)masterPtr->cpp) == 0) {
 			TkimgXpmSetPixel(instancePtr, image, mask, j, i,
 			        colors[k].colorPtr, &isTransp);
@@ -1223,7 +1223,7 @@ TkimgXpmCmdDeletedProc(clientData)
 }
 
 /*
- * Package management. Initialization of stub information. 
+ * Package management. Initialization of stub information.
  */
 
 /*
@@ -1304,4 +1304,3 @@ Tkimgpixmap_SafeInit (interp)
 {
     return Tkimgpixmap_Init (interp);
 }
-

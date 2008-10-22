@@ -12,7 +12,7 @@
  *
  * <mweilguni@sime.com> Mario Weilguni
  * Jan 1997:
- *      - fixed a bug when reading images with invalid color tables 
+ *      - fixed a bug when reading images with invalid color tables
  *        (if a pixelchar is not in the colormap)
  *      - added FileWriteXPM, StringWriteXPM and WriteXPM.
  *      - modified FileReadXPM, ReadXPM and added StringReadXPM
@@ -23,7 +23,7 @@
  *      - Bugfix  in CommonWriteXPM: const char *fileName was overwritten.
  *      - Bugfix  in CommonWriteXPM: If used with "-from" option, dumped core.
  *      - Improve in CommonWriteXPM: Greater channel buffersize for better
- *                                   Win98 (i.e. FAT32) performance. 
+ *                                   Win98 (i.e. FAT32) performance.
  *      - Improve in ChnRead: Better performance by using ReadBuffer.
  *
  * $Id$
@@ -425,29 +425,29 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
 	}
 	p += byteSize * srcX + 1;
 	pixelPtr = block.pixelPtr;
-	
+
 	for (i = 0; i < width; ) {
 	    unsigned int col;
 
 	    memcpy((char *) &color1, p, byteSize);
 	    hPtr = Tcl_FindHashEntry(&colorTable, (char *) (size_t) color1);
 
-	    /* 
-	     * if hPtr == NULL, we have an invalid color entry in the XPM 
+	    /*
+	     * if hPtr == NULL, we have an invalid color entry in the XPM
 	     * file. We use transparant as default color
 	     */
-	    if (hPtr != (Tcl_HashEntry *)NULL) 
+	    if (hPtr != (Tcl_HashEntry *)NULL)
 	        col = (unsigned int) (size_t) Tcl_GetHashValue(hPtr);
-	    else 
+	    else
 	        col = (unsigned int) 0;
-	    
+
 	    /*
 	     * we've found a non-transparent pixel, let's search the next
 	     * transparent pixel and copy this block to the image
 	     */
 	    if (col) {
 	        int len = 0, j;
-		
+
 		j = i;
 		pixelPtr = block.pixelPtr;
 		do {
@@ -456,13 +456,13 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
 		    i++;
 		    len++;
 		    p += byteSize;
-		    
+
 		    if (i < width) {
 		        memcpy((char *) &color1, p, byteSize);
 			hPtr = Tcl_FindHashEntry(&colorTable, (char *) (size_t) color1);
-			if (hPtr != (Tcl_HashEntry *)NULL) 
+			if (hPtr != (Tcl_HashEntry *)NULL)
 			    col = (unsigned int) (size_t) Tcl_GetHashValue(hPtr);
-			else 
+			else
 			    col = (unsigned int) 0;
 		    }
 		} while ((i < width) && col);
@@ -753,7 +753,7 @@ static char * GetColor(colorDefn, colorName, type_ret)
 	if (GetType(colorDefn, &dummy) == NULL) {
 	    /* the next string should also be considered as a part of a color
 	     * name */
-	    
+
 	    while (*colorDefn && isspace(UCHAR(*colorDefn))) {
 		*p++ = *colorDefn++;
 	    }
@@ -815,8 +815,8 @@ ChnWrite(interp, fileName, format, blockPtr)
  *
  *----------------------------------------------------------------------
  */
-static int	        
-StringWrite(interp, dataPtr, format, blockPtr) 
+static int
+StringWrite(interp, dataPtr, format, blockPtr)
     Tcl_Interp *interp;
     Tcl_DString *dataPtr;
     Tcl_Obj *format;
@@ -843,7 +843,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
  *
  * CommonWrite
  *
- *	This procedure writes a XPM image to the file filename 
+ *	This procedure writes a XPM image to the file filename
  *      (if filename != NULL) or to dataPtr.
  *
  * Results:
@@ -863,7 +863,7 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     Tcl_Interp *interp;
     const char *fileName;
     Tcl_DString *dataPtr;
-    Tcl_Obj *format;    
+    Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
     int x, y, i;
@@ -983,21 +983,21 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     }
 
     /* write colormap strings */
-    entry = Tcl_FirstHashEntry(&colors, &search); 
+    entry = Tcl_FirstHashEntry(&colors, &search);
     y = 0;
     temp.component[chars_per_pixel] = 0;
     while(entry) {
 	/* compute a color identifier for color #y */
-	for (i = 0, x = y++; i < chars_per_pixel; i++, x /= 64) 
+	for (i = 0, x = y++; i < chars_per_pixel; i++, x /= 64)
 	    temp.component[i] = xpm_chars[x & 63];
 
-	/* 
-	 * and put it in the hashtable 
+	/*
+	 * and put it in the hashtable
 	 * this is a little bit tricky
 	 */
 	Tcl_SetHashValue(entry, (char *) temp.value);
 	pp = (unsigned char *)&entry->key.oneWordValue;
-	sprintf(buffer, "\"%s c #%02x%02x%02x\",\n", 
+	sprintf(buffer, "\"%s c #%02x%02x%02x\",\n",
 		temp.component, pp[0], pp[1], pp[2]);
 	WRITE(buffer);
 	entry = Tcl_NextHashEntry(&search);
@@ -1021,7 +1021,7 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
 		/* make transparent pixel */
 		memcpy(buffer, "    ", chars_per_pixel);
 	    }
-	    pixelPtr += blockPtr->pixelSize;	
+	    pixelPtr += blockPtr->pixelSize;
 	    WRITE(buffer);
 	}
 	if (y == blockPtr->height - 1) {
@@ -1033,7 +1033,7 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     }
 
     /* Delete the hash table */
-    Tcl_DeleteHashTable(&colors);    
+    Tcl_DeleteHashTable(&colors);
 
     /* close the file */
     if (chan) {

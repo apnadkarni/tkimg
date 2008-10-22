@@ -10,7 +10,7 @@
  *
  * <paul@poSoft.de> Paul Obermeier
  * Feb 2001:
- *      - Bugfix  in CommonWrite: const char *fileName was overwritten. 
+ *      - Bugfix  in CommonWrite: const char *fileName was overwritten.
  *
  * $Id$
  *
@@ -534,8 +534,8 @@ ChnWrite(interp, fileName, format, blockPtr)
  *
  *----------------------------------------------------------------------
  */
-static int	        
-StringWrite(interp, dataPtr, format, blockPtr) 
+static int
+StringWrite(interp, dataPtr, format, blockPtr)
     Tcl_Interp *interp;
     Tcl_DString *dataPtr;
     Tcl_Obj *format;
@@ -565,7 +565,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
  *
  * CommonWrite
  *
- *	This procedure writes a XBM image to the file filename 
+ *	This procedure writes a XBM image to the file filename
  *      (if filename != NULL) or to dataPtr.
  *
  * Results:
@@ -581,11 +581,11 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     Tcl_Interp *interp;
     const char *fileName;
     Tcl_DString *dataPtr;
-    Tcl_Obj *format;    
+    Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
     Tcl_Channel chan = (Tcl_Channel) NULL;
-    char buffer[256];           
+    char buffer[256];
     unsigned char *pp;
     int x, y, i, value, mask;
     int sep = ' ';
@@ -595,7 +595,7 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     static const char header[] =
 "#define %s_width %d\n\
 #define %s_height %d\n\
-static char %s_bits[] = {\n";  
+static char %s_bits[] = {\n";
 
     alphaOffset = blockPtr->offset[0];
     if (alphaOffset < blockPtr->offset[1]) alphaOffset = blockPtr->offset[1];
@@ -634,7 +634,7 @@ static char %s_bits[] = {\n";
     if (p) {
 	*p = 0;
     }
-    
+
     sprintf(buffer, header, imgName, blockPtr->width, imgName,
 	    blockPtr->height, imgName);
     WRITE(buffer);
@@ -651,7 +651,7 @@ static char %s_bits[] = {\n";
 	    } else {
 		/* make transparent pixel */
 	    }
-	    pp += blockPtr->pixelSize;	
+	    pp += blockPtr->pixelSize;
 	    i++;
 	    mask <<= 1;
 	    if (mask >= 256)
@@ -662,7 +662,7 @@ static char %s_bits[] = {\n";
 	      mask = 1;
 	      sep = ',';
              }
-	}          
+	}
 	if (mask != 1) {
 	      sprintf(buffer,"%c 0x%02x",sep, value);
 	      WRITE(buffer);

@@ -292,7 +292,7 @@ static int ObjRead(interp, data, format, imageHandle,
 
 #ifndef	__WIN32__
     /*
-     * Generate an XImage from the window.  We can then read pixel 
+     * Generate an XImage from the window.  We can then read pixel
      * values out of the XImage.
      */
 

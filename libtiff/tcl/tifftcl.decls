@@ -4,7 +4,7 @@
 # that are exported by the TIFFTCL library via the stubs table. This file
 # is used to generate the tifftclDecls.h/tifftclStubsLib.c/tifftclStubsInit.c
 # files.
-#	
+#
 
 # Declare each of the functions in the public BLT interface.  Note that
 # the an index should never be reused for a different function in order
@@ -366,7 +366,7 @@ declare 127 generic {
 }
 declare 128 generic {
     int  _TIFFNoPreCode (TIFF *tiffptr, tsample_t a)
-} 
+}
 declare 129 generic {
     int _TIFFNoSeek(TIFF *tiffptr, uint32 a)
 }

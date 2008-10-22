@@ -210,7 +210,7 @@ TkimgXpmRealizePixmap(masterPtr, instancePtr, image, mask, isTransp)
     }
     gcValues.graphics_exposures = False;
     gcValues.clip_mask = dataPtr->mask;
-    
+
     gc = Tk_GetGC(instancePtr->tkwin, gcMask, &gcValues);
     dataPtr->gc = gc;
 }

@@ -30,7 +30,7 @@
  *
  * No format options are available.
  *
- * Notes: 
+ * Notes:
  *
  * - Part of this code was taken from Tk's tkImgPPM.c:
  *
@@ -128,7 +128,7 @@ static int ChnMatch(interp, chan, filename, format, widthPtr, heightPtr)
                          &widthPtr, &heightPtr);
 
     handle.data = (char *) chan;
-    handle.state = IMG_CHAN;    
+    handle.state = IMG_CHAN;
 
     return CommonMatch(&handle, widthPtr, heightPtr, &dummy);
 }
@@ -178,7 +178,7 @@ static int CommonMatch(handle, widthPtr, heightPtr, maxIntensityPtr)
  *----------------------------------------------------------------------
  */
 
-static int ChnRead(interp, chan, filename, format, imageHandle, 
+static int ChnRead(interp, chan, filename, format, imageHandle,
                     destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     Tcl_Channel chan;		/* The image file, open for reading. */
@@ -225,7 +225,7 @@ typedef struct myblock {
 } myblock;
 #define block bl.ck
 
-static int CommonRead (interp, handle, filename, format, imageHandle, 
+static int CommonRead (interp, handle, filename, format, imageHandle,
                        destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
     tkimg_MFile *handle;		/* The image file, open for reading. */
@@ -429,7 +429,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     if (tkimg_Write(handle, header, strlen (header)) != strlen (header)) {
 	goto writeerror;
     }
-	
+
     pixLinePtr = blockPtr->pixelPtr + blockPtr->offset[0];
     redOff     = 0;
     greenOff   = blockPtr->offset[1] - blockPtr->offset[0];
@@ -441,9 +441,9 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
 	pixelPtr = pixLinePtr;
 	scanlinePtr = scanline;
 	for (w = blockPtr->width; w > 0; w--) {
-	    *(scanlinePtr++) = pixelPtr[redOff];	
-	    *(scanlinePtr++) = pixelPtr[greenOff];	
-	    *(scanlinePtr++) = pixelPtr[blueOff];	
+	    *(scanlinePtr++) = pixelPtr[redOff];
+	    *(scanlinePtr++) = pixelPtr[greenOff];
+	    *(scanlinePtr++) = pixelPtr[blueOff];
 	    pixelPtr += blockPtr->pixelSize;
 	}
 	if (tkimg_Write(handle, (char *) scanline, nBytes) != nBytes) {
@@ -455,7 +455,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     return TCL_OK;
 
  writeerror:
-    Tcl_AppendResult(interp, "Error writing \"", filename, "\": ", 
+    Tcl_AppendResult(interp, "Error writing \"", filename, "\": ",
                       (char *) NULL);
     return TCL_ERROR;
 }
