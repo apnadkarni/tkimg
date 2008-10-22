@@ -115,7 +115,7 @@ static int		ReadGIFHeader _ANSI_ARGS_((GIFImageConfig *gifConfPtr,
 			    int *widthPtr, int *heightPtr));
 
 static int		ReadImage _ANSI_ARGS_((Tcl_Interp *interp,
-			    char *imagePtr, GIFImageConfig *gifConfPtr, int len, int rows, 
+			    char *imagePtr, GIFImageConfig *gifConfPtr, int len, int rows,
 			    unsigned char cmap[MAXCOLORMAPSIZE][4],
 			    int width, int height, int srcX, int srcY,
 			    int interlace, int transparent));
@@ -432,7 +432,7 @@ CommonRead(interp, gifConfPtr, fileName, format, imageHandle, destX, destY,
 	}
 	if (BitSet(buf[8], LOCALCOLORMAP)) {
 	    if (!ReadColorMap(gifConfPtr, bitPixel, colorMap)) {
-		    Tcl_AppendResult(interp, "error reading color map", 
+		    Tcl_AppendResult(interp, "error reading color map",
 			    (char *) NULL);
 		    goto error;
 	    }
@@ -640,7 +640,7 @@ ReadColorMap(gifConfPtr, number, buffer)
 	    if (! ReadOK(&gifConfPtr->handle, rgb, sizeof(rgb))) {
 		return 0;
 	    }
-	    
+
 	    if (buffer) {
 		buffer[i][CM_RED] = rgb[0] ;
 		buffer[i][CM_GREEN] = rgb[1] ;
@@ -662,7 +662,7 @@ DoExtension(gifConfPtr, label, transparent)
     switch (label) {
 	case 0x01:      /* Plain Text Extension */
 	    break;
-	    
+
 	case 0xff:      /* Application Extension */
 	    break;
 
@@ -765,7 +765,7 @@ ReadImage(interp, imagePtr, gifConfPtr, len, rows, cmap,
     register unsigned char *top;
     int codeSize, clearCode, inCode, endCode, oldCode, maxCode,
 	code, firstCode;
-    
+
     /*
      *  Initialize the decoder
      */
@@ -800,7 +800,7 @@ ReadImage(interp, imagePtr, gifConfPtr, len, rows, cmap,
     maxCode     = clearCode + 2;
     oldCode     = -1;
     firstCode   = -1;
-    
+
     memset((void *)prefix, 0, (1 << MAX_LWZ_BITS) * sizeof(short));
     memset((void *)append, 0, (1 << MAX_LWZ_BITS) * sizeof(char));
     for (i = 0; i < clearCode; i++) {
@@ -840,7 +840,7 @@ ReadImage(interp, imagePtr, gifConfPtr, len, rows, cmap,
 		    oldCode     = -1;
 		    continue;
 		}
-		
+
 		if (oldCode == -1) {
 		    /*
 		     * Last pass reset the decoder, so the first code we
@@ -855,7 +855,7 @@ ReadImage(interp, imagePtr, gifConfPtr, len, rows, cmap,
 		    firstCode = code;
 		    continue;
 		}
-		
+
 		inCode = code;
 
 		if (code == maxCode) {
@@ -912,9 +912,9 @@ ReadImage(interp, imagePtr, gifConfPtr, len, rows, cmap,
 		return TCL_OK;
 	    }
 
-	    /* 
+	    /*
 	     * If pixelPtr is null, we're skipping this image (presumably
-	     * there are more in the file and we will be called to read 
+	     * there are more in the file and we will be called to read
 	     * one of them later)
 	     */
 	    *pixelPtr++ = cmap[v][CM_RED];
@@ -981,7 +981,7 @@ GetCode(gifConfPtr, code_size, flag)
      int flag;
 {
     int ret;
-    
+
     if (flag) {
 	/* Initialize the decoder */
 	gifConfPtr->bitsInWindow = 0;
@@ -1016,7 +1016,7 @@ GetCode(gifConfPtr, code_size, flag)
 
     /* The next code will always be the last code_size bits of the window */
     ret = gifConfPtr->window & ((1 << code_size) - 1);
-    
+
     /* Shift data in the window to put the next code at the end */
     gifConfPtr->window >>= code_size;
     gifConfPtr->bitsInWindow -= code_size;
@@ -1046,8 +1046,8 @@ GetCode(gifConfPtr, code_size, flag)
  * ChnWrite - writes a image in GIF format.
  *-------------------------------------------------------------------------
  * Author:          		Lolo
- *                              Engeneering Projects Area 
- *	            		Department of Mining 
+ *                              Engeneering Projects Area
+ *	            		Department of Mining
  *                  		University of Oviedo
  * e-mail			zz11425958@zeus.etsimo.uniovi.es
  *                  		lolo@pcsig22.etsimo.uniovi.es
@@ -1060,7 +1060,7 @@ GetCode(gifConfPtr, code_size, flag)
  * FileWriteGIF-
  *
  *    This procedure is called by the photo image type to write
- *    GIF format data from a photo image into a given file 
+ *    GIF format data from a photo image into a given file
  *
  * Results:
  *	A standard TCL completion code.  If TCL_ERROR is returned
@@ -1115,7 +1115,7 @@ static int no_bits _ANSI_ARGS_((int colors));
 static int
 ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
-    CONST84 char	*filename;
+    const char	*filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
@@ -1279,12 +1279,12 @@ CommonWrite(interp, handle, format, blockPtr)
     state.ssize = state.rsize = blockPtr->width;
     state.csize = blockPtr->height;
     compress(&state, resolution+1, handle, ReadValue);
- 
+
     tkimg_Putc(0,handle);
     c = GIF_TERMINATOR;
     tkimg_Putc(c,handle);
 
-    return TCL_OK;	
+    return TCL_OK;
 }
 
 static int

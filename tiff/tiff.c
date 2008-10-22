@@ -778,7 +778,7 @@ ParseWriteFormat(interp, format, comp, mode)
     };
     int objc, length, c, i, index;
     Tcl_Obj **objv;
-    CONST84 char *compression, *byteorder;
+    const char *compression, *byteorder;
 
     *comp = COMPRESSION_NONE;
     *mode = "w";

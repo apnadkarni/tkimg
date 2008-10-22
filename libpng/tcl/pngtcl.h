@@ -44,6 +44,9 @@
 #ifndef CONST84
 #   define CONST84
 #endif
+#ifndef CONST86
+#   define CONST86
+#endif
 
 /*
  * Fix the Borland bug that's in the EXTERN macro from tcl.h.
@@ -84,7 +87,7 @@
 
 /*
  * These macros are used to control whether functions are being declared for
- * import or export in Windows, 
+ * import or export in Windows,
  * They map to no-op declarations on non-Windows systems.
  * Assumes that tcl.h defines DLLEXPORT & DLLIMPORT correctly.
  * The default build on windows is for a DLL, which causes the DLLIMPORT
@@ -137,15 +140,15 @@
  */
 
 #ifdef USE_PNGTCL_STUBS
-EXTERN CONST char *
-Pngtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *version, int exact));
+EXTERN const char *
+Pngtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, const char *version, int exact));
 #else
 /*
  * When not using stubs, make it a macro.
  */
 
 #define Pngtcl_InitStubs(interp, version, exact) \
-    Tcl_PkgRequire(interp, "pngtcl", version, exact)
+    Tcl_PkgRequire(interp, "pngtcl", (CONST84 char *) version, exact)
 #endif
 
 #undef TCL_STORAGE_CLASS

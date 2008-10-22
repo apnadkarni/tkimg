@@ -1,4 +1,4 @@
-/* 
+/*
  * tclLoadNone.c --
  *
  *	This procedure provides a version of the dlopen() for use

@@ -45,6 +45,9 @@
 #ifndef CONST84
 #   define CONST84
 #endif
+#ifndef CONST86
+#   define CONST86
+#endif
 
 /*
  * Fix the Borland bug that's in the EXTERN macro from tcl.h.
@@ -85,7 +88,7 @@
 
 /*
  * These macros are used to control whether functions are being declared for
- * import or export in Windows, 
+ * import or export in Windows,
  * They map to no-op declarations on non-Windows systems.
  * Assumes that tcl.h defines DLLEXPORT & DLLIMPORT correctly.
  * The default build on windows is for a DLL, which causes the DLLIMPORT
@@ -138,8 +141,8 @@
  */
 
 #ifdef USE_JPEGTCL_STUBS
-EXTERN CONST char *
-Jpegtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *version, int exact));
+EXTERN const char *
+Jpegtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, const char *version, int exact));
 #else
 
 /*
@@ -147,7 +150,7 @@ Jpegtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *version, int ex
  */
 
 #define Jpegtcl_InitStubs(interp, version, exact) \
-    Tcl_PkgRequire(interp, "jpegtcl", version, exact)
+    Tcl_PkgRequire(interp, "jpegtcl", (CONST84 char *) version, exact)
 #endif
 
 

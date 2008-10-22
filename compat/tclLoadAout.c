@@ -1,4 +1,4 @@
-/* 
+/*
  * tclLoadAout.c --
  *
  *	This procedure provides a version of dlopen() that
@@ -142,7 +142,7 @@ dlopen(path, flags)
     const char *path;
     int flags;
 {
-  char * inputSymbolTable;	/* Name of the file containing the 
+  char * inputSymbolTable;	/* Name of the file containing the
 				 * symbol table from the last link. */
   Tcl_DString linkCommandBuf;	/* Command to do the run-time relocation
 				 * of the module.*/
@@ -266,7 +266,7 @@ dlopen(path, flags)
   linkCommand = Tcl_DStringValue (&linkCommandBuf);
 
   /* Determine the starting address, and plug it into the command */
-  
+
   startAddress = (char *) (((unsigned long) sbrk (0)
 			    + TCL_LOADSHIM + TCL_LOADALIGN - 1)
 			   & (- TCL_LOADALIGN));

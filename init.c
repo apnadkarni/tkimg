@@ -56,7 +56,7 @@ static int ObjRead _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
 	Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 	int destX, int destY, int width, int height, int srcX, int srcY));
 
-static int ChnWrite _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *filename,
+static int ChnWrite _ANSI_ARGS_((Tcl_Interp *interp, const char *filename,
 	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr));
 
 static int StringWrite _ANSI_ARGS_((Tcl_Interp *interp,
@@ -105,7 +105,7 @@ static int ObjReadBeta _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
 #endif
 #ifndef SECOND_CHNWRITE
 #define SECOND_CHNWRITE ChnWriteBeta
-static int ChnWriteBeta _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *filename,
+static int ChnWriteBeta _ANSI_ARGS_((Tcl_Interp *interp, const char *filename,
 	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr));
 #endif
 #ifndef SECOND_STRWRITE
@@ -196,8 +196,7 @@ int
  *  None.
  *
  * Side effects:
- *  Creates commands in the interpreter,
- *  loads xml package.
+ *  Creates commands in the interpreter, loads package.
  *
  *----------------------------------------------------------------------------
  */

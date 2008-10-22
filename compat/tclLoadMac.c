@@ -2,7 +2,7 @@
  * tclLoadMac.c --
  *
  *	This procedure provides a version of the dlopen() function for use
- *	on the Macintosh.  This procedure will only work with systems 
+ *	on the Macintosh.  This procedure will only work with systems
  *	that use the Code Fragment Manager.
  *
  *	Adapted from tclMacLoad.c in the Tcl 8.0p2 distribution.
@@ -18,7 +18,7 @@
  * Seems that the 3.0.1 Universal headers leave this define out.  So we
  * define it here...
  */
- 
+
 #ifndef fragNoErr
     #define fragNoErr noErr
 #endif
@@ -106,13 +106,13 @@ dlopen(path, mode)
     char packageName[255];
     const char* pkgGuess;
     char* p;
-    
+
     /*
      * First thing we must do is infer the package name from the file
      * name.  This is kind of dumb since the caller actually knows
      * this value, it just doesn't give it to us.
      */
-    
+
     if ((pkgGuess = strrchr(path,':')) != NULL) {
       pkgGuess++;
     } else {
@@ -139,7 +139,7 @@ dlopen(path, mode)
 	strcpy((char *) errName, "file not found");
 	return (VOID *) NULL;
     }
-    
+
     /*
      * See if this fragment has a 'cfrg' resource.  It will tell us were
      * to look for the fragment in the file.  If it doesn't exist we will
@@ -189,7 +189,7 @@ dlopen(path, mode)
      * obtained from the resource.  We don't worry about the main entry point
      * as we are going to search for specific entry points passed to us.
      */
-    
+
     c2pstr(packageName);
     err = GetDiskFragment(&fileSpec, offset, length, (StringPtr) packageName,
 	    kLoadCFrag, &connID, &dummy, errName);

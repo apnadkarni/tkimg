@@ -31,7 +31,7 @@ static int
 	useReadBuf = 0,
         bufStart   = -1,
         bufEnd     = -1;
-static char 
+static char
         readBuf[BUFLEN];
 
 static int char64 _ANSI_ARGS_((int c));
@@ -91,7 +91,7 @@ char64(c)
 /*
  *--------------------------------------------------------------
  *
- * tkimg_ReadBuffer -- 
+ * tkimg_ReadBuffer --
  *	Initialize optional read buffer.
  *
  *	The optional read buffer may be used for compressed image file
@@ -113,7 +113,7 @@ char64(c)
  *--------------------------------------------------------------
  */
 
-void tkimg_ReadBuffer (onOff) 
+void tkimg_ReadBuffer (onOff)
 int onOff;
 {
     useReadBuf = onOff;
@@ -176,11 +176,11 @@ tkimg_Read(handle, dst, count)
 		bufEnd = Tcl_Read((Tcl_Channel)handle->data, readBuf, BUFLEN)-1;
 		#ifdef DEBUG_LOCAL
 		    printf ("Reading new %d bytes into buffer "
-                            "(bufStart=%d bufEnd=%d)\n", 
+                            "(bufStart=%d bufEnd=%d)\n",
                             BUFLEN, bufStart, bufEnd);
 		#endif
 		bufStart = 0;
-	   	if (bufEnd < 0) 
+	   	if (bufEnd < 0)
 		    return bufEnd;
 	    }
 	    if (bufStart + bytesToRead <= bufEnd +1) {
@@ -503,10 +503,10 @@ tkimg_ReadInit(data, c, handle)
 Tcl_Channel
 tkimg_OpenFileChannel(interp, fileName, permissions)
     Tcl_Interp *interp;
-    CONST84 char *fileName;
+    const char *fileName;
     int permissions;
 {
-    Tcl_Channel chan = Tcl_OpenFileChannel(interp, fileName,
+    Tcl_Channel chan = Tcl_OpenFileChannel(interp, (CONST84 char *) fileName,
 	    permissions?"w":"r", permissions);
     if (!chan) {
 	return (Tcl_Channel) NULL;

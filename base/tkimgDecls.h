@@ -24,7 +24,7 @@
 
 /* 0 */
 EXTERN Tcl_Channel	tkimg_OpenFileChannel _ANSI_ARGS_((
-				Tcl_Interp * interp, CONST84 char * fileName,
+				Tcl_Interp * interp, const char * fileName,
 				int permissions));
 /* 1 */
 EXTERN int		tkimg_ReadInit _ANSI_ARGS_((Tcl_Obj * data, int c,
@@ -97,7 +97,7 @@ typedef struct TkimgStubs {
     int magic;
     const struct TkimgStubHooks *hooks;
 
-    Tcl_Channel (*tkimg_OpenFileChannel) _ANSI_ARGS_((Tcl_Interp * interp, CONST84 char * fileName, int permissions)); /* 0 */
+    Tcl_Channel (*tkimg_OpenFileChannel) _ANSI_ARGS_((Tcl_Interp * interp, const char * fileName, int permissions)); /* 0 */
     int (*tkimg_ReadInit) _ANSI_ARGS_((Tcl_Obj * data, int c, tkimg_MFile * handle)); /* 1 */
     void (*tkimg_WriteInit) _ANSI_ARGS_((Tcl_DString * buffer, tkimg_MFile * handle)); /* 2 */
     int (*tkimg_Getc) _ANSI_ARGS_((tkimg_MFile * handle)); /* 3 */

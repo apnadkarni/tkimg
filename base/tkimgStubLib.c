@@ -1,4 +1,4 @@
-/* 
+/*
  * tkimgStubLib.c --
  *
  *	Stub object that will be statically linked into extensions that wish
@@ -46,13 +46,13 @@ const TkimgStubs *tkimgStubsPtr;
 const char *
 Tkimg_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
-    CONST84 char *version;
+    const char *version;
     int exact;
 {
     const char *result;
     ClientData data;
 
-    result = Tcl_PkgRequireEx(interp, PACKAGE_TCLNAME, version, exact, &data);
+    result = Tcl_PkgRequireEx(interp, PACKAGE_TCLNAME, (CONST84 char *) version, exact, &data);
     if (!result || !data) {
         return NULL;
     }

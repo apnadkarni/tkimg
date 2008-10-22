@@ -17,12 +17,15 @@
 #include "tk.h"
 
 #ifndef CONST84
-#define CONST84
+#   define CONST84
+#endif
+#ifndef CONST86
+#   define CONST86
 #endif
 
 /*
  * These macros are used to control whether functions are being declared for
- * import or export in Windows, 
+ * import or export in Windows,
  * They map to no-op declarations on non-Windows systems.
  * Assumes that tcl.h defines DLLEXPORT & DLLIMPORT correctly.
  * The default build on windows is for a DLL, which causes the DLLIMPORT
@@ -90,7 +93,7 @@ typedef struct PixmapMaster {
     int size[2];		/* width and height */
     int ncolors;		/* number of colors */
     int cpp;			/* characters per pixel */
-    char ** data;		/* The data that defines this pixmap 
+    char **data;		/* The data that defines this pixmap
 				 * image (array of strings). It is
 				 * converted into an X Pixmap when this
 				 * image is instanciated
@@ -102,8 +105,8 @@ typedef struct PixmapMaster {
 
 typedef struct ColorStruct {
     char c;			/* This is used if CPP is one */
-    char * cstring;		/* This is used if CPP is bigger than one */
-    XColor * colorPtr;
+    char *cstring;		/* This is used if CPP is bigger than one */
+    XColor *colorPtr;
 } ColorStruct;
 
 /*----------------------------------------------------------------------
@@ -133,7 +136,7 @@ typedef struct PixmapInstance {
 				 * associated with masterPtr (NULL means
 				 * end of list).
 				 */
-    ColorStruct * colors;
+    ColorStruct *colors;
     ClientData clientData;	/* Place holder for platform specific
 				 * instance data */
 } PixmapInstance;
@@ -147,21 +150,21 @@ EXTERN void 	TkimgInitPixmapInstance _ANSI_ARGS_((
 			    PixmapMaster *masterPtr,
 			    PixmapInstance *instancePtr));
 EXTERN void 	TkimgXpmAllocTmpBuffer _ANSI_ARGS_((
-			    PixmapMaster * masterPtr,
-			    PixmapInstance * instancePtr,
-			    XImage ** imagePtr, XImage ** maskPtr));
+			    PixmapMaster *masterPtr,
+			    PixmapInstance *instancePtr,
+			    XImage **imagePtr, XImage **maskPtr));
 EXTERN void 	TkimgXpmFreeTmpBuffer _ANSI_ARGS_((
-			    PixmapMaster * masterPtr,
-			    PixmapInstance * instancePtr,
-			    XImage * image, XImage * mask));
+			    PixmapMaster *masterPtr,
+			    PixmapInstance *instancePtr,
+			    XImage *image, XImage *mask));
 EXTERN void 	TkimgXpmSetPixel _ANSI_ARGS_((
-			    PixmapInstance * instancePtr, XImage * image,
-			    XImage * mask, int x, int y, XColor * colorPtr,
-			    int * isTranspPtr));
+			    PixmapInstance *instancePtr, XImage *image,
+			    XImage *mask, int x, int y, XColor *colorPtr,
+			    int *isTranspPtr));
 EXTERN void 	TkimgXpmRealizePixmap _ANSI_ARGS_((
-			    PixmapMaster * masterPtr,
-			    PixmapInstance * instancePtr,
-			    XImage * image, XImage * mask, int isTransp));
+			    PixmapMaster *masterPtr,
+			    PixmapInstance *instancePtr,
+			    XImage *image, XImage *mask, int isTransp));
 EXTERN void 	TkimgXpmFreeInstanceData _ANSI_ARGS_((
 			    PixmapInstance *instancePtr, int delete));
 EXTERN void 	TkimgpXpmDisplay _ANSI_ARGS_((ClientData clientData,

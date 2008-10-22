@@ -133,7 +133,7 @@ ObjRead(interp, data, format, imageHandle,
 static int
 ChnWrite(interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST84 char *filename;
+    const char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {
@@ -392,7 +392,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
                         *expline++ = line[x*4 + 1];
                         *expline++ = line[x*4 + 2];
                     }
-		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, 
+		    if (tkimg_PhotoPutBlock(interp, imageHandle, &block,
 			    destX, destY+y, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
 			return TCL_ERROR;
 		    }
@@ -484,7 +484,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
 		Tcl_AppendResult(interp, buf,
 			"-bits BMP file not (yet) supported", (char *) NULL);
 		goto error;
-	} 
+	}
     } else { 		/* RLE Compression */
 	int i, c;
 	unsigned char howMuch;

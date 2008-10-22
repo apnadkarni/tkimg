@@ -17,5 +17,8 @@ extern tdata_t TkimgTIFFmalloc  _ANSI_ARGS_((tsize_t size));
 extern tdata_t TkimgTIFFrealloc _ANSI_ARGS_((tdata_t data, tsize_t size));
 
 #ifndef CONST84
-#define CONST84
+#   define CONST84
+#endif
+#ifndef CONST86
+#   define CONST86
 #endif

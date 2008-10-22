@@ -186,15 +186,15 @@ extern int tkimg_initialized;
  */
 
 #ifdef USE_TKIMG_STUBS
-EXTERN CONST char *
-Tkimg_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, CONST84 char *version, int exact));
+EXTERN const char *
+Tkimg_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, const char *version, int exact));
 #else
 /*
  * When not using stubs, make it a macro.
  */
 
 #define Tkimg_InitStubs(interp, version, exact) \
-    Tcl_PkgRequire(interp, "tkimg", version, exact)
+    Tcl_PkgRequire(interp, "tkimg", (CONST84 char *) version, exact)
 #endif
 
 #undef TCL_STORAGE_CLASS

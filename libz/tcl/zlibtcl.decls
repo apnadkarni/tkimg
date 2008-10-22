@@ -4,7 +4,7 @@
 # that are exported by the ZLIBTCL library via the stubs table. This file
 # is used to generate the zlibtclDecls.h/zlibtclStubsLib.c/zlibtclStubsInit.c
 # files.
-#	
+#
 
 # Declare each of the functions in the public BLT interface.  Note that
 # the an index should never be reused for a different function in order

@@ -1,4 +1,4 @@
-/* 
+/*
  * tifftclStubLib.c --
  *
  *	Stub object that will be statically linked into extensions that wish
@@ -46,13 +46,13 @@ const TifftclStubs *tifftclStubsPtr;
 const char *
 Tifftcl_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
-    CONST84 char *version;
+    const char *version;
     int exact;
 {
     const char *result;
     ClientData data;
 
-    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, version, exact, &data);
+    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, (CONST84 char *) version, exact, &data);
     if (!result || !data) {
         return NULL;
     }

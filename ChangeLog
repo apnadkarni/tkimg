@@ -1,5 +1,9 @@
 2008-10-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
+	* Eliminate "CONST" everywhere, replacing it with "const"
+
+2008-10-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
 	* CONST -> const in *.decls, genenerate all header files
 	* white spacing fixes.
 	* eliminate genStubs.tcl in other places than the main "tools"

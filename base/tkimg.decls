@@ -4,7 +4,7 @@
 # that are exported by the TKIMG library via the stubs table. This file
 # is used to generate the tkimgDecls.h/tkimgStubsLib.c/tkimgStubsInit.c
 # files.
-#	
+#
 
 # Declare each of the functions in the public BLT interface.  Note that
 # the an index should never be reused for a different function in order
@@ -21,8 +21,8 @@ interface tkimg
 ###  Reading and writing image data from channels and/or strings.
 
 declare 0 generic {
-    Tcl_Channel tkimg_OpenFileChannel (Tcl_Interp *interp, 
-	CONST84 char *fileName, int permissions)
+    Tcl_Channel tkimg_OpenFileChannel (Tcl_Interp *interp,
+	const char *fileName, int permissions)
 }
 declare 1 generic {
     int tkimg_ReadInit (Tcl_Obj *data, int c, tkimg_MFile *handle)
