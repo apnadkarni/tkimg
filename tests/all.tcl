@@ -7,7 +7,7 @@
 # Copyright (c) 1998-2000 by Scriptics Corporation.
 # Copyright (c) 2002         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 # All rights reserved.
-# 
+#
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {

@@ -481,7 +481,7 @@ proc genStubs::makeDecl {name decl index} {
 	}
     }
     append text $line
-    
+
     append text ");\n"
     return $text
 }
