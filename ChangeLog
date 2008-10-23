@@ -209,7 +209,7 @@
 
 	*
 	* Released and tagged Tkimg 1.3 ========================
-	* 
+	*
 
 2004-08-16  Andreas Kupries  <andreask@activestate.com>
 
@@ -317,7 +317,7 @@
 
 2003-03-09  Paul Obermeier  <obermeier@poSoft.de>
 
-	* pcx/pcx.c: Fixed incorrect usage of Tcl_AppendResult, 
+	* pcx/pcx.c: Fixed incorrect usage of Tcl_AppendResult,
 	* sun/sun.c: which could cause core dumps.
 	* tga/tga.c:
 
@@ -337,7 +337,7 @@
 
 	* doc/format-footer.inc: Better see-also and keywording.
 	* doc/img-ps.man:
-	* doc/img.man: 
+	* doc/img.man:
 
 	* doc/img-png.man: Small fix in manpage, command was broken over
 	  two lines, which is illegal.
@@ -376,7 +376,7 @@
 	* doc/img.man:     Started to work on new user documentation.
 	* doc/img-bmp.man: Using the doctools format for easy writing
 	* doc/img-gif.man: and easy conversion to other formats.
-	* doc/img-ico.man: 
+	* doc/img-ico.man:
 	* doc/img-jpeg.man:   Given the uniformity of most of the
 	* doc/img-pcx.man:    handlers a template system is used
 	* doc/img-pixmap.man: (doctools extended to handle [include]
@@ -641,12 +641,12 @@
 
 2002-06-17  Andreas Kupries <andreas_kupries@users.sourceforge.net>
 
-	* imgBMP.c (CommonReadBMP): 
-	* imgGIF.c (CommonReadGIF): 
-	* imgJPEG.c (CommonReadJPEG): 
-	* imgPS.c (ChanReadPDF): 
-	* imgWindow.c (ObjReadWin): 
-	* imgXPM.c (CommonReadXPM): 
+	* imgBMP.c (CommonReadBMP):
+	* imgGIF.c (CommonReadGIF):
+	* imgJPEG.c (CommonReadJPEG):
+	* imgPS.c (ChanReadPDF):
+	* imgWindow.c (ObjReadWin):
+	* imgXPM.c (CommonReadXPM):
 	* imgUtil.c (ImgPhotoPutBlock): Updated to handle changes
 	  introduced into Tk by TIP #98.
 

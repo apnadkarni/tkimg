@@ -130,7 +130,7 @@ collate: all
 	for p in Img/exec_prefix/lib/*.sh ; do \
 		sed -e 's#$(libdir)/[^/ ]*\([/ ]\)#$(LIB_RUNTIME_DIR)\1#' \
 			$$p > $$p.1 && mv -f $$p.1 $$p ; \
-	done	
+	done
 
 install: collate
 	mkdir -p    $(INSTALL_ROOT)$(LIB_RUNTIME_DIR)

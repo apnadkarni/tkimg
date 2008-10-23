@@ -13,7 +13,7 @@
 
 	*
 	* Released and tagged Tkimg 1.3 ========================
-	* 
+	*
 
 2002-11-26  Andreas Kupries <andreas_kupries@users.sourceforge.net>
 
@@ -22,7 +22,7 @@
 
 2002-11-21  Andreas Kupries <andreas_kupries@users.sourceforge.net>
 
-	* tkimgUtils.c (tkimg_FixObjMatchProc): 
+	* tkimgUtils.c (tkimg_FixObjMatchProc):
 	* tkimgUtils.c (tkimg_FixChanMatchProc): Changed bit-negation to
 	  logical negation. This fixes a bug intriduced by the rewrite to
 	  use version info to distinguish between calls from 8.3.2 and

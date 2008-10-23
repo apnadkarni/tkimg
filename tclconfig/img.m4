@@ -139,7 +139,7 @@ AC_DEFUN(TEA_CONFIG_COLLECT, [
 #	Define the data to insert into the ${PACKAGE}Config.sh file
 #
 # Arguments:
-#	
+#
 #	Requires the following vars to be set:
 #		$1
 #
