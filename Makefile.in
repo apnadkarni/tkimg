@@ -121,6 +121,7 @@ collate: all
 			prefix=$$here/Img/prefix			\
 			pkglibdir=$$here/Img/exec_prefix/lib/Img	\
 			libdir=$$here/Img/exec_prefix/lib		\
+			includedir=$$here/Img/prefix/include		\
 			DESTDIR=					\
 			|| exit $$? &&					\
 		cd $$here && \
@@ -144,7 +145,7 @@ install: collate
 	if [ -n "`ls Img/prefix/include`" ]; then \
 	mkdir -p $(INSTALL_ROOT)$(includedir) && \
 	for p in Img/prefix/include/* ; do \
-		$(INSTALL_PROGRAM) $$p $(INSTALL_ROOT)$(includedir)/`basename $$p` ; \
+		$(INSTALL_DATA) $$p $(INSTALL_ROOT)$(includedir)/`basename $$p` ; \
 	done; fi
 
 
