@@ -92,6 +92,11 @@ AC_DEFUN([TEA_PATH_TCLCONFIG], [
 			`ls -dr ../../../tcl[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
 			`ls -dr ../../../tcl[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ../../../tcl[[8-9]].[[0-9]]* 2>/dev/null` ; do
+		    if test "${TEA_PLATFORM}" = "windows" \
+			    -a -f "$i/win/tclConfig.sh" ; then
+			ac_cv_c_tclconfig=`(cd $i/win; pwd)`
+			break
+		    fi
 		    if test -f "$i/unix/tclConfig.sh" ; then
 			ac_cv_c_tclconfig=`(cd $i/unix; pwd)`
 			break
@@ -149,6 +154,11 @@ AC_DEFUN([TEA_PATH_TCLCONFIG], [
 			`ls -dr ${srcdir}/../tcl[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
 			`ls -dr ${srcdir}/../tcl[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ${srcdir}/../tcl[[8-9]].[[0-9]]* 2>/dev/null` ; do
+		    if test "${TEA_PLATFORM}" = "windows" \
+			    -a -f "$i/win/tclConfig.sh" ; then
+			ac_cv_c_tclconfig=`(cd $i/win; pwd)`
+			break
+		    fi
 		    if test -f "$i/unix/tclConfig.sh" ; then
 		    ac_cv_c_tclconfig=`(cd $i/unix; pwd)`
 		    break
@@ -235,6 +245,11 @@ AC_DEFUN([TEA_PATH_TKCONFIG], [
 			`ls -dr ../../../tk[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
 			`ls -dr ../../../tk[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ../../../tk[[8-9]].[[0-9]]* 2>/dev/null` ; do
+		    if test "${TEA_PLATFORM}" = "windows" \
+			    -a -f "$i/win/tkConfig.sh" ; then
+			ac_cv_c_tkconfig=`(cd $i/win; pwd)`
+			break
+		    fi
 		    if test -f "$i/unix/tkConfig.sh" ; then
 			ac_cv_c_tkconfig=`(cd $i/unix; pwd)`
 			break
@@ -292,6 +307,11 @@ AC_DEFUN([TEA_PATH_TKCONFIG], [
 			`ls -dr ${srcdir}/../tk[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
 			`ls -dr ${srcdir}/../tk[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ${srcdir}/../tk[[8-9]].[[0-9]]* 2>/dev/null` ; do
+		    if test "${TEA_PLATFORM}" = "windows" \
+			    -a -f "$i/win/tkConfig.sh" ; then
+			ac_cv_c_tkconfig=`(cd $i/win; pwd)`
+			break
+		    fi
 		    if test -f "$i/unix/tkConfig.sh" ; then
 			ac_cv_c_tkconfig=`(cd $i/unix; pwd)`
 			break

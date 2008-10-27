@@ -1,3 +1,10 @@
+2008-10-27  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Fixed issue #762108: configure can now finds the
+	  tclConfig.sh and tkConfig.sh files from a parallel
+	  Tcl and Tk build. With this change, tkimg now builds
+	  out-of-the-box on mingw32.
+
 2008-10-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Eliminate "CONST" everywhere, replacing it with "const"
