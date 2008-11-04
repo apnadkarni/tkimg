@@ -14,7 +14,7 @@
 ::msgcat::mcset de "OK"
 ::msgcat::mcset de "OTHER" "ANDERE"
 ::msgcat::mcset de "Tests for available image formats" "Tests f\374r die verf\374gbaren Bildformate"
-::msgcat::mcset de "This page shows the available image formats of the Img extension (version %s, using Tcl/Tk %s)" "Diese Seite f\374hrt alle von der Img-Erweiterung (version %s, mit Tcl/Tk %s) zur Verf\374gung gestellen Bildformate auf."
+::msgcat::mcset de "This page shows the available image formats of the Img extension (version %s, using Tcl/Tk %s)" "Diese Seite f\374hrt alle von der Img-Erweiterung (Version %s, mit Tcl/Tk %s) zur Verf\374gung gestellten Bildformate auf."
 ::msgcat::mcset de "Tiny Image viewer" "Mini Bildbetrachter"
 ::msgcat::mcset de "Viewer" "Betrachter"
 ::msgcat::mcset de "end of tests" "Ende der Tests"
