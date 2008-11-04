@@ -165,6 +165,11 @@ typedef unsigned int UInt;	/* Unsigned 32 bit integer */
                                     ? ((int)(*(p)->ptr++=(unsigned)(x))) \
                                     : iflsbuf(p,(unsigned)(x)))
 
+/* The number of bytes of the IMAGE struct, which must be written to disk.
+ * All other information is needed only internally. It is filled with zeros 
+ * on disk. */
+#define RELEVANT_HEADER_BYTES 108
+
 typedef struct {
     UShort    imagic;         /* stuff saved on disk . . */
     UShort    type;
@@ -192,7 +197,8 @@ typedef struct {
     UInt      rleend;         /* for rle images */
     UInt      *rowstart;      /* for rle images */
     Int       *rowsize;       /* for rle images */
-    char      dummy[512-156];
+    char      dummy[512-146]; /* Fill bytes, so that this structure is greater
+                                 than 512 bytes */
 } IMAGE;
 
 #if !defined (_IOWRT)
@@ -213,6 +219,7 @@ typedef struct {
 
 static int img_badrow(IMAGE *image, unsigned int y, unsigned int z);
 static int img_write(IMAGE *image, char *buffer,int count);
+static int img_writeheader(IMAGE *image);
 static int iflush(IMAGE *image);
 static unsigned short *ibufalloc(IMAGE *image);
 static unsigned int img_optseek(IMAGE *image, unsigned int offset);
@@ -359,13 +366,12 @@ static int imgopen(int f, MYCHANNEL file, IMAGE *image, const char *mode,
 	image->max = 0;
 	isetname(image,"no name");
 	image->wastebytes = 0;
-	if (sizeof (IMAGE) != Tcl_Write (file, (char *)image, sizeof(IMAGE))) {
+	if (512 != Tcl_Write (file, (char *)image, 512)) {
 	    i_errhdlr("iopen: error on write of image header\n");
 	    return 0;
 	}
     } else {
-	if (sizeof (IMAGE) != Tcl_Read (file, (char *)image,
-					sizeof(IMAGE))) {
+	if (512 != Tcl_Read (file, (char *)image, 512)) {
 	    i_errhdlr("iopen: error on read of image header\n");
 	    return 0;
 	}
@@ -448,7 +454,7 @@ static int iclose(IMAGE *image)
     if (image->flags&_IOWRT) {
 	if(image->dorev)
 	    cvtimage((int *)image);
-	if (img_write(image,(char *)image,sizeof(IMAGE)) != sizeof(IMAGE)) {
+	if ( !img_writeheader(image)) {
 	    i_errhdlr("iclose: error on write of image header\n");
 	    return EOF;
 	}
@@ -650,6 +656,18 @@ static int img_write(IMAGE *image, char *buffer,int count)
     retval = Tcl_Write (image->file, buffer, count);
     if(retval == count)
 	image->offset += count;
+    else
+	image->offset = -1;
+    return retval;
+}
+
+static int img_writeheader(IMAGE *image)
+{
+    int retval;
+
+    retval = Tcl_Write (image->file, (char *)image, RELEVANT_HEADER_BYTES);
+    if(retval == RELEVANT_HEADER_BYTES)
+	image->offset += sizeof (IMAGE);
     else
 	image->offset = -1;
     return retval;
@@ -1146,9 +1164,10 @@ static void printImgInfo (IMAGE *th, const char *filename, const char *msg)
     Tcl_Flush(outChan);
 }
 #undef OUT
+
 static Boln readHeader (tkimg_MFile *handle, IMAGE *th)
 {
-    if (sizeof (IMAGE) != tkimg_Read(handle, (char *)th, sizeof(IMAGE))) {
+    if (512 != tkimg_Read(handle, (char *)th, 512)) {
 	return FALSE;
     }
 										    if( ((th->imagic>>8) | ((th->imagic&0xff)<<8)) == IMAGIC ) {
