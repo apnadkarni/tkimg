@@ -1,3 +1,53 @@
+2008-11-13  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* For gcc, from now on use as standard CFLAGS:
+	    CFLAGS_OPTIMIZE="-O2 -fomit-frame-pointer"
+	    CFLAGS_WARNING="-Wall -Wwrite-strings"
+	* Upgrade to GNU Autoconf 2.63
+
+2008-11-13  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Create 1.3.x branch. Now trunk is available for
+	  tkImg 1.4 development.
+
+2008-11-13  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Create 1.3.x branch. Now trunk is available for
+	  tkImg 1.4 development.
+
+2008-11-13  Andreas Kupries <andreask@activestate.com>
+
+	* Fix win32 compile issue with zlib, mask gzprintf
+    
+2008-11-04	Paul Obermeier <obermeier@users.sourceforge.net>
+
+	* Added new (visual) test suite for checking the different
+	  ways of reading and writing images in the various formats.
+
+2008-11-04	Paul Obermeier <obermeier@users.sourceforge.net>
+
+	* Updated demo program to include all available image
+	  formats. Also added additional tests for all image formats.
+
+2008-11-04	Paul Obermeier <obermeier@users.sourceforge.net>
+
+	* Added two new format handlers: DTED for displaying
+	  terrain elevation data files as an image.
+	  RAW for displaying files filled with raw matrix data in 8-bit
+	  integer, 16-bit integer or 32-bit float binary data.
+	  Note: These very special format handlers are not loaded with
+	  a "package require Img", but must be loaded explicitly with
+	  "package require img::dted" and "package require img::raw".
+
+2008-11-04	Paul Obermeier <obermeier@users.sourceforge.net>
+
+	* Fixed issue #1963052:
+	    Added correct base64 encoded image for format ICO.
+	    Added correct base64 encoded image for format SGI.
+	    Also added code to fill unused bytes of file header with
+	    zeros to get identical test results.
+	    Removed test for format pixmap.
+
 2008-10-27  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Fixed issue #762108: configure can now finds the
@@ -18,6 +68,10 @@
 2008-10-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Introduce the use of CONST86 for compiling against Tcl 8.6
+
+2008-11-04	Paul Obermeier <obermeier@users.sourceforge.net>
+
+	* Make SGI parser 64-bit aware: Convert long's to int's.
 
 2008-02-06  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
