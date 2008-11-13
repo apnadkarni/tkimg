@@ -27,6 +27,7 @@
 #undef gzsetparams
 #undef gzread
 #undef gzwrite
+#undef gzprintf
 #undef gzputs
 #undef gzgets
 #undef gzputc

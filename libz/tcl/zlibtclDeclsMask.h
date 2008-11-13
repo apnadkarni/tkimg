@@ -34,6 +34,7 @@
 #define gzsetparams	__mask_gzsetparams
 #define gzread	__mask_gzread
 #define gzwrite	__mask_gzwrite
+#define gzprintf	__mask_gzprintf
 #define gzputs	__mask_gzputs
 #define gzgets	__mask_gzgets
 #define gzputc	__mask_gzputc
