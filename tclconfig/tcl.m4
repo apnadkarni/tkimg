@@ -1003,8 +1003,8 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
     CFLAGS_DEBUG=-g
     CFLAGS_OPTIMIZE=-O
     if test "$GCC" = "yes" ; then
-	CFLAGS_OPTIMIZE=-O2
-	CFLAGS_WARNING="-Wall -Wno-implicit-int"
+	CFLAGS_OPTIMIZE="-O2 -fomit-frame-pointer"
+	CFLAGS_WARNING="-Wall -Wwrite-strings"
     else
 	CFLAGS_WARNING=""
     fi
