@@ -64,7 +64,13 @@ TEA_ADD_SOURCES([raw.c])
 TEA_ADD_HEADERS([])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${tkimg_SRC_PATH}`\"])
 TEA_ADD_INCLUDES([-I.])
-TEA_ADD_LIBS([])
+
+if test "${TEA_PLATFORM}" = "windows" ; then
+    TEA_ADD_LIBS([])
+else
+    TEA_ADD_LIBS([${MATH_LIBS}])
+fi
+
 TEA_ADD_CFLAGS([])
 TEA_ADD_CFLAGS([-DTKIMG_VERSION=\\\"\${tkimg_VERSION}\\\"])
 TEA_ADD_STUB_SOURCES([])
