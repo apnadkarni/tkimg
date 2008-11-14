@@ -75,7 +75,7 @@ declare 22 generic {
 ###  The byte array function also handles both UTF and non-UTF cores.
 
 declare 30 generic {
-    char *tkimg_GetStringFromObj (Tcl_Obj *objPtr, int *lengthPtr)
+    const char *tkimg_GetStringFromObj (Tcl_Obj *objPtr, int *lengthPtr)
 }
 declare 31 generic {
     unsigned char *tkimg_GetByteArrayFromObj (Tcl_Obj *objPtr, int *lengthPtr)

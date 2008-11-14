@@ -27,14 +27,10 @@
 
 /* Variables needed for optional read buffer. See tkimg_ReadBuffer. */
 #define BUFLEN 4096
-static int
-	useReadBuf = 0,
-        bufStart   = -1,
-        bufEnd     = -1;
-static char
-        readBuf[BUFLEN];
-
-static int char64 _ANSI_ARGS_((int c));
+static int useReadBuf = 0;
+static int bufStart = -1;
+static int bufEnd = -1;
+static char readBuf[BUFLEN];
 
 
 /*
@@ -54,9 +50,9 @@ static int char64 _ANSI_ARGS_((int c));
  */
 
 static int
-char64(c)
-    int c;
-{
+char64(
+    int c
+) {
     switch(c) {
 	case 'A': return 0;	case 'B': return 1;	case 'C': return 2;
 	case 'D': return 3;	case 'E': return 4;	case 'F': return 5;
@@ -113,9 +109,9 @@ char64(c)
  *--------------------------------------------------------------
  */
 
-void tkimg_ReadBuffer (onOff)
-int onOff;
-{
+void tkimg_ReadBuffer(
+	int onOff
+) {
     useReadBuf = onOff;
     if (onOff) {
 	memset (readBuf, 0, BUFLEN);
@@ -123,7 +119,7 @@ int onOff;
 	bufEnd   = -1;
     }
 }
-
+
 /*
  *--------------------------------------------------------------------------
  * tkimg_Read --
@@ -140,11 +136,11 @@ int onOff;
  */
 
 int
-tkimg_Read(handle, dst, count)
-    tkimg_MFile *handle;	/* mmdecode "file" handle */
-    char *dst;		/* where to put the result */
-    int count;		/* number of bytes */
-{
+tkimg_Read(
+	tkimg_MFile *handle /* mmdecode "file" handle */,
+	char *dst /* where to put the result */,
+	int count /* number of bytes */
+) {
     register int i, c;
     int bytesRead, bytesToRead;
     char *dstPtr;
@@ -231,9 +227,9 @@ tkimg_Read(handle, dst, count)
  */
 
 int
-tkimg_Getc(handle)
-   tkimg_MFile *handle;			/* Input stream handle */
-{
+tkimg_Getc(
+	tkimg_MFile *handle /* Input stream handle */
+) {
     int c;
     int result = 0;			/* Initialization needed only to prevent
 					 * gcc compiler warning */
@@ -300,11 +296,11 @@ tkimg_Getc(handle)
  */
 
 int
-tkimg_Write(handle, src, count)
-    tkimg_MFile *handle;	/* mmencode "file" handle */
-    const char *src;	/* where to get the data */
-    int count;		/* number of bytes */
-{
+tkimg_Write(
+    tkimg_MFile *handle /* mmencode "file" handle */,
+    const char *src /* where to get the data */,
+    int count /* number of bytes */
+) {
     register int i;
     int curcount, bufcount;
 
@@ -343,7 +339,7 @@ tkimg_Write(handle, src, count)
  *-----------------------------------------------------------------------
  */
 
-static char base64_table[64] = {
+static char const base64_table[64] = {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
     'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -355,10 +351,10 @@ static char base64_table[64] = {
 };
 
 int
-tkimg_Putc(c, handle)
-    register int c;		/* character to be written */
-    register tkimg_MFile *handle;	/* handle containing decoder data and state */
-{
+tkimg_Putc(
+    register int c /* character to be written */,
+    register tkimg_MFile *handle /* handle containing decoder data and state */
+) {
     /* In fact, here should be checked first if the dynamic
      * string contains enough space for the next character.
      * This would be very expensive to do for each character.
@@ -431,10 +427,10 @@ tkimg_Putc(c, handle)
  */
 
 void
-tkimg_WriteInit(buffer, handle)
-    Tcl_DString *buffer;
-    tkimg_MFile *handle;		/* mmencode "file" handle */
-{
+tkimg_WriteInit(
+	Tcl_DString *buffer,
+	tkimg_MFile *handle /* mmencode "file" handle */
+) {
     Tcl_DStringSetLength(buffer, buffer->spaceAvl);
     handle->buffer = buffer;
     handle->data = Tcl_DStringValue(buffer);
@@ -457,11 +453,11 @@ tkimg_WriteInit(buffer, handle)
  */
 
 int
-tkimg_ReadInit(data, c, handle)
-    Tcl_Obj *data;		/* string containing initial mmencoded data */
-    int c;
-    tkimg_MFile *handle;		/* mmdecode "file" handle */
-{
+tkimg_ReadInit(
+	Tcl_Obj *data /* string containing initial mmencoded data */,
+	int c,
+	tkimg_MFile *handle /* mmdecode "file" handle */
+) {
     handle->data = (char *) tkimg_GetByteArrayFromObj(data, &handle->length);
     if (*handle->data == c) {
 	handle->state = IMG_STRING;
@@ -501,11 +497,11 @@ tkimg_ReadInit(data, c, handle)
  */
 
 Tcl_Channel
-tkimg_OpenFileChannel(interp, fileName, permissions)
-    Tcl_Interp *interp;
-    const char *fileName;
-    int permissions;
-{
+tkimg_OpenFileChannel(
+	Tcl_Interp *interp,
+	const char *fileName,
+	int permissions
+) {
     Tcl_Channel chan = Tcl_OpenFileChannel(interp, (CONST84 char *) fileName,
 	    permissions?"w":"r", permissions);
     if (!chan) {

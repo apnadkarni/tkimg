@@ -1,7 +1,7 @@
 /*
  * tkimgDecls.h --
  *
- *	Declarations of functions in the platform independent public TKIMG API.
+ *  Declarations of functions in the platform independent public TKIMG API.
  *
  */
 
@@ -23,34 +23,33 @@
  */
 
 /* 0 */
-EXTERN Tcl_Channel	tkimg_OpenFileChannel _ANSI_ARGS_((
-				Tcl_Interp * interp, const char * fileName,
-				int permissions));
+EXTERN Tcl_Channel	tkimg_OpenFileChannel(Tcl_Interp * interp,
+				const char * fileName, int permissions);
 /* 1 */
-EXTERN int		tkimg_ReadInit _ANSI_ARGS_((Tcl_Obj * data, int c,
-				tkimg_MFile * handle));
+EXTERN int		tkimg_ReadInit(Tcl_Obj * data, int c,
+				tkimg_MFile * handle);
 /* 2 */
-EXTERN void		tkimg_WriteInit _ANSI_ARGS_((Tcl_DString * buffer,
-				tkimg_MFile * handle));
+EXTERN void		tkimg_WriteInit(Tcl_DString * buffer,
+				tkimg_MFile * handle);
 /* 3 */
-EXTERN int		tkimg_Getc _ANSI_ARGS_((tkimg_MFile * handle));
+EXTERN int		tkimg_Getc(tkimg_MFile * handle);
 /* 4 */
-EXTERN int		tkimg_Read _ANSI_ARGS_((tkimg_MFile * handle,
-				char * dst, int count));
+EXTERN int		tkimg_Read(tkimg_MFile * handle, char * dst,
+				int count);
 /* 5 */
-EXTERN int		tkimg_Putc _ANSI_ARGS_((int c, tkimg_MFile * handle));
+EXTERN int		tkimg_Putc(int c, tkimg_MFile * handle);
 /* 6 */
-EXTERN int		tkimg_Write _ANSI_ARGS_((tkimg_MFile * handle,
-				const char * src, int count));
+EXTERN int		tkimg_Write(tkimg_MFile * handle, const char * src,
+				int count);
 /* 7 */
-EXTERN void		tkimg_ReadBuffer _ANSI_ARGS_((int onOff));
+EXTERN void		tkimg_ReadBuffer(int onOff);
 /* Slot 8 is reserved */
 /* Slot 9 is reserved */
 /* 10 */
-EXTERN int		tkimg_PhotoPutBlock _ANSI_ARGS_((Tcl_Interp * interp,
+EXTERN int		tkimg_PhotoPutBlock(Tcl_Interp * interp,
 				Tk_PhotoHandle handle,
 				Tk_PhotoImageBlock * blockPtr, int x, int y,
-				int width, int height, int flags));
+				int width, int height, int flags);
 /* Slot 11 is reserved */
 /* Slot 12 is reserved */
 /* Slot 13 is reserved */
@@ -61,20 +60,19 @@ EXTERN int		tkimg_PhotoPutBlock _ANSI_ARGS_((Tcl_Interp * interp,
 /* Slot 18 is reserved */
 /* Slot 19 is reserved */
 /* 20 */
-EXTERN void		tkimg_FixChanMatchProc _ANSI_ARGS_((
-				Tcl_Interp ** interp, Tcl_Channel * chan,
-				const char ** file, Tcl_Obj ** format,
-				int ** width, int ** height));
-/* 21 */
-EXTERN void		tkimg_FixObjMatchProc _ANSI_ARGS_((
-				Tcl_Interp ** interp, Tcl_Obj ** data,
+EXTERN void		tkimg_FixChanMatchProc(Tcl_Interp ** interp,
+				Tcl_Channel * chan, const char ** file,
 				Tcl_Obj ** format, int ** width,
-				int ** height));
+				int ** height);
+/* 21 */
+EXTERN void		tkimg_FixObjMatchProc(Tcl_Interp ** interp,
+				Tcl_Obj ** data, Tcl_Obj ** format,
+				int ** width, int ** height);
 /* 22 */
-EXTERN void		tkimg_FixStringWriteProc _ANSI_ARGS_((
-				Tcl_DString * data, Tcl_Interp ** interp,
-				Tcl_DString ** dataPtr, Tcl_Obj ** format,
-				Tk_PhotoImageBlock ** blockPtr));
+EXTERN void		tkimg_FixStringWriteProc(Tcl_DString * data,
+				Tcl_Interp ** interp, Tcl_DString ** dataPtr,
+				Tcl_Obj ** format,
+				Tk_PhotoImageBlock ** blockPtr);
 /* Slot 23 is reserved */
 /* Slot 24 is reserved */
 /* Slot 25 is reserved */
@@ -83,31 +81,31 @@ EXTERN void		tkimg_FixStringWriteProc _ANSI_ARGS_((
 /* Slot 28 is reserved */
 /* Slot 29 is reserved */
 /* 30 */
-EXTERN char *		tkimg_GetStringFromObj _ANSI_ARGS_((Tcl_Obj * objPtr,
-				int * lengthPtr));
+EXTERN const char *	tkimg_GetStringFromObj(Tcl_Obj * objPtr,
+				int * lengthPtr);
 /* 31 */
-EXTERN unsigned char *	tkimg_GetByteArrayFromObj _ANSI_ARGS_((
-				Tcl_Obj * objPtr, int * lengthPtr));
+EXTERN unsigned char *	tkimg_GetByteArrayFromObj(Tcl_Obj * objPtr,
+				int * lengthPtr);
 /* 32 */
-EXTERN int		tkimg_ListObjGetElements _ANSI_ARGS_((
-				Tcl_Interp * interp, Tcl_Obj * objPtr,
-				int * argc, Tcl_Obj *** argv));
+EXTERN int		tkimg_ListObjGetElements(Tcl_Interp * interp,
+				Tcl_Obj * objPtr, int * argc,
+				Tcl_Obj *** argv);
 
 typedef struct TkimgStubs {
     int magic;
     const struct TkimgStubHooks *hooks;
 
-    Tcl_Channel (*tkimg_OpenFileChannel) _ANSI_ARGS_((Tcl_Interp * interp, const char * fileName, int permissions)); /* 0 */
-    int (*tkimg_ReadInit) _ANSI_ARGS_((Tcl_Obj * data, int c, tkimg_MFile * handle)); /* 1 */
-    void (*tkimg_WriteInit) _ANSI_ARGS_((Tcl_DString * buffer, tkimg_MFile * handle)); /* 2 */
-    int (*tkimg_Getc) _ANSI_ARGS_((tkimg_MFile * handle)); /* 3 */
-    int (*tkimg_Read) _ANSI_ARGS_((tkimg_MFile * handle, char * dst, int count)); /* 4 */
-    int (*tkimg_Putc) _ANSI_ARGS_((int c, tkimg_MFile * handle)); /* 5 */
-    int (*tkimg_Write) _ANSI_ARGS_((tkimg_MFile * handle, const char * src, int count)); /* 6 */
-    void (*tkimg_ReadBuffer) _ANSI_ARGS_((int onOff)); /* 7 */
+    Tcl_Channel (*tkimg_OpenFileChannel) (Tcl_Interp * interp, const char * fileName, int permissions); /* 0 */
+    int (*tkimg_ReadInit) (Tcl_Obj * data, int c, tkimg_MFile * handle); /* 1 */
+    void (*tkimg_WriteInit) (Tcl_DString * buffer, tkimg_MFile * handle); /* 2 */
+    int (*tkimg_Getc) (tkimg_MFile * handle); /* 3 */
+    int (*tkimg_Read) (tkimg_MFile * handle, char * dst, int count); /* 4 */
+    int (*tkimg_Putc) (int c, tkimg_MFile * handle); /* 5 */
+    int (*tkimg_Write) (tkimg_MFile * handle, const char * src, int count); /* 6 */
+    void (*tkimg_ReadBuffer) (int onOff); /* 7 */
     void *reserved8;
     void *reserved9;
-    int (*tkimg_PhotoPutBlock) _ANSI_ARGS_((Tcl_Interp * interp, Tk_PhotoHandle handle, Tk_PhotoImageBlock * blockPtr, int x, int y, int width, int height, int flags)); /* 10 */
+    int (*tkimg_PhotoPutBlock) (Tcl_Interp * interp, Tk_PhotoHandle handle, Tk_PhotoImageBlock * blockPtr, int x, int y, int width, int height, int flags); /* 10 */
     void *reserved11;
     void *reserved12;
     void *reserved13;
@@ -117,9 +115,9 @@ typedef struct TkimgStubs {
     void *reserved17;
     void *reserved18;
     void *reserved19;
-    void (*tkimg_FixChanMatchProc) _ANSI_ARGS_((Tcl_Interp ** interp, Tcl_Channel * chan, const char ** file, Tcl_Obj ** format, int ** width, int ** height)); /* 20 */
-    void (*tkimg_FixObjMatchProc) _ANSI_ARGS_((Tcl_Interp ** interp, Tcl_Obj ** data, Tcl_Obj ** format, int ** width, int ** height)); /* 21 */
-    void (*tkimg_FixStringWriteProc) _ANSI_ARGS_((Tcl_DString * data, Tcl_Interp ** interp, Tcl_DString ** dataPtr, Tcl_Obj ** format, Tk_PhotoImageBlock ** blockPtr)); /* 22 */
+    void (*tkimg_FixChanMatchProc) (Tcl_Interp ** interp, Tcl_Channel * chan, const char ** file, Tcl_Obj ** format, int ** width, int ** height); /* 20 */
+    void (*tkimg_FixObjMatchProc) (Tcl_Interp ** interp, Tcl_Obj ** data, Tcl_Obj ** format, int ** width, int ** height); /* 21 */
+    void (*tkimg_FixStringWriteProc) (Tcl_DString * data, Tcl_Interp ** interp, Tcl_DString ** dataPtr, Tcl_Obj ** format, Tk_PhotoImageBlock ** blockPtr); /* 22 */
     void *reserved23;
     void *reserved24;
     void *reserved25;
@@ -127,9 +125,9 @@ typedef struct TkimgStubs {
     void *reserved27;
     void *reserved28;
     void *reserved29;
-    char * (*tkimg_GetStringFromObj) _ANSI_ARGS_((Tcl_Obj * objPtr, int * lengthPtr)); /* 30 */
-    unsigned char * (*tkimg_GetByteArrayFromObj) _ANSI_ARGS_((Tcl_Obj * objPtr, int * lengthPtr)); /* 31 */
-    int (*tkimg_ListObjGetElements) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * objPtr, int * argc, Tcl_Obj *** argv)); /* 32 */
+    const char * (*tkimg_GetStringFromObj) (Tcl_Obj * objPtr, int * lengthPtr); /* 30 */
+    unsigned char * (*tkimg_GetByteArrayFromObj) (Tcl_Obj * objPtr, int * lengthPtr); /* 31 */
+    int (*tkimg_ListObjGetElements) (Tcl_Interp * interp, Tcl_Obj * objPtr, int * argc, Tcl_Obj *** argv); /* 32 */
 } TkimgStubs;
 
 #ifdef __cplusplus

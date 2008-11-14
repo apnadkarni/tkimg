@@ -1,7 +1,7 @@
 /*
  * tkimg.h --
  *
- *	Interface to tkimg Base package.
+ *  Interface to tkimg Base package.
  *
  * Copyright (c) 2002 Andreas Kupries <andreas_kupries@users.sourceforge.net>
  *
@@ -60,31 +60,31 @@
 #   undef DLLIMPORT
 #   undef DLLEXPORT
 #   if defined(STATIC_BUILD)
-#	define DLLIMPORT
-#	define DLLEXPORT
+#   define DLLIMPORT
+#   define DLLEXPORT
 #   elif (defined(__WIN32__) && (defined(_MSC_VER) || (__BORLANDC__ >= 0x0550) || (defined(__GNUC__) && defined(__declspec)))) || (defined(MAC_TCL) && FUNCTION_DECLSPEC)
-#	define DLLIMPORT __declspec(dllimport)
-#	define DLLEXPORT __declspec(dllexport)
+#   define DLLIMPORT __declspec(dllimport)
+#   define DLLEXPORT __declspec(dllexport)
 #   elif defined(__BORLANDC__)
-#	define OLDBORLAND 1
-#	define DLLIMPORT __import
-#	define DLLEXPORT __export
+#   define OLDBORLAND 1
+#   define DLLIMPORT __import
+#   define DLLEXPORT __export
 #   else
-#	define DLLIMPORT
-#	define DLLEXPORT
+#   define DLLIMPORT
+#   define DLLEXPORT
 #   endif
-    /* Avoid name mangling from C++ compilers. */
+/* Avoid name mangling from C++ compilers. */
 #   ifdef __cplusplus
-#	define TCL_EXTRNC extern "C"
+#   define TCL_EXTRNC extern "C"
 #   else
-#	define TCL_EXTRNC extern
+#   define TCL_EXTRNC extern
 #   endif
-    /* Pre-5.5 Borland requires the attributes be placed after the */
-    /* return type. */
+/* Pre-5.5 Borland requires the attributes be placed after the */
+/* return type. */
 #   ifdef OLDBORLAND
-#	define TCL_EXTERN(RTYPE) TCL_EXTRNC RTYPE TCL_STORAGE_CLASS
+#   define TCL_EXTERN(RTYPE) TCL_EXTRNC RTYPE TCL_STORAGE_CLASS
 #   else
-#	define TCL_EXTERN(RTYPE) TCL_EXTRNC TCL_STORAGE_CLASS RTYPE
+#   define TCL_EXTERN(RTYPE) TCL_EXTRNC TCL_STORAGE_CLASS RTYPE
 #   endif
 #endif
 
@@ -129,32 +129,30 @@
  */
 
 typedef struct tkimg_MFile {
-    Tcl_DString *buffer;/* pointer to dynamical string */
-    char *data;		/* mmencoded source string */
-    int c;		/* bits left over from previous char */
-    int state;		/* decoder state (0-4 or IMG_DONE) */
-    int length;		/* length of physical line already written */
+	Tcl_DString *buffer; /* pointer to dynamical string */
+	char *data; /* mmencoded source string */
+	int c; /* bits left over from previous char */
+	int state; /* decoder state (0-4 or IMG_DONE) */
+	int length; /* length of physical line already written */
 } tkimg_MFile;
 
-#define IMG_SPECIAL	 (1<<8)
-#define IMG_PAD		(IMG_SPECIAL+1)
-#define IMG_SPACE	(IMG_SPECIAL+2)
-#define IMG_BAD		(IMG_SPECIAL+3)
-#define IMG_DONE	(IMG_SPECIAL+4)
-#define IMG_CHAN        (IMG_SPECIAL+5)
-#define IMG_STRING	(IMG_SPECIAL+6)
+#define IMG_SPECIAL (1<<8)
+#define IMG_PAD     (IMG_SPECIAL+1)
+#define IMG_SPACE   (IMG_SPECIAL+2)
+#define IMG_BAD     (IMG_SPECIAL+3)
+#define IMG_DONE    (IMG_SPECIAL+4)
+#define IMG_CHAN    (IMG_SPECIAL+5)
+#define IMG_STRING  (IMG_SPECIAL+6)
 
 /*
  * The variable "tkimg_initialized" contains flags indicating which
  * version of Tcl or Perl we are running:
  *
- *	IMG_TCL		Tcl
- *	IMG_OBJS	using Tcl_Obj's in stead of char* (Tk 8.3 or higher)
- *      IMG_PERL	perl
- *      IMG_UTF		Tcl 8.1 or higher
- *      IMG_NEWPHOTO	Tcl 8.3 or higher
- *      IMG_COMPOSITE	Tcl 8.4 or higher
- *      IMG_NOPANIC	Tcl 8.5 or higher
+ *  IMG_TCL    Tcl
+ *  IMG_OBJS   using Tcl_Objs in stead of char* (Tk 8.3 or higher)
+ *  IMG_PERL   perl
+ *  IMG_COMPOSITE Tcl 8.4 or higher
+ *  IMG_NOPANIC Tcl 8.5 or higher
  *
  * These flags will be determined at runtime (except the IMG_PERL
  * flag, for now), so we can use the same dynamic library for all
@@ -163,13 +161,13 @@ typedef struct tkimg_MFile {
 
 extern int tkimg_initialized;
 
-#define IMG_TCL		(1<<9)
-#define IMG_OBJS	(1<<10)
-#define IMG_PERL	(1<<11)
-#define IMG_UTF		(1<<12)
-#define IMG_NEWPHOTO	(1<<13)
-#define IMG_COMPOSITE	(1<<14)
-#define IMG_NOPANIC	(1<<15)
+#define IMG_TCL (1<<9)
+#define IMG_OBJS (1<<10)
+#define IMG_PERL (1<<11)
+#define IMG_UTF (1<<12)
+#define IMG_NEWPHOTO (1<<13)
+#define IMG_COMPOSITE (1<<14)
+#define IMG_NOPANIC (1<<15)
 
 /*
  *----------------------------------------------------------------------------
@@ -187,7 +185,7 @@ extern int tkimg_initialized;
 
 #ifdef USE_TKIMG_STUBS
 EXTERN const char *
-Tkimg_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, const char *version, int exact));
+Tkimg_InitStubs (Tcl_Interp *interp, const char *version, int exact);
 #else
 /*
  * When not using stubs, make it a macro.

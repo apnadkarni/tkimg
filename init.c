@@ -31,8 +31,8 @@
  */
 
 
-EXTERN int @CPACKAGE@_Init     _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN int @CPACKAGE@_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN int @CPACKAGE@_Init(Tcl_Interp *interp);
+EXTERN int @CPACKAGE@_SafeInit(Tcl_Interp *interp);
 
 #undef  TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLIMPORT
@@ -41,36 +41,36 @@ EXTERN int @CPACKAGE@_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
  * Declarations of internal functions.
  */
 
-static int ChnMatch _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
+static int ChnMatch(Tcl_Interp *interp, Tcl_Channel chan,
 	const char *fileName, Tcl_Obj *format, int *widthPtr,
-	int *heightPtr));
+	int *heightPtr);
 
-static int ObjMatch _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
-	Tcl_Obj *format, int *widthPtr, int *heightPtr));
+static int ObjMatch(Tcl_Interp *interp, Tcl_Obj *dataObj,
+	Tcl_Obj *format, int *widthPtr, int *heightPtr);
 
-static int ChnRead _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
+static int ChnRead(Tcl_Interp *interp, Tcl_Channel chan,
 	const char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-	int destX, int destY, int width, int height, int srcX, int srcY));
+	int destX, int destY, int width, int height, int srcX, int srcY);
 
-static int ObjRead _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
+static int ObjRead(Tcl_Interp *interp, Tcl_Obj *dataObj,
 	Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-	int destX, int destY, int width, int height, int srcX, int srcY));
+	int destX, int destY, int width, int height, int srcX, int srcY);
 
-static int ChnWrite _ANSI_ARGS_((Tcl_Interp *interp, const char *filename,
-	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr));
+static int ChnWrite(Tcl_Interp *interp, const char *filename,
+	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
 
-static int StringWrite _ANSI_ARGS_((Tcl_Interp *interp,
+static int StringWrite(Tcl_Interp *interp,
 	Tcl_DString *data, Tcl_Obj *format,
-	Tk_PhotoImageBlock *blockPtr));
+	Tk_PhotoImageBlock *blockPtr);
 
 static Tk_PhotoImageFormat format = {
-    "%PHIMGTYPE%",					/* name */
-    (Tk_ImageFileMatchProc *)   ChnMatch,	/* fileMatchProc */
-    (Tk_ImageStringMatchProc *) ObjMatch,	/* stringMatchProc */
-    (Tk_ImageFileReadProc *)    ChnRead,	/* fileReadProc */
-    (Tk_ImageStringReadProc *)  ObjRead,	/* stringReadProc */
-    (Tk_ImageFileWriteProc *)   ChnWrite,	/* fileWriteProc */
-    (Tk_ImageStringWriteProc *) StringWrite	/* stringWriteProc */
+	(char *) "%PHIMGTYPE%", /* name */
+	(Tk_ImageFileMatchProc *) ChnMatch, /* fileMatchProc */
+	(Tk_ImageStringMatchProc *) ObjMatch, /* stringMatchProc */
+	(Tk_ImageFileReadProc *) ChnRead, /* fileReadProc */
+	(Tk_ImageStringReadProc *) ObjRead, /* stringReadProc */
+	(Tk_ImageFileWriteProc *) ChnWrite, /* fileWriteProc */
+	(Tk_ImageStringWriteProc *) StringWrite /* stringWriteProc */
 };
 
 #ifdef SECOND_FORMAT
@@ -82,47 +82,47 @@ static Tk_PhotoImageFormat format = {
 
 #ifndef SECOND_CHNMATCH
 #define SECOND_CHNMATCH ChnMatchBeta
-static int ChnMatchBeta _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
+static int ChnMatchBeta(Tcl_Interp *interp, Tcl_Channel chan,
 	const char *fileName, Tcl_Obj *format, int *widthPtr,
-	int *heightPtr));
+	int *heightPtr);
 #endif
 #ifndef SECOND_OBJMATCH
 #define SECOND_OBJMATCH ObjMatchBeta
-static int ObjMatchBeta _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
-	Tcl_Obj *format, int *widthPtr, int *heightPtr));
+static int ObjMatchBeta(Tcl_Interp *interp, Tcl_Obj *dataObj,
+	Tcl_Obj *format, int *widthPtr, int *heightPtr);
 #endif
 #ifndef SECOND_CHNREAD
 #define SECOND_CHNREAD ChnReadBeta
-static int ChnReadBeta _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
+static int ChnReadBeta(Tcl_Interp *interp, Tcl_Channel chan,
 	const char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-	int destX, int destY, int width, int height, int srcX, int srcY));
+	int destX, int destY, int width, int height, int srcX, int srcY);
 #endif
 #ifndef SECOND_OBJREAD
 #define SECOND_OBJREAD ChnObjReadBeta
-static int ObjReadBeta _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
+static int ObjReadBeta(Tcl_Interp *interp, Tcl_Obj *dataObj,
 	Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-	int destX, int destY, int width, int height, int srcX, int srcY));
+	int destX, int destY, int width, int height, int srcX, int srcY);
 #endif
 #ifndef SECOND_CHNWRITE
 #define SECOND_CHNWRITE ChnWriteBeta
-static int ChnWriteBeta _ANSI_ARGS_((Tcl_Interp *interp, const char *filename,
-	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr));
+static int ChnWriteBeta(Tcl_Interp *interp, const char *filename,
+	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
 #endif
 #ifndef SECOND_STRWRITE
 #define SECOND_STRWRITE StringWriteBeta
-static int StringWriteBeta _ANSI_ARGS_((Tcl_Interp *interp,
+static int StringWriteBeta(Tcl_Interp *interp,
 	Tcl_DString *data, Tcl_Obj *format,
-	Tk_PhotoImageBlock *blockPtr));
+	Tk_PhotoImageBlock *blockPtr);
 #endif
 
 static Tk_PhotoImageFormat format_beta = {
-    "%PHIMGTYPE_BETA%",					/* name */
-    (Tk_ImageFileMatchProc *)   SECOND_CHNMATCH,	/* fileMatchProc */
-    (Tk_ImageStringMatchProc *) SECOND_OBJMATCH,	/* stringMatchProc */
-    (Tk_ImageFileReadProc *)    SECOND_CHNREAD,		/* fileReadProc */
-    (Tk_ImageStringReadProc *)  SECOND_OBJREAD,		/* stringReadProc */
-    (Tk_ImageFileWriteProc *)   SECOND_CHNWRITE,	/* fileWriteProc */
-    (Tk_ImageStringWriteProc *) SECOND_STRWRITE		/* stringWriteProc */
+	(char *) "%PHIMGTYPE_BETA%", /* name */
+	(Tk_ImageFileMatchProc *) SECOND_CHNMATCH, /* fileMatchProc */
+	(Tk_ImageStringMatchProc *) SECOND_OBJMATCH, /* stringMatchProc */
+	(Tk_ImageFileReadProc *) SECOND_CHNREAD, /* fileReadProc */
+	(Tk_ImageStringReadProc *) SECOND_OBJREAD, /* stringReadProc */
+	(Tk_ImageFileWriteProc *) SECOND_CHNWRITE, /* fileWriteProc */
+	(Tk_ImageStringWriteProc *) SECOND_STRWRITE /* stringWriteProc */
 };
 
 #endif /* SECOND_FORMAT */
@@ -145,46 +145,46 @@ static Tk_PhotoImageFormat format_beta = {
  */
 
 int
-@CPACKAGE@_Init (interp)
-      Tcl_Interp *interp; /* Interpreter to initialise. */
-{
+@CPACKAGE@_Init(
+	Tcl_Interp *interp /* Interpreter to initialise. */
+) {
 #ifdef USE_TCL_STUBS
-    if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
-        return TCL_ERROR;
-    }
+	if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
+		return TCL_ERROR;
+	}
 #endif
 #ifdef USE_TK_STUBS
-    if (Tk_InitStubs(interp, "8.1", 0) == NULL) {
-        return TCL_ERROR;
-    }
+	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
+		return TCL_ERROR;
+	}
 #endif
 #ifdef USE_TKIMG_STUBS
-    if (Tkimg_InitStubs(interp, TKIMG_VERSION, 0) == NULL) {
-        return TCL_ERROR;
-    }
+	if (Tkimg_InitStubs(interp, TKIMG_VERSION, 0) == NULL) {
+		return TCL_ERROR;
+	}
 #endif
 
-    MORE_INITIALIZATION;
+	MORE_INITIALIZATION;
 
-    /*
-     * Register the new photo image type.
-     */
+	/*
+	 * Register the new photo image type.
+	 */
 
-    Tk_CreatePhotoImageFormat (&format);
+	Tk_CreatePhotoImageFormat (&format);
 #ifdef SECOND_FORMAT
-    Tk_CreatePhotoImageFormat (&format_beta);
+	Tk_CreatePhotoImageFormat (&format_beta);
 #endif /* SECOND_FORMAT */
 
-    /*
-     * At last provide the package ...
-     */
+	/*
+	 * At last provide the package ...
+	 */
 
-    if (Tcl_PkgProvide(interp, PACKAGE_TCLNAME, PACKAGE_VERSION) != TCL_OK) {
-        return TCL_ERROR;
-    }
-    return TCL_OK;
+	if (Tcl_PkgProvide(interp, PACKAGE_TCLNAME, PACKAGE_VERSION) != TCL_OK) {
+		return TCL_ERROR;
+	}
+	return TCL_OK;
 }
-
+
 /*
  *----------------------------------------------------------------------------
  *
@@ -202,9 +202,9 @@ int
  */
 
 int
-@CPACKAGE@_SafeInit (interp)
-      Tcl_Interp *interp; /* Interpreter to initialise. */
-{
-    return @CPACKAGE@_Init (interp);
+@CPACKAGE@_SafeInit(
+	Tcl_Interp *interp /* Interpreter to initialise. */
+) {
+	return @CPACKAGE@_Init (interp);
 }
-
+
