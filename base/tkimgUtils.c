@@ -32,7 +32,7 @@ int tkimg_initialized = 0;
 
 int
 TkimgInitUtilities(
-	Tcl_Interp *interp;
+	Tcl_Interp *interp
 ) {
 #ifdef _LANG
 	tkimg_initialized = IMG_PERL;

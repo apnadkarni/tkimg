@@ -1,3 +1,7 @@
+2008-11-14  Andreas Kupries  <andreask@activestate.com>
+
+	* tkImgUtils.c: Fixed syntax error reported by MSVC.
+
 2006-01-27  Andreas Kupries <andreask@activestate.com>
 
 	* configure.in: TEA 3.5 upgrade, do not use TK_LIBS (anymore).
