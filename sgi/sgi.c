@@ -166,7 +166,7 @@ typedef unsigned int UInt;	/* Unsigned 32 bit integer */
                                     : iflsbuf(p,(unsigned)(x)))
 
 /* The number of bytes of the IMAGE struct, which must be written to disk.
- * All other information is needed only internally. It is filled with zeros 
+ * All other information is needed only internally. It is filled with zeros
  * on disk. */
 #define RELEVANT_HEADER_BYTES 108
 
