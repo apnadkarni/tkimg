@@ -51,9 +51,7 @@ static int CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
 
 static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
 	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr));
-
 
-
 static int
 parseFormat(format, zoomx, zoomy)
      Tcl_Obj *format;
@@ -144,7 +142,7 @@ ObjMatch(interp, data, format, widthPtr, heightPtr)
 
     tkimg_FixObjMatchProc(&interp, &data, &format, &widthPtr, &heightPtr);
 
-    handle.data = tkimg_GetStringFromObj(data, &handle.length);
+    handle.data = (char *)tkimg_GetStringFromObj(data, &handle.length);
     handle.state = IMG_STRING;
 
     return CommonMatchPS(&handle, format, widthPtr, heightPtr);

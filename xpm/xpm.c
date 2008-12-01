@@ -145,12 +145,11 @@ ObjMatch(interp, data, format, widthPtr, heightPtr)
 
     tkimg_FixObjMatchProc(&interp, &data, &format, &widthPtr, &heightPtr);
 
-    handle.data = tkimg_GetStringFromObj(data, &handle.length);
+    handle.data = (char *)tkimg_GetStringFromObj(data, &handle.length);
     handle.state = IMG_STRING;
 
     return ReadXPMFileHeader(&handle, widthPtr, heightPtr, &numColors, &byteSize);
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -191,7 +190,6 @@ ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     return ReadXPMFileHeader(&handle, widthPtr, heightPtr, &numColors, &byteSize);
 }
 
-
 /*
  *----------------------------------------------------------------------
  *
@@ -480,7 +478,6 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
     ckfree((char *) block.pixelPtr);
     return TCL_OK;
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -566,7 +563,7 @@ ObjRead(interp, data, format, imageHandle, destX, destY,
 {
     tkimg_MFile handle;
 
-    handle.data = tkimg_GetStringFromObj(data, &handle.length);
+    handle.data = (char *)tkimg_GetStringFromObj(data, &handle.length);
     handle.state = IMG_STRING;
 
     return CommonRead(interp, &handle, format, imageHandle,

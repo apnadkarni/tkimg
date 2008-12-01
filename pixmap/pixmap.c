@@ -36,8 +36,8 @@ EXTERN void		panic _ANSI_ARGS_(TCL_VARARGS(char *,format));
  */
 
 static int		TkimgXpmCreate _ANSI_ARGS_((Tcl_Interp *interp,
-			    char *name, int argc, Tcl_Obj *objv[],
-			    Tk_ImageType *typePtr, Tk_ImageMaster master,
+			    const char *name, int argc, Tcl_Obj *objv[],
+			    const Tk_ImageType *typePtr, Tk_ImageMaster master,
 			    ClientData *clientDataPtr));
 static ClientData	TkimgXpmGet _ANSI_ARGS_((Tk_Window tkwin,
 			    ClientData clientData));
@@ -119,11 +119,11 @@ static int
 TkimgXpmCreate(interp, name, argc, objv, typePtr, master, clientDataPtr)
     Tcl_Interp *interp;		/* Interpreter for application containing
 				 * image. */
-    char *name;			/* Name to use for image. */
+    const char *name;			/* Name to use for image. */
     int argc;			/* Number of arguments. */
     Tcl_Obj *objv[];		/* Argument strings for options (doesn't
 				 * include image name or type). */
-    Tk_ImageType *typePtr;	/* Pointer to our type record (not used). */
+    const Tk_ImageType *typePtr;	/* Pointer to our type record (not used). */
     Tk_ImageMaster master;	/* Token for image, to be used by us in
 				 * later callbacks. */
     ClientData *clientDataPtr;	/* Store manager's token for image here;
@@ -373,7 +373,6 @@ TkimgXpmGetData(interp, masterPtr)
     return code;
 }
 
-
 static CONST84 char **
 TkimgXpmGetDataFromString(interp, string, numLines_return)
     Tcl_Interp * interp;
@@ -504,7 +503,6 @@ TkimgXpmGetDataFromString(interp, string, numLines_return)
     return (CONST84 char**) NULL;
 }
 
-
 static CONST84 char **
 TkimgXpmGetDataFromFile(interp, fileName, numLines_return)
     Tcl_Interp * interp;

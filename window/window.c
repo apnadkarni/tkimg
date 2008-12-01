@@ -171,7 +171,7 @@ static int ObjMatch(interp, data, format, widthPtr, heightPtr)
     int *widthPtr, *heightPtr;
 {
     Tk_Window tkwin;
-    char *name;
+    const char *name;
 
     tkimg_FixObjMatchProc(&interp, &data, &format, &widthPtr, &heightPtr);
 
@@ -234,7 +234,7 @@ static int ObjRead(interp, data, format, imageHandle,
     myblock bl;
     Tk_Window tkwin;
     int fileWidth, fileHeight, depth, nBytes, x, y;
-    char *name;
+    const char *name;
 #ifndef	__WIN32__
     XImage *ximage;
     ColormapData cdata;
