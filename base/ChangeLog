@@ -1,3 +1,7 @@
+2008-12-21  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* pkgIndex.tcl.in: Provide both "Img" and "img" package name.
+
 2008-11-14  Andreas Kupries  <andreask@activestate.com>
 
 	* tkImgUtils.c: Fixed syntax error reported by MSVC.
