@@ -219,7 +219,7 @@ static void printImgInfo (ICOHEADER *th, INFOHEADER *ih, FMTOPT *opts,
     sprintf(str, "%s %s\n", msg, filename);                                 OUT;
     sprintf(str, "  No. of icons : %d\n", th->nIcons);                      OUT;
     sprintf(str, "  Icon %d:\n", i);                                        OUT;
-    sprintf(str, "    Width and Height: %dx%d\n", ih->width, ih->height);   OUT;
+    sprintf(str, "    Width and Height: %dx%d\n", ih->width, ih->height/2); OUT;
     sprintf(str, "    Number of colors: %d\n", th->entries[i].nColors);     OUT;
     sprintf(str, "    Number of planes: %d\n", ih->nPlanes);                OUT;
     sprintf(str, "    Bits per pixel:   %d\n", ih->nBitsPerPixel);          OUT;
@@ -273,6 +273,16 @@ static Boln readIcoHeader (tkimg_MFile *handle, ICOHEADER *th)
 	    return FALSE;
 	}
         th->entries[i].nColors = (nColors == 0? 256: nColors);
+        #if defined (DEBUG_LOCAL)
+            printf ("Icon %d:\n", i);
+            printf ("  Width     : %d\n", th->entries[i].width);
+            printf ("  Height    : %d\n", th->entries[i].height);
+            printf ("  Colors    : %d\n", th->entries[i].height);
+            printf ("  Planes    : %d\n", th->entries[i].nPlanes);
+            printf ("  BitCount  : %d\n", th->entries[i].bitCount);
+            printf ("  Size      : %d\n", th->entries[i].sizeInBytes);
+            printf ("  FileOffset: %d\n", th->entries[i].fileOffset);
+        #endif
     }
     return TRUE;
 }
@@ -604,6 +614,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     myblock bl;
     int x, y;
     int fileWidth, fileHeight;
+    int icoHeaderWidth, icoHeaderHeight;
     int outWidth, outHeight, outY;
     int bytesPerLine;
     int nBytesToSkip;
@@ -660,6 +671,22 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
     fileWidth  = infoHeader.width;
     fileHeight = infoHeader.height / 2;
+    icoHeaderWidth  = icoHeader.entries[opts.index].width;
+    icoHeaderHeight = icoHeader.entries[opts.index].height;
+    if (icoHeaderWidth == 0) {
+        icoHeaderWidth = 256;
+    }
+    if (icoHeaderHeight == 0) {
+        icoHeaderHeight = 256;
+    }
+    if (fileWidth  != icoHeaderWidth || fileHeight != icoHeaderHeight) {
+        sprintf(msgStr,"ICO sizes don't match (%dx%d) vs. (%dx%d)",
+                fileWidth, fileHeight, 
+                icoHeaderWidth, icoHeaderHeight);
+        Tcl_AppendResult(interp, msgStr, (char *)NULL);
+        errorFlag = TCL_ERROR;
+        goto error;
+    }
     outWidth   = fileWidth;
     outHeight  = fileHeight;
     if (fileWidth != width || fileHeight != height) {
