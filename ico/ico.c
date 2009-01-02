@@ -17,7 +17,8 @@
  *  1-bit pixels: Black and White.
  *  4-bit pixels: Grayscale or indexed.
  *  8-bit pixels: Grayscale or indexed.
- * 24-bit pixels: True-color (RGB, each channel 8 bit).
+ * 24-bit pixels: True-color (GBR,  each channel 8 bit).
+ * 32-bit pixels: True-color (GBRA, each channel 8 bit).
  *
  * List of currently supported features:
  *
@@ -28,6 +29,7 @@
  *  4-bit | Yes   | Yes   | No    | No    |
  *  8-bit | Yes   | Yes   | Yes   | Yes   |
  * 24-bit | Yes   | Yes   | Yes   | Yes   |
+ * 32-bit | Yes   | Yes   | No    | No    |
  *
  *
  * The following format options are available:
@@ -67,6 +69,8 @@ typedef unsigned short UShort;	/* Unsigned 16 bit integer */
 typedef short Short;		/* Signed   16 bit integer */
 typedef unsigned int UInt;	/* Unsigned 32 bit integer */
 typedef int Int;		/* Signed   32 bit integer */
+
+#define BI_RGB 0
 
 typedef struct {
    UByte  width;
@@ -660,7 +664,15 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
         errorFlag = TCL_ERROR;
         goto error;
     }
-    if (infoHeader.nBitsPerPixel != 24) {
+
+    if (infoHeader.compression != BI_RGB) {
+        sprintf(msgStr,"Unsupported compression type (%d)", infoHeader.compression);
+	Tcl_AppendResult(interp, msgStr, (char *)NULL);
+        errorFlag = TCL_ERROR;
+        goto error;
+    }
+
+    if (infoHeader.nBitsPerPixel != 24 && infoHeader.nBitsPerPixel != 32) {
 	if (!readColorMap (handle, icoHeader.entries[opts.index].nColors,
 			   colorMap)) {
 	    Tcl_AppendResult(interp, "Error reading color map", (char *)NULL);
@@ -731,6 +743,18 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
     line = (unsigned char *) ckalloc(bytesPerLine);
     switch (infoHeader.nBitsPerPixel) {
+	case 32:
+	    for (y=0; y<fileHeight; y++) {
+                tkimg_Read(handle, (char *)line, bytesPerLine);
+		for (x = 0; x < fileWidth; x++) {
+		    expline[0] = line[x*4 + 2];
+		    expline[1] = line[x*4 + 1];
+		    expline[2] = line[x*4 + 0];
+		    expline[3] = line[x*4 + 3];
+		    expline += 4;
+		}
+            }
+            break;
 	case 24:
 	    for (y=0; y<fileHeight; y++) {
                 tkimg_Read(handle, (char *)line, bytesPerLine);
@@ -791,18 +815,21 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    goto error;
     }
 
-    /* Read XAND bitmap. */
-    bytesPerLine = ((1 * fileWidth + 31)/32)*4;
+    if (infoHeader.nBitsPerPixel != 32) {
+        /* Read XAND bitmap. We don't need to read the alpha bitmap, if
+           alpha is supplied already in the 32-bit case. */
+        bytesPerLine = ((1 * fileWidth + 31)/32)*4;
 
-    expline = block.pixelPtr;
-    for (y=0; y<fileHeight; y++) {
-	int c;
-	tkimg_Read(handle, (char *)line, bytesPerLine);
-	for (x=0; x<fileWidth; x++) {
-	    c = (line[x/8] >> (7-(x%8))) & 1;
-	    expline[3] = (c? 0: 255);
-	    expline += 4;
-	}
+        expline = block.pixelPtr;
+        for (y=0; y<fileHeight; y++) {
+            int c;
+            tkimg_Read(handle, (char *)line, bytesPerLine);
+            for (x=0; x<fileWidth; x++) {
+                c = (line[x/8] >> (7-(x%8))) & 1;
+                expline[3] = (c? 0: 255);
+                expline += 4;
+            }
+        }
     }
 
     /* Store the pointer to allocated buffer for later freeing. */
