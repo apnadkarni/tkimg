@@ -31,8 +31,8 @@ TkimgStubs tkimgStubs = {
     NULL, /* 8 */
     NULL, /* 9 */
     tkimg_PhotoPutBlock, /* 10 */
-    NULL, /* 11 */
-    NULL, /* 12 */
+    tkimg_PhotoExpand, /* 11 */
+    tkimg_PhotoSetSize, /* 12 */
     NULL, /* 13 */
     NULL, /* 14 */
     NULL, /* 15 */

@@ -1,5 +1,6 @@
-2008-01-05  Jan Nijtmans <nijtmans@users.sourceforge.net>
+2009-01-05  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
+	* Two more stub functions for improved Tcl 8.5 support.
 	* Make sure that in C preprocessor directives the "#"
 	  character is the first character on the line.
 

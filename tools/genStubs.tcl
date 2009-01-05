@@ -436,7 +436,7 @@ proc genStubs::makeDecl {name decl index} {
 	append text ";\n"
 	return $text
     }
-    append line "$fname _ANSI_ARGS_("
+    append line "$fname"
 
     set arg1 [lindex $args 0]
     switch -exact $arg1 {
@@ -482,7 +482,7 @@ proc genStubs::makeDecl {name decl index} {
     }
     append text $line
 
-    append text ");\n"
+    append text ";\n"
     return $text
 }
 
@@ -606,7 +606,7 @@ proc genStubs::makeSlot {name decl index} {
 	append text $rtype " *" $lfname$args "; /* $index */\n"
 	return $text
     }
-    append text $rtype " (*" $lfname ") _ANSI_ARGS_("
+    append text $rtype " (*" $lfname ") "
 
     set arg1 [lindex $args 0]
     switch -exact $arg1 {
@@ -633,7 +633,7 @@ proc genStubs::makeSlot {name decl index} {
 	}
     }
 
-    append text "); /* $index */\n"
+    append text "; /* $index */\n"
     return $text
 }
 

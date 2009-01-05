@@ -50,8 +50,12 @@ EXTERN int		tkimg_PhotoPutBlock(Tcl_Interp * interp,
 				Tk_PhotoHandle handle,
 				Tk_PhotoImageBlock * blockPtr, int x, int y,
 				int width, int height, int flags);
-/* Slot 11 is reserved */
-/* Slot 12 is reserved */
+/* 11 */
+EXTERN int		tkimg_PhotoExpand(Tcl_Interp * interp,
+				Tk_PhotoHandle handle, int width, int height);
+/* 12 */
+EXTERN int		tkimg_PhotoSetSize(Tcl_Interp * interp,
+				Tk_PhotoHandle handle, int width, int height);
 /* Slot 13 is reserved */
 /* Slot 14 is reserved */
 /* Slot 15 is reserved */
@@ -106,8 +110,8 @@ typedef struct TkimgStubs {
     void *reserved8;
     void *reserved9;
     int (*tkimg_PhotoPutBlock) (Tcl_Interp * interp, Tk_PhotoHandle handle, Tk_PhotoImageBlock * blockPtr, int x, int y, int width, int height, int flags); /* 10 */
-    void *reserved11;
-    void *reserved12;
+    int (*tkimg_PhotoExpand) (Tcl_Interp * interp, Tk_PhotoHandle handle, int width, int height); /* 11 */
+    int (*tkimg_PhotoSetSize) (Tcl_Interp * interp, Tk_PhotoHandle handle, int width, int height); /* 12 */
     void *reserved13;
     void *reserved14;
     void *reserved15;
@@ -182,8 +186,14 @@ extern const TkimgStubs *tkimgStubsPtr;
 #define tkimg_PhotoPutBlock \
 	(tkimgStubsPtr->tkimg_PhotoPutBlock) /* 10 */
 #endif
-/* Slot 11 is reserved */
-/* Slot 12 is reserved */
+#ifndef tkimg_PhotoExpand
+#define tkimg_PhotoExpand \
+	(tkimgStubsPtr->tkimg_PhotoExpand) /* 11 */
+#endif
+#ifndef tkimg_PhotoSetSize
+#define tkimg_PhotoSetSize \
+	(tkimgStubsPtr->tkimg_PhotoSetSize) /* 12 */
+#endif
 /* Slot 13 is reserved */
 /* Slot 14 is reserved */
 /* Slot 15 is reserved */

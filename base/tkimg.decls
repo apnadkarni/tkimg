@@ -53,6 +53,14 @@ declare 10 generic {
     int tkimg_PhotoPutBlock (Tcl_Interp *interp, Tk_PhotoHandle handle,
 	Tk_PhotoImageBlock *blockPtr, int x, int y, int width, int height, int flags)
 }
+declare 11 generic {
+    int tkimg_PhotoExpand (Tcl_Interp *interp, Tk_PhotoHandle handle,
+	int width, int height)
+}
+declare 12 generic {
+    int tkimg_PhotoSetSize (Tcl_Interp *interp, Tk_PhotoHandle handle,
+	int width, int height)
+}
 
 #########################################################################
 ###  Utilities to help handling the differences in 8.3.2 and 8.3 image types.

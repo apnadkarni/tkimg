@@ -2,6 +2,7 @@
  *  tkimgPPB.tcl
  */
 
+#include "tk.h"
 #include "tkimg.h"
 #include <string.h>
 
@@ -38,9 +39,16 @@ int width, height; /* Dimensions of the area of the image
 * to be updated. */
 int flags; /* TK_PHOTO_COMPOSITE_OVERLAY or TK_PHOTO_COMPOSITE_SET */
 {
+#if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
+	if (tkimg_initialized & IMG_NOPANIC) {
+		return Tk_PhotoPutBlock(interp, handle, blockPtr, x, y, width, height, flags);
+	}
+#else
+#   define Tk_PhotoPutBlock_Panic Tk_PhotoPutBlock
+#endif
 #if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 3))
 	if (tkimg_initialized & IMG_COMPOSITE) {
-		Tk_PhotoPutBlock(handle, blockPtr, x, y, width, height, flags);
+		Tk_PhotoPutBlock_Panic(handle, blockPtr, x, y, width, height, flags);
 		return TCL_OK;
 	}
 #else
@@ -95,5 +103,43 @@ int flags; /* TK_PHOTO_COMPOSITE_OVERLAY or TK_PHOTO_COMPOSITE_SET */
 		}
 	}
 	Tk_PhotoPutBlock_NoComposite(handle, blockPtr, x, y, width, height);
+	return TCL_OK;
+}
+
+int
+tkimg_PhotoExpand(interp, handle, width, height)
+Tcl_Interp *interp; /* Interpreter for error-reporting. */
+Tk_PhotoHandle handle; /* Opaque handle for the photo image
+ * to be updated. */
+int width, height; /* Dimensions of the area of the image
+* to be updated. */
+{
+#if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
+	if (tkimg_initialized & IMG_NOPANIC) {
+		return Tk_PhotoExpand(interp, handle, width, height);
+	}
+#else
+#   define Tk_PhotoExpand_Panic Tk_PhotoExpand
+#endif
+	Tk_PhotoExpand_Panic(handle, width, height);
+	return TCL_OK;
+}
+
+int
+tkimg_PhotoSetSize(interp, handle, width, height)
+Tcl_Interp *interp; /* Interpreter for error-reporting. */
+Tk_PhotoHandle handle; /* Opaque handle for the photo image
+ * to be updated. */
+int width, height; /* Dimensions of the area of the image
+* to be updated. */
+{
+#if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
+	if (tkimg_initialized & IMG_NOPANIC) {
+		return Tk_PhotoSetSize(interp, handle, width, height);
+	}
+#else
+#   define Tk_PhotoSetSize_Panic Tk_PhotoSetSize
+#endif
+	Tk_PhotoSetSize_Panic(handle, width, height);
 	return TCL_OK;
 }
