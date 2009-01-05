@@ -121,7 +121,7 @@ static UShort qtohs (UShort x)
 
 /* Read 1 byte, representing an unsigned integer number. */
 
-#if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 static Boln readUByte (tkimg_MFile *handle, UByte *b)
 {
     char buf[1];
@@ -132,7 +132,7 @@ static Boln readUByte (tkimg_MFile *handle, UByte *b)
 }
 #else
     /* Use this macro for better performance, esp. when reading RLE files. */
-    #define readUByte(h,b) (1 == tkimg_Read((h),(char *)(b),1))
+#   define readUByte(h,b) (1 == tkimg_Read((h),(char *)(b),1))
 #endif
 
 /* Write 1 byte, representing an unsigned integer to a file. */

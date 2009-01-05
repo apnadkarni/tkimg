@@ -237,14 +237,14 @@ static Boln gtableFloat (Float gamma, Float table[])
     }
     for (i = 0; i < GTABSIZE - 1; ++i) {
         table[i] = pow ((Float) i / (Float) (GTABSIZE - 2), 1.0 / gamma);
-	#if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	    printf ("gammatable[%d] = %f\n", i, table[i]);
-	#endif
+#endif
     }
     table[GTABSIZE - 1] = 1.0;
-    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	printf ("gammatable[%d] = %f\n", GTABSIZE-1, table[GTABSIZE-1]);
-    #endif
+#endif
     return TRUE;
 }
 
@@ -271,10 +271,10 @@ static void gammaShortUByte (Int n, const Short s_in[],
 	    gcorrectFloat (ftmp, gtable, ftmp);
 	    itmp = (Int)(ftmp * 255.0 + 0.5);
 	    *ubdest = MAX (0, MIN (itmp, 255));
-	    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 		printf ("Gamma %d --> %f --> %d --> %d\n",
 		        *ssrc, ftmp, itmp, *ubdest);
-	    #endif
+#endif
 	    ++ubdest;
 	    ++ssrc;
 	}
@@ -284,9 +284,9 @@ static void gammaShortUByte (Int n, const Short s_in[],
 	       the displayable range [0 .. 255]. */
 	    itmp = (Int)(*ssrc * 255.0 / 65535.0  + 128);
 	    *ubdest = MAX (0, MIN (itmp, 255));
-	    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 		printf ("NoGamma %d --> %d --> %d\n", *ssrc, itmp, *ubdest);
-	    #endif
+#endif
 	    ++ubdest;
 	    ++ssrc;
 	}
@@ -546,10 +546,10 @@ static Boln readDtedFile (tkimg_MFile *handle, Short *buf, Int width, Int height
     Short *bufPtr = buf;
     char  *colBuf;
 
-    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 	printf ("readDtedFile: Width=%d Height=%d nchan=%d hostIsIntel=%s\n",
                  width, height, nchan, hostIsIntel? "yes": "no");
-    #endif
+#endif
     for (c=0; c<nchan; c++) {
 	minVals[c] =  MAX_SHORT;
 	maxVals[c] =  MIN_SHORT;
@@ -623,10 +623,10 @@ static Boln remapShortValues (Short *buf, Int width, Int height, Int nchan,
 	    for (c=0; c<nchan; c++) {
 		tmpShort = (*bufPtr >= ELEV_UNDEFINED? *bufPtr: minVals[c]);
 		tmpInt = (Int)(tmpShort * m[c] + t[c] + 0.5);
-		#if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 		    printf ("Remap %d --> %d --> %d --> ",
 		             *bufPtr, tmpShort, tmpInt);
-		#endif
+#endif
 		if (tmpInt < MIN_SHORT) {
 		    *bufPtr = MIN_SHORT;
 		} else if (tmpInt > MAX_SHORT) {
@@ -634,9 +634,9 @@ static Boln remapShortValues (Short *buf, Int width, Int height, Int nchan,
 		} else {
 		    *bufPtr = tmpInt;
 		}
-		#if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 		    printf ("%d (%f %f)\n", *bufPtr, m[c], t[c]);
-		#endif
+#endif
 	        bufPtr++;
 	    }
 	}

@@ -277,16 +277,16 @@ static Boln readIcoHeader (tkimg_MFile *handle, ICOHEADER *th)
 	    return FALSE;
 	}
         th->entries[i].nColors = (nColors == 0? 256: nColors);
-        #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
             printf ("Icon %d:\n", i);
             printf ("  Width     : %d\n", th->entries[i].width);
             printf ("  Height    : %d\n", th->entries[i].height);
-            printf ("  Colors    : %d\n", th->entries[i].height);
+            printf ("  Colors    : %d\n", th->entries[i].nColors);
             printf ("  Planes    : %d\n", th->entries[i].nPlanes);
             printf ("  BitCount  : %d\n", th->entries[i].bitCount);
             printf ("  Size      : %d\n", th->entries[i].sizeInBytes);
             printf ("  FileOffset: %d\n", th->entries[i].fileOffset);
-        #endif
+#endif
     }
     return TRUE;
 }
@@ -338,7 +338,7 @@ static Boln readInfoHeader (tkimg_MFile *handle, INFOHEADER *ih)
 	!readUInt   (handle, &ih->nColorsImportant)) {
 	return FALSE;
     }
-    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	printf("Info header:\n");
 	printf("Size: %d\n", ih->size);
 	printf("Width: %d\n", ih->width);
@@ -351,7 +351,7 @@ static Boln readInfoHeader (tkimg_MFile *handle, INFOHEADER *ih)
 	printf("YPixelsPerM: %d\n", ih->yPixelsPerM);
 	printf("ColorsUsed: %d\n", ih->nColorsUsed);
 	printf("ColorsImportant: %d\n", ih->nColorsImportant);
-    #endif
+#endif
     return TRUE;
 }
 
@@ -370,7 +370,7 @@ static Boln writeInfoHeader (tkimg_MFile *handle, INFOHEADER *ih)
 	!writeUInt   (handle, ih->nColorsImportant)) {
 	return FALSE;
     }
-    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	printf("Writing Info header:\n");
 	printf("Size        : %d\n", ih->size);
 	printf("Width       : %d\n", ih->width);
@@ -383,7 +383,7 @@ static Boln writeInfoHeader (tkimg_MFile *handle, INFOHEADER *ih)
 	printf("YPixelsPerM : %d\n", ih->yPixelsPerM);
 	printf("ColorsUsed  : %d\n", ih->nColorsUsed);
 	printf("ColorsImport: %d\n", ih->nColorsImportant);
-    #endif
+#endif
     return TRUE;
 }
 
@@ -693,7 +693,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     }
     if (fileWidth  != icoHeaderWidth || fileHeight != icoHeaderHeight) {
         sprintf(msgStr,"ICO sizes don't match (%dx%d) vs. (%dx%d)",
-                fileWidth, fileHeight, 
+                fileWidth, fileHeight,
                 icoHeaderWidth, icoHeaderHeight);
         Tcl_AppendResult(interp, msgStr, (char *)NULL);
         errorFlag = TCL_ERROR;

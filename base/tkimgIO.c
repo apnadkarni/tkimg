@@ -164,25 +164,25 @@ tkimg_Read(
 	bytesToRead = count;
 	bytesRead = 0;
 	while (bytesToRead > 0) {
-	    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 		printf ("bytesToRead=%d bytesRead=%d (bufStart=%d bufEnd=%d)\n",
 			 bytesToRead, bytesRead, bufStart, bufEnd);
-	    #endif
+#endif
 	    if (bufStart < 0) {
 		bufEnd = Tcl_Read((Tcl_Channel)handle->data, readBuf, BUFLEN)-1;
-		#ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 		    printf ("Reading new %d bytes into buffer "
                             "(bufStart=%d bufEnd=%d)\n",
                             BUFLEN, bufStart, bufEnd);
-		#endif
+#endif
 		bufStart = 0;
 	   	if (bufEnd < 0)
 		    return bufEnd;
 	    }
 	    if (bufStart + bytesToRead <= bufEnd +1) {
-		#ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 		    printf ("All in buffer: memcpy %d bytes\n", bytesToRead);
-		#endif
+#endif
 		/* All bytes already in the buffer. Just copy them to dst. */
 		memcpy (dstPtr, readBuf + bufStart, bytesToRead);
 		bufStart += bytesToRead;
@@ -190,10 +190,10 @@ tkimg_Read(
 		    bufStart = -1;
 		return bytesRead + bytesToRead;
 	    } else {
-		#ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 		    printf ("Copy rest of buffer: memcpy %d bytes\n",
                             bufEnd+1-bufStart);
-		#endif
+#endif
 		memcpy (dstPtr, readBuf + bufStart, bufEnd+1 - bufStart);
 		bytesRead += (bufEnd +1 - bufStart);
 		bytesToRead -= (bufEnd+1 - bufStart);

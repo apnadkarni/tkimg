@@ -136,7 +136,7 @@ static RLEBUF
 
 /* OPA TODO: Change from ANSI-C arguments to _ANSI_ARGS_ macro. */
 
-#if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 static Boln readUByte (tkimg_MFile *handle, UByte *b)
 {
     char buf[1];
@@ -147,7 +147,7 @@ static Boln readUByte (tkimg_MFile *handle, UByte *b)
 }
 #else
     /* Use this macro for better performance, esp. when reading RLE files. */
-    #define readUByte(h,b) (1 == tkimg_Read((h),(char *)(b),1))
+#   define readUByte(h,b) (1 == tkimg_Read((h),(char *)(b),1))
 #endif
 
 static Boln writeUByte (tkimg_MFile *handle, UByte b)
@@ -924,9 +924,9 @@ static int ChnMatch(interp, chan, filename, format, widthPtr, heightPtr)
 {
     tkimg_MFile handle;
 
-    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	printf("ChnMatch\n"); fflush(stdout);
-    #endif
+#endif
 
     tkimg_FixChanMatchProc (&interp, &chan, &filename, &format,
                          &widthPtr, &heightPtr);
@@ -945,9 +945,9 @@ static int ObjMatch(interp, data, format, widthPtr, heightPtr)
 {
     tkimg_MFile handle;
 
-    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
         printf("ObjMatch\n"); fflush(stdout);
-    #endif
+#endif
 
     tkimg_FixObjMatchProc (&interp, &data, &format, &widthPtr, &heightPtr);
 
@@ -1088,8 +1088,8 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    tkimg_ReadBuffer (0);
             return TCL_ERROR;
 	}
-	#if defined(DEBUG)
-        {
+#ifdef DEBUG
+	{
 	    int j, ncols;
 	    printf("Colormap values:\n");
 	    ncols = sh.ras_maplength/3;
@@ -1097,7 +1097,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 		printf("Entry 0x%08x: 0x%04x,  0x%04x, 0x%04x\n",
                        j,suncolmap[j],suncolmap[j+ncols],suncolmap[j+2*ncols]);
 	}
-	#endif
+#endif
     } else if (sh.ras_maplength > 0) {
 	UByte dummy[1];
 	int d, length;

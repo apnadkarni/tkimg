@@ -118,9 +118,9 @@ typedef struct {
 	  *blueScan,	/* Buffer for one scanline: Blue  channel */
 	  *matteScan;	/* Buffer for one scanline: Matte channel */
     UByte *pixbuf;
-    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	Int total;
-    #endif
+#endif
 } TGAFILE;
 
 /* OPA TODO: Change from ANSI-C arguments to _ANSI_ARGS_ macro. */
@@ -329,9 +329,9 @@ static Boln readRlePixel (Tcl_Interp *interp, tkimg_MFile *handle, UByte **pixBu
     count = *countPtr;
     for (i=0; i<n; i++)
     {
-	#if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	    tf->total++;
-	#endif
+#endif
 	(*pixBufPtr)[0] = localBuf[2];
 	(*pixBufPtr)[1] = localBuf[1];
 	(*pixBufPtr)[2] = localBuf[0];
@@ -367,9 +367,9 @@ static Boln tgaReadScan (Tcl_Interp *interp, tkimg_MFile *handle,
     nchan = NCHAN(tf->th.pixsize);
     pixBufPtr = tf->pixbuf;
 
-    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	tf->total = 0;
-    #endif
+#endif
 
     if (IS_COMPRESSED (tf->th.imgtyp)) {
 	Byte cbuf[1];
@@ -383,9 +383,9 @@ static Boln tgaReadScan (Tcl_Interp *interp, tkimg_MFile *handle,
 		if (nchan != tkimg_Read(handle, (char *)localBuf, nchan))
 		    return readError (interp);
 	    }
-	    #if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 		tf->total++;
-	    #endif
+#endif
 	    *pixBufPtr++ = localBuf[2];
 	    *pixBufPtr++ = localBuf[1];
 	    *pixBufPtr++ = localBuf[0];
@@ -426,10 +426,10 @@ static Boln tgaReadScan (Tcl_Interp *interp, tkimg_MFile *handle,
 	    }
 	} while (count < stop);
 
-	#if defined (DEBUG_LOCAL)
+#ifdef DEBUG_LOCAL
 	    printf("\tScanline %d: Pixels: %d Rest: %d\n",
 		    y, tf->total, tf->scanrest);
-	#endif
+#endif
     } else {
 	/* Read uncompressed pixel data. */
 	Int   i, bytesPerLine;

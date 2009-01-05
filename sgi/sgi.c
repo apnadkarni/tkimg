@@ -74,11 +74,11 @@
 
 /* OPA TODO: Change from ANSI-C arguments to _ANSI_ARGS_ macro. */
 
-#if defined (WIN32)
-    #define TCLSEEK_WORKAROUND
+#ifdef WIN32
+#   define TCLSEEK_WORKAROUND
 #endif
 
-#if defined (TCLSEEK_WORKAROUND)
+#ifdef TCLSEEK_WORKAROUND
     static int ioMode = 0; /* Needed for Windows patch */
 
     static int MyWrite (Tcl_Channel chan, char *buf, int size)
@@ -108,15 +108,15 @@
 	}
     }
 
-    #define MYCHANNEL Tcl_Channel
-    #undef Tcl_Seek
-    #define Tcl_Seek  MySeek
-    #undef Tcl_Write
-    #define Tcl_Write MyWrite
-    #define MYCLOSE   MyClose
+#   define MYCHANNEL Tcl_Channel
+#   undef Tcl_Seek
+#   define Tcl_Seek MySeek
+#   undef Tcl_Write
+#   define Tcl_Write MyWrite
+#   define MYCLOSE MyClose
 #else
-    #define MYCHANNEL Tcl_Channel
-    #define MYCLOSE   Tcl_Close
+#   define MYCHANNEL Tcl_Channel
+#   define MYCLOSE Tcl_Close
 #endif
 
 /* Some defines and typedefs for compatibility reasons. */
@@ -202,19 +202,19 @@ typedef struct {
 } IMAGE;
 
 #if !defined (_IOWRT)
-    #define _IOWRT  1
+#   define _IOWRT  1
 #endif
 #if !defined (_IOREAD)
-    #define _IOREAD 2
+#   define _IOREAD 2
 #endif
 #if !defined (_IORW)
-    #define _IORW   4
+#   define _IORW   4
 #endif
 #if !defined (_IOERR)
-    #define _IOERR  8
+#   define _IOERR  8
 #endif
 #if !defined (_IOEOF)
-    #define _IOEOF 16
+#   define _IOEOF 16
 #endif
 
 static int img_badrow(IMAGE *image, unsigned int y, unsigned int z);
@@ -317,9 +317,9 @@ static unsigned short *ibufalloc(IMAGE *image)
 
 static int imgOpenRead (MYCHANNEL file, IMAGE *image, const char *mode)
 {
-    #if defined (TCLSEEK_WORKAROUND)
+#ifdef TCLSEEK_WORKAROUND
 	ioMode = 0;
-    #endif
+#endif
     return imgopen (0, file, image, mode, 0, 0, 0, 0, 0);
 }
 
@@ -327,9 +327,9 @@ static int imgOpenWrite (MYCHANNEL file, IMAGE *image, const char *mode,
                      unsigned int type, unsigned int dim,
                      unsigned int xsize, unsigned int ysize, unsigned int zsize)
 {
-    #if defined (TCLSEEK_WORKAROUND)
+#ifdef TCLSEEK_WORKAROUND
 	ioMode = 1;
-    #endif
+#endif
     return imgopen (0, file, image, mode, type, dim, xsize, ysize, zsize);
 }
 
@@ -1492,7 +1492,7 @@ static int ObjRead (interp, data, format, imageHandle,
     tkimg_ReadInit (data, '\001', &handle);
 
     tmpnam(tempFileName);
-#if defined (TCLSEEK_WORKAROUND)
+#ifdef TCLSEEK_WORKAROUND
     outchan = (Tcl_Channel)fopen (tempFileName, "wb");
 #else
     outchan = tkimg_OpenFileChannel (interp, tempFileName, 0644);
@@ -1640,7 +1640,7 @@ static int ChnWrite (interp, filename, format, blockPtr)
     tkimg_MFile handle;
     int result;
 
-#if defined (TCLSEEK_WORKAROUND)
+#ifdef TCLSEEK_WORKAROUND
     chan = (Tcl_Channel)fopen(filename, "wb");
 #else
     chan = tkimg_OpenFileChannel (interp, filename, 0644);
@@ -1677,7 +1677,7 @@ static int StringWrite (interp, dataPtr, format, blockPtr)
     tkimg_FixStringWriteProc (&data, &interp, &dataPtr, &format, &blockPtr);
 
     tmpnam(tempFileName);
-#if defined (TCLSEEK_WORKAROUND)
+#ifdef TCLSEEK_WORKAROUND
     outchan = (Tcl_Channel)fopen(tempFileName, "wb");
 #else
     outchan = tkimg_OpenFileChannel (interp, tempFileName, 0644);

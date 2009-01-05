@@ -20,16 +20,16 @@
  */
 
 #ifndef fragNoErr
-    #define fragNoErr noErr
+#   define fragNoErr noErr
 #endif
 
 #include "tcl.h"
 #include "compat:dlfcn.h"
 
 #if GENERATINGPOWERPC
-    #define OUR_ARCH_TYPE kPowerPCCFragArch
+#   define OUR_ARCH_TYPE kPowerPCCFragArch
 #else
-    #define OUR_ARCH_TYPE kMotorola68KCFragArch
+#   define OUR_ARCH_TYPE kMotorola68KCFragArch
 #endif
 
 /*

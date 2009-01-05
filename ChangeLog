@@ -1,3 +1,8 @@
+2008-01-05  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Make sure that in C preprocessor directives the "#"
+	  character is the first character on the line.
+
 2008-11-13  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* For gcc, from now on use as standard CFLAGS:

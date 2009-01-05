@@ -337,9 +337,9 @@ static Boln readFloatRow (tkimg_MFile *handle, Float *pixels, Int nFloats,
     Float *mPtr = pixels;
     char  *bufPtr = buf;
 
-    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 	printf ("Reading %d floats\n", nFloats);
-    #endif
+#endif
     if (4 * nFloats != tkimg_Read (handle, buf, 4 * nFloats))
         return FALSE;
 
@@ -372,9 +372,9 @@ static Boln readUShortRow (tkimg_MFile *handle, UShort *pixels, Int nShorts,
     UShort *mPtr = pixels;
     char   *bufPtr = buf;
 
-    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 	printf ("Reading %d UShorts\n", nShorts);
-    #endif
+#endif
     if (2 * nShorts != tkimg_Read (handle, buf, 2 * nShorts))
         return FALSE;
 
@@ -403,9 +403,9 @@ static Boln readUByteRow (tkimg_MFile *handle, UByte *pixels, Int nBytes,
     UByte *mPtr = pixels;
     char   *bufPtr = buf;
 
-    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 	printf ("Reading %d UBytes\n", nBytes);
-    #endif
+#endif
     if (nBytes != tkimg_Read (handle, buf, nBytes))
         return FALSE;
 
@@ -456,9 +456,9 @@ static Boln readHeaderLine (Tcl_Interp *interp, tkimg_MFile *handle, char *buf)
     bufEndPtr = buf + HEADLEN;
     failure   = TRUE;
 
-    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 	printf ("readHeaderLine\n"); fflush (stdout);
-    #endif
+#endif
 
     while (tkimg_Read (handle, &c, 1) == 1 && bufPtr < bufEndPtr) {
 	if (c == '\n') {
@@ -627,10 +627,10 @@ static Boln readFloatFile (tkimg_MFile *handle, Float *buf, Int width, Int heigh
     Float *bufPtr = buf;
     char  *line;
 
-    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 	printf ("readFloatFile: Width=%d Height=%d nchan=%d swapBytes=%s\n",
                  width, height, nchan, swapBytes? "yes": "no");
-    #endif
+#endif
     for (c=0; c<nchan; c++) {
 	minVals[c] =  1.0E30;
 	maxVals[c] = -1.0E30;
@@ -673,10 +673,10 @@ static Boln readUShortFile (tkimg_MFile *handle, UShort *buf, Int width, Int hei
     UShort *bufPtr = buf;
     char   *line;
 
-    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 	printf ("readUShortFile: Width=%d Height=%d nchan=%d swapBytes=%s\n",
                  width, height, nchan, swapBytes? "yes": "no");
-    #endif
+#endif
     for (c=0; c<nchan; c++) {
 	minVals[c] =  1.0E30;
 	maxVals[c] = -1.0E30;
@@ -719,10 +719,10 @@ static Boln readUByteFile (tkimg_MFile *handle, UByte *buf, Int width, Int heigh
     UByte *bufPtr = buf;
     char  *line;
 
-    #ifdef DEBUG_LOCAL
+#ifdef DEBUG_LOCAL
 	printf ("readUByteFile: Width=%d Height=%d nchan=%d swapBytes=%s\n",
                  width, height, nchan, swapBytes? "yes": "no");
-    #endif
+#endif
     for (c=0; c<nchan; c++) {
 	minVals[c] =  1.0E30;
 	maxVals[c] = -1.0E30;
