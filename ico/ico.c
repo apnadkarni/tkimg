@@ -725,8 +725,10 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 		      filename, "Reading image:");
     }
 
-    Tk_PhotoSetSize(imageHandle, destX + outWidth, destY + outHeight);
-    Tk_PhotoExpand(imageHandle, destX + outWidth, destY + outHeight);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight)) {
+        errorFlag = TCL_ERROR;
+        goto error;
+    }
 
     bytesPerLine = ((infoHeader.nBitsPerPixel * fileWidth + 31)/32)*4;
 
@@ -839,9 +841,12 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     outY = destY + outHeight - 1;
     for (y=fileHeight-1; y>=0; y--) {
         if (y >= srcY && y < srcY + outHeight) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY,
-		    outWidth, 1, TK_PHOTO_COMPOSITE_SET);
-	    outY--;
+    	errorFlag = tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY,
+    		outWidth, 1, TK_PHOTO_COMPOSITE_SET);
+    	if (errorFlag == TCL_ERROR) {
+    	    break;
+    	}
+    	outY--;
         }
         block.pixelPtr += 4 * fileWidth;
     }
