@@ -1151,6 +1151,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     UShort *ushortBufPtr;
     UByte  *ubyteBufPtr;
     Float  gtable[GTABSIZE];
+    int result = TCL_OK;
 
     memset (&tf, 0, sizeof (RAWFILE));
     initHeader (&tf.th);
@@ -1231,7 +1232,10 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
         }
     }
 
-    Tk_PhotoExpand (imageHandle, destX + outWidth, destY + outHeight);
+    if (tkimg_PhotoExpand (interp, imageHandle, destX + outWidth, destY + outHeight) == TCL_ERROR) {
+	rawClose (&tf);
+    return TCL_ERROR;
+    }
 
     tf.pixbuf = (UByte *) ckalloc (fileWidth * tf.th.nChans);
 
@@ -1287,16 +1291,19 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    }
 	}
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY,
+	    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY,
                                 width, 1,
                                 block.offset[3]?
                                 TK_PHOTO_COMPOSITE_SET:
-                                TK_PHOTO_COMPOSITE_OVERLAY);
+                                TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+		result = TCL_ERROR;
+		break;
+	    }
 	    outY++;
 	}
     }
     rawClose (&tf);
-    return TCL_OK;
+    return result;
 }
 
 static int ChnWrite (interp, filename, format, blockPtr)

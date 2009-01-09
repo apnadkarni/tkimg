@@ -946,7 +946,10 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     remapShortValues (tf.rawbuf, fileWidth, fileHeight, opts.nchan,
                       minVals, maxVals);
 
-    Tk_PhotoExpand (imageHandle, destX + outWidth, destY + outHeight);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight) == TCL_ERROR) {
+        dtedClose(&tf);
+    	return TCL_ERROR;
+    }
 
     tf.pixbuf = (UByte *) ckalloc (fileWidth * opts.nchan);
 
@@ -972,12 +975,13 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	if (y >= srcY) {
 	    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY,
                 width, 1, TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+                dtedClose(&tf);
                 return TCL_ERROR;
-            }
+        }
 	    outY++;
 	}
     }
-    dtedClose (&tf);
+    dtedClose(&tf);
     return TCL_OK;
 }
 
