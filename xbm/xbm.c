@@ -181,6 +181,7 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
     int numBytes, row, col, value, i;
     unsigned char *data, *pixelPtr;
     char *end;
+    int result = TCL_OK;
 
     ReadXBMFileHeader(parseInfo, &fileWidth, &fileHeight);
 
@@ -195,7 +196,9 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
 	return TCL_OK;
     }
 
-    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
 
     numBytes = ((fileWidth+7)/8)*32;
     block.width = fileWidth;
@@ -229,11 +232,14 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
 	    }
 	}
 	if (row >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET);
+	    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		result = TCL_ERROR;
+		break;
+	    }
 	}
     }
     ckfree((char *) data);
-    return TCL_OK;
+    return result;
 }
 
 /*

@@ -521,6 +521,7 @@ static Boln load_sun_d1 (Tcl_Interp *interp, tkimg_MFile *ifp,
     int i, j;
     int err = 0, rle;
     char errMsg[200];
+    Boln result = TRUE;
 
     pixbuf = (UByte *) ckalloc (fileWidth);
     if (!pixbuf) {
@@ -585,11 +586,14 @@ static Boln load_sun_d1 (Tcl_Interp *interp, tkimg_MFile *ifp,
 	    return FALSE;
         }
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
+	    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		result = FALSE;
+		break;
+	    }
 	    outY++;
 	}
     }
-    return TRUE;
+    return result;
 }
 
 /* Load SUN Raster file with depth 8 */
@@ -609,6 +613,7 @@ static Boln load_sun_d8 (Tcl_Interp *interp, tkimg_MFile *ifp,
     int greyscale, nchan;
     int err, rle;
     char errMsg[200];
+    Boln result = TRUE;
 
     rle     = (type == RAS_TYPE_RLE);
     linepad = fileWidth % 2;
@@ -694,12 +699,15 @@ static Boln load_sun_d8 (Tcl_Interp *interp, tkimg_MFile *ifp,
 	}
 
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
+	    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		result = FALSE;
+		break;
+	    }
 	    outY++;
 	}
     }
     ckfree ((char *)indData);
-    return TRUE;
+    return result;
 }
 
 /* Load SUN Raster file with true color image: depth = 24 or 32 */
@@ -718,6 +726,7 @@ static Boln load_rgb (Tcl_Interp *interp, tkimg_MFile *ifp,
     int stopY, outY;
     int err, rle;
     char errMsg[200];
+    Boln result = TRUE;
 
     pixbuf = (UByte *) ckalloc (fileWidth * nchan);
     if (!pixbuf) {
@@ -796,12 +805,15 @@ static Boln load_rgb (Tcl_Interp *interp, tkimg_MFile *ifp,
 		    }
 		}
 	    }
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, showMatte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
+	    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, showMatte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		result = FALSE;
+		break;
+	    }
 	    outY++;
 	}
     }
     ckfree ((char *)pixbuf);
-    return TRUE;
+    return result;
 }
 
 /*
@@ -1109,7 +1121,13 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	}
     }
 
-    Tk_PhotoExpand(imageHandle, destX + outWidth, destY + outHeight);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight) == TCL_ERROR) {
+	if (suncolmap) {
+	    ckfree ((char *)suncolmap);
+	}
+	tkimg_ReadBuffer(0);
+	return TCL_ERROR;
+    }
 
     nchan = (sh.ras_depth == 32? 4: 3);
 

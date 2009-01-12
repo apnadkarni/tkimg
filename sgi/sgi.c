@@ -1558,8 +1558,9 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     int stopY, outY, outWidth, outHeight;
     SGIFILE tf;
     int compr, verbose, matte;
+    int result = TCL_OK;
 
-    memset (&tf, 0, sizeof (SGIFILE));
+    memset(&tf, 0, sizeof (SGIFILE));
     if (ParseFormatOpts(interp, format, &compr, &verbose, &matte) != TCL_OK) {
         return TCL_ERROR;
     }
@@ -1583,7 +1584,9 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	return TCL_OK;
     }
 
-    Tk_PhotoExpand(imageHandle, destX + outWidth, destY + outHeight);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
 
     nchan = tf.th.zsize;
 
@@ -1622,12 +1625,15 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     for (y=0; y<stopY; y++) {
 	sgiReadScan (interp, handle, &tf, fileHeight-1-y);
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, matte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
+	    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, matte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		result = TCL_ERROR;
+		break;
+	    }
 	    outY++;
 	}
     }
     sgiClose (&tf);
-    return TCL_OK ;
+    return result;
 }
 
 static int ChnWrite (interp, filename, format, blockPtr)

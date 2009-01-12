@@ -602,6 +602,7 @@ CommonRead(interp, tif, format, imageHandle,
     uint32 w, h;
     size_t npixels;
     uint32 *raster;
+    int result = TCL_OK;
 
 #ifdef WORDS_BIGENDIAN
     block.offset[0] = 3;
@@ -643,12 +644,14 @@ CommonRead(interp, tif, format, imageHandle,
     block.pixelPtr += srcY * block.pitch
 	    + srcX * block.pixelSize;
     block.offset[3] = block.offset[0]; /* don't use transparency */
-    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX,
-			destY, width, height, TK_PHOTO_COMPOSITE_SET);
+    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX,
+			destY, width, height, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+	result = TCL_ERROR;
+    }
 
     TkimgTIFFfree (raster);
     TIFFClose(tif);
-    return TCL_OK;
+    return result;
 }
 
 static int

@@ -248,6 +248,7 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
     int color1;
     unsigned int data;
     Tcl_HashEntry *hPtr;
+    int result = TCL_OK;
 
     Tcl_InitHashTable(&colorTable, TCL_ONE_WORD_KEYS);
 
@@ -387,6 +388,10 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
 
     Tk_PhotoGetImage(imageHandle, &block);
 
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
+
     nchan = block.pixelSize;
     block.pitch = nchan * fileWidth;
     block.width = width;
@@ -396,8 +401,6 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
     block.offset[2] = 2;
     block.offset[3] = (nchan == 4 && matte? 3: 0);
     block.pixelPtr = (unsigned char *) ckalloc((unsigned) nchan * width);
-
-    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
 
     i = srcY;
     while (i-- > 0) {
@@ -464,7 +467,10 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
 			    col = (unsigned int) 0;
 		    }
 		} while ((i < width) && col);
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX+j, destY, len, 1, TK_PHOTO_COMPOSITE_SET);
+		if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX+j, destY, len, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		    result = TCL_ERROR;
+		    break;
+		}
 	    } else {
 	        p += byteSize;
 	        i++;
@@ -476,9 +482,9 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
     Tcl_DeleteHashTable(&colorTable);
 
     ckfree((char *) block.pixelPtr);
-    return TCL_OK;
+    return result;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *

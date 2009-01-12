@@ -806,6 +806,7 @@ static int CommonRead(interp, handle, filename, format, imageHandle,
     TGAFILE tf;
     int compr, verbose, matte;
     char errMsg[200];
+    int result = TCL_OK;
 
     memset (&tf, 0, sizeof (TGAFILE));
     if (ParseFormatOpts (interp, format, &compr, &verbose, &matte) != TCL_OK) {
@@ -832,13 +833,15 @@ static int CommonRead(interp, handle, filename, format, imageHandle,
 	return TCL_OK;
     }
 
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
+
     if (IS_COMPRESSED(tf.th.imgtyp)) {
 	tkimg_ReadBuffer(1);
     }
 
     tf.scanmode = TGA_MODE_DIFF;
-    Tk_PhotoExpand(imageHandle, destX + outWidth, destY + outHeight);
-
     nchan = NCHAN(tf.th.pixsize);
 
     tf.pixbuf = (UByte *) ckalloc (fileWidth * nchan);
@@ -869,7 +872,10 @@ static int CommonRead(interp, handle, filename, format, imageHandle,
 	for (y=0; y<stopY; y++) {
 	    tgaReadScan(interp, handle, &tf, y);
 	    if (y >= srcY) {
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, matte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
+		if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, matte? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		    result = TCL_ERROR;
+		    break;
+		}
 		outY++;
 	    }
 	}
@@ -878,14 +884,17 @@ static int CommonRead(interp, handle, filename, format, imageHandle,
 	for (y=fileHeight-1; y>=0; y--) {
 	    tgaReadScan(interp, handle, &tf, y);
 	    if (y >= srcY && y < stopY) {
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
+		if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		    result = TCL_ERROR;
+		    break;
+		}
 		outY--;
 	    }
 	}
     }
     tgaClose(&tf);
     tkimg_ReadBuffer(0);
-    return TCL_OK ;
+    return result;
 }
 
 static int ChnWrite(interp, filename, format, blockPtr)

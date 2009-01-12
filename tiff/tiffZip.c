@@ -389,7 +389,7 @@ TkimgTIFFInitZip(handle, scheme)
      * override parent get/set field methods.
      */
 
-    _TIFFMergeFieldInfo(tif, (const VOID *) zipFieldInfo, N(zipFieldInfo));
+    _TIFFMergeFieldInfo(tif, (const void *) zipFieldInfo, N(zipFieldInfo));
     sp->vgetparent     = tif->tif_tagmethods.vgetfield;
     tif->tif_tagmethods.vgetfield = ZIPVGetField;	/* hook for codec tags */
     sp->vsetparent     = tif->tif_tagmethods.vsetfield;

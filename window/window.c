@@ -252,6 +252,7 @@ static int ObjRead(interp, data, format, imageHandle,
     Tk_ErrorHandler	handle;
 #endif
     int green, blue;
+    int result = TCL_OK;
 
     name = tkimg_GetStringFromObj(data, NULL);
 
@@ -313,6 +314,10 @@ static int ObjRead(interp, data, format, imageHandle,
     ximage = TkWinGetDrawableDC(Tk_Display(tkwin), Tk_WindowId(tkwin), &DCi);
 #endif
 
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
+
     depth = Tk_Depth(tkwin);
     visual = Tk_Visual(tkwin);
 #ifndef	__WIN32__
@@ -361,7 +366,6 @@ static int ObjRead(interp, data, format, imageHandle,
     XQueryColors(Tk_Display(tkwin), cmap, cdata.colors, ncolors);
 #endif
 
-    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
     block.offset[0] = 0;
     block.offset[3] = 0;
 #ifndef	__WIN32__
@@ -413,7 +417,9 @@ static int ObjRead(interp, data, format, imageHandle,
 	}
     }
 
-    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_SET);
+    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+	result = TCL_ERROR;
+    }
 
 #ifndef	__WIN32__
     XDestroyImage(ximage);
@@ -423,5 +429,5 @@ static int ObjRead(interp, data, format, imageHandle,
     TkWinReleaseDrawableDC(Tk_WindowId(tkwin), ximage, &DCi);
 #endif
     ckfree((char *) block.pixelPtr);
-    return TCL_OK;
+    return result;
 }
