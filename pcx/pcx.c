@@ -264,6 +264,7 @@ static Boln load_8 (Tcl_Interp *interp, tkimg_MFile *ifp,
     myblock bl;
     UByte *line, *buffer, *indBuf, *indBufPtr;
     UByte cmap[768], sepChar;
+    Boln result = TRUE;
 
     line   = (UByte *) ckalloc (fileWidth);
     buffer = (UByte *) ckalloc (fileWidth * 3);
@@ -310,13 +311,16 @@ static Boln load_8 (Tcl_Interp *interp, tkimg_MFile *ifp,
             buffer[x * 3 + 1] = cmap[indBuf[y*fileWidth + x]*3 + 1 ];
             buffer[x * 3 + 2] = cmap[indBuf[y*fileWidth + x]*3 + 2 ];
         }
-        tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
+        if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+            result = FALSE;
+            break;
+        }
         outY++;
     }
     ckfree ((char *) line);
     ckfree ((char *) buffer);
     ckfree ((char *) indBuf);
-    return TRUE;
+    return result;
 }
 
 static Boln load_24 (Tcl_Interp *interp, tkimg_MFile *ifp,
@@ -328,6 +332,7 @@ static Boln load_24 (Tcl_Interp *interp, tkimg_MFile *ifp,
     Int stopY, outY;
     myblock bl;
     UByte *line, *buffer;
+    Boln result = TRUE;
 
     line   = (UByte *) ckalloc (bytesPerLine);
     buffer = (UByte *) ckalloc (fileWidth * 3);
@@ -358,13 +363,16 @@ static Boln load_24 (Tcl_Interp *interp, tkimg_MFile *ifp,
 	    }
 	}
 	if (y >= srcY) {
-	    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
+	    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+	    	result = FALSE;
+	    	break;
+	    }
 	    outY++;
 	}
     }
     ckfree ((char *) line);
     ckfree ((char *) buffer);
-    return TRUE;
+    return result;
 }
 
 static Boln load_1 (Tcl_Interp *interp, tkimg_MFile *ifp,
@@ -376,6 +384,7 @@ static Boln load_1 (Tcl_Interp *interp, tkimg_MFile *ifp,
     Int stopY, outY;
     myblock bl;
     UByte *line, *buffer;
+    Boln result = TRUE;
 
     line   = (UByte *) ckalloc (fileWidth);
     buffer = (UByte *) ckalloc (fileWidth * 1);
@@ -408,13 +417,16 @@ static Boln load_1 (Tcl_Interp *interp, tkimg_MFile *ifp,
 	    }
 	}
         if (y >= srcY) {
-            tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET);
+            if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+            	result = FALSE;
+            	break;
+            }
             outY++;
         }
     }
     ckfree ((char *) line);
     ckfree ((char *) buffer);
-    return TRUE;
+    return result;
 }
 
 /*
@@ -673,10 +685,12 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	return TCL_OK;
     }
 
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
+
     if (ph.compression)
 	tkimg_ReadBuffer (1);
-
-    Tk_PhotoExpand(imageHandle, destX + outWidth, destY + outHeight);
 
     nchan = ph.planes;
 

@@ -725,7 +725,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 		      filename, "Reading image:");
     }
 
-    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight)) {
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight) == TCL_ERROR) {
         errorFlag = TCL_ERROR;
         goto error;
     }

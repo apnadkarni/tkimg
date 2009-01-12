@@ -257,6 +257,7 @@ CommonRead(interp, handle, format, imageHandle,
     Tcl_DString dstring;
     myblock bl;
     int zoomx, zoomy;
+    int result = TCL_OK;
 
     index = parseFormat(format, &zoomx, &zoomy);
     if (index < 0) {
@@ -344,7 +345,11 @@ CommonRead(interp, handle, format, imageHandle,
 	Tcl_DStringFree(&dstring);
 	return TCL_OK;
     }
-    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height) == TCL_ERROR) {
+	Tcl_Close(interp, chan);
+	Tcl_DStringFree(&dstring);
+	return TCL_OK;
+    }
 
     maxintensity = strtoul(p, &p, 0);
     if ((type != '4') && !maxintensity) {
@@ -375,7 +380,10 @@ CommonRead(interp, handle, format, imageHandle,
 	        for (j = 0; j < width; j++) {
 		    line3[j] = ((line[(j+srcX)/8]>>(7-(j+srcX)%8) & 1)) ? 0 : 255;
 	        }
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET);
+		if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		    result = TCL_ERROR;
+		    break;
+		}
 	    }
 	    break;
 	case '5':
@@ -393,7 +401,10 @@ CommonRead(interp, handle, format, imageHandle,
 			c++;
 		    }
 		}
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET);
+		if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		    result = TCL_ERROR;
+		    break;
+		}
 	    }
 	    break;
 	case '6':
@@ -415,7 +426,10 @@ CommonRead(interp, handle, format, imageHandle,
 			c++;
 		    }
 		}
-		tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET);
+		if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY++, width, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+		    result = TCL_ERROR;
+		    break;
+		}
 	    }
 	    break;
     }
@@ -425,7 +439,7 @@ CommonRead(interp, handle, format, imageHandle,
     ckfree((char *) line3);
     Tcl_Close(interp, chan);
     Tcl_ResetResult(interp);
-    return TCL_OK;
+    return result;
 #else
     Tcl_AppendResult(interp, "Cannot read postscript file: not implemented",
 	    (char *) NULL);

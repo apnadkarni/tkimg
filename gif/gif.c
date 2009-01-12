@@ -320,7 +320,9 @@ CommonRead(interp, gifConfPtr, fileName, format, imageHandle, destX, destY,
 	return TCL_OK;
     }
 
-    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height) == TCL_ERROR) {
+	return TCL_ERROR;;
+    }
 
     block.pixelSize = 4;
     block.offset[0] = 0;
@@ -481,8 +483,10 @@ CommonRead(interp, gifConfPtr, fileName, format, imageHandle, destX, destY,
     }
 
     block.pixelPtr = pixBuf + srcY * block.pitch + srcX * block.pixelSize;
-    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height,
-	    (transparent == -1)? TK_PHOTO_COMPOSITE_SET: TK_PHOTO_COMPOSITE_OVERLAY);
+    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height,
+	    (transparent == -1)? TK_PHOTO_COMPOSITE_SET: TK_PHOTO_COMPOSITE_OVERLAY) == TCL_ERROR) {
+	goto error;
+    }
 
     noerror:
     if (pixBuf) {

@@ -243,6 +243,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     int nLines, nBytes, h, type, count;
     unsigned char *pixelPtr;
     myblock bl;
+    int result = TCL_OK;
 
     type = ReadPPMFileHeader (handle, &fileWidth, &fileHeight, &maxIntensity);
     if (type == 0) {
@@ -291,7 +292,9 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     block.width = width;
     block.pitch = block.pixelSize * fileWidth;
 
-    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
 
     if (srcY > 0) {
  	/* Don't read the whole image. Skip first "srcY" lines. */
@@ -338,12 +341,15 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 	    }
 	}
 	block.height = nLines;
-	tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, nLines, TK_PHOTO_COMPOSITE_SET);
+	if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, nLines, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+	    result = TCL_ERROR;
+	    break;
+	}
 	destY += nLines;
     }
 
     ckfree((char *) pixelPtr);
-    return TCL_OK;
+    return result;
 }
 
 

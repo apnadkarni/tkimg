@@ -286,6 +286,7 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
     png_uint_32 info_width, info_height;
     int bit_depth, color_type, interlace_type;
     int intent;
+    int result = TCL_OK;
 
     info_ptr=png_create_info_struct(png_ptr);
     if (!info_ptr) {
@@ -321,10 +322,14 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
     if ((width <= 0) || (height <= 0)
 	|| (srcX >= (int) info_width)
 	|| (srcY >= (int) info_height)) {
+	png_destroy_read_struct(&png_ptr,&info_ptr,&end_info);
 	return TCL_OK;
     }
 
-    Tk_PhotoExpand(imageHandle, destX + width, destY + height);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height) == TCL_ERROR) {
+	png_destroy_read_struct(&png_ptr,&info_ptr,&end_info);
+	return TCL_ERROR;
+    }
 
     Tk_PhotoGetImage(imageHandle, &block);
 
@@ -381,13 +386,15 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
 
     png_read_image(png_ptr,(png_bytepp) png_data);
 
-    tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height,
-	    block.offset[3]? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET);
+    if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, destY, width, height,
+	    block.offset[3]? TK_PHOTO_COMPOSITE_OVERLAY: TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+	result = TCL_ERROR;
+    }
 
     ckfree((char *) png_data);
     png_destroy_read_struct(&png_ptr,&info_ptr,&end_info);
 
-    return(TCL_OK);
+    return result;
 }
 
 static int

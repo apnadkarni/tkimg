@@ -630,7 +630,10 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     block.pitch = block.pixelSize * fileWidth;
     block.offset[3] = block.offset[0];
 
-    Tk_PhotoExpand(imageHandle, destX + outWidth, destY + outHeight);
+    if (tkimg_PhotoExpand(interp, imageHandle, destX + outWidth, destY + outHeight) == TCL_ERROR) {
+	jpeg_abort_decompress(cinfo);
+	return TCL_ERROR;
+    }
 
     /* Make a temporary one-row-high sample array */
     buffer = (*cinfo->mem->alloc_sarray)
@@ -644,7 +647,10 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     for (curY = 0; curY < stopY; curY++) {
       jpeg_read_scanlines(cinfo, buffer, 1);
       if (curY >= srcY) {
-	tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, TK_PHOTO_COMPOSITE_SET);
+	if (tkimg_PhotoPutBlock(interp, imageHandle, &block, destX, outY, outWidth, 1, TK_PHOTO_COMPOSITE_SET) == TCL_ERROR) {
+	    jpeg_abort_decompress(cinfo);
+	    return TCL_ERROR;
+	}
 	outY++;
       }
     }
