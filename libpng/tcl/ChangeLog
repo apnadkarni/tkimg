@@ -1,4 +1,19 @@
-2004-08-12  Jan Nijtmans  <nijtmans@users.sourceforge.net>
+2009-01-12  Jan Nijtmans  <nijtmans@users.sourceforge.net>
+
+	* libpng:     Updated libpng from version 1.2.24 to 1.2.34.
+	* libpng/tcl: Updated to handle the new version of libpng.
+
+2007-12-19  Jan Nijtmans  <nijtmans@users.sourceforge.net>
+
+	* libpng:     Updated libpng from version 1.2.12 to 1.2.24.
+	* libpng/tcl: Updated to handle the new version of libpng.
+
+2006-08-04  Jan Nijtmans  <nijtmans@users.sourceforge.net>
+
+	* libpng:     Updated libpng from version 1.2.10 to 1.2.12.
+	* libpng/tcl: Updated to handle the new version of libpng.
+
+2006-06-09  Jan Nijtmans  <nijtmans@users.sourceforge.net>
 
 	* libpng:     Updated libpng from version 1.2.6 to 1.2.10.
 	* libpng/tcl: Updated to handle the new version of libpng.

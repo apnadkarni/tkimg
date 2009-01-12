@@ -1,3 +1,7 @@
+2009-01-12  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* upgrade to libpng 1.2.34
+
 2009-01-12	Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* No longer Panic when an out-of-memory error occurs,
