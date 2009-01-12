@@ -44,11 +44,11 @@ const TkimgStubs *tkimgStubsPtr;
 #endif
 
 const char *
-Tkimg_InitStubs(interp, version, exact)
-Tcl_Interp *interp;
-const char *version;
-int exact;
-{
+Tkimg_InitStubs(
+	Tcl_Interp *interp,
+	const char *version,
+	int exact
+) {
 	const char *result;
 	ClientData data;
 

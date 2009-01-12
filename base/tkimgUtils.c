@@ -11,11 +11,9 @@
  * The variable "tkimg_initialized" contains flags indicating which
  * version of Tcl or Perl we are running:
  *
- *  IMG_PERL    perl
- *  IMG_TCL     Tcl
- *  IMG_OBJS    using (Tcl_Obj *) in stead of (char *)
- *  IMG_NEWPHOTO    Photo image type proc signatures are 8.3 or higher.
+ *  IMG_PERL        perl
  *  IMG_COMPOSITE   Photo image type proc signatures are 8.4 or higher.
+ *  IMG_NOPANIC     Photo image type proc signatures are 8.5 or higher.
  *
  * These flags will be determined at runtime (except the IMG_PERL
  * flag, for now), so we can use the same dynamic library for all
@@ -23,9 +21,7 @@
  *
  * The existence of the CPP macro _LANG implies usage in Perl/Tk.
  *
- * Img 1.2: Support for Tcl 7.6 is dropped. This implies that IMG_OBJS
- *          is always set. Therefore this flag is dropped as well, and
- *          also all code for !IMG_OBJS.
+ * Img 1.4: Support for Tcl 8.2 and lower is dropped.
  */
 
 int tkimg_initialized = 0;
@@ -39,7 +35,7 @@ TkimgInitUtilities(
 #else
 
 	int major, minor, patchlevel, type;
-	tkimg_initialized = IMG_TCL;
+	tkimg_initialized = 0;
 
 	Tcl_GetVersion(&major, &minor, &patchlevel, &type);
 
@@ -61,38 +57,38 @@ TkimgInitUtilities(
  * tkimg_GetStringFromObj --
  *
  *  Returns the string representation's byte array pointer and length
- *\tfor an object.
+ *  for an object.
  *
  * Results:
- *\tReturns a pointer to the string representation of objPtr.  If
- *\tlengthPtr isn't NULL, the length of the string representation is
+ *  Returns a pointer to the string representation of objPtr.  If
+ *  lengthPtr isn't NULL, the length of the string representation is
  *  stored at *lengthPtr. The byte array referenced by the returned
  *  pointer must not be modified by the caller. Furthermore, the
  *  caller must copy the bytes if they need to retain them since the
  *  object's string rep can change as a result of other operations.
  *      REMARK: This function reacts a little bit different than
- *\tTcl_GetStringFromObj():
- *\t- objPtr is allowed to be NULL. In that case the NULL pointer
- *\t  will be returned, and the length will be reported to be 0;
- *\tIn the tkimg_ code there is never a distinction between en empty
- *\tstring and a NULL pointer, while the latter is easier to check
- *\tfor. That's the reason for this difference.
+ *  Tcl_GetStringFromObj():
+ *  - objPtr is allowed to be NULL. In that case the NULL pointer
+ *    will be returned, and the length will be reported to be 0;
+ *  In the tkimg_ code there is never a distinction between en empty
+ *  string and a NULL pointer, while the latter is easier to check
+ *  for. That's the reason for this difference.
  *
  * Side effects:
  *  May call the object's updateStringProc to update the string
- *\trepresentation from the internal representation.
+ *  representation from the internal representation.
  *
  *----------------------------------------------------------------------
  */
 
 const char *
-tkimg_GetStringFromObj(objPtr, lengthPtr)
-register Tcl_Obj *objPtr; /* Object whose string rep byte pointer
- * should be returned, or NULL */
-register int *lengthPtr; /* If non-NULL, the location where the
- * string rep's byte array length should be
- * stored. If NULL, no length is stored. */
-{
+tkimg_GetStringFromObj(
+	register Tcl_Obj *objPtr, /* Object whose string rep byte pointer
+	 * should be returned, or NULL */
+	register int *lengthPtr /* If non-NULL, the location where the
+	 * string rep's byte array length should be
+	 * stored. If NULL, no length is stored. */
+) {
 	if (!objPtr) {
 		if (lengthPtr != NULL) {
 			*lengthPtr = 0;
@@ -124,25 +120,25 @@ register int *lengthPtr; /* If non-NULL, the location where the
  * Results:
  *  Returns a pointer to the byte representation of objPtr.  If
  *  lengthPtr isn't NULL, the length of the string representation is
- *\tstored at *lengthPtr. The byte array referenced by the returned
- *\tpointer must not be modified by the caller. Furthermore, the
- *\tcaller must copy the bytes if they need to retain them since the
- *\tobject's representation can change as a result of other operations.
+ *  stored at *lengthPtr. The byte array referenced by the returned
+ *  pointer must not be modified by the caller. Furthermore, the
+ *  caller must copy the bytes if they need to retain them since the
+ *  objects representation can change as a result of other operations.
  *
  * Side effects:
  *  May call the object's updateStringProc to update the string
- *\trepresentation from the internal representation.
+ *  representation from the internal representation.
  *
  *----------------------------------------------------------------------
  */
 unsigned char *
-tkimg_GetByteArrayFromObj(objPtr, lengthPtr)
-register Tcl_Obj *objPtr; /* Object whose string rep byte pointer
- * should be returned, or NULL */
-register int *lengthPtr; /* If non-NULL, the location where the
- * string rep's byte array length should be
- * stored. If NULL, no length is stored. */
-{
+tkimg_GetByteArrayFromObj(
+	register Tcl_Obj *objPtr, /**< Object whose string rep byte pointer
+	 * should be returned, or NULL */
+	register int *lengthPtr /**< If non-NULL, the location where the
+	 * string rep's byte array length should be
+	 * stored. If NULL, no length is stored. */
+) {
 #ifdef _LANG
 	char *string = LangString((Arg) objPtr);
 	if (lengthPtr != NULL) {
@@ -161,7 +157,7 @@ register int *lengthPtr; /* If non-NULL, the location where the
  *
  * tkimg_ListObjGetElements --
  *
- *  Splits an object into its compoments.
+ *  Splits an object into its components.
  *
  * Results:
  *  If objPtr is a valid list (or can be converted to one),
@@ -172,18 +168,18 @@ register int *lengthPtr; /* If non-NULL, the location where the
  *
  * Side effects:
  *  May call the object's updateStringProc to update the string
- *\trepresentation from the internal representation.
+ *  representation from the internal representation.
  *
  *----------------------------------------------------------------------
  */
 
 int
-tkimg_ListObjGetElements(interp, objPtr, objc, objv)
-Tcl_Interp *interp;
-Tcl_Obj *objPtr;
-int *objc;
-Tcl_Obj ***objv;
-{
+tkimg_ListObjGetElements(
+	Tcl_Interp *interp,
+	Tcl_Obj *objPtr,
+	int *objc,
+	Tcl_Obj ***objv
+) {
 	if (objPtr == NULL) {
 		*objc = 0;
 		return TCL_OK;
@@ -211,14 +207,14 @@ Tcl_Obj ***objv;
  */
 
 void
-tkimg_FixChanMatchProc(interp, chan, file, format, width, height)
-Tcl_Interp **interp;
-Tcl_Channel *chan;
-const char **file;
-Tcl_Obj **format;
-int **width;
-int **height;
-{
+tkimg_FixChanMatchProc(
+	Tcl_Interp **interp,
+	Tcl_Channel *chan,
+	const char **file,
+	Tcl_Obj **format,
+	int **width,
+	int **height
+) {
 	Tcl_Interp *tmp;
 
 	if (tkimg_initialized & IMG_PERL) {
@@ -235,13 +231,13 @@ int **height;
 }
 
 void
-tkimg_FixObjMatchProc(interp, data, format, width, height)
-Tcl_Interp **interp;
-Tcl_Obj **data;
-Tcl_Obj **format;
-int **width;
-int **height;
-{
+tkimg_FixObjMatchProc(
+	Tcl_Interp **interp,
+	Tcl_Obj **data,
+	Tcl_Obj **format,
+	int **width,
+	int **height
+) {
 	Tcl_Interp *tmp;
 
 	if (tkimg_initialized & IMG_PERL) {
@@ -257,13 +253,13 @@ int **height;
 }
 
 void
-tkimg_FixStringWriteProc(data, interp, dataPtr, format, blockPtr)
-Tcl_DString *data;
-Tcl_Interp **interp;
-Tcl_DString **dataPtr;
-Tcl_Obj **format;
-Tk_PhotoImageBlock **blockPtr;
-{
+tkimg_FixStringWriteProc(
+	Tcl_DString *data,
+	Tcl_Interp **interp,
+	Tcl_DString **dataPtr,
+	Tcl_Obj **format,
+	Tk_PhotoImageBlock **blockPtr
+) {
 	if (!*blockPtr) {
 		*blockPtr = (Tk_PhotoImageBlock *) *format;
 		*format = (Tcl_Obj *) *dataPtr;
