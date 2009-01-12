@@ -27,15 +27,13 @@
  */
 
 /* 0 */
-EXTERN const char *	zlibVersion _ANSI_ARGS_((void));
+EXTERN const char *	zlibVersion(void);
 /* 1 */
-EXTERN const char *	zError _ANSI_ARGS_((int err));
+EXTERN const char *	zError(int err);
 /* 2 */
-EXTERN uLong		crc32 _ANSI_ARGS_((uLong crc, const Bytef * buf,
-				uInt len));
+EXTERN uLong		crc32(uLong crc, const Bytef * buf, uInt len);
 /* 3 */
-EXTERN uLong		adler32 _ANSI_ARGS_((uLong adler, const Bytef * buf,
-				uInt len));
+EXTERN uLong		adler32(uLong adler, const Bytef * buf, uInt len);
 /* Slot 4 is reserved */
 /* Slot 5 is reserved */
 /* Slot 6 is reserved */
@@ -43,152 +41,142 @@ EXTERN uLong		adler32 _ANSI_ARGS_((uLong adler, const Bytef * buf,
 /* Slot 8 is reserved */
 /* Slot 9 is reserved */
 /* 10 */
-EXTERN int		deflateInit_ _ANSI_ARGS_((z_streamp stream,
-				int level, const char * version,
-				int stream_size));
+EXTERN int		deflateInit_(z_streamp stream, int level,
+				const char * version, int stream_size);
 /* 11 */
-EXTERN int		deflateInit2_ _ANSI_ARGS_((z_streamp stream,
-				int level, int method, int windowBits,
-				int memLevel, int strategy,
-				const char * version, int stream_size));
+EXTERN int		deflateInit2_(z_streamp stream, int level,
+				int method, int windowBits, int memLevel,
+				int strategy, const char * version,
+				int stream_size);
 /* 12 */
-EXTERN int		deflate _ANSI_ARGS_((z_streamp stream, int flush));
+EXTERN int		deflate(z_streamp stream, int flush);
 /* 13 */
-EXTERN int		deflateEnd _ANSI_ARGS_((z_streamp stream));
+EXTERN int		deflateEnd(z_streamp stream);
 /* 14 */
-EXTERN int		deflateSetDictionary _ANSI_ARGS_((z_streamp stream,
-				const Bytef * dict, uInt dictLength));
+EXTERN int		deflateSetDictionary(z_streamp stream,
+				const Bytef * dict, uInt dictLength);
 /* 15 */
-EXTERN int		deflateCopy _ANSI_ARGS_((z_streamp dst,
-				z_streamp src));
+EXTERN int		deflateCopy(z_streamp dst, z_streamp src);
 /* 16 */
-EXTERN int		deflateReset _ANSI_ARGS_((z_streamp stream));
+EXTERN int		deflateReset(z_streamp stream);
 /* 17 */
-EXTERN int		deflateParams _ANSI_ARGS_((z_streamp stream,
-				int level, int strategy));
+EXTERN int		deflateParams(z_streamp stream, int level,
+				int strategy);
 /* 18 */
-EXTERN int		compress _ANSI_ARGS_((Bytef * dest, uLongf * destLen,
-				const Bytef * source, uLong sourceLen));
+EXTERN int		compress(Bytef * dest, uLongf * destLen,
+				const Bytef * source, uLong sourceLen);
 /* 19 */
-EXTERN int		compress2 _ANSI_ARGS_((Bytef * dest,
-				uLongf * destLen, const Bytef * source,
-				uLong sourceLen, int level));
+EXTERN int		compress2(Bytef * dest, uLongf * destLen,
+				const Bytef * source, uLong sourceLen,
+				int level);
 /* 20 */
-EXTERN int		inflateInit_ _ANSI_ARGS_((z_streamp stream,
-				const char * version, int stream_size));
+EXTERN int		inflateInit_(z_streamp stream, const char * version,
+				int stream_size);
 /* 21 */
-EXTERN int		inflateInit2_ _ANSI_ARGS_((z_streamp stream,
-				int windowBits, const char * version,
-				int stream_size));
+EXTERN int		inflateInit2_(z_streamp stream, int windowBits,
+				const char * version, int stream_size);
 /* 22 */
-EXTERN int		inflate _ANSI_ARGS_((z_streamp stream, int flush));
+EXTERN int		inflate(z_streamp stream, int flush);
 /* 23 */
-EXTERN int		inflateEnd _ANSI_ARGS_((z_streamp stream));
+EXTERN int		inflateEnd(z_streamp stream);
 /* 24 */
-EXTERN int		inflateSetDictionary _ANSI_ARGS_((z_streamp stream,
-				const Bytef * dict, uInt dictLength));
+EXTERN int		inflateSetDictionary(z_streamp stream,
+				const Bytef * dict, uInt dictLength);
 /* 25 */
-EXTERN int		inflateSync _ANSI_ARGS_((z_streamp stream));
+EXTERN int		inflateSync(z_streamp stream);
 /* 26 */
-EXTERN int		inflateReset _ANSI_ARGS_((z_streamp stream));
+EXTERN int		inflateReset(z_streamp stream);
 /* 27 */
-EXTERN int		uncompress _ANSI_ARGS_((Bytef * dest,
-				uLongf * destLen, const Bytef * source,
-				uLong sourceLen));
+EXTERN int		uncompress(Bytef * dest, uLongf * destLen,
+				const Bytef * source, uLong sourceLen);
 /* Slot 28 is reserved */
 /* Slot 29 is reserved */
 /* 30 */
-EXTERN gzFile		gzopen _ANSI_ARGS_((const char * path,
-				const char * mode));
+EXTERN gzFile		gzopen(const char * path, const char * mode);
 /* 31 */
-EXTERN gzFile		gzdopen _ANSI_ARGS_((int fd, const char * mode));
+EXTERN gzFile		gzdopen(int fd, const char * mode);
 /* 32 */
-EXTERN int		gzsetparams _ANSI_ARGS_((gzFile file, int level,
-				int strategy));
+EXTERN int		gzsetparams(gzFile file, int level, int strategy);
 /* 33 */
-EXTERN int		gzread _ANSI_ARGS_((gzFile file, voidp buf,
-				unsigned len));
+EXTERN int		gzread(gzFile file, voidp buf, unsigned len);
 /* 34 */
-EXTERN int		gzwrite _ANSI_ARGS_((gzFile file, voidpc buf,
-				unsigned len));
+EXTERN int		gzwrite(gzFile file, voidpc buf, unsigned len);
 /* 35 */
-EXTERN int		gzprintf _ANSI_ARGS_((gzFile file,
-				const char * format, ...));
+EXTERN int		gzprintf(gzFile file, const char * format, ...);
 /* 36 */
-EXTERN int		gzputs _ANSI_ARGS_((gzFile file, const char * s));
+EXTERN int		gzputs(gzFile file, const char * s);
 /* 37 */
-EXTERN char *		gzgets _ANSI_ARGS_((gzFile file, char * buf, int len));
+EXTERN char *		gzgets(gzFile file, char * buf, int len);
 /* 38 */
-EXTERN int		gzputc _ANSI_ARGS_((gzFile file, int c));
+EXTERN int		gzputc(gzFile file, int c);
 /* 39 */
-EXTERN int		gzgetc _ANSI_ARGS_((gzFile file));
+EXTERN int		gzgetc(gzFile file);
 /* 40 */
-EXTERN int		gzflush _ANSI_ARGS_((gzFile file, int flush));
+EXTERN int		gzflush(gzFile file, int flush);
 /* 41 */
-EXTERN z_off_t		gzseek _ANSI_ARGS_((gzFile file, z_off_t offset,
-				int whence));
+EXTERN z_off_t		gzseek(gzFile file, z_off_t offset, int whence);
 /* 42 */
-EXTERN int		gzrewind _ANSI_ARGS_((gzFile file));
+EXTERN int		gzrewind(gzFile file);
 /* 43 */
-EXTERN z_off_t		gztell _ANSI_ARGS_((gzFile file));
+EXTERN z_off_t		gztell(gzFile file);
 /* 44 */
-EXTERN int		gzeof _ANSI_ARGS_((gzFile file));
+EXTERN int		gzeof(gzFile file);
 /* 45 */
-EXTERN int		gzclose _ANSI_ARGS_((gzFile file));
+EXTERN int		gzclose(gzFile file);
 /* 46 */
-EXTERN const char *	gzerror _ANSI_ARGS_((gzFile file, int * errnum));
+EXTERN const char *	gzerror(gzFile file, int * errnum);
 
 typedef struct ZlibtclStubs {
     int magic;
     const struct ZlibtclStubHooks *hooks;
 
-    const char * (*zlibVersion) _ANSI_ARGS_((void)); /* 0 */
-    const char * (*zError) _ANSI_ARGS_((int err)); /* 1 */
-    uLong (*crc32) _ANSI_ARGS_((uLong crc, const Bytef * buf, uInt len)); /* 2 */
-    uLong (*adler32) _ANSI_ARGS_((uLong adler, const Bytef * buf, uInt len)); /* 3 */
+    const char * (*zlibVersion) (void); /* 0 */
+    const char * (*zError) (int err); /* 1 */
+    uLong (*crc32) (uLong crc, const Bytef * buf, uInt len); /* 2 */
+    uLong (*adler32) (uLong adler, const Bytef * buf, uInt len); /* 3 */
     void *reserved4;
     void *reserved5;
     void *reserved6;
     void *reserved7;
     void *reserved8;
     void *reserved9;
-    int (*deflateInit_) _ANSI_ARGS_((z_streamp stream, int level, const char * version, int stream_size)); /* 10 */
-    int (*deflateInit2_) _ANSI_ARGS_((z_streamp stream, int level, int method, int windowBits, int memLevel, int strategy, const char * version, int stream_size)); /* 11 */
-    int (*deflate) _ANSI_ARGS_((z_streamp stream, int flush)); /* 12 */
-    int (*deflateEnd) _ANSI_ARGS_((z_streamp stream)); /* 13 */
-    int (*deflateSetDictionary) _ANSI_ARGS_((z_streamp stream, const Bytef * dict, uInt dictLength)); /* 14 */
-    int (*deflateCopy) _ANSI_ARGS_((z_streamp dst, z_streamp src)); /* 15 */
-    int (*deflateReset) _ANSI_ARGS_((z_streamp stream)); /* 16 */
-    int (*deflateParams) _ANSI_ARGS_((z_streamp stream, int level, int strategy)); /* 17 */
-    int (*compress) _ANSI_ARGS_((Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen)); /* 18 */
-    int (*compress2) _ANSI_ARGS_((Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen, int level)); /* 19 */
-    int (*inflateInit_) _ANSI_ARGS_((z_streamp stream, const char * version, int stream_size)); /* 20 */
-    int (*inflateInit2_) _ANSI_ARGS_((z_streamp stream, int windowBits, const char * version, int stream_size)); /* 21 */
-    int (*inflate) _ANSI_ARGS_((z_streamp stream, int flush)); /* 22 */
-    int (*inflateEnd) _ANSI_ARGS_((z_streamp stream)); /* 23 */
-    int (*inflateSetDictionary) _ANSI_ARGS_((z_streamp stream, const Bytef * dict, uInt dictLength)); /* 24 */
-    int (*inflateSync) _ANSI_ARGS_((z_streamp stream)); /* 25 */
-    int (*inflateReset) _ANSI_ARGS_((z_streamp stream)); /* 26 */
-    int (*uncompress) _ANSI_ARGS_((Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen)); /* 27 */
+    int (*deflateInit_) (z_streamp stream, int level, const char * version, int stream_size); /* 10 */
+    int (*deflateInit2_) (z_streamp stream, int level, int method, int windowBits, int memLevel, int strategy, const char * version, int stream_size); /* 11 */
+    int (*deflate) (z_streamp stream, int flush); /* 12 */
+    int (*deflateEnd) (z_streamp stream); /* 13 */
+    int (*deflateSetDictionary) (z_streamp stream, const Bytef * dict, uInt dictLength); /* 14 */
+    int (*deflateCopy) (z_streamp dst, z_streamp src); /* 15 */
+    int (*deflateReset) (z_streamp stream); /* 16 */
+    int (*deflateParams) (z_streamp stream, int level, int strategy); /* 17 */
+    int (*compress) (Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen); /* 18 */
+    int (*compress2) (Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen, int level); /* 19 */
+    int (*inflateInit_) (z_streamp stream, const char * version, int stream_size); /* 20 */
+    int (*inflateInit2_) (z_streamp stream, int windowBits, const char * version, int stream_size); /* 21 */
+    int (*inflate) (z_streamp stream, int flush); /* 22 */
+    int (*inflateEnd) (z_streamp stream); /* 23 */
+    int (*inflateSetDictionary) (z_streamp stream, const Bytef * dict, uInt dictLength); /* 24 */
+    int (*inflateSync) (z_streamp stream); /* 25 */
+    int (*inflateReset) (z_streamp stream); /* 26 */
+    int (*uncompress) (Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen); /* 27 */
     void *reserved28;
     void *reserved29;
-    gzFile (*gzopen) _ANSI_ARGS_((const char * path, const char * mode)); /* 30 */
-    gzFile (*gzdopen) _ANSI_ARGS_((int fd, const char * mode)); /* 31 */
-    int (*gzsetparams) _ANSI_ARGS_((gzFile file, int level, int strategy)); /* 32 */
-    int (*gzread) _ANSI_ARGS_((gzFile file, voidp buf, unsigned len)); /* 33 */
-    int (*gzwrite) _ANSI_ARGS_((gzFile file, voidpc buf, unsigned len)); /* 34 */
-    int (*gzprintf) _ANSI_ARGS_((gzFile file, const char * format, ...)); /* 35 */
-    int (*gzputs) _ANSI_ARGS_((gzFile file, const char * s)); /* 36 */
-    char * (*gzgets) _ANSI_ARGS_((gzFile file, char * buf, int len)); /* 37 */
-    int (*gzputc) _ANSI_ARGS_((gzFile file, int c)); /* 38 */
-    int (*gzgetc) _ANSI_ARGS_((gzFile file)); /* 39 */
-    int (*gzflush) _ANSI_ARGS_((gzFile file, int flush)); /* 40 */
-    z_off_t (*gzseek) _ANSI_ARGS_((gzFile file, z_off_t offset, int whence)); /* 41 */
-    int (*gzrewind) _ANSI_ARGS_((gzFile file)); /* 42 */
-    z_off_t (*gztell) _ANSI_ARGS_((gzFile file)); /* 43 */
-    int (*gzeof) _ANSI_ARGS_((gzFile file)); /* 44 */
-    int (*gzclose) _ANSI_ARGS_((gzFile file)); /* 45 */
-    const char * (*gzerror) _ANSI_ARGS_((gzFile file, int * errnum)); /* 46 */
+    gzFile (*gzopen) (const char * path, const char * mode); /* 30 */
+    gzFile (*gzdopen) (int fd, const char * mode); /* 31 */
+    int (*gzsetparams) (gzFile file, int level, int strategy); /* 32 */
+    int (*gzread) (gzFile file, voidp buf, unsigned len); /* 33 */
+    int (*gzwrite) (gzFile file, voidpc buf, unsigned len); /* 34 */
+    int (*gzprintf) (gzFile file, const char * format, ...); /* 35 */
+    int (*gzputs) (gzFile file, const char * s); /* 36 */
+    char * (*gzgets) (gzFile file, char * buf, int len); /* 37 */
+    int (*gzputc) (gzFile file, int c); /* 38 */
+    int (*gzgetc) (gzFile file); /* 39 */
+    int (*gzflush) (gzFile file, int flush); /* 40 */
+    z_off_t (*gzseek) (gzFile file, z_off_t offset, int whence); /* 41 */
+    int (*gzrewind) (gzFile file); /* 42 */
+    z_off_t (*gztell) (gzFile file); /* 43 */
+    int (*gzeof) (gzFile file); /* 44 */
+    int (*gzclose) (gzFile file); /* 45 */
+    const char * (*gzerror) (gzFile file, int * errnum); /* 46 */
 } ZlibtclStubs;
 
 #ifdef __cplusplus

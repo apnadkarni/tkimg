@@ -811,18 +811,18 @@ static Boln remapUShortValues (UShort *buf, Int width, Int height, Int nchan,
  * Prototypes for local procedures defined in this file:
  */
 
-static int ParseFormatOpts _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *format,
-               FMTOPT *opts));
-static int CommonMatch _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
-               Tcl_Obj *format, int *widthPtr, int *heightPtr,
-	       RAWHEADER *rawHeaderPtr));
-static int CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
-	       const char *filename, Tcl_Obj *format,
-	       Tk_PhotoHandle imageHandle, int destX, int destY,
-	       int width, int height, int srcX, int srcY));
-static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
-	       const char *filename, Tcl_Obj *format,
-	       tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr));
+static int ParseFormatOpts(Tcl_Interp *interp, Tcl_Obj *format,
+	FMTOPT *opts);
+static int CommonMatch(Tcl_Interp *interp, tkimg_MFile *handle,
+	Tcl_Obj *format, int *widthPtr, int *heightPtr,
+	RAWHEADER *rawHeaderPtr);
+static int CommonRead(Tcl_Interp *interp, tkimg_MFile *handle,
+	const char *filename, Tcl_Obj *format,
+	Tk_PhotoHandle imageHandle, int destX, int destY,
+	int width, int height, int srcX, int srcY);
+static int CommonWrite(Tcl_Interp *interp,
+	const char *filename, Tcl_Obj *format,
+	tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr);
 
 static int ParseFormatOpts (interp, format, opts)
     Tcl_Interp *interp;

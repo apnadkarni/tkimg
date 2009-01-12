@@ -40,8 +40,8 @@
 # endif
 #endif
 
-EXTERN int Tifftcl_Init     _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN int Tifftcl_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN int Tifftcl_Init(Tcl_Interp *interp);
+EXTERN int Tifftcl_SafeInit(Tcl_Interp *interp);
 
 #undef  TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLIMPORT
@@ -94,7 +94,7 @@ Tifftcl_Init (interp)
 
   return TCL_OK;
 }
-
+
 /*
  *----------------------------------------------------------------------------
  *

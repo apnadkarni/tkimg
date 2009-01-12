@@ -36,21 +36,21 @@
  * Prototypes for local procedures defined in this file:
  */
 
-static int CommonMatchPS _ANSI_ARGS_((tkimg_MFile *handle, Tcl_Obj *format,
-	int *widthPtr, int *heightPtr));
+static int CommonMatchPS(tkimg_MFile *handle, Tcl_Obj *format,
+	int *widthPtr, int *heightPtr);
 
-static int CommonMatchPDF _ANSI_ARGS_((tkimg_MFile *handle, Tcl_Obj *format,
-	int *widthPtr, int *heightPtr));
+static int CommonMatchPDF(tkimg_MFile *handle, Tcl_Obj *format,
+	int *widthPtr, int *heightPtr);
 
-static int parseFormat _ANSI_ARGS_((Tcl_Obj *format, int *zoomx,
-	int *zoomy));
+static int parseFormat(Tcl_Obj *format, int *zoomx,
+	int *zoomy);
 
-static int CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
+static int CommonRead(Tcl_Interp *interp, tkimg_MFile *handle,
 	Tcl_Obj *format, Tk_PhotoHandle imageHandle, int destX, int destY,
-	int width, int height, int srcX, int srcY));
+	int width, int height, int srcX, int srcY);
 
-static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
-	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr));
+static int CommonWrite(Tcl_Interp *interp, tkimg_MFile *handle,
+	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
 
 static int
 parseFormat(format, zoomx, zoomy)

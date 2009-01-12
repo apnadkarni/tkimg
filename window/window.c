@@ -38,8 +38,7 @@
  */
 
 #ifdef X_GetImage
-static int xerrorhandler _ANSI_ARGS_((ClientData clientData,
-	                              XErrorEvent *e));
+static int xerrorhandler(ClientData clientData, XErrorEvent *e);
 #endif
 
 typedef struct ColormapData {	/* Hold color information for a window */

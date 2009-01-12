@@ -94,8 +94,6 @@ typedef struct {
   UByte filler[58];
 } PCXHEADER;
 
-/* OPA TODO: Change from ANSI-C arguments to _ANSI_ARGS_ macro. */
-
 /* This function determines at runtime, whether we have to swap bytes.
    The PCX image format expects data to be in Intel (Little-endian) format. */
 
@@ -433,17 +431,17 @@ static Boln load_1 (Tcl_Interp *interp, tkimg_MFile *ifp,
  * Prototypes for local procedures defined in this file:
  */
 
-static int   ParseFormatOpts _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *format,
-                 int *comp, int *verb, int *matte));
-static int   CommonMatch _ANSI_ARGS_((tkimg_MFile *handle, int *widthPtr,
-	         int *heightPtr, PCXHEADER *pcxHeaderPtr));
-static int   CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
+static int ParseFormatOpts(Tcl_Interp *interp, Tcl_Obj *format,
+                 int *comp, int *verb, int *matte);
+static int CommonMatch(tkimg_MFile *handle, int *widthPtr,
+	         int *heightPtr, PCXHEADER *pcxHeaderPtr);
+static int CommonRead(Tcl_Interp *interp, tkimg_MFile *handle,
 	         const char *filename, Tcl_Obj *format,
 	         Tk_PhotoHandle imageHandle, int destX, int destY,
-		 int width, int height, int srcX, int srcY));
-static int   CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
+		 int width, int height, int srcX, int srcY);
+static int CommonWrite(Tcl_Interp *interp,
                  const char *filename, Tcl_Obj *format,
-                 tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr));
+                 tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr);
 
 static int ParseFormatOpts (interp, format, comp, verb, matte)
     Tcl_Interp *interp;

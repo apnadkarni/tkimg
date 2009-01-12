@@ -25,52 +25,48 @@
 #include <sys/stat.h>
 #endif
 
-#ifndef TCL_STUB_MAGIC
-EXTERN void		panic _ANSI_ARGS_(TCL_VARARGS(char *,format));
-#endif
-
 #define UCHAR(c) ((unsigned char) (c))
 
 /*
  * Prototypes for procedures used only locally in this file:
  */
 
-static int		TkimgXpmCreate _ANSI_ARGS_((Tcl_Interp *interp,
-			    const char *name, int argc, Tcl_Obj *objv[],
-			    const Tk_ImageType *typePtr, Tk_ImageMaster master,
-			    ClientData *clientDataPtr));
-static ClientData	TkimgXpmGet _ANSI_ARGS_((Tk_Window tkwin,
-			    ClientData clientData));
-static void		TkimgXpmDisplay _ANSI_ARGS_((ClientData clientData,
-			    Display *display, Drawable drawable,
-			    int imageX, int imageY, int width, int height,
-			    int drawableX, int drawableY));
-static void		TkimgXpmFree _ANSI_ARGS_((ClientData clientData,
-			    Display *display));
-static void		TkimgXpmDelete _ANSI_ARGS_((ClientData clientData));
-static int		TkimgXpmCmd _ANSI_ARGS_((ClientData clientData,
-			    Tcl_Interp *interp, int argc, CONST84 char **argv));
-static void		TkimgXpmCmdDeletedProc _ANSI_ARGS_((
-			    ClientData clientData));
-static void		TkimgXpmConfigureInstance _ANSI_ARGS_((
-			    PixmapInstance *instancePtr));
-static int		TkimgXpmConfigureMaster _ANSI_ARGS_((
-			    PixmapMaster *masterPtr, int argc, CONST84 char **argv,
-			    int flags));
-static int		TkimgXpmGetData _ANSI_ARGS_((Tcl_Interp *interp,
-			    PixmapMaster *masterPtr));
-static CONST84 char **	TkimgXpmGetDataFromFile _ANSI_ARGS_((Tcl_Interp * interp,
-			    char * string, int * numLines_return));
-static CONST84 char **	TkimgXpmGetDataFromString _ANSI_ARGS_((Tcl_Interp*interp,
-			    char * string, int * numLines_return));
-static void 		TkimgXpmGetPixmapFromData _ANSI_ARGS_((
-			    Tcl_Interp * interp,
-			    PixmapMaster *masterPtr,
-			    PixmapInstance *instancePtr));
-static char *		GetType _ANSI_ARGS_((char * colorDefn,
-			    int  * type_ret));
-static char *		GetColor _ANSI_ARGS_((char * colorDefn,
-			    char * colorName, int * type_ret));
+static int TkimgXpmCreate(Tcl_Interp *interp,
+	const char *name, int argc, Tcl_Obj *objv[],
+	const Tk_ImageType *typePtr, Tk_ImageMaster master,
+	ClientData *clientDataPtr);
+static ClientData TkimgXpmGet(Tk_Window tkwin,
+	ClientData clientData);
+static void TkimgXpmDisplay(ClientData clientData,
+	Display *display, Drawable drawable,
+	int imageX, int imageY, int width, int height,
+	int drawableX, int drawableY);
+static void TkimgXpmFree(ClientData clientData,
+	Display *display);
+static void TkimgXpmDelete(ClientData clientData);
+static int TkimgXpmCmd(ClientData clientData,
+	Tcl_Interp *interp, int argc, CONST84 char **argv);
+static void TkimgXpmCmdDeletedProc(
+	ClientData clientData);
+static void TkimgXpmConfigureInstance(
+	PixmapInstance *instancePtr);
+static int TkimgXpmConfigureMaster(
+	PixmapMaster *masterPtr, int argc, CONST84 char **argv,
+	int flags);
+static int TkimgXpmGetData(Tcl_Interp *interp,
+	PixmapMaster *masterPtr);
+static CONST84 char **TkimgXpmGetDataFromFile(Tcl_Interp *interp,
+	char * string, int * numLines_return);
+static CONST84 char **TkimgXpmGetDataFromString(Tcl_Interp *interp,
+	char *string, int *numLines_return);
+static void TkimgXpmGetPixmapFromData(
+	Tcl_Interp * interp,
+	PixmapMaster *masterPtr,
+	PixmapInstance *instancePtr);
+static char *GetType(char * colorDefn,
+	int *type_ret);
+static char *GetColor(char * colorDefn,
+	char *colorName, int *type_ret);
 
 /*
  * Information used for parsing configuration specs:
@@ -307,7 +303,7 @@ TkimgXpmGetData(interp, masterPtr)
     }
     else {
 	/* Should have been enforced by TkimgXpmConfigureMaster() */
-	panic("TkimgXpmGetData(): -data and -file are all NULL");
+	Tcl_Panic("TkimgXpmGetData(): -data and -file are all NULL");
     }
 
     if (data == NULL) {
@@ -1174,7 +1170,7 @@ TkimgXpmDelete(masterData)
     PixmapMaster *masterPtr = (PixmapMaster *) masterData;
 
     if (masterPtr->instancePtr != NULL) {
-	panic("tried to delete pixmap image when instances still exist");
+	Tcl_Panic("tried to delete pixmap image when instances still exist");
     }
     masterPtr->tkMaster = NULL;
     if (masterPtr->imageCmd != NULL) {

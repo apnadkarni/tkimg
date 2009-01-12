@@ -142,7 +142,7 @@
 
 #ifdef USE_JPEGTCL_STUBS
 EXTERN const char *
-Jpegtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, const char *version, int exact));
+Jpegtcl_InitStubs(Tcl_Interp *interp, const char *version, int exact);
 #else
 
 /*

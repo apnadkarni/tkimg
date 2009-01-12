@@ -40,8 +40,8 @@
 # endif
 #endif
 
-EXTERN int Jpegtcl_Init     _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN int Jpegtcl_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN int Jpegtcl_Init(Tcl_Interp *interp);
+EXTERN int Jpegtcl_SafeInit(Tcl_Interp *interp);
 
 #undef  TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLIMPORT
@@ -94,7 +94,7 @@ Jpegtcl_Init (interp)
 
   return TCL_OK;
 }
-
+
 /*
  *----------------------------------------------------------------------------
  *

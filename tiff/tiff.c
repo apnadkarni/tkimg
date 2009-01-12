@@ -24,7 +24,7 @@
 #include <jpegtcl.h>
 
 
-static int SetupTiffLibrary _ANSI_ARGS_ ((Tcl_Interp *interp));
+static int SetupTiffLibrary(Tcl_Interp *interp);
 
 #define MORE_INITIALIZATION \
     if (SetupTiffLibrary (interp) != TCL_OK) { return TCL_ERROR; }
@@ -34,48 +34,48 @@ static int SetupTiffLibrary _ANSI_ARGS_ ((Tcl_Interp *interp));
 #include <tiffInt.h>
 
 
-extern int unlink _ANSI_ARGS_((const char *));
+extern int unlink(const char *);
 
 /*
  * Prototypes for local procedures defined in this file:
  */
 
-static int getint _ANSI_ARGS_((unsigned char *buf, TIFFDataType format,
-	int order));
+static int getint(unsigned char *buf, TIFFDataType format,
+	int order);
 
-static int CommonMatch _ANSI_ARGS_((tkimg_MFile *handle, int *widhtPtr,
-	int *heightPtr));
+static int CommonMatch(tkimg_MFile *handle, int *widhtPtr,
+	int *heightPtr);
 
-static int CommonRead _ANSI_ARGS_((Tcl_Interp *interp, TIFF *tif,
+static int CommonRead(Tcl_Interp *interp, TIFF *tif,
 	Tcl_Obj *format, Tk_PhotoHandle imageHandle, int destX, int destY,
-	int width, int height, int srcX, int srcY));
+	int width, int height, int srcX, int srcY);
 
-static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, TIFF *tif,
-	int comp, Tk_PhotoImageBlock *blockPtr));
+static int CommonWrite(Tcl_Interp *interp, TIFF *tif,
+	int comp, Tk_PhotoImageBlock *blockPtr);
 
-static int ParseWriteFormat _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *format,
-	int *comp, const char **mode));
+static int ParseWriteFormat(Tcl_Interp *interp, Tcl_Obj *format,
+	int *comp, const char **mode);
 
-static void  _TIFFerr    _ANSI_ARGS_((const char *, const char *, va_list));
-static void  _TIFFwarn   _ANSI_ARGS_((const char *, const char *, va_list));
+static void  _TIFFerr(const char *, const char *, va_list);
+static void  _TIFFwarn(const char *, const char *, va_list);
 
 /*
  * The functions for the TIFF input handler
  */
 
-static int     mapDummy _ANSI_ARGS_((thandle_t, tdata_t *, toff_t *));
-static void    unMapDummy _ANSI_ARGS_((thandle_t, tdata_t, toff_t));
-static int     closeDummy _ANSI_ARGS_((thandle_t));
-static tsize_t writeDummy _ANSI_ARGS_((thandle_t, tdata_t, tsize_t));
+static int mapDummy(thandle_t, tdata_t *, toff_t *);
+static void unMapDummy(thandle_t, tdata_t, toff_t);
+static int closeDummy(thandle_t);
+static tsize_t writeDummy(thandle_t, tdata_t, tsize_t);
 
-static tsize_t readMFile _ANSI_ARGS_((thandle_t, tdata_t, tsize_t));
-static toff_t  seekMFile _ANSI_ARGS_((thandle_t, toff_t, int));
-static toff_t  sizeMFile _ANSI_ARGS_((thandle_t));
+static tsize_t readMFile(thandle_t, tdata_t, tsize_t);
+static toff_t seekMFile(thandle_t, toff_t, int);
+static toff_t sizeMFile(thandle_t);
 
-static tsize_t readString _ANSI_ARGS_((thandle_t, tdata_t, tsize_t));
-static tsize_t writeString _ANSI_ARGS_((thandle_t, tdata_t, tsize_t));
-static toff_t  seekString _ANSI_ARGS_((thandle_t, toff_t, int));
-static toff_t  sizeString _ANSI_ARGS_((thandle_t));
+static tsize_t readString(thandle_t, tdata_t, tsize_t);
+static tsize_t writeString(thandle_t, tdata_t, tsize_t);
+static toff_t seekString(thandle_t, toff_t, int);
+static toff_t sizeString(thandle_t);
 
 
 static char *errorMessage = NULL;

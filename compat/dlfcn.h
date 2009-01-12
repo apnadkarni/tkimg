@@ -44,10 +44,10 @@ extern "C" {
 #define RTLD_NOW	2	/* immediate function call binding */
 #define RTLD_GLOBAL	0x100	/* allow symbols to be global */
 
-VOID *dlopen _ANSI_ARGS_((const char *path, int mode));
-VOID *dlsym _ANSI_ARGS_((void *handle, const char *symbol));
-char *dlerror _ANSI_ARGS_((void));
-int dlclose _ANSI_ARGS_((void *handle));
+void *dlopen (const char *path, int mode);
+void *dlsym (void *handle, const char *symbol);
+char *dlerror (void);
+int dlclose (void *handle);
 
 #ifdef __cplusplus
 }

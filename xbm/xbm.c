@@ -46,18 +46,18 @@ typedef struct ParseInfo {
  * Prototypes for local procedures defined in this file:
  */
 
-static int CommonRead _ANSI_ARGS_((Tcl_Interp *interp,
-		ParseInfo *parseInfo,
-		Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-		int destX, int destY, int width, int height,
-		int srcX, int srcY));
-static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
-		const char *fileName, Tcl_DString *dataPtr,
-		Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr));
+static int CommonRead(Tcl_Interp *interp,
+	ParseInfo *parseInfo,
+	Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+	int destX, int destY, int width, int height,
+	int srcX, int srcY);
+static int CommonWrite(Tcl_Interp *interp,
+	const char *fileName, Tcl_DString *dataPtr,
+	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
 
-static int ReadXBMFileHeader _ANSI_ARGS_((ParseInfo *parseInfo,
-		int *widthPtr, int *heightPtr));
-static int NextBitmapWord _ANSI_ARGS_((ParseInfo *parseInfoPtr));
+static int ReadXBMFileHeader(ParseInfo *parseInfo,
+	int *widthPtr, int *heightPtr);
+static int NextBitmapWord(ParseInfo *parseInfoPtr);
 
 /*
  *----------------------------------------------------------------------

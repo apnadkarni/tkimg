@@ -80,7 +80,7 @@ typedef	struct {
 #define	DecoderState(tif)	ZState(tif)
 #define	EncoderState(tif)	ZState(tif)
 
-static int ZIPSetupDecode _ANSI_ARGS_((TIFF* tif));
+static int ZIPSetupDecode(TIFF* tif);
 
 static int
 ZIPSetupDecode(tif)
@@ -230,7 +230,7 @@ ZIPEncode (TIFF* tif,
  * string and tacking on an End Of Information code.
  */
 
-static int ZIPPostEncode _ANSI_ARGS_((TIFF* tif));
+static int ZIPPostEncode(TIFF* tif);
 
 static int
 ZIPPostEncode(tif)
@@ -263,7 +263,7 @@ ZIPPostEncode(tif)
     return (1);
 }
 
-static void ZIPCleanup _ANSI_ARGS_((TIFF* tif));
+static void ZIPCleanup(TIFF* tif);
 
 static void
 ZIPCleanup(tif)
@@ -281,7 +281,7 @@ ZIPCleanup(tif)
     }
 }
 
-static int ZIPVSetField _ANSI_ARGS_((TIFF* tif, ttag_t tag, va_list ap));
+static int ZIPVSetField(TIFF* tif, ttag_t tag, va_list ap);
 
 static int
 ZIPVSetField(tif, tag, ap)
@@ -310,7 +310,7 @@ ZIPVSetField(tif, tag, ap)
     /*NOTREACHED*/
 }
 
-static int ZIPVGetField _ANSI_ARGS_((TIFF* tif, ttag_t tag, va_list ap));
+static int ZIPVGetField(TIFF* tif, ttag_t tag, va_list ap);
 
 static int
 ZIPVGetField(tif, tag, ap)

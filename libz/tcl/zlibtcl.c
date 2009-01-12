@@ -39,8 +39,8 @@
 # endif
 #endif
 
-EXTERN int Zlibtcl_Init     _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN int Zlibtcl_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN int Zlibtcl_Init(Tcl_Interp *interp);
+EXTERN int Zlibtcl_SafeInit(Tcl_Interp *interp);
 
 #undef  TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLIMPORT
@@ -93,7 +93,7 @@ Zlibtcl_Init (interp)
 
   return TCL_OK;
 }
-
+
 /*
  *----------------------------------------------------------------------------
  *

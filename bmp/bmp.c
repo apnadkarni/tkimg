@@ -37,18 +37,18 @@ typedef struct {
  * Prototypes for local procedures defined in this file:
  */
 
-static int CommonMatch _ANSI_ARGS_((tkimg_MFile *handle, int *widthPtr,
+static int CommonMatch(tkimg_MFile *handle, int *widthPtr,
 	int *heightPtr, unsigned char **colorMap, int *numBits,
-	int *numCols, int *comp, unsigned int *mask));
+	int *numCols, int *comp, unsigned int *mask);
 
-static int CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
+static int CommonRead(Tcl_Interp *interp, tkimg_MFile *handle,
 	Tk_PhotoHandle imageHandle, int destX, int destY, int width,
-	int height, int srcX, int srcY));
+	int height, int srcX, int srcY);
 
-static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
-	Tk_PhotoImageBlock *blockPtr));
+static int CommonWrite(Tcl_Interp *interp, tkimg_MFile *handle,
+	Tk_PhotoImageBlock *blockPtr);
 
-static void putint _ANSI_ARGS_((tkimg_MFile *handle, int i));
+static void putint(tkimg_MFile *handle, int i);
 
 /*
  * Entrypoints for the photo image type.

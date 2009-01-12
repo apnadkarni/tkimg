@@ -25,11 +25,11 @@ typedef struct PixmapData {
     HBITMAP maskBm, maskBmOld;
 } PixmapData;
 
-static void		CopyTransparent _ANSI_ARGS_((Display* display,
-			    HDC srcDC, Drawable dest,
-			    int src_x, int src_y, int width,
-			    int height, int dest_x, int dest_y,
-			    HDC maskDC));
+static void CopyTransparent(Display* display,
+	HDC srcDC, Drawable dest,
+	int src_x, int src_y, int width,
+	int height, int dest_x, int dest_y,
+	HDC maskDC);
 
 
 /*----------------------------------------------------------------------

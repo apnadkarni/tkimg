@@ -25,7 +25,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-static int SetupPngLibrary _ANSI_ARGS_ ((Tcl_Interp *interp));
+static int SetupPngLibrary(Tcl_Interp *interp);
 
 #define MORE_INITIALIZATION \
     if (SetupPngLibrary (interp) != TCL_OK) { return TCL_ERROR; }
@@ -62,33 +62,33 @@ typedef struct myblock {
  * Prototypes for local procedures defined in this file:
  */
 
-static int CommonMatchPNG _ANSI_ARGS_((tkimg_MFile *handle, int *widthPtr,
-	int *heightPtr));
+static int CommonMatchPNG(tkimg_MFile *handle, int *widthPtr,
+	int *heightPtr);
 
-static int CommonReadPNG _ANSI_ARGS_((png_structp png_ptr,
+static int CommonReadPNG(png_structp png_ptr,
         Tcl_Interp* interp, Tcl_Obj *format,
 	Tk_PhotoHandle imageHandle, int destX, int destY, int width,
-	int height, int srcX, int srcY));
+	int height, int srcX, int srcY);
 
-static int CommonWritePNG _ANSI_ARGS_((Tcl_Interp *interp, png_structp png_ptr,
+static int CommonWritePNG(Tcl_Interp *interp, png_structp png_ptr,
 	png_infop info_ptr, Tcl_Obj *format,
-	Tk_PhotoImageBlock *blockPtr));
+	Tk_PhotoImageBlock *blockPtr);
 
-static void tk_png_error _ANSI_ARGS_((png_structp, png_const_charp));
+static void tk_png_error(png_structp, png_const_charp);
 
-static void tk_png_warning _ANSI_ARGS_((png_structp, png_const_charp));
+static void tk_png_warning(png_structp, png_const_charp);
 
 /*
  * These functions are used for all Input/Output.
  */
 
-static void	tk_png_read _ANSI_ARGS_((png_structp, png_bytep,
-		    png_size_t));
+static void	tk_png_read(png_structp, png_bytep,
+	png_size_t);
 
-static void	tk_png_write _ANSI_ARGS_((png_structp, png_bytep,
-		    png_size_t));
+static void	tk_png_write(png_structp, png_bytep,
+	png_size_t);
 
-static void	tk_png_flush _ANSI_ARGS_((png_structp));
+static void	tk_png_flush(png_structp);
 
 /*
  *

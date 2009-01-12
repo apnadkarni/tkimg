@@ -146,38 +146,38 @@ typedef struct PixmapInstance {
  * generic part of the implementation
  */
 
-EXTERN void 	TkimgInitPixmapInstance _ANSI_ARGS_((
-			    PixmapMaster *masterPtr,
-			    PixmapInstance *instancePtr));
-EXTERN void 	TkimgXpmAllocTmpBuffer _ANSI_ARGS_((
-			    PixmapMaster *masterPtr,
-			    PixmapInstance *instancePtr,
-			    XImage **imagePtr, XImage **maskPtr));
-EXTERN void 	TkimgXpmFreeTmpBuffer _ANSI_ARGS_((
-			    PixmapMaster *masterPtr,
-			    PixmapInstance *instancePtr,
-			    XImage *image, XImage *mask));
-EXTERN void 	TkimgXpmSetPixel _ANSI_ARGS_((
-			    PixmapInstance *instancePtr, XImage *image,
-			    XImage *mask, int x, int y, XColor *colorPtr,
-			    int *isTranspPtr));
-EXTERN void 	TkimgXpmRealizePixmap _ANSI_ARGS_((
-			    PixmapMaster *masterPtr,
-			    PixmapInstance *instancePtr,
-			    XImage *image, XImage *mask, int isTransp));
-EXTERN void 	TkimgXpmFreeInstanceData _ANSI_ARGS_((
-			    PixmapInstance *instancePtr, int delete));
-EXTERN void 	TkimgpXpmDisplay _ANSI_ARGS_((ClientData clientData,
-			    Display *display, Drawable drawable,
-			    int imageX, int imageY, int width, int height,
-			    int drawableX, int drawableY));
+EXTERN void TkimgInitPixmapInstance(
+	PixmapMaster *masterPtr,
+	PixmapInstance *instancePtr);
+EXTERN void TkimgXpmAllocTmpBuffer(
+	PixmapMaster *masterPtr,
+	PixmapInstance *instancePtr,
+	XImage **imagePtr, XImage **maskPtr);
+EXTERN void TkimgXpmFreeTmpBuffer(
+	PixmapMaster *masterPtr,
+	PixmapInstance *instancePtr,
+	XImage *image, XImage *mask);
+EXTERN void TkimgXpmSetPixel(
+	PixmapInstance *instancePtr, XImage *image,
+	XImage *mask, int x, int y, XColor *colorPtr,
+	int *isTranspPtr);
+EXTERN void TkimgXpmRealizePixmap(
+	PixmapMaster *masterPtr,
+	PixmapInstance *instancePtr,
+	XImage *image, XImage *mask, int isTransp);
+EXTERN void TkimgXpmFreeInstanceData(
+	PixmapInstance *instancePtr, int delete);
+EXTERN void TkimgpXpmDisplay(ClientData clientData,
+	Display *display, Drawable drawable,
+	int imageX, int imageY, int width, int height,
+	int drawableX, int drawableY);
 
 /*
  * Declarations of internal functions, which are exported for tcl package management.
  */
 
-EXTERN int Tkimgpixmap_Init     _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN int Tkimgpixmap_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN int Tkimgpixmap_Init(Tcl_Interp *interp);
+EXTERN int Tkimgpixmap_SafeInit(Tcl_Interp *interp);
 
 
 #undef  TCL_STORAGE_CLASS

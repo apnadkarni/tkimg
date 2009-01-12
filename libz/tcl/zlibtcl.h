@@ -143,7 +143,7 @@
 
 #ifdef USE_ZLIBTCL_STUBS
 EXTERN const char *
-Zlibtcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp, const char *version, int exact));
+Zlibtcl_InitStubs(Tcl_Interp *interp, const char *version, int exact);
 #else
 
 /*

@@ -58,19 +58,19 @@
  * Prototypes for local procedures defined in this file:
  */
 
-static int	CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
-		    Tcl_Obj *format, Tk_PhotoHandle imageHandle,
-		    int destX, int destY, int width, int height,
-		    int srcX, int srcY));
-static int	CommonWrite _ANSI_ARGS_((Tcl_Interp *interp, const char *fileName,
-		    Tcl_DString *dataPtr, Tcl_Obj *format,
-		    Tk_PhotoImageBlock *blockPtr));
+static int CommonRead(Tcl_Interp *interp, tkimg_MFile *handle,
+	Tcl_Obj *format, Tk_PhotoHandle imageHandle,
+	int destX, int destY, int width, int height,
+	int srcX, int srcY);
+static int CommonWrite(Tcl_Interp *interp, const char *fileName,
+	Tcl_DString *dataPtr, Tcl_Obj *format,
+	Tk_PhotoImageBlock *blockPtr);
 
-static int	ReadXPMFileHeader _ANSI_ARGS_((tkimg_MFile *handle,
-		int *widthPtr, int *heightPtr, int *numColors, int *byteSize));
-static char *	GetType _ANSI_ARGS_((char *colorDefn, int *type_ret));
-static char *	GetColor _ANSI_ARGS_((char *colorDefn, char *colorName, int *type_ret));
-static char *	Gets _ANSI_ARGS_((tkimg_MFile *handle, char *buffer, int size));
+static int ReadXPMFileHeader(tkimg_MFile *handle,
+	int *widthPtr, int *heightPtr, int *numColors, int *byteSize);
+static char *GetType(char *colorDefn, int *type_ret);
+static char *GetColor(char *colorDefn, char *colorName, int *type_ret);
+static char *Gets(tkimg_MFile *handle, char *buffer, int size);
 
 /*
  *----------------------------------------------------------------------

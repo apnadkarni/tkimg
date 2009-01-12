@@ -57,7 +57,7 @@
 #include <tcl.h>
 #include <jpegtcl.h>
 
-static int SetupJPegLibrary _ANSI_ARGS_ ((Tcl_Interp *interp));
+static int SetupJPegLibrary(Tcl_Interp *interp);
 
 #define MORE_INITIALIZATION \
     if (SetupJPegLibrary (interp) != TCL_OK) { return TCL_ERROR; }
@@ -108,32 +108,32 @@ struct my_error_mgr {		/* Extended libjpeg error manager */
  * Prototypes for local procedures defined in this file:
  */
 
-static int	CommonMatch _ANSI_ARGS_((tkimg_MFile *handle,
-		    int *widthPtr, int *heightPtr));
+static int CommonMatch(tkimg_MFile *handle,
+	int *widthPtr, int *heightPtr);
 
-static int	CommonRead _ANSI_ARGS_((Tcl_Interp *interp,
-		    j_decompress_ptr cinfo, Tcl_Obj *format,
-		    Tk_PhotoHandle imageHandle, int destX, int destY,
-		    int width, int height, int srcX, int srcY));
+static int CommonRead(Tcl_Interp *interp,
+	j_decompress_ptr cinfo, Tcl_Obj *format,
+	Tk_PhotoHandle imageHandle, int destX, int destY,
+	int width, int height, int srcX, int srcY);
 
-static int	CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
-		    j_compress_ptr cinfo, Tcl_Obj *format,
-		    Tk_PhotoImageBlock *blockPtr));
+static int CommonWrite(Tcl_Interp *interp,
+	j_compress_ptr cinfo, Tcl_Obj *format,
+	Tk_PhotoImageBlock *blockPtr);
 
-static void	my_jpeg_obj_src _ANSI_ARGS_((j_decompress_ptr, Tcl_Obj *));
-static void	my_jpeg_channel_src _ANSI_ARGS_((j_decompress_ptr, Tcl_Channel));
-static boolean	fill_input_buffer _ANSI_ARGS_((j_decompress_ptr));
-static void	skip_input_data _ANSI_ARGS_((j_decompress_ptr, long));
-static void	dummy_source _ANSI_ARGS_((j_decompress_ptr));
-static void	my_jpeg_string_dest _ANSI_ARGS_((j_compress_ptr, Tcl_DString*));
-static void	my_jpeg_channel_dest _ANSI_ARGS_((j_compress_ptr, Tcl_Channel));
-static void	my_init_destination _ANSI_ARGS_((j_compress_ptr));
-static boolean	my_empty_output_buffer _ANSI_ARGS_((j_compress_ptr));
-static void	my_term_destination _ANSI_ARGS_((j_compress_ptr));
-static void	my_error_exit _ANSI_ARGS_((j_common_ptr cinfo));
-static void	my_output_message _ANSI_ARGS_((j_common_ptr cinfo));
-static void	append_jpeg_message _ANSI_ARGS_((Tcl_Interp *interp,
-		    j_common_ptr cinfo));
+static void	my_jpeg_obj_src(j_decompress_ptr, Tcl_Obj *);
+static void	my_jpeg_channel_src(j_decompress_ptr, Tcl_Channel);
+static boolean	fill_input_buffer(j_decompress_ptr);
+static void	skip_input_data(j_decompress_ptr, long);
+static void	dummy_source(j_decompress_ptr);
+static void	my_jpeg_string_dest(j_compress_ptr, Tcl_DString*);
+static void	my_jpeg_channel_dest(j_compress_ptr, Tcl_Channel);
+static void	my_init_destination(j_compress_ptr);
+static boolean	my_empty_output_buffer(j_compress_ptr);
+static void	my_term_destination(j_compress_ptr);
+static void	my_error_exit(j_common_ptr cinfo);
+static void	my_output_message(j_common_ptr cinfo);
+static void	append_jpeg_message(Tcl_Interp *interp,
+		    j_common_ptr cinfo);
 
 
 

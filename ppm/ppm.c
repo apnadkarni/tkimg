@@ -81,17 +81,17 @@
  * Prototypes for local procedures defined in this file:
  */
 
-static int CommonMatch _ANSI_ARGS_((tkimg_MFile *handle, int *widthPtr,
-                int *heightPtr, int *maxIntensityPtr));
-static int CommonRead _ANSI_ARGS_((Tcl_Interp *interp, tkimg_MFile *handle,
-                const char *filename, Tcl_Obj *format,
-                Tk_PhotoHandle imageHandle, int destX, int destY,
-                int width, int height, int srcX, int srcY));
-static int CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
-                const char *filename, Tcl_Obj *format,
-                tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr));
-static int ReadPPMFileHeader _ANSI_ARGS_((tkimg_MFile *handle,
-		int *widthPtr, int *heightPtr, int *maxIntensityPtr));
+static int CommonMatch(tkimg_MFile *handle, int *widthPtr,
+	int *heightPtr, int *maxIntensityPtr);
+static int CommonRead(Tcl_Interp *interp, tkimg_MFile *handle,
+	const char *filename, Tcl_Obj *format,
+	Tk_PhotoHandle imageHandle, int destX, int destY,
+	int width, int height, int srcX, int srcY);
+static int CommonWrite(Tcl_Interp *interp,
+	const char *filename, Tcl_Obj *format,
+	tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr);
+static int ReadPPMFileHeader(tkimg_MFile *handle,
+	int *widthPtr, int *heightPtr, int *maxIntensityPtr);
 
 
 /*

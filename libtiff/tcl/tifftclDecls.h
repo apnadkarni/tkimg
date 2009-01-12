@@ -36,245 +36,224 @@
  */
 
 /* 0 */
-EXTERN const char *	TIFFGetVersion _ANSI_ARGS_((void));
+EXTERN const char *	TIFFGetVersion(void);
 /* 1 */
-EXTERN const TIFFCodec * TIFFFindCODEC _ANSI_ARGS_((uint16 a));
+EXTERN const TIFFCodec * TIFFFindCODEC(uint16 a);
 /* 2 */
-EXTERN TIFFCodec *	TIFFRegisterCODEC _ANSI_ARGS_((uint16 a,
-				const char * b, TIFFInitMethod c));
+EXTERN TIFFCodec *	TIFFRegisterCODEC(uint16 a, const char * b,
+				TIFFInitMethod c);
 /* 3 */
-EXTERN void		TIFFUnRegisterCODEC _ANSI_ARGS_((TIFFCodec * a));
+EXTERN void		TIFFUnRegisterCODEC(TIFFCodec * a);
 /* 4 */
-EXTERN tdata_t		_TIFFmalloc _ANSI_ARGS_((tsize_t a));
+EXTERN tdata_t		_TIFFmalloc(tsize_t a);
 /* 5 */
-EXTERN tdata_t		_TIFFrealloc _ANSI_ARGS_((tdata_t a, tsize_t b));
+EXTERN tdata_t		_TIFFrealloc(tdata_t a, tsize_t b);
 /* 6 */
-EXTERN void		_TIFFmemset _ANSI_ARGS_((tdata_t a, int b, tsize_t c));
+EXTERN void		_TIFFmemset(tdata_t a, int b, tsize_t c);
 /* 7 */
-EXTERN void		_TIFFmemcpy _ANSI_ARGS_((tdata_t a, const tdata_t b,
-				tsize_t c));
+EXTERN void		_TIFFmemcpy(tdata_t a, const tdata_t b, tsize_t c);
 /* 8 */
-EXTERN int		_TIFFmemcmp _ANSI_ARGS_((const tdata_t a,
-				const tdata_t b, tsize_t c));
+EXTERN int		_TIFFmemcmp(const tdata_t a, const tdata_t b,
+				tsize_t c);
 /* 9 */
-EXTERN void		_TIFFfree _ANSI_ARGS_((tdata_t a));
+EXTERN void		_TIFFfree(tdata_t a);
 /* 10 */
-EXTERN void		TIFFClose _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN void		TIFFClose(TIFF * tiffptr);
 /* 11 */
-EXTERN int		TIFFFlush _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFFlush(TIFF * tiffptr);
 /* 12 */
-EXTERN int		TIFFFlushData _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFFlushData(TIFF * tiffptr);
 /* 13 */
-EXTERN int		TIFFGetField _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, ...));
+EXTERN int		TIFFGetField(TIFF * tiffptr, ttag_t a, ...);
 /* 14 */
-EXTERN int		TIFFVGetField _ANSI_ARGS_((TIFF * tiffptr, ttag_t a,
-				va_list b));
+EXTERN int		TIFFVGetField(TIFF * tiffptr, ttag_t a, va_list b);
 /* 15 */
-EXTERN int		TIFFGetFieldDefaulted _ANSI_ARGS_((TIFF * tiffptr,
-				ttag_t a, ...));
+EXTERN int		TIFFGetFieldDefaulted(TIFF * tiffptr, ttag_t a, ...);
 /* 16 */
-EXTERN int		TIFFVGetFieldDefaulted _ANSI_ARGS_((TIFF * tiffptr,
-				ttag_t a, va_list b));
+EXTERN int		TIFFVGetFieldDefaulted(TIFF * tiffptr, ttag_t a,
+				va_list b);
 /* 17 */
-EXTERN int		TIFFReadDirectory _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFReadDirectory(TIFF * tiffptr);
 /* 18 */
-EXTERN tsize_t		TIFFScanlineSize _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tsize_t		TIFFScanlineSize(TIFF * tiffptr);
 /* 19 */
-EXTERN tsize_t		TIFFRasterScanlineSize _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tsize_t		TIFFRasterScanlineSize(TIFF * tiffptr);
 /* 20 */
-EXTERN tsize_t		TIFFStripSize _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tsize_t		TIFFStripSize(TIFF * tiffptr);
 /* 21 */
-EXTERN tsize_t		TIFFVStripSize _ANSI_ARGS_((TIFF * tiffptr, uint32 a));
+EXTERN tsize_t		TIFFVStripSize(TIFF * tiffptr, uint32 a);
 /* 22 */
-EXTERN tsize_t		TIFFTileRowSize _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tsize_t		TIFFTileRowSize(TIFF * tiffptr);
 /* 23 */
-EXTERN tsize_t		TIFFTileSize _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tsize_t		TIFFTileSize(TIFF * tiffptr);
 /* 24 */
-EXTERN tsize_t		TIFFVTileSize _ANSI_ARGS_((TIFF * tiffptr, uint32 a));
+EXTERN tsize_t		TIFFVTileSize(TIFF * tiffptr, uint32 a);
 /* 25 */
-EXTERN uint32		TIFFDefaultStripSize _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 a));
+EXTERN uint32		TIFFDefaultStripSize(TIFF * tiffptr, uint32 a);
 /* 26 */
-EXTERN void		TIFFDefaultTileSize _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 * a, uint32 * b));
+EXTERN void		TIFFDefaultTileSize(TIFF * tiffptr, uint32 * a,
+				uint32 * b);
 /* 27 */
-EXTERN int		TIFFFileno _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFFileno(TIFF * tiffptr);
 /* 28 */
-EXTERN int		TIFFGetMode _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFGetMode(TIFF * tiffptr);
 /* 29 */
-EXTERN int		TIFFIsTiled _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFIsTiled(TIFF * tiffptr);
 /* 30 */
-EXTERN int		TIFFIsByteSwapped _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFIsByteSwapped(TIFF * tiffptr);
 /* 31 */
-EXTERN int		TIFFIsUpSampled _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFIsUpSampled(TIFF * tiffptr);
 /* 32 */
-EXTERN int		TIFFIsMSB2LSB _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFIsMSB2LSB(TIFF * tiffptr);
 /* 33 */
-EXTERN uint32		TIFFCurrentRow _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN uint32		TIFFCurrentRow(TIFF * tiffptr);
 /* 34 */
-EXTERN tdir_t		TIFFCurrentDirectory _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tdir_t		TIFFCurrentDirectory(TIFF * tiffptr);
 /* 35 */
-EXTERN tdir_t		TIFFNumberOfDirectories _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tdir_t		TIFFNumberOfDirectories(TIFF * tiffptr);
 /* 36 */
-EXTERN uint32		TIFFCurrentDirOffset _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN uint32		TIFFCurrentDirOffset(TIFF * tiffptr);
 /* 37 */
-EXTERN tstrip_t		TIFFCurrentStrip _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tstrip_t		TIFFCurrentStrip(TIFF * tiffptr);
 /* 38 */
-EXTERN ttile_t		TIFFCurrentTile _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN ttile_t		TIFFCurrentTile(TIFF * tiffptr);
 /* 39 */
-EXTERN int		TIFFReadBufferSetup _ANSI_ARGS_((TIFF * tiffptr,
-				tdata_t a, tsize_t b));
+EXTERN int		TIFFReadBufferSetup(TIFF * tiffptr, tdata_t a,
+				tsize_t b);
 /* 40 */
-EXTERN int		TIFFWriteBufferSetup _ANSI_ARGS_((TIFF * tiffptr,
-				tdata_t a, tsize_t b));
+EXTERN int		TIFFWriteBufferSetup(TIFF * tiffptr, tdata_t a,
+				tsize_t b);
 /* 41 */
-EXTERN int		TIFFWriteCheck _ANSI_ARGS_((TIFF * tiffptr, int a,
-				const char * b));
+EXTERN int		TIFFWriteCheck(TIFF * tiffptr, int a, const char * b);
 /* 42 */
-EXTERN int		TIFFCreateDirectory _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFCreateDirectory(TIFF * tiffptr);
 /* 43 */
-EXTERN int		TIFFLastDirectory _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFLastDirectory(TIFF * tiffptr);
 /* 44 */
-EXTERN int		TIFFSetDirectory _ANSI_ARGS_((TIFF * tiffptr,
-				tdir_t a));
+EXTERN int		TIFFSetDirectory(TIFF * tiffptr, tdir_t a);
 /* 45 */
-EXTERN int		TIFFSetSubDirectory _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 a));
+EXTERN int		TIFFSetSubDirectory(TIFF * tiffptr, uint32 a);
 /* 46 */
-EXTERN int		TIFFUnlinkDirectory _ANSI_ARGS_((TIFF * tiffptr,
-				tdir_t a));
+EXTERN int		TIFFUnlinkDirectory(TIFF * tiffptr, tdir_t a);
 /* 47 */
-EXTERN int		TIFFSetField _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, ...));
+EXTERN int		TIFFSetField(TIFF * tiffptr, ttag_t a, ...);
 /* 48 */
-EXTERN int		TIFFVSetField _ANSI_ARGS_((TIFF * tiffptr, ttag_t a,
-				va_list b));
+EXTERN int		TIFFVSetField(TIFF * tiffptr, ttag_t a, va_list b);
 /* 49 */
-EXTERN int		TIFFWriteDirectory _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFWriteDirectory(TIFF * tiffptr);
 /* 50 */
-EXTERN int		TIFFReassignTagToIgnore _ANSI_ARGS_((
-				enum TIFFIgnoreSense a, int b));
+EXTERN int		TIFFReassignTagToIgnore(enum TIFFIgnoreSense a,
+				int b);
 /* 51 */
-EXTERN void		TIFFPrintDirectory _ANSI_ARGS_((TIFF * tiffptr,
-				FILE * a, long b));
+EXTERN void		TIFFPrintDirectory(TIFF * tiffptr, FILE * a, long b);
 /* 52 */
-EXTERN int		TIFFReadScanline _ANSI_ARGS_((TIFF * tiffptr,
-				tdata_t a, uint32 b, tsample_t c));
+EXTERN int		TIFFReadScanline(TIFF * tiffptr, tdata_t a, uint32 b,
+				tsample_t c);
 /* 53 */
-EXTERN int		TIFFWriteScanline _ANSI_ARGS_((TIFF * tiffptr,
-				tdata_t a, uint32 b, tsample_t c));
+EXTERN int		TIFFWriteScanline(TIFF * tiffptr, tdata_t a,
+				uint32 b, tsample_t c);
 /* 54 */
-EXTERN int		TIFFReadRGBAImage _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 a, uint32 b, uint32 * c, int d));
+EXTERN int		TIFFReadRGBAImage(TIFF * tiffptr, uint32 a, uint32 b,
+				uint32 * c, int d);
 /* 55 */
-EXTERN int		TIFFReadRGBAStrip _ANSI_ARGS_((TIFF * tiffptr,
-				tstrip_t a, uint32 * b));
+EXTERN int		TIFFReadRGBAStrip(TIFF * tiffptr, tstrip_t a,
+				uint32 * b);
 /* 56 */
-EXTERN int		TIFFReadRGBATile _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 a, uint32 b, uint32 * c));
+EXTERN int		TIFFReadRGBATile(TIFF * tiffptr, uint32 a, uint32 b,
+				uint32 * c);
 /* 57 */
-EXTERN int		TIFFRGBAImageOK _ANSI_ARGS_((TIFF * tiffptr,
-				char * a));
+EXTERN int		TIFFRGBAImageOK(TIFF * tiffptr, char * a);
 /* 58 */
-EXTERN int		TIFFRGBAImageBegin _ANSI_ARGS_((TIFFRGBAImage * a,
-				TIFF * tiffptr, int b, char * c));
+EXTERN int		TIFFRGBAImageBegin(TIFFRGBAImage * a, TIFF * tiffptr,
+				int b, char * c);
 /* 59 */
-EXTERN int		TIFFRGBAImageGet _ANSI_ARGS_((TIFFRGBAImage * d,
-				uint32 * c, uint32 b, uint32 a));
+EXTERN int		TIFFRGBAImageGet(TIFFRGBAImage * d, uint32 * c,
+				uint32 b, uint32 a);
 /* 60 */
-EXTERN void		TIFFRGBAImageEnd _ANSI_ARGS_((TIFFRGBAImage * a));
+EXTERN void		TIFFRGBAImageEnd(TIFFRGBAImage * a);
 /* 61 */
-EXTERN TIFF *		TIFFOpen _ANSI_ARGS_((const char * b, const char * a));
+EXTERN TIFF *		TIFFOpen(const char * b, const char * a);
 /* 62 */
-EXTERN TIFF *		TIFFFdOpen _ANSI_ARGS_((int a, const char * b,
-				const char * c));
+EXTERN TIFF *		TIFFFdOpen(int a, const char * b, const char * c);
 /* 63 */
-EXTERN TIFF *		TIFFClientOpen _ANSI_ARGS_((const char * a,
-				const char * b, thandle_t c,
-				TIFFReadWriteProc d, TIFFReadWriteProc e,
-				TIFFSeekProc f, TIFFCloseProc g,
-				TIFFSizeProc h, TIFFMapFileProc i,
-				TIFFUnmapFileProc j));
+EXTERN TIFF *		TIFFClientOpen(const char * a, const char * b,
+				thandle_t c, TIFFReadWriteProc d,
+				TIFFReadWriteProc e, TIFFSeekProc f,
+				TIFFCloseProc g, TIFFSizeProc h,
+				TIFFMapFileProc i, TIFFUnmapFileProc j);
 /* 64 */
-EXTERN const char *	TIFFFileName _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN const char *	TIFFFileName(TIFF * tiffptr);
 /* 65 */
-EXTERN void		TIFFError _ANSI_ARGS_((const char * a,
-				const char * b, ...));
+EXTERN void		TIFFError(const char * a, const char * b, ...);
 /* 66 */
-EXTERN void		TIFFWarning _ANSI_ARGS_((const char * a,
-				const char * b, ...));
+EXTERN void		TIFFWarning(const char * a, const char * b, ...);
 /* 67 */
-EXTERN TIFFErrorHandler	 TIFFSetErrorHandler _ANSI_ARGS_((TIFFErrorHandler a));
+EXTERN TIFFErrorHandler	 TIFFSetErrorHandler(TIFFErrorHandler a);
 /* 68 */
-EXTERN TIFFErrorHandler	 TIFFSetWarningHandler _ANSI_ARGS_((
-				TIFFErrorHandler a));
+EXTERN TIFFErrorHandler	 TIFFSetWarningHandler(TIFFErrorHandler a);
 /* 69 */
-EXTERN TIFFExtendProc	TIFFSetTagExtender _ANSI_ARGS_((TIFFExtendProc a));
+EXTERN TIFFExtendProc	TIFFSetTagExtender(TIFFExtendProc a);
 /* 70 */
-EXTERN ttile_t		TIFFComputeTile _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 a, uint32 b, uint32 c, tsample_t d));
+EXTERN ttile_t		TIFFComputeTile(TIFF * tiffptr, uint32 a, uint32 b,
+				uint32 c, tsample_t d);
 /* 71 */
-EXTERN int		TIFFCheckTile _ANSI_ARGS_((TIFF * tiffptr, uint32 d,
-				uint32 c, uint32 b, tsample_t a));
+EXTERN int		TIFFCheckTile(TIFF * tiffptr, uint32 d, uint32 c,
+				uint32 b, tsample_t a);
 /* 72 */
-EXTERN ttile_t		TIFFNumberOfTiles _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN ttile_t		TIFFNumberOfTiles(TIFF * tiffptr);
 /* 73 */
-EXTERN tsize_t		TIFFReadTile _ANSI_ARGS_((TIFF * tiffptr, tdata_t a,
-				uint32 b, uint32 c, uint32 d, tsample_t e));
+EXTERN tsize_t		TIFFReadTile(TIFF * tiffptr, tdata_t a, uint32 b,
+				uint32 c, uint32 d, tsample_t e);
 /* 74 */
-EXTERN tsize_t		TIFFWriteTile _ANSI_ARGS_((TIFF * tiffptr, tdata_t e,
-				uint32 d, uint32 c, uint32 b, tsample_t a));
+EXTERN tsize_t		TIFFWriteTile(TIFF * tiffptr, tdata_t e, uint32 d,
+				uint32 c, uint32 b, tsample_t a);
 /* 75 */
-EXTERN tstrip_t		TIFFComputeStrip _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 a, tsample_t b));
+EXTERN tstrip_t		TIFFComputeStrip(TIFF * tiffptr, uint32 a,
+				tsample_t b);
 /* 76 */
-EXTERN tstrip_t		TIFFNumberOfStrips _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN tstrip_t		TIFFNumberOfStrips(TIFF * tiffptr);
 /* 77 */
-EXTERN tsize_t		TIFFReadEncodedStrip _ANSI_ARGS_((TIFF * tiffptr,
-				tstrip_t a, tdata_t b, tsize_t c));
+EXTERN tsize_t		TIFFReadEncodedStrip(TIFF * tiffptr, tstrip_t a,
+				tdata_t b, tsize_t c);
 /* 78 */
-EXTERN tsize_t		TIFFReadRawStrip _ANSI_ARGS_((TIFF * tiffptr,
-				tstrip_t a, tdata_t b, tsize_t c));
+EXTERN tsize_t		TIFFReadRawStrip(TIFF * tiffptr, tstrip_t a,
+				tdata_t b, tsize_t c);
 /* 79 */
-EXTERN tsize_t		TIFFReadEncodedTile _ANSI_ARGS_((TIFF * tiffptr,
-				ttile_t a, tdata_t b, tsize_t c));
+EXTERN tsize_t		TIFFReadEncodedTile(TIFF * tiffptr, ttile_t a,
+				tdata_t b, tsize_t c);
 /* 80 */
-EXTERN tsize_t		TIFFReadRawTile _ANSI_ARGS_((TIFF * tiffptr,
-				ttile_t c, tdata_t b, tsize_t a));
+EXTERN tsize_t		TIFFReadRawTile(TIFF * tiffptr, ttile_t c, tdata_t b,
+				tsize_t a);
 /* 81 */
-EXTERN tsize_t		TIFFWriteEncodedStrip _ANSI_ARGS_((TIFF * tiffptr,
-				tstrip_t a, tdata_t b, tsize_t c));
+EXTERN tsize_t		TIFFWriteEncodedStrip(TIFF * tiffptr, tstrip_t a,
+				tdata_t b, tsize_t c);
 /* 82 */
-EXTERN tsize_t		TIFFWriteRawStrip _ANSI_ARGS_((TIFF * tiffptr,
-				tstrip_t a, tdata_t b, tsize_t c));
+EXTERN tsize_t		TIFFWriteRawStrip(TIFF * tiffptr, tstrip_t a,
+				tdata_t b, tsize_t c);
 /* 83 */
-EXTERN tsize_t		TIFFWriteEncodedTile _ANSI_ARGS_((TIFF * tiffptr,
-				ttile_t a, tdata_t b, tsize_t c));
+EXTERN tsize_t		TIFFWriteEncodedTile(TIFF * tiffptr, ttile_t a,
+				tdata_t b, tsize_t c);
 /* 84 */
-EXTERN tsize_t		TIFFWriteRawTile _ANSI_ARGS_((TIFF * tiffptr,
-				ttile_t c, tdata_t b, tsize_t a));
+EXTERN tsize_t		TIFFWriteRawTile(TIFF * tiffptr, ttile_t c,
+				tdata_t b, tsize_t a);
 /* 85 */
-EXTERN void		TIFFSetWriteOffset _ANSI_ARGS_((TIFF * tiffptr,
-				toff_t a));
+EXTERN void		TIFFSetWriteOffset(TIFF * tiffptr, toff_t a);
 /* 86 */
-EXTERN void		TIFFSwabShort _ANSI_ARGS_((uint16 * a));
+EXTERN void		TIFFSwabShort(uint16 * a);
 /* 87 */
-EXTERN void		TIFFSwabLong _ANSI_ARGS_((uint32 * a));
+EXTERN void		TIFFSwabLong(uint32 * a);
 /* 88 */
-EXTERN void		TIFFSwabDouble _ANSI_ARGS_((double * a));
+EXTERN void		TIFFSwabDouble(double * a);
 /* 89 */
-EXTERN void		TIFFSwabArrayOfShort _ANSI_ARGS_((uint16 * a,
-				unsigned long b));
+EXTERN void		TIFFSwabArrayOfShort(uint16 * a, unsigned long b);
 /* 90 */
-EXTERN void		TIFFSwabArrayOfLong _ANSI_ARGS_((uint32 * b,
-				unsigned long a));
+EXTERN void		TIFFSwabArrayOfLong(uint32 * b, unsigned long a);
 /* 91 */
-EXTERN void		TIFFSwabArrayOfDouble _ANSI_ARGS_((double * a,
-				unsigned long b));
+EXTERN void		TIFFSwabArrayOfDouble(double * a, unsigned long b);
 /* 92 */
-EXTERN void		TIFFReverseBits _ANSI_ARGS_((unsigned char * a,
-				unsigned long b));
+EXTERN void		TIFFReverseBits(unsigned char * a, unsigned long b);
 /* 93 */
-EXTERN const unsigned char * TIFFGetBitRevTable _ANSI_ARGS_((int a));
+EXTERN const unsigned char * TIFFGetBitRevTable(int a);
 /* Slot 94 is reserved */
 /* Slot 95 is reserved */
 /* Slot 96 is reserved */
@@ -282,7 +261,7 @@ EXTERN const unsigned char * TIFFGetBitRevTable _ANSI_ARGS_((int a));
 /* Slot 98 is reserved */
 /* Slot 99 is reserved */
 /* 100 */
-EXTERN int		TIFFPredictorInit _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFPredictorInit(TIFF * tiffptr);
 /* Slot 101 is reserved */
 /* Slot 102 is reserved */
 /* Slot 103 is reserved */
@@ -293,242 +272,229 @@ EXTERN int		TIFFPredictorInit _ANSI_ARGS_((TIFF * tiffptr));
 /* Slot 108 is reserved */
 /* Slot 109 is reserved */
 /* 110 */
-EXTERN void		_TIFFSetupFieldInfo _ANSI_ARGS_((TIFF * tiffptr,
-				const TIFFFieldInfo a[], size_t b));
+EXTERN void		_TIFFSetupFieldInfo(TIFF * tiffptr,
+				const TIFFFieldInfo a[], size_t b);
 /* 111 */
-EXTERN void		TIFFMergeFieldInfo _ANSI_ARGS_((TIFF * tiffptr,
-				const TIFFFieldInfo * a, int b));
+EXTERN void		TIFFMergeFieldInfo(TIFF * tiffptr,
+				const TIFFFieldInfo * a, int b);
 /* 112 */
-EXTERN void		_TIFFPrintFieldInfo _ANSI_ARGS_((TIFF * tiffptr,
-				FILE * a));
+EXTERN void		_TIFFPrintFieldInfo(TIFF * tiffptr, FILE * a);
 /* 113 */
-EXTERN const TIFFFieldInfo * TIFFFindFieldInfo _ANSI_ARGS_((TIFF * tiffptr,
-				ttag_t a, TIFFDataType b));
+EXTERN const TIFFFieldInfo * TIFFFindFieldInfo(TIFF * tiffptr, ttag_t a,
+				TIFFDataType b);
 /* 114 */
-EXTERN const TIFFFieldInfo * TIFFFieldWithTag _ANSI_ARGS_((TIFF * tiffptr,
-				ttag_t a));
+EXTERN const TIFFFieldInfo * TIFFFieldWithTag(TIFF * tiffptr, ttag_t a);
 /* 115 */
-EXTERN TIFFDataType	_TIFFSampleToTagType _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN TIFFDataType	_TIFFSampleToTagType(TIFF * tiffptr);
 /* Slot 116 is reserved */
 /* Slot 117 is reserved */
 /* Slot 118 is reserved */
 /* Slot 119 is reserved */
 /* 120 */
-EXTERN int		_TIFFgetMode _ANSI_ARGS_((const char * a,
-				const char * b));
+EXTERN int		_TIFFgetMode(const char * a, const char * b);
 /* 121 */
-EXTERN int		_TIFFNoRowEncode _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t a, tsize_t b, tsample_t c));
+EXTERN int		_TIFFNoRowEncode(TIFF * tiffptr, tidata_t a,
+				tsize_t b, tsample_t c);
 /* 122 */
-EXTERN int		_TIFFNoStripEncode _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t c, tsize_t b, tsample_t a));
+EXTERN int		_TIFFNoStripEncode(TIFF * tiffptr, tidata_t c,
+				tsize_t b, tsample_t a);
 /* 123 */
-EXTERN int		_TIFFNoTileEncode _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t a, tsize_t b, tsample_t c));
+EXTERN int		_TIFFNoTileEncode(TIFF * tiffptr, tidata_t a,
+				tsize_t b, tsample_t c);
 /* 124 */
-EXTERN int		_TIFFNoRowDecode _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t c, tsize_t b, tsample_t a));
+EXTERN int		_TIFFNoRowDecode(TIFF * tiffptr, tidata_t c,
+				tsize_t b, tsample_t a);
 /* 125 */
-EXTERN int		_TIFFNoStripDecode _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t a, tsize_t b, tsample_t c));
+EXTERN int		_TIFFNoStripDecode(TIFF * tiffptr, tidata_t a,
+				tsize_t b, tsample_t c);
 /* 126 */
-EXTERN int		_TIFFNoTileDecode _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t c, tsize_t b, tsample_t a));
+EXTERN int		_TIFFNoTileDecode(TIFF * tiffptr, tidata_t c,
+				tsize_t b, tsample_t a);
 /* 127 */
-EXTERN void		_TIFFNoPostDecode _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t a, tsize_t b));
+EXTERN void		_TIFFNoPostDecode(TIFF * tiffptr, tidata_t a,
+				tsize_t b);
 /* 128 */
-EXTERN int		_TIFFNoPreCode _ANSI_ARGS_((TIFF * tiffptr,
-				tsample_t a));
+EXTERN int		_TIFFNoPreCode(TIFF * tiffptr, tsample_t a);
 /* 129 */
-EXTERN int		_TIFFNoSeek _ANSI_ARGS_((TIFF * tiffptr, uint32 a));
+EXTERN int		_TIFFNoSeek(TIFF * tiffptr, uint32 a);
 /* 130 */
-EXTERN void		_TIFFSwab16BitData _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t a, tsize_t b));
+EXTERN void		_TIFFSwab16BitData(TIFF * tiffptr, tidata_t a,
+				tsize_t b);
 /* 131 */
-EXTERN void		_TIFFSwab32BitData _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t b, tsize_t a));
+EXTERN void		_TIFFSwab32BitData(TIFF * tiffptr, tidata_t b,
+				tsize_t a);
 /* 132 */
-EXTERN void		_TIFFSwab64BitData _ANSI_ARGS_((TIFF * tiffptr,
-				tidata_t a, tsize_t b));
+EXTERN void		_TIFFSwab64BitData(TIFF * tiffptr, tidata_t a,
+				tsize_t b);
 /* 133 */
-EXTERN int		TIFFFlushData1 _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFFlushData1(TIFF * tiffptr);
 /* 134 */
-EXTERN void		TIFFFreeDirectory _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN void		TIFFFreeDirectory(TIFF * tiffptr);
 /* 135 */
-EXTERN int		TIFFDefaultDirectory _ANSI_ARGS_((TIFF * tiffptr));
+EXTERN int		TIFFDefaultDirectory(TIFF * tiffptr);
 /* 136 */
-EXTERN int		TIFFSetCompressionScheme _ANSI_ARGS_((TIFF * tiffptr,
-				int a));
+EXTERN int		TIFFSetCompressionScheme(TIFF * tiffptr, int a);
 /* 137 */
-EXTERN void		_TIFFSetDefaultCompressionState _ANSI_ARGS_((
-				TIFF * tiffptr));
+EXTERN void		_TIFFSetDefaultCompressionState(TIFF * tiffptr);
 /* 138 */
-EXTERN uint32		_TIFFDefaultStripSize _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 a));
+EXTERN uint32		_TIFFDefaultStripSize(TIFF * tiffptr, uint32 a);
 /* 139 */
-EXTERN void		_TIFFDefaultTileSize _ANSI_ARGS_((TIFF * tiffptr,
-				uint32 * a, uint32 * b));
+EXTERN void		_TIFFDefaultTileSize(TIFF * tiffptr, uint32 * a,
+				uint32 * b);
 /* 140 */
-EXTERN void		_TIFFsetByteArray _ANSI_ARGS_((void ** a, void * b,
-				uint32 c));
+EXTERN void		_TIFFsetByteArray(void ** a, void * b, uint32 c);
 /* 141 */
-EXTERN void		_TIFFsetString _ANSI_ARGS_((char ** a, char * b));
+EXTERN void		_TIFFsetString(char ** a, char * b);
 /* 142 */
-EXTERN void		_TIFFsetShortArray _ANSI_ARGS_((uint16 ** a,
-				uint16 * b, uint32 c));
+EXTERN void		_TIFFsetShortArray(uint16 ** a, uint16 * b, uint32 c);
 /* 143 */
-EXTERN void		_TIFFsetLongArray _ANSI_ARGS_((uint32 ** a,
-				uint32 * b, uint32 c));
+EXTERN void		_TIFFsetLongArray(uint32 ** a, uint32 * b, uint32 c);
 /* 144 */
-EXTERN void		_TIFFsetFloatArray _ANSI_ARGS_((float ** a,
-				float * b, uint32 c));
+EXTERN void		_TIFFsetFloatArray(float ** a, float * b, uint32 c);
 /* 145 */
-EXTERN void		_TIFFsetDoubleArray _ANSI_ARGS_((double ** a,
-				double * b, uint32 c));
+EXTERN void		_TIFFsetDoubleArray(double ** a, double * b,
+				uint32 c);
 /* 146 */
-EXTERN void		_TIFFprintAscii _ANSI_ARGS_((FILE * a,
-				const char * b));
+EXTERN void		_TIFFprintAscii(FILE * a, const char * b);
 /* 147 */
-EXTERN void		_TIFFprintAsciiTag _ANSI_ARGS_((FILE * a,
-				const char * b, const char * c));
+EXTERN void		_TIFFprintAsciiTag(FILE * a, const char * b,
+				const char * c);
 /* 148 */
-EXTERN int		TIFFInitDumpMode _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitDumpMode(TIFF * tiffptr, int a);
 /* 149 */
-EXTERN int		TIFFInitPackBits _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitPackBits(TIFF * tiffptr, int a);
 /* 150 */
-EXTERN int		TIFFInitCCITTRLE _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitCCITTRLE(TIFF * tiffptr, int a);
 /* 151 */
-EXTERN int		TIFFInitCCITTRLEW _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitCCITTRLEW(TIFF * tiffptr, int a);
 /* 152 */
-EXTERN int		TIFFInitCCITTFax3 _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitCCITTFax3(TIFF * tiffptr, int a);
 /* 153 */
-EXTERN int		TIFFInitCCITTFax4 _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitCCITTFax4(TIFF * tiffptr, int a);
 /* 154 */
-EXTERN int		TIFFInitThunderScan _ANSI_ARGS_((TIFF * tiffptr,
-				int a));
+EXTERN int		TIFFInitThunderScan(TIFF * tiffptr, int a);
 /* 155 */
-EXTERN int		TIFFInitNeXT _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitNeXT(TIFF * tiffptr, int a);
 /* 156 */
-EXTERN int		TIFFInitLZW _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitLZW(TIFF * tiffptr, int a);
 /* 157 */
-EXTERN int		TIFFInitOJPEG _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitOJPEG(TIFF * tiffptr, int a);
 /* 158 */
-EXTERN int		TIFFInitJPEG _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitJPEG(TIFF * tiffptr, int a);
 /* 159 */
-EXTERN int		TIFFInitJBIG _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitJBIG(TIFF * tiffptr, int a);
 /* 160 */
-EXTERN int		TIFFInitZIP _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitZIP(TIFF * tiffptr, int a);
 /* 161 */
-EXTERN int		TIFFInitPixarLog _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitPixarLog(TIFF * tiffptr, int a);
 /* 162 */
-EXTERN int		TIFFInitSGILog _ANSI_ARGS_((TIFF * tiffptr, int a));
+EXTERN int		TIFFInitSGILog(TIFF * tiffptr, int a);
 
 typedef struct TifftclStubs {
     int magic;
     const struct TifftclStubHooks *hooks;
 
-    const char * (*tIFFGetVersion) _ANSI_ARGS_((void)); /* 0 */
-    const TIFFCodec * (*tIFFFindCODEC) _ANSI_ARGS_((uint16 a)); /* 1 */
-    TIFFCodec * (*tIFFRegisterCODEC) _ANSI_ARGS_((uint16 a, const char * b, TIFFInitMethod c)); /* 2 */
-    void (*tIFFUnRegisterCODEC) _ANSI_ARGS_((TIFFCodec * a)); /* 3 */
-    tdata_t (*_TIFFmalloc) _ANSI_ARGS_((tsize_t a)); /* 4 */
-    tdata_t (*_TIFFrealloc) _ANSI_ARGS_((tdata_t a, tsize_t b)); /* 5 */
-    void (*_TIFFmemset) _ANSI_ARGS_((tdata_t a, int b, tsize_t c)); /* 6 */
-    void (*_TIFFmemcpy) _ANSI_ARGS_((tdata_t a, const tdata_t b, tsize_t c)); /* 7 */
-    int (*_TIFFmemcmp) _ANSI_ARGS_((const tdata_t a, const tdata_t b, tsize_t c)); /* 8 */
-    void (*_TIFFfree) _ANSI_ARGS_((tdata_t a)); /* 9 */
-    void (*tIFFClose) _ANSI_ARGS_((TIFF * tiffptr)); /* 10 */
-    int (*tIFFFlush) _ANSI_ARGS_((TIFF * tiffptr)); /* 11 */
-    int (*tIFFFlushData) _ANSI_ARGS_((TIFF * tiffptr)); /* 12 */
-    int (*tIFFGetField) _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, ...)); /* 13 */
-    int (*tIFFVGetField) _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, va_list b)); /* 14 */
-    int (*tIFFGetFieldDefaulted) _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, ...)); /* 15 */
-    int (*tIFFVGetFieldDefaulted) _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, va_list b)); /* 16 */
-    int (*tIFFReadDirectory) _ANSI_ARGS_((TIFF * tiffptr)); /* 17 */
-    tsize_t (*tIFFScanlineSize) _ANSI_ARGS_((TIFF * tiffptr)); /* 18 */
-    tsize_t (*tIFFRasterScanlineSize) _ANSI_ARGS_((TIFF * tiffptr)); /* 19 */
-    tsize_t (*tIFFStripSize) _ANSI_ARGS_((TIFF * tiffptr)); /* 20 */
-    tsize_t (*tIFFVStripSize) _ANSI_ARGS_((TIFF * tiffptr, uint32 a)); /* 21 */
-    tsize_t (*tIFFTileRowSize) _ANSI_ARGS_((TIFF * tiffptr)); /* 22 */
-    tsize_t (*tIFFTileSize) _ANSI_ARGS_((TIFF * tiffptr)); /* 23 */
-    tsize_t (*tIFFVTileSize) _ANSI_ARGS_((TIFF * tiffptr, uint32 a)); /* 24 */
-    uint32 (*tIFFDefaultStripSize) _ANSI_ARGS_((TIFF * tiffptr, uint32 a)); /* 25 */
-    void (*tIFFDefaultTileSize) _ANSI_ARGS_((TIFF * tiffptr, uint32 * a, uint32 * b)); /* 26 */
-    int (*tIFFFileno) _ANSI_ARGS_((TIFF * tiffptr)); /* 27 */
-    int (*tIFFGetMode) _ANSI_ARGS_((TIFF * tiffptr)); /* 28 */
-    int (*tIFFIsTiled) _ANSI_ARGS_((TIFF * tiffptr)); /* 29 */
-    int (*tIFFIsByteSwapped) _ANSI_ARGS_((TIFF * tiffptr)); /* 30 */
-    int (*tIFFIsUpSampled) _ANSI_ARGS_((TIFF * tiffptr)); /* 31 */
-    int (*tIFFIsMSB2LSB) _ANSI_ARGS_((TIFF * tiffptr)); /* 32 */
-    uint32 (*tIFFCurrentRow) _ANSI_ARGS_((TIFF * tiffptr)); /* 33 */
-    tdir_t (*tIFFCurrentDirectory) _ANSI_ARGS_((TIFF * tiffptr)); /* 34 */
-    tdir_t (*tIFFNumberOfDirectories) _ANSI_ARGS_((TIFF * tiffptr)); /* 35 */
-    uint32 (*tIFFCurrentDirOffset) _ANSI_ARGS_((TIFF * tiffptr)); /* 36 */
-    tstrip_t (*tIFFCurrentStrip) _ANSI_ARGS_((TIFF * tiffptr)); /* 37 */
-    ttile_t (*tIFFCurrentTile) _ANSI_ARGS_((TIFF * tiffptr)); /* 38 */
-    int (*tIFFReadBufferSetup) _ANSI_ARGS_((TIFF * tiffptr, tdata_t a, tsize_t b)); /* 39 */
-    int (*tIFFWriteBufferSetup) _ANSI_ARGS_((TIFF * tiffptr, tdata_t a, tsize_t b)); /* 40 */
-    int (*tIFFWriteCheck) _ANSI_ARGS_((TIFF * tiffptr, int a, const char * b)); /* 41 */
-    int (*tIFFCreateDirectory) _ANSI_ARGS_((TIFF * tiffptr)); /* 42 */
-    int (*tIFFLastDirectory) _ANSI_ARGS_((TIFF * tiffptr)); /* 43 */
-    int (*tIFFSetDirectory) _ANSI_ARGS_((TIFF * tiffptr, tdir_t a)); /* 44 */
-    int (*tIFFSetSubDirectory) _ANSI_ARGS_((TIFF * tiffptr, uint32 a)); /* 45 */
-    int (*tIFFUnlinkDirectory) _ANSI_ARGS_((TIFF * tiffptr, tdir_t a)); /* 46 */
-    int (*tIFFSetField) _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, ...)); /* 47 */
-    int (*tIFFVSetField) _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, va_list b)); /* 48 */
-    int (*tIFFWriteDirectory) _ANSI_ARGS_((TIFF * tiffptr)); /* 49 */
-    int (*tIFFReassignTagToIgnore) _ANSI_ARGS_((enum TIFFIgnoreSense a, int b)); /* 50 */
-    void (*tIFFPrintDirectory) _ANSI_ARGS_((TIFF * tiffptr, FILE * a, long b)); /* 51 */
-    int (*tIFFReadScanline) _ANSI_ARGS_((TIFF * tiffptr, tdata_t a, uint32 b, tsample_t c)); /* 52 */
-    int (*tIFFWriteScanline) _ANSI_ARGS_((TIFF * tiffptr, tdata_t a, uint32 b, tsample_t c)); /* 53 */
-    int (*tIFFReadRGBAImage) _ANSI_ARGS_((TIFF * tiffptr, uint32 a, uint32 b, uint32 * c, int d)); /* 54 */
-    int (*tIFFReadRGBAStrip) _ANSI_ARGS_((TIFF * tiffptr, tstrip_t a, uint32 * b)); /* 55 */
-    int (*tIFFReadRGBATile) _ANSI_ARGS_((TIFF * tiffptr, uint32 a, uint32 b, uint32 * c)); /* 56 */
-    int (*tIFFRGBAImageOK) _ANSI_ARGS_((TIFF * tiffptr, char * a)); /* 57 */
-    int (*tIFFRGBAImageBegin) _ANSI_ARGS_((TIFFRGBAImage * a, TIFF * tiffptr, int b, char * c)); /* 58 */
-    int (*tIFFRGBAImageGet) _ANSI_ARGS_((TIFFRGBAImage * d, uint32 * c, uint32 b, uint32 a)); /* 59 */
-    void (*tIFFRGBAImageEnd) _ANSI_ARGS_((TIFFRGBAImage * a)); /* 60 */
-    TIFF * (*tIFFOpen) _ANSI_ARGS_((const char * b, const char * a)); /* 61 */
-    TIFF * (*tIFFFdOpen) _ANSI_ARGS_((int a, const char * b, const char * c)); /* 62 */
-    TIFF * (*tIFFClientOpen) _ANSI_ARGS_((const char * a, const char * b, thandle_t c, TIFFReadWriteProc d, TIFFReadWriteProc e, TIFFSeekProc f, TIFFCloseProc g, TIFFSizeProc h, TIFFMapFileProc i, TIFFUnmapFileProc j)); /* 63 */
-    const char * (*tIFFFileName) _ANSI_ARGS_((TIFF * tiffptr)); /* 64 */
-    void (*tIFFError) _ANSI_ARGS_((const char * a, const char * b, ...)); /* 65 */
-    void (*tIFFWarning) _ANSI_ARGS_((const char * a, const char * b, ...)); /* 66 */
-    TIFFErrorHandler (*tIFFSetErrorHandler) _ANSI_ARGS_((TIFFErrorHandler a)); /* 67 */
-    TIFFErrorHandler (*tIFFSetWarningHandler) _ANSI_ARGS_((TIFFErrorHandler a)); /* 68 */
-    TIFFExtendProc (*tIFFSetTagExtender) _ANSI_ARGS_((TIFFExtendProc a)); /* 69 */
-    ttile_t (*tIFFComputeTile) _ANSI_ARGS_((TIFF * tiffptr, uint32 a, uint32 b, uint32 c, tsample_t d)); /* 70 */
-    int (*tIFFCheckTile) _ANSI_ARGS_((TIFF * tiffptr, uint32 d, uint32 c, uint32 b, tsample_t a)); /* 71 */
-    ttile_t (*tIFFNumberOfTiles) _ANSI_ARGS_((TIFF * tiffptr)); /* 72 */
-    tsize_t (*tIFFReadTile) _ANSI_ARGS_((TIFF * tiffptr, tdata_t a, uint32 b, uint32 c, uint32 d, tsample_t e)); /* 73 */
-    tsize_t (*tIFFWriteTile) _ANSI_ARGS_((TIFF * tiffptr, tdata_t e, uint32 d, uint32 c, uint32 b, tsample_t a)); /* 74 */
-    tstrip_t (*tIFFComputeStrip) _ANSI_ARGS_((TIFF * tiffptr, uint32 a, tsample_t b)); /* 75 */
-    tstrip_t (*tIFFNumberOfStrips) _ANSI_ARGS_((TIFF * tiffptr)); /* 76 */
-    tsize_t (*tIFFReadEncodedStrip) _ANSI_ARGS_((TIFF * tiffptr, tstrip_t a, tdata_t b, tsize_t c)); /* 77 */
-    tsize_t (*tIFFReadRawStrip) _ANSI_ARGS_((TIFF * tiffptr, tstrip_t a, tdata_t b, tsize_t c)); /* 78 */
-    tsize_t (*tIFFReadEncodedTile) _ANSI_ARGS_((TIFF * tiffptr, ttile_t a, tdata_t b, tsize_t c)); /* 79 */
-    tsize_t (*tIFFReadRawTile) _ANSI_ARGS_((TIFF * tiffptr, ttile_t c, tdata_t b, tsize_t a)); /* 80 */
-    tsize_t (*tIFFWriteEncodedStrip) _ANSI_ARGS_((TIFF * tiffptr, tstrip_t a, tdata_t b, tsize_t c)); /* 81 */
-    tsize_t (*tIFFWriteRawStrip) _ANSI_ARGS_((TIFF * tiffptr, tstrip_t a, tdata_t b, tsize_t c)); /* 82 */
-    tsize_t (*tIFFWriteEncodedTile) _ANSI_ARGS_((TIFF * tiffptr, ttile_t a, tdata_t b, tsize_t c)); /* 83 */
-    tsize_t (*tIFFWriteRawTile) _ANSI_ARGS_((TIFF * tiffptr, ttile_t c, tdata_t b, tsize_t a)); /* 84 */
-    void (*tIFFSetWriteOffset) _ANSI_ARGS_((TIFF * tiffptr, toff_t a)); /* 85 */
-    void (*tIFFSwabShort) _ANSI_ARGS_((uint16 * a)); /* 86 */
-    void (*tIFFSwabLong) _ANSI_ARGS_((uint32 * a)); /* 87 */
-    void (*tIFFSwabDouble) _ANSI_ARGS_((double * a)); /* 88 */
-    void (*tIFFSwabArrayOfShort) _ANSI_ARGS_((uint16 * a, unsigned long b)); /* 89 */
-    void (*tIFFSwabArrayOfLong) _ANSI_ARGS_((uint32 * b, unsigned long a)); /* 90 */
-    void (*tIFFSwabArrayOfDouble) _ANSI_ARGS_((double * a, unsigned long b)); /* 91 */
-    void (*tIFFReverseBits) _ANSI_ARGS_((unsigned char * a, unsigned long b)); /* 92 */
-    const unsigned char * (*tIFFGetBitRevTable) _ANSI_ARGS_((int a)); /* 93 */
+    const char * (*tIFFGetVersion) (void); /* 0 */
+    const TIFFCodec * (*tIFFFindCODEC) (uint16 a); /* 1 */
+    TIFFCodec * (*tIFFRegisterCODEC) (uint16 a, const char * b, TIFFInitMethod c); /* 2 */
+    void (*tIFFUnRegisterCODEC) (TIFFCodec * a); /* 3 */
+    tdata_t (*_TIFFmalloc) (tsize_t a); /* 4 */
+    tdata_t (*_TIFFrealloc) (tdata_t a, tsize_t b); /* 5 */
+    void (*_TIFFmemset) (tdata_t a, int b, tsize_t c); /* 6 */
+    void (*_TIFFmemcpy) (tdata_t a, const tdata_t b, tsize_t c); /* 7 */
+    int (*_TIFFmemcmp) (const tdata_t a, const tdata_t b, tsize_t c); /* 8 */
+    void (*_TIFFfree) (tdata_t a); /* 9 */
+    void (*tIFFClose) (TIFF * tiffptr); /* 10 */
+    int (*tIFFFlush) (TIFF * tiffptr); /* 11 */
+    int (*tIFFFlushData) (TIFF * tiffptr); /* 12 */
+    int (*tIFFGetField) (TIFF * tiffptr, ttag_t a, ...); /* 13 */
+    int (*tIFFVGetField) (TIFF * tiffptr, ttag_t a, va_list b); /* 14 */
+    int (*tIFFGetFieldDefaulted) (TIFF * tiffptr, ttag_t a, ...); /* 15 */
+    int (*tIFFVGetFieldDefaulted) (TIFF * tiffptr, ttag_t a, va_list b); /* 16 */
+    int (*tIFFReadDirectory) (TIFF * tiffptr); /* 17 */
+    tsize_t (*tIFFScanlineSize) (TIFF * tiffptr); /* 18 */
+    tsize_t (*tIFFRasterScanlineSize) (TIFF * tiffptr); /* 19 */
+    tsize_t (*tIFFStripSize) (TIFF * tiffptr); /* 20 */
+    tsize_t (*tIFFVStripSize) (TIFF * tiffptr, uint32 a); /* 21 */
+    tsize_t (*tIFFTileRowSize) (TIFF * tiffptr); /* 22 */
+    tsize_t (*tIFFTileSize) (TIFF * tiffptr); /* 23 */
+    tsize_t (*tIFFVTileSize) (TIFF * tiffptr, uint32 a); /* 24 */
+    uint32 (*tIFFDefaultStripSize) (TIFF * tiffptr, uint32 a); /* 25 */
+    void (*tIFFDefaultTileSize) (TIFF * tiffptr, uint32 * a, uint32 * b); /* 26 */
+    int (*tIFFFileno) (TIFF * tiffptr); /* 27 */
+    int (*tIFFGetMode) (TIFF * tiffptr); /* 28 */
+    int (*tIFFIsTiled) (TIFF * tiffptr); /* 29 */
+    int (*tIFFIsByteSwapped) (TIFF * tiffptr); /* 30 */
+    int (*tIFFIsUpSampled) (TIFF * tiffptr); /* 31 */
+    int (*tIFFIsMSB2LSB) (TIFF * tiffptr); /* 32 */
+    uint32 (*tIFFCurrentRow) (TIFF * tiffptr); /* 33 */
+    tdir_t (*tIFFCurrentDirectory) (TIFF * tiffptr); /* 34 */
+    tdir_t (*tIFFNumberOfDirectories) (TIFF * tiffptr); /* 35 */
+    uint32 (*tIFFCurrentDirOffset) (TIFF * tiffptr); /* 36 */
+    tstrip_t (*tIFFCurrentStrip) (TIFF * tiffptr); /* 37 */
+    ttile_t (*tIFFCurrentTile) (TIFF * tiffptr); /* 38 */
+    int (*tIFFReadBufferSetup) (TIFF * tiffptr, tdata_t a, tsize_t b); /* 39 */
+    int (*tIFFWriteBufferSetup) (TIFF * tiffptr, tdata_t a, tsize_t b); /* 40 */
+    int (*tIFFWriteCheck) (TIFF * tiffptr, int a, const char * b); /* 41 */
+    int (*tIFFCreateDirectory) (TIFF * tiffptr); /* 42 */
+    int (*tIFFLastDirectory) (TIFF * tiffptr); /* 43 */
+    int (*tIFFSetDirectory) (TIFF * tiffptr, tdir_t a); /* 44 */
+    int (*tIFFSetSubDirectory) (TIFF * tiffptr, uint32 a); /* 45 */
+    int (*tIFFUnlinkDirectory) (TIFF * tiffptr, tdir_t a); /* 46 */
+    int (*tIFFSetField) (TIFF * tiffptr, ttag_t a, ...); /* 47 */
+    int (*tIFFVSetField) (TIFF * tiffptr, ttag_t a, va_list b); /* 48 */
+    int (*tIFFWriteDirectory) (TIFF * tiffptr); /* 49 */
+    int (*tIFFReassignTagToIgnore) (enum TIFFIgnoreSense a, int b); /* 50 */
+    void (*tIFFPrintDirectory) (TIFF * tiffptr, FILE * a, long b); /* 51 */
+    int (*tIFFReadScanline) (TIFF * tiffptr, tdata_t a, uint32 b, tsample_t c); /* 52 */
+    int (*tIFFWriteScanline) (TIFF * tiffptr, tdata_t a, uint32 b, tsample_t c); /* 53 */
+    int (*tIFFReadRGBAImage) (TIFF * tiffptr, uint32 a, uint32 b, uint32 * c, int d); /* 54 */
+    int (*tIFFReadRGBAStrip) (TIFF * tiffptr, tstrip_t a, uint32 * b); /* 55 */
+    int (*tIFFReadRGBATile) (TIFF * tiffptr, uint32 a, uint32 b, uint32 * c); /* 56 */
+    int (*tIFFRGBAImageOK) (TIFF * tiffptr, char * a); /* 57 */
+    int (*tIFFRGBAImageBegin) (TIFFRGBAImage * a, TIFF * tiffptr, int b, char * c); /* 58 */
+    int (*tIFFRGBAImageGet) (TIFFRGBAImage * d, uint32 * c, uint32 b, uint32 a); /* 59 */
+    void (*tIFFRGBAImageEnd) (TIFFRGBAImage * a); /* 60 */
+    TIFF * (*tIFFOpen) (const char * b, const char * a); /* 61 */
+    TIFF * (*tIFFFdOpen) (int a, const char * b, const char * c); /* 62 */
+    TIFF * (*tIFFClientOpen) (const char * a, const char * b, thandle_t c, TIFFReadWriteProc d, TIFFReadWriteProc e, TIFFSeekProc f, TIFFCloseProc g, TIFFSizeProc h, TIFFMapFileProc i, TIFFUnmapFileProc j); /* 63 */
+    const char * (*tIFFFileName) (TIFF * tiffptr); /* 64 */
+    void (*tIFFError) (const char * a, const char * b, ...); /* 65 */
+    void (*tIFFWarning) (const char * a, const char * b, ...); /* 66 */
+    TIFFErrorHandler (*tIFFSetErrorHandler) (TIFFErrorHandler a); /* 67 */
+    TIFFErrorHandler (*tIFFSetWarningHandler) (TIFFErrorHandler a); /* 68 */
+    TIFFExtendProc (*tIFFSetTagExtender) (TIFFExtendProc a); /* 69 */
+    ttile_t (*tIFFComputeTile) (TIFF * tiffptr, uint32 a, uint32 b, uint32 c, tsample_t d); /* 70 */
+    int (*tIFFCheckTile) (TIFF * tiffptr, uint32 d, uint32 c, uint32 b, tsample_t a); /* 71 */
+    ttile_t (*tIFFNumberOfTiles) (TIFF * tiffptr); /* 72 */
+    tsize_t (*tIFFReadTile) (TIFF * tiffptr, tdata_t a, uint32 b, uint32 c, uint32 d, tsample_t e); /* 73 */
+    tsize_t (*tIFFWriteTile) (TIFF * tiffptr, tdata_t e, uint32 d, uint32 c, uint32 b, tsample_t a); /* 74 */
+    tstrip_t (*tIFFComputeStrip) (TIFF * tiffptr, uint32 a, tsample_t b); /* 75 */
+    tstrip_t (*tIFFNumberOfStrips) (TIFF * tiffptr); /* 76 */
+    tsize_t (*tIFFReadEncodedStrip) (TIFF * tiffptr, tstrip_t a, tdata_t b, tsize_t c); /* 77 */
+    tsize_t (*tIFFReadRawStrip) (TIFF * tiffptr, tstrip_t a, tdata_t b, tsize_t c); /* 78 */
+    tsize_t (*tIFFReadEncodedTile) (TIFF * tiffptr, ttile_t a, tdata_t b, tsize_t c); /* 79 */
+    tsize_t (*tIFFReadRawTile) (TIFF * tiffptr, ttile_t c, tdata_t b, tsize_t a); /* 80 */
+    tsize_t (*tIFFWriteEncodedStrip) (TIFF * tiffptr, tstrip_t a, tdata_t b, tsize_t c); /* 81 */
+    tsize_t (*tIFFWriteRawStrip) (TIFF * tiffptr, tstrip_t a, tdata_t b, tsize_t c); /* 82 */
+    tsize_t (*tIFFWriteEncodedTile) (TIFF * tiffptr, ttile_t a, tdata_t b, tsize_t c); /* 83 */
+    tsize_t (*tIFFWriteRawTile) (TIFF * tiffptr, ttile_t c, tdata_t b, tsize_t a); /* 84 */
+    void (*tIFFSetWriteOffset) (TIFF * tiffptr, toff_t a); /* 85 */
+    void (*tIFFSwabShort) (uint16 * a); /* 86 */
+    void (*tIFFSwabLong) (uint32 * a); /* 87 */
+    void (*tIFFSwabDouble) (double * a); /* 88 */
+    void (*tIFFSwabArrayOfShort) (uint16 * a, unsigned long b); /* 89 */
+    void (*tIFFSwabArrayOfLong) (uint32 * b, unsigned long a); /* 90 */
+    void (*tIFFSwabArrayOfDouble) (double * a, unsigned long b); /* 91 */
+    void (*tIFFReverseBits) (unsigned char * a, unsigned long b); /* 92 */
+    const unsigned char * (*tIFFGetBitRevTable) (int a); /* 93 */
     void *reserved94;
     void *reserved95;
     void *reserved96;
     void *reserved97;
     void *reserved98;
     void *reserved99;
-    int (*tIFFPredictorInit) _ANSI_ARGS_((TIFF * tiffptr)); /* 100 */
+    int (*tIFFPredictorInit) (TIFF * tiffptr); /* 100 */
     void *reserved101;
     void *reserved102;
     void *reserved103;
@@ -538,59 +504,59 @@ typedef struct TifftclStubs {
     void *reserved107;
     void *reserved108;
     void *reserved109;
-    void (*_TIFFSetupFieldInfo) _ANSI_ARGS_((TIFF * tiffptr, const TIFFFieldInfo a[], size_t b)); /* 110 */
-    void (*tIFFMergeFieldInfo) _ANSI_ARGS_((TIFF * tiffptr, const TIFFFieldInfo * a, int b)); /* 111 */
-    void (*_TIFFPrintFieldInfo) _ANSI_ARGS_((TIFF * tiffptr, FILE * a)); /* 112 */
-    const TIFFFieldInfo * (*tIFFFindFieldInfo) _ANSI_ARGS_((TIFF * tiffptr, ttag_t a, TIFFDataType b)); /* 113 */
-    const TIFFFieldInfo * (*tIFFFieldWithTag) _ANSI_ARGS_((TIFF * tiffptr, ttag_t a)); /* 114 */
-    TIFFDataType (*_TIFFSampleToTagType) _ANSI_ARGS_((TIFF * tiffptr)); /* 115 */
+    void (*_TIFFSetupFieldInfo) (TIFF * tiffptr, const TIFFFieldInfo a[], size_t b); /* 110 */
+    void (*tIFFMergeFieldInfo) (TIFF * tiffptr, const TIFFFieldInfo * a, int b); /* 111 */
+    void (*_TIFFPrintFieldInfo) (TIFF * tiffptr, FILE * a); /* 112 */
+    const TIFFFieldInfo * (*tIFFFindFieldInfo) (TIFF * tiffptr, ttag_t a, TIFFDataType b); /* 113 */
+    const TIFFFieldInfo * (*tIFFFieldWithTag) (TIFF * tiffptr, ttag_t a); /* 114 */
+    TIFFDataType (*_TIFFSampleToTagType) (TIFF * tiffptr); /* 115 */
     void *reserved116;
     void *reserved117;
     void *reserved118;
     void *reserved119;
-    int (*_TIFFgetMode) _ANSI_ARGS_((const char * a, const char * b)); /* 120 */
-    int (*_TIFFNoRowEncode) _ANSI_ARGS_((TIFF * tiffptr, tidata_t a, tsize_t b, tsample_t c)); /* 121 */
-    int (*_TIFFNoStripEncode) _ANSI_ARGS_((TIFF * tiffptr, tidata_t c, tsize_t b, tsample_t a)); /* 122 */
-    int (*_TIFFNoTileEncode) _ANSI_ARGS_((TIFF * tiffptr, tidata_t a, tsize_t b, tsample_t c)); /* 123 */
-    int (*_TIFFNoRowDecode) _ANSI_ARGS_((TIFF * tiffptr, tidata_t c, tsize_t b, tsample_t a)); /* 124 */
-    int (*_TIFFNoStripDecode) _ANSI_ARGS_((TIFF * tiffptr, tidata_t a, tsize_t b, tsample_t c)); /* 125 */
-    int (*_TIFFNoTileDecode) _ANSI_ARGS_((TIFF * tiffptr, tidata_t c, tsize_t b, tsample_t a)); /* 126 */
-    void (*_TIFFNoPostDecode) _ANSI_ARGS_((TIFF * tiffptr, tidata_t a, tsize_t b)); /* 127 */
-    int (*_TIFFNoPreCode) _ANSI_ARGS_((TIFF * tiffptr, tsample_t a)); /* 128 */
-    int (*_TIFFNoSeek) _ANSI_ARGS_((TIFF * tiffptr, uint32 a)); /* 129 */
-    void (*_TIFFSwab16BitData) _ANSI_ARGS_((TIFF * tiffptr, tidata_t a, tsize_t b)); /* 130 */
-    void (*_TIFFSwab32BitData) _ANSI_ARGS_((TIFF * tiffptr, tidata_t b, tsize_t a)); /* 131 */
-    void (*_TIFFSwab64BitData) _ANSI_ARGS_((TIFF * tiffptr, tidata_t a, tsize_t b)); /* 132 */
-    int (*tIFFFlushData1) _ANSI_ARGS_((TIFF * tiffptr)); /* 133 */
-    void (*tIFFFreeDirectory) _ANSI_ARGS_((TIFF * tiffptr)); /* 134 */
-    int (*tIFFDefaultDirectory) _ANSI_ARGS_((TIFF * tiffptr)); /* 135 */
-    int (*tIFFSetCompressionScheme) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 136 */
-    void (*_TIFFSetDefaultCompressionState) _ANSI_ARGS_((TIFF * tiffptr)); /* 137 */
-    uint32 (*_TIFFDefaultStripSize) _ANSI_ARGS_((TIFF * tiffptr, uint32 a)); /* 138 */
-    void (*_TIFFDefaultTileSize) _ANSI_ARGS_((TIFF * tiffptr, uint32 * a, uint32 * b)); /* 139 */
-    void (*_TIFFsetByteArray) _ANSI_ARGS_((void ** a, void * b, uint32 c)); /* 140 */
-    void (*_TIFFsetString) _ANSI_ARGS_((char ** a, char * b)); /* 141 */
-    void (*_TIFFsetShortArray) _ANSI_ARGS_((uint16 ** a, uint16 * b, uint32 c)); /* 142 */
-    void (*_TIFFsetLongArray) _ANSI_ARGS_((uint32 ** a, uint32 * b, uint32 c)); /* 143 */
-    void (*_TIFFsetFloatArray) _ANSI_ARGS_((float ** a, float * b, uint32 c)); /* 144 */
-    void (*_TIFFsetDoubleArray) _ANSI_ARGS_((double ** a, double * b, uint32 c)); /* 145 */
-    void (*_TIFFprintAscii) _ANSI_ARGS_((FILE * a, const char * b)); /* 146 */
-    void (*_TIFFprintAsciiTag) _ANSI_ARGS_((FILE * a, const char * b, const char * c)); /* 147 */
-    int (*tIFFInitDumpMode) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 148 */
-    int (*tIFFInitPackBits) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 149 */
-    int (*tIFFInitCCITTRLE) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 150 */
-    int (*tIFFInitCCITTRLEW) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 151 */
-    int (*tIFFInitCCITTFax3) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 152 */
-    int (*tIFFInitCCITTFax4) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 153 */
-    int (*tIFFInitThunderScan) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 154 */
-    int (*tIFFInitNeXT) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 155 */
-    int (*tIFFInitLZW) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 156 */
-    int (*tIFFInitOJPEG) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 157 */
-    int (*tIFFInitJPEG) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 158 */
-    int (*tIFFInitJBIG) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 159 */
-    int (*tIFFInitZIP) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 160 */
-    int (*tIFFInitPixarLog) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 161 */
-    int (*tIFFInitSGILog) _ANSI_ARGS_((TIFF * tiffptr, int a)); /* 162 */
+    int (*_TIFFgetMode) (const char * a, const char * b); /* 120 */
+    int (*_TIFFNoRowEncode) (TIFF * tiffptr, tidata_t a, tsize_t b, tsample_t c); /* 121 */
+    int (*_TIFFNoStripEncode) (TIFF * tiffptr, tidata_t c, tsize_t b, tsample_t a); /* 122 */
+    int (*_TIFFNoTileEncode) (TIFF * tiffptr, tidata_t a, tsize_t b, tsample_t c); /* 123 */
+    int (*_TIFFNoRowDecode) (TIFF * tiffptr, tidata_t c, tsize_t b, tsample_t a); /* 124 */
+    int (*_TIFFNoStripDecode) (TIFF * tiffptr, tidata_t a, tsize_t b, tsample_t c); /* 125 */
+    int (*_TIFFNoTileDecode) (TIFF * tiffptr, tidata_t c, tsize_t b, tsample_t a); /* 126 */
+    void (*_TIFFNoPostDecode) (TIFF * tiffptr, tidata_t a, tsize_t b); /* 127 */
+    int (*_TIFFNoPreCode) (TIFF * tiffptr, tsample_t a); /* 128 */
+    int (*_TIFFNoSeek) (TIFF * tiffptr, uint32 a); /* 129 */
+    void (*_TIFFSwab16BitData) (TIFF * tiffptr, tidata_t a, tsize_t b); /* 130 */
+    void (*_TIFFSwab32BitData) (TIFF * tiffptr, tidata_t b, tsize_t a); /* 131 */
+    void (*_TIFFSwab64BitData) (TIFF * tiffptr, tidata_t a, tsize_t b); /* 132 */
+    int (*tIFFFlushData1) (TIFF * tiffptr); /* 133 */
+    void (*tIFFFreeDirectory) (TIFF * tiffptr); /* 134 */
+    int (*tIFFDefaultDirectory) (TIFF * tiffptr); /* 135 */
+    int (*tIFFSetCompressionScheme) (TIFF * tiffptr, int a); /* 136 */
+    void (*_TIFFSetDefaultCompressionState) (TIFF * tiffptr); /* 137 */
+    uint32 (*_TIFFDefaultStripSize) (TIFF * tiffptr, uint32 a); /* 138 */
+    void (*_TIFFDefaultTileSize) (TIFF * tiffptr, uint32 * a, uint32 * b); /* 139 */
+    void (*_TIFFsetByteArray) (void ** a, void * b, uint32 c); /* 140 */
+    void (*_TIFFsetString) (char ** a, char * b); /* 141 */
+    void (*_TIFFsetShortArray) (uint16 ** a, uint16 * b, uint32 c); /* 142 */
+    void (*_TIFFsetLongArray) (uint32 ** a, uint32 * b, uint32 c); /* 143 */
+    void (*_TIFFsetFloatArray) (float ** a, float * b, uint32 c); /* 144 */
+    void (*_TIFFsetDoubleArray) (double ** a, double * b, uint32 c); /* 145 */
+    void (*_TIFFprintAscii) (FILE * a, const char * b); /* 146 */
+    void (*_TIFFprintAsciiTag) (FILE * a, const char * b, const char * c); /* 147 */
+    int (*tIFFInitDumpMode) (TIFF * tiffptr, int a); /* 148 */
+    int (*tIFFInitPackBits) (TIFF * tiffptr, int a); /* 149 */
+    int (*tIFFInitCCITTRLE) (TIFF * tiffptr, int a); /* 150 */
+    int (*tIFFInitCCITTRLEW) (TIFF * tiffptr, int a); /* 151 */
+    int (*tIFFInitCCITTFax3) (TIFF * tiffptr, int a); /* 152 */
+    int (*tIFFInitCCITTFax4) (TIFF * tiffptr, int a); /* 153 */
+    int (*tIFFInitThunderScan) (TIFF * tiffptr, int a); /* 154 */
+    int (*tIFFInitNeXT) (TIFF * tiffptr, int a); /* 155 */
+    int (*tIFFInitLZW) (TIFF * tiffptr, int a); /* 156 */
+    int (*tIFFInitOJPEG) (TIFF * tiffptr, int a); /* 157 */
+    int (*tIFFInitJPEG) (TIFF * tiffptr, int a); /* 158 */
+    int (*tIFFInitJBIG) (TIFF * tiffptr, int a); /* 159 */
+    int (*tIFFInitZIP) (TIFF * tiffptr, int a); /* 160 */
+    int (*tIFFInitPixarLog) (TIFF * tiffptr, int a); /* 161 */
+    int (*tIFFInitSGILog) (TIFF * tiffptr, int a); /* 162 */
 } TifftclStubs;
 
 #ifdef __cplusplus

@@ -74,14 +74,14 @@ typedef struct {
  * The format record for the GIF file format:
  */
 
-static int      CommonRead  _ANSI_ARGS_((Tcl_Interp *interp,
-		    GIFImageConfig *gifConfPtr, const char *fileName, Tcl_Obj *format,
-		    Tk_PhotoHandle imageHandle, int destX, int destY,
-		    int width, int height, int srcX, int srcY));
+static int CommonRead(Tcl_Interp *interp,
+	GIFImageConfig *gifConfPtr, const char *fileName, Tcl_Obj *format,
+	Tk_PhotoHandle imageHandle, int destX, int destY,
+	int width, int height, int srcX, int srcY);
 
-static int	CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
-		    tkimg_MFile *handle, Tcl_Obj *format,
-		    Tk_PhotoImageBlock *blockPtr));
+static int CommonWrite(Tcl_Interp *interp,
+	tkimg_MFile *handle, Tcl_Obj *format,
+	Tk_PhotoImageBlock *blockPtr);
 
 #define INTERLACE		0x40
 #define LOCALCOLORMAP		0x80
@@ -99,27 +99,27 @@ static int	CommonWrite _ANSI_ARGS_((Tcl_Interp *interp,
  * Prototypes for local procedures defined in this file:
  */
 
-static int		DoExtension _ANSI_ARGS_((GIFImageConfig *gifConfPtr, int label,
-			    int *transparent));
+static int DoExtension(GIFImageConfig *gifConfPtr, int label,
+	int *transparent);
 
-static int		GetCode _ANSI_ARGS_((GIFImageConfig *gifConfPtr, int code_size,
-			    int flag));
+static int GetCode(GIFImageConfig *gifConfPtr, int code_size,
+	int flag);
 
-static int		GetDataBlock _ANSI_ARGS_((GIFImageConfig *gifConfPtr,
-			    unsigned char *buf));
+static int GetDataBlock(GIFImageConfig *gifConfPtr,
+	unsigned char *buf);
 
-static int		ReadColorMap _ANSI_ARGS_((GIFImageConfig *gifConfPtr, int number,
-			    unsigned char buffer[MAXCOLORMAPSIZE][4]));
+static int ReadColorMap(GIFImageConfig *gifConfPtr, int number,
+	unsigned char buffer[MAXCOLORMAPSIZE][4]);
 
-static int		ReadGIFHeader _ANSI_ARGS_((GIFImageConfig *gifConfPtr,
-			    int *widthPtr, int *heightPtr));
+static int ReadGIFHeader(GIFImageConfig *gifConfPtr,
+	int *widthPtr, int *heightPtr);
 
-static int		ReadImage _ANSI_ARGS_((Tcl_Interp *interp,
-			    char *imagePtr, GIFImageConfig *gifConfPtr, int len, int rows,
-			    unsigned char cmap[MAXCOLORMAPSIZE][4],
-			    int width, int height, int srcX, int srcY,
-			    int interlace, int transparent));
-
+static int ReadImage(Tcl_Interp *interp,
+	char *imagePtr, GIFImageConfig *gifConfPtr, int len, int rows,
+	unsigned char cmap[MAXCOLORMAPSIZE][4],
+	int width, int height, int srcX, int srcY,
+	int interlace, int transparent);
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1097,24 +1097,24 @@ typedef struct {
     unsigned char mapa[MAXCOLORMAPSIZE][3];
 } GifWriterState;
 
-typedef int (* ifunptr) _ANSI_ARGS_((GifWriterState *statePtr));
+typedef int (* ifunptr) (GifWriterState *statePtr);
 
 /*
  *	Definition of new functions to write GIFs
  */
 
-static int color _ANSI_ARGS_((GifWriterState *statePtr, int red, int green, int blue));
+static int color(GifWriterState *statePtr, int red, int green, int blue);
 
-static void compress _ANSI_ARGS_((GifWriterState *statePtr, int init_bits, tkimg_MFile *handle,
-		ifunptr readValue));
+static void compress(GifWriterState *statePtr, int init_bits, tkimg_MFile *handle,
+	ifunptr readValue);
 
-static int nuevo _ANSI_ARGS_((GifWriterState *statePtr, int red, int green ,int blue));
+static int nuevo(GifWriterState *statePtr, int red, int green ,int blue);
 
-static int savemap _ANSI_ARGS_((GifWriterState *statePtr, Tk_PhotoImageBlock *blockPtr));
+static int savemap(GifWriterState *statePtr, Tk_PhotoImageBlock *blockPtr);
 
-static int ReadValue _ANSI_ARGS_((GifWriterState *statePtr));
+static int ReadValue(GifWriterState *statePtr);
 
-static int no_bits _ANSI_ARGS_((int colors));
+static int no_bits(int colors);
 
 static int
 ChnWrite (interp, filename, format, blockPtr)
@@ -1491,12 +1491,12 @@ typedef struct {
     unsigned char accum[256];
 } GIFState_t;
 
-static void output _ANSI_ARGS_((GIFState_t *statePtr, long code));
-static void cl_block _ANSI_ARGS_((GIFState_t *statePtr));
-static void cl_hash _ANSI_ARGS_((GIFState_t *statePtr, int hsize));
-static void char_init _ANSI_ARGS_((GIFState_t *statePtr));
-static void char_out _ANSI_ARGS_((GIFState_t *statePtr, int c));
-static void flush_char _ANSI_ARGS_((GIFState_t *statePtr));
+static void output(GIFState_t *statePtr, long code);
+static void cl_block(GIFState_t *statePtr);
+static void cl_hash(GIFState_t *statePtr, int hsize);
+static void char_init(GIFState_t *statePtr);
+static void char_out(GIFState_t *statePtr, int c);
+static void flush_char(GIFState_t *statePtr);
 
 static void compress(statePtr, init_bits, handle, readValue)
     GifWriterState *statePtr;
