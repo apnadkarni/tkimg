@@ -20,6 +20,30 @@ AC_CONFIG_AUX_DIR(tclconfig)
 TEA_PATH_TCLCONFIG
 TEA_LOAD_TCLCONFIG
 
+TEA_PATH_TKCONFIG
+TEA_LOAD_TKCONFIG
+
+#--------------------------------------------------------------------
+# __CHANGE__
+# Choose which headers you need.  Extension authors should try very
+# hard to only rely on the Tcl public header files.  Internal headers
+# contain private data structures and are subject to change without
+# notice.
+# This MUST be called after TEA_LOAD_TCLCONFIG / TEA_LOAD_TKCONFIG
+#--------------------------------------------------------------------
+
+# This module is special. On windows it requires access to the
+# internal headers of Tk and thus tcl to implement its functionality
+# (TkWinReleaseDrawableDC).
+
+if test "${TEA_PLATFORM}" = "windows" ; then
+    TEA_PRIVATE_TCL_HEADERS
+    TEA_PRIVATE_TK_HEADERS
+else
+    TEA_PUBLIC_TCL_HEADERS
+    TEA_PUBLIC_TK_HEADERS
+fi
+
 #-----------------------------------------------------------------------
 # Handle the --prefix=... option by defaulting to what Tcl gave.
 # Must be called after TEA_LOAD_TCLCONFIG and before TEA_SETUP_COMPILER.
@@ -35,6 +59,27 @@ TEA_PREFIX
 #-----------------------------------------------------------------------
 
 TEA_SETUP_COMPILER
+
+#--------------------------------------------------------------------
+# Check whether --enable-threads or --disable-threads was given.
+# So far only Tcl responds to this one.
+#--------------------------------------------------------------------
+
+TEA_ENABLE_THREADS
+
+#--------------------------------------------------------------------
+# The statement below defines a collection of symbols related to
+# building as a shared library instead of a static library.
+#--------------------------------------------------------------------
+
+TEA_ENABLE_SHARED
+
+#--------------------------------------------------------------------
+# For Unix/Tk builds, make sure that the X libraries/headers are found.
+# This must be called after TEA_CONFIG_CFLAGS as it adjusts LIBS.
+#--------------------------------------------------------------------
+
+TEA_PATH_X
 
 #-----------------------------------------------------------------------
 # All relevant packages are configuration subdirectories.

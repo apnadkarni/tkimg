@@ -16,10 +16,14 @@ AC_CONFIG_AUX_DIR(../../tclconfig)
 
 #--------------------------------------------------------------------
 # Load the tclConfig.sh file
+# Load the tkConfig.sh file
 #--------------------------------------------------------------------
 
 TEA_PATH_TCLCONFIG
 TEA_LOAD_TCLCONFIG
+
+TEA_PATH_TKCONFIG
+TEA_LOAD_TKCONFIG
 
 #-----------------------------------------------------------------------
 # Handle the --prefix=... option by defaulting to what Tcl gave.
@@ -90,8 +94,17 @@ TEA_ADD_TCL_SOURCES([])
 # This MUST be called after TEA_LOAD_TCLCONFIG / TEA_LOAD_TKCONFIG
 #--------------------------------------------------------------------
 
-TEA_PUBLIC_TCL_HEADERS
-#TEA_PRIVATE_TCL_HEADERS
+# This module is special. On windows it requires access to the
+# internal headers of Tk and thus tcl to implement its functionality
+# (TkWinReleaseDrawableDC).
+
+if test "${TEA_PLATFORM}" = "windows" ; then
+    TEA_PRIVATE_TCL_HEADERS
+    TEA_PRIVATE_TK_HEADERS
+else
+    TEA_PUBLIC_TCL_HEADERS
+    TEA_PUBLIC_TK_HEADERS
+fi
 
 #--------------------------------------------------------------------
 # A few miscellaneous platform-specific items:
@@ -143,6 +156,13 @@ TEA_CONFIG_CFLAGS
 #--------------------------------------------------------------------
 
 TEA_ENABLE_SYMBOLS
+
+#--------------------------------------------------------------------
+# For Unix/Tk builds, make sure that the X libraries/headers are found.
+# This must be called after TEA_CONFIG_CFLAGS as it adjusts LIBS.
+#--------------------------------------------------------------------
+
+TEA_PATH_X
 
 #--------------------------------------------------------------------
 # Everyone should be linking against the Tcl stub library.  If you

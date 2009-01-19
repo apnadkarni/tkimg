@@ -71,9 +71,17 @@ TEA_ADD_TCL_SOURCES([])
 # This MUST be called after TEA_LOAD_TCLCONFIG / TEA_LOAD_TKCONFIG
 #--------------------------------------------------------------------
 
-TEA_PUBLIC_TCL_HEADERS
-TEA_PUBLIC_TK_HEADERS
-#TEA_PRIVATE_TCL_HEADERS
+# This module is special. On windows it requires access to the
+# internal headers of Tk and thus tcl to implement its functionality
+# (TkWinReleaseDrawableDC).
+
+if test "${TEA_PLATFORM}" = "windows" ; then
+    TEA_PRIVATE_TCL_HEADERS
+    TEA_PRIVATE_TK_HEADERS
+else
+    TEA_PUBLIC_TCL_HEADERS
+    TEA_PUBLIC_TK_HEADERS
+fi
 
 #--------------------------------------------------------------------
 # A few miscellaneous platform-specific items:
