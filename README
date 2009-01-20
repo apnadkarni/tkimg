@@ -97,7 +97,7 @@ The configure/Makefile's in the directories
 
 	tkimg/libz, tkimg/libpng, tkimg/libjpeg, tkimg/libtiff
 
-must _not_ be used under no circumstances.
+must _not_ be used directly under any circumstances.
 
 
 At the next level is the package 'tkimg'. It provides utility
