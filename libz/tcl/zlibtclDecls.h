@@ -15,10 +15,10 @@
  * below should be made in the zlibtcl.decls script.
  */
 
-#include <tcl.h>
-#include <zlibtclDeclsMask.h>
-#include <../zlib.h>
-#include <zlibtclDeclsUnmask.h>
+#include "tcl.h"
+#include "zlibtclDeclsMask.h"
+#include "../zlib.h"
+#include "zlibtclDeclsUnmask.h"
 
 /* !BEGIN!: Do not edit below this line. */
 
