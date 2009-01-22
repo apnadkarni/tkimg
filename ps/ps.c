@@ -51,7 +51,7 @@ static int CommonRead(Tcl_Interp *interp, tkimg_MFile *handle,
 
 static int CommonWrite(Tcl_Interp *interp, tkimg_MFile *handle,
 	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
-
+
 static int
 parseFormat(format, zoomx, zoomy)
      Tcl_Obj *format;
@@ -227,14 +227,6 @@ ObjRead(interp, data, format, imageHandle,
 	    destX, destY, width, height, srcX, srcY);
 }
 
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], in case it is not
-		  included already in Tk_PhotoImageBlock */
-} myblock;
-
-#define block bl.ck
-
 static int
 CommonRead(interp, handle, format, imageHandle,
 	destX, destY, width, height, srcX, srcY)
@@ -255,7 +247,7 @@ CommonRead(interp, handle, format, imageHandle,
 	char zoom[64], papersize[64];
     Tcl_Channel chan;
     Tcl_DString dstring;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     int zoomx, zoomy;
     int result = TCL_OK;
 

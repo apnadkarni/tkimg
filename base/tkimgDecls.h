@@ -14,7 +14,7 @@
  * below should be made in the tkimg.decls script.
  */
 
-#include <tk.h>
+#include "tk.h"
 
 /* !BEGIN!: Do not edit below this line. */
 

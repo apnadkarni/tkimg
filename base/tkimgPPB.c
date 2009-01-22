@@ -2,7 +2,6 @@
  *  tkimgPPB.tcl
  */
 
-#include "tk.h"
 #include "tkimg.h"
 #include <string.h>
 

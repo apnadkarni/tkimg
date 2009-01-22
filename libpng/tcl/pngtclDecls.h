@@ -14,10 +14,10 @@
  * below should be made in the pngtcl.decls script.
  */
 
-#include <tcl.h>
-#include <pngtclDeclsMask.h>
-#include <../png.h>
-#include <pngtclDeclsUnmask.h>
+#include "tcl.h"
+#include "pngtclDeclsMask.h"
+#include "../png.h"
+#include "pngtclDeclsUnmask.h"
 
 /* !BEGIN!: Do not edit below this line. */
 

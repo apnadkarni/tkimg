@@ -211,15 +211,6 @@ static int ObjMatch(interp, data, format, widthPtr, heightPtr)
  *
  *----------------------------------------------------------------------
  */
-
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], in case it is not
-		  included already in Tk_PhotoImageBlock */
-} myblock;
-
-#define block bl.ck
-
 static int ObjRead(interp, data, format, imageHandle,
                    destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;
@@ -230,7 +221,7 @@ static int ObjRead(interp, data, format, imageHandle,
     int width, height;
     int srcX, srcY;
 {
-    myblock bl;
+	Tk_PhotoImageBlock block;
     Tk_Window tkwin;
     int fileWidth, fileHeight, depth, nBytes, x, y;
     const char *name;

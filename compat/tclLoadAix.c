@@ -29,11 +29,11 @@
  * 30159 Hannover, Germany
  */
 
+#include "tcl.h"
+#include "compat/dlfcn.h"
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
-#include <tcl.h>
-#include "compat/dlfcn.h"
 #include <sys/types.h>
 #include <sys/ldr.h>
 #include <a.out.h>

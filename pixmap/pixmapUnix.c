@@ -11,9 +11,9 @@
  *
  */
 
-#include <tk.h>
+#include "tk.h"
+#include "pixmapInt.h"
 #include <stdlib.h>
-#include <pixmapInt.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
@@ -30,7 +30,7 @@ typedef struct PixmapData {
 				 * be displayed. */
 } PixmapData;
 
-
+
 /*----------------------------------------------------------------------
  * TkimgInitPixmapInstance --
  *
@@ -52,7 +52,7 @@ TkimgInitPixmapInstance(masterPtr, instancePtr)
 
     instancePtr->clientData = (ClientData)dataPtr;
 }
-
+
 /*----------------------------------------------------------------------
  * TkimgXpmAllocTmpBuffer --
  *
@@ -123,7 +123,7 @@ TkimgXpmFreeTmpBuffer(masterPtr, instancePtr, image, mask)
 	XDestroyImage(mask);
     }
 }
-
+
 /*----------------------------------------------------------------------
  * TkimgXpmSetPixel --
  *
@@ -149,7 +149,7 @@ TkimgXpmSetPixel(instancePtr, image, mask, x, y, colorPtr, isTranspPtr)
 	*isTranspPtr = 1;
     }
 }
-
+
 /*----------------------------------------------------------------------
  * TkimgXpmRealizePixmap --
  *

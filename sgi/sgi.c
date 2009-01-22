@@ -1528,14 +1528,6 @@ static int ObjRead (interp, data, format, imageHandle,
     return retVal;
 }
 
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], in case it is not
-		  included already in Tk_PhotoImageBlock */
-} myblock;
-
-#define block bl.ck
-
 static int CommonRead (interp, handle, filename, format, imageHandle,
                        destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;         /* Interpreter to use for reporting errors. */
@@ -1550,7 +1542,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     int srcX, srcY;             /* Coordinates of top-left pixel to be used
                                  * in image being read. */
 {
-    myblock bl;
+	Tk_PhotoImageBlock block;
     Int y, nchan;
     int fileWidth, fileHeight;
     int stopY, outY, outWidth, outHeight;

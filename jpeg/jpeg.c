@@ -54,8 +54,8 @@
 
 #include <stdio.h>
 
-#include <tcl.h>
-#include <jpegtcl.h>
+#include "tcl.h"
+#include "jpegtcl.h"
 
 static int SetupJPegLibrary(Tcl_Interp *interp);
 
@@ -136,7 +136,7 @@ static void	append_jpeg_message(Tcl_Interp *interp,
 		    j_common_ptr cinfo);
 
 
-
+
 static int
 SetupJPegLibrary (interp)
     Tcl_Interp *interp;
@@ -217,7 +217,7 @@ SetupJPegLibrary (interp)
     return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -255,7 +255,7 @@ ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
     handle.state = IMG_CHAN;
     return CommonMatch(&handle, widthPtr, heightPtr);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -291,7 +291,7 @@ ObjMatch(interp, data, format, widthPtr, heightPtr)
     tkimg_ReadInit(data, '\377', &handle);
     return CommonMatch(&handle, widthPtr, heightPtr);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -370,7 +370,7 @@ CommonMatch(handle, widthPtr, heightPtr)
 
     return 1;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -438,7 +438,7 @@ ChnRead(interp, chan, fileName, format, imageHandle, destX, destY,
 
     return result;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -505,7 +505,7 @@ ObjRead(interp, data, format, imageHandle, destX, destY,
 
     return result;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -518,13 +518,6 @@ ObjRead(interp, data, format, imageHandle, destX, destY,
  *
  *----------------------------------------------------------------------
  */
-
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], if not included already
-		  in Tk_PhotoImageBlock */
-} myblock;
-
 static int
 CommonRead(interp, cinfo, format, imageHandle, destX, destY,
 	width, height, srcX, srcY)
@@ -541,8 +534,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
 {
     static const char *const jpegReadOptions[] = {"-fast", "-grayscale", NULL};
     int fileWidth, fileHeight, stopY, curY, outY, outWidth, outHeight;
-    myblock bl;
-#define block bl.ck
+    Tk_PhotoImageBlock block;
     JSAMPARRAY buffer;		/* Output row buffer */
     int objc, i, index;
     Tcl_Obj **objv = (Tcl_Obj **) NULL;
@@ -663,7 +655,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
 
     return TCL_OK;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -729,7 +721,7 @@ ChnWrite(interp, fileName, format, blockPtr)
     }
     return result;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -797,7 +789,7 @@ writeend:
 
     return result;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -958,7 +950,7 @@ CommonWrite(interp, cinfo, format, blockPtr)
     jpeg_finish_compress(cinfo);
     return TCL_OK;
 }
-
+
 /*
  * libjpeg source manager for reading from base64-encoded strings
  * and from Tcl_Channels.
@@ -1062,7 +1054,7 @@ my_jpeg_channel_src (cinfo, chan)
   src->pub.next_input_byte = NULL; /* until buffer loaded */
 }
 
-
+
 /*
  * libjpeg destination manager for writing to base64-encoded strings
  * and Tcl_Channel's.
@@ -1154,7 +1146,7 @@ my_term_destination (cinfo)
   tkimg_Putc(IMG_DONE, &dest->handle);
 }
 
-
+
 /*
  * Error handler to replace (or extend, really) libjpeg's default handler
  */

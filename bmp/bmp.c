@@ -309,14 +309,6 @@ CommonMatch(handle, widthPtr, heightPtr, colorMap, numBits, numCols, comp, mask)
     return 1;
 }
 
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], in case it is not
-		  included already in Tk_PhotoImageBlock */
-} myblock;
-
-#define block bl.ck
-
 static int
 CommonRead(interp, handle, imageHandle, destX, destY,
 	width, height, srcX, srcY)
@@ -327,7 +319,7 @@ CommonRead(interp, handle, imageHandle, destX, destY,
     int width, height;
     int srcX, srcY;
 {
-    myblock bl;
+	Tk_PhotoImageBlock block;
     int numBits, bytesPerLine, numCols, comp, x, y;
     int fileWidth, fileHeight;
     unsigned char *colorMap = NULL;

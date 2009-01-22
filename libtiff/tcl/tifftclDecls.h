@@ -14,7 +14,7 @@
  * below should be made in the tifftcl.decls script.
  */
 
-#include <tcl.h>
+#include "tcl.h"
 #include <stdarg.h>
 
 /*
@@ -23,11 +23,11 @@
  */
 #undef INLINE
 
-#include <tifftclDeclsMask.h>
-#include <../libtiff/tiffio.h>
-#include <../libtiff/tiffiop.h>
-#include <../libtiff/tif_predict.h>
-#include <tifftclDeclsUnmask.h>
+#include "tifftclDeclsMask.h"
+#include "../libtiff/tiffio.h"
+#include "../libtiff/tiffiop.h"
+#include "../libtiff/tif_predict.h"
+#include "tifftclDeclsUnmask.h"
 
 /* !BEGIN!: Do not edit below this line. */
 

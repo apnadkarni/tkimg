@@ -14,14 +14,14 @@
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
 
-#include <tcl.h>
-#include <tifftcl.h>
-#include <zlibtcl.h>
+#include "tcl.h"
+#include "tifftcl.h"
+#include "zlibtcl.h"
 
 #ifdef HAVE_STDLIB_H
 #undef HAVE_STDLIB_H
 #endif
-#include <jpegtcl.h>
+#include "jpegtcl.h"
 
 
 static int SetupTiffLibrary(Tcl_Interp *interp);
@@ -31,7 +31,7 @@ static int SetupTiffLibrary(Tcl_Interp *interp);
 
 #include "init.c"
 
-#include <tiffInt.h>
+#include "tiffInt.h"
 
 
 extern int unlink(const char *);
@@ -77,7 +77,7 @@ static tsize_t writeString(thandle_t, tdata_t, tsize_t);
 static toff_t seekString(thandle_t, toff_t, int);
 static toff_t sizeString(thandle_t);
 
-
+
 static char *errorMessage = NULL;
 
 static int
@@ -135,7 +135,7 @@ SetupTiffLibrary (interp)
     return TCL_OK;
 }
 
-
+
 
 static int
 getint(buf, format, order)
@@ -162,7 +162,7 @@ getint(buf, format, order)
     return result;
 }
 
-
+
 static void
 _TIFFerr(module, fmt, ap)
      const char *module;
@@ -334,7 +334,7 @@ sizeString(fd)
     return ((tkimg_MFile *) fd)->length;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -579,14 +579,6 @@ ChnRead(interp, chan, fileName, format, imageHandle,
 }
 
 
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], if not included already
-		  in Tk_PhotoImageBlock */
-} myblock;
-
-#define block bl.ck
-
 static int
 CommonRead(interp, tif, format, imageHandle,
 	destX, destY, width, height, srcX, srcY)
@@ -598,7 +590,7 @@ CommonRead(interp, tif, format, imageHandle,
     int width, height;
     int srcX, srcY;
 {
-    myblock bl;
+	Tk_PhotoImageBlock block;
     uint32 w, h;
     size_t npixels;
     uint32 *raster;

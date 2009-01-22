@@ -13,8 +13,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pixmapInt.h>
-#include <tkimg.h>
+#include "pixmapInt.h"
+#include "tkimg.h"
 
 #if defined(__WIN32__) && !defined (__GNUC__)
 #define strncasecmp strnicmp
@@ -165,7 +165,7 @@ TkimgXpmCreate(interp, name, argc, objv, typePtr, master, clientDataPtr)
     }
     return TCL_OK;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -253,7 +253,7 @@ TkimgXpmConfigureMaster(masterPtr, argc, argv, flags)
     masterPtr->fileString = oldFile;
     return TCL_ERROR;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -368,7 +368,7 @@ TkimgXpmGetData(interp, masterPtr)
 
     return code;
 }
-
+
 static CONST84 char **
 TkimgXpmGetDataFromString(interp, string, numLines_return)
     Tcl_Interp * interp;
@@ -498,7 +498,7 @@ TkimgXpmGetDataFromString(interp, string, numLines_return)
     Tcl_AppendResult(interp, "File format error", NULL);
     return (CONST84 char**) NULL;
 }
-
+
 static CONST84 char **
 TkimgXpmGetDataFromFile(interp, fileName, numLines_return)
     Tcl_Interp * interp;
@@ -650,7 +650,7 @@ GetColor(colorDefn, colorName, type_ret)
 
     return colorDefn;
 }
-
+
 /*----------------------------------------------------------------------
  * TkimgXpmGetPixmapFromData --
  *
@@ -827,7 +827,7 @@ TkimgXpmGetPixmapFromData(interp, masterPtr, instancePtr)
     TkimgXpmRealizePixmap(masterPtr, instancePtr, image, mask, isTransp);
     TkimgXpmFreeTmpBuffer(masterPtr, instancePtr, image, mask);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -884,7 +884,7 @@ TkimgXpmConfigureInstance(instancePtr)
      */
     TkimgXpmGetPixmapFromData(masterPtr->interp, masterPtr, instancePtr);
 }
-
+
 /*
  *--------------------------------------------------------------
  *
@@ -972,7 +972,7 @@ TkimgXpmCmd(clientData, interp, argc, argv)
 	return TCL_ERROR;
     }
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1046,7 +1046,7 @@ TkimgXpmGet(tkwin, masterData)
 
     return (ClientData) instancePtr;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1079,7 +1079,7 @@ TkimgXpmDisplay(clientData, display, drawable, imageX, imageY, width,
     TkimgpXpmDisplay(clientData, display, drawable, imageX, imageY, width,
 	height, drawableX, drawableY);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1144,7 +1144,7 @@ TkimgXpmFree(clientData, display)
     }
     ckfree((char *) instancePtr);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1185,7 +1185,7 @@ TkimgXpmDelete(masterData)
     Tk_FreeOptions(configSpecs, (char *) masterPtr, (Display *) NULL, 0);
     ckfree((char *) masterPtr);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1215,7 +1215,7 @@ TkimgXpmCmdDeletedProc(clientData)
 	Tk_DeleteImage(masterPtr->interp, Tk_NameOfImage(masterPtr->tkMaster));
     }
 }
-
+
 /*
  * Package management. Initialization of stub information.
  */
@@ -1274,7 +1274,7 @@ Tkimgpixmap_Init (interp)
     }
     return TCL_OK;
 }
-
+
 /*
  *----------------------------------------------------------------------------
  *

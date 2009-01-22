@@ -133,7 +133,7 @@ ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
 
     return ReadXBMFileHeader(&parseInfo, widthPtr, heightPtr);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -153,15 +153,6 @@ ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
  *
  *----------------------------------------------------------------------
  */
-
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], if not included already
-		  in Tk_PhotoImageBlock */
-} myblock;
-
-#define block bl.ck
-
 static int
 CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
 	   width, height, srcX, srcY)
@@ -176,7 +167,7 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
     int srcX, srcY;		/* Coordinates of top-left pixel to be used
 				 * in image being read. */
 {
-    myblock bl;
+	Tk_PhotoImageBlock block;
     int fileWidth, fileHeight;
     int numBytes, row, col, value, i;
     unsigned char *data, *pixelPtr;
@@ -241,7 +232,7 @@ CommonRead(interp, parseInfo, format, imageHandle, destX, destY,
     ckfree((char *) data);
     return result;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *

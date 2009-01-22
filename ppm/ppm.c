@@ -93,7 +93,7 @@ static int CommonWrite(Tcl_Interp *interp,
 static int ReadPPMFileHeader(tkimg_MFile *handle,
 	int *widthPtr, int *heightPtr, int *maxIntensityPtr);
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -157,7 +157,7 @@ static int CommonMatch(handle, widthPtr, heightPtr, maxIntensityPtr)
     return ReadPPMFileHeader (handle, widthPtr, heightPtr, maxIntensityPtr);
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -218,13 +218,6 @@ static int ObjRead (interp, data, format, imageHandle,
                        destX, destY, width, height, srcX, srcY);
 }
 
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], in case it is not
-                  included already in Tk_PhotoImageBlock */
-} myblock;
-#define block bl.ck
-
 static int CommonRead (interp, handle, filename, format, imageHandle,
                        destX, destY, width, height, srcX, srcY)
     Tcl_Interp *interp;		/* Interpreter to use for reporting errors. */
@@ -242,7 +235,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     int fileWidth, fileHeight, maxIntensity;
     int nLines, nBytes, h, type, count;
     unsigned char *pixelPtr;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     int result = TCL_OK;
 
     type = ReadPPMFileHeader (handle, &fileWidth, &fileHeight, &maxIntensity);
@@ -352,7 +345,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     return result;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -466,7 +459,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     return TCL_ERROR;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *

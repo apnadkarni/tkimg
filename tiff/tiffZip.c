@@ -47,7 +47,7 @@
  * last found at ftp://ftp.uu.net/pub/archiving/zip/zlib/zlib-0.99.tar.gz.
  */
 
-#include <zlibtcl.h>
+#include "zlibtcl.h"
 #include <assert.h>
 
 

@@ -2,7 +2,7 @@
  * tiffInit.h --
  */
 
-#include <tifftcl.h>
+#include "tifftcl.h"
 
 /*
  * Declarations shared between the .c files of the TIFF format handler.

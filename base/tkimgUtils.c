@@ -2,10 +2,9 @@
  *  tkimgMap.tcl
  */
 
+#include "tkimg.h"
 #include <string.h>
 #include <stdlib.h>
-#include <tcl.h>
-#include "tkimg.h"
 
 /*
  * The variable "tkimg_initialized" contains flags indicating which

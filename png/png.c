@@ -20,8 +20,8 @@
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
 
-#include <tcl.h>
-#include <pngtcl.h>
+#include "tcl.h"
+#include "pngtcl.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -32,7 +32,7 @@ static int SetupPngLibrary(Tcl_Interp *interp);
 
 #include "init.c"
 
-
+
 
 #define COMPRESS_THRESHOLD 1024
 
@@ -50,13 +50,6 @@ typedef struct cleanup_info {
     Tcl_Interp *interp;
     jmp_buf jmpbuf;
 } cleanup_info;
-
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], in case it is not
-		  included already in Tk_PhotoImageBlock */
-} myblock;
-
 
 /*
  * Prototypes for local procedures defined in this file:
@@ -277,11 +270,10 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
     int width, height;
     int srcX, srcY;
 {
-#define block bl.ck
     png_infop info_ptr;
     png_infop end_info;
     char **png_data = NULL;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     unsigned int I;
     png_uint_32 info_width, info_height;
     int bit_depth, color_type, interlace_type;

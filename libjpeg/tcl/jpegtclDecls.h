@@ -14,15 +14,15 @@
  * below should be made in the jpegtcl.decls script.
  */
 
-#include <tcl.h>
+#include "tcl.h"
 
 /* undef Tcl macros that conflict with libjpeg stuff (sigh) */
 #undef EXTERN
 
-#include <jpegtclDeclsMask.h>
-#include <../jpeglib.h>
-#include <../jerror.h>
-#include <jpegtclDeclsUnmask.h>
+#include "jpegtclDeclsMask.h"
+#include "../jpeglib.h"
+#include "../jerror.h"
+#include "jpegtclDeclsUnmask.h"
 
 /*
  * And recreate the definition of "tcl.h", we need it below.

@@ -496,13 +496,6 @@ static Boln write_sun_cols (tkimg_MFile *ofp, SUNHEADER *sunhdr, UByte *colormap
 }
 */
 
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], in case it is not
-		  included already in Tk_PhotoImageBlock */
-} myblock;
-#define block bl.ck
-
 /* Load SUN Raster file with depth 1 */
 static Boln load_sun_d1 (Tcl_Interp *interp, tkimg_MFile *ifp,
                          Tk_PhotoHandle imageHandle, int destX, int destY,
@@ -511,7 +504,7 @@ static Boln load_sun_d1 (Tcl_Interp *interp, tkimg_MFile *ifp,
 {
     UByte *dest, bit2byte[256*8];
     UByte *pixbuf;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     int pix8;
     int linepad;
     int x, y;
@@ -603,7 +596,7 @@ static Boln load_sun_d8 (Tcl_Interp *interp, tkimg_MFile *ifp,
 {
     UByte *dest, *indData = NULL, *src;
     UByte *pixbuf = NULL;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     int linepad;
     int x, y;
     int stopY, outY;
@@ -718,7 +711,7 @@ static Boln load_rgb (Tcl_Interp *interp, tkimg_MFile *ifp,
 {
     UByte *dest, tmp;
     UByte *pixbuf;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     int linepad;
     int x, y;
     int stopY, outY;

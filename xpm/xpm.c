@@ -150,7 +150,7 @@ ObjMatch(interp, data, format, widthPtr, heightPtr)
 
     return ReadXPMFileHeader(&handle, widthPtr, heightPtr, &numColors, &byteSize);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -189,7 +189,7 @@ ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
 
     return ReadXPMFileHeader(&handle, widthPtr, heightPtr, &numColors, &byteSize);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -209,15 +209,6 @@ ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
  *
  *----------------------------------------------------------------------
  */
-
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], if not included already
-		  in Tk_PhotoImageBlock */
-} myblock;
-
-#define block bl.ck
-
 static int
 CommonRead(interp, handle, format, imageHandle, destX, destY,
 	width, height, srcX, srcY)
@@ -236,7 +227,7 @@ CommonRead(interp, handle, format, imageHandle, destX, destY,
     int h, type;
     int nchan, matte = 1;
     unsigned char *pixelPtr;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     Tcl_HashTable colorTable;
     Tk_Window tkwin = Tk_MainWindow(interp);
     Display *display = Tk_Display(tkwin);

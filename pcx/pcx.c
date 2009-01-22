@@ -245,13 +245,6 @@ static Boln writeline (tkimg_MFile *handle, UByte *buffer, Int bytes)
     return TRUE;
 }
 
-typedef struct myblock {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], in case it is not
-                  included already in Tk_PhotoImageBlock */
-} myblock;
-#define block bl.ck
-
 static Boln load_8 (Tcl_Interp *interp, tkimg_MFile *ifp,
                     Tk_PhotoHandle imageHandle, int destX, int destY,
                     int width, int height, int srcX, int srcY,
@@ -259,7 +252,7 @@ static Boln load_8 (Tcl_Interp *interp, tkimg_MFile *ifp,
 {
     Int x, y;
     Int stopY, outY;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     UByte *line, *buffer, *indBuf, *indBufPtr;
     UByte cmap[768], sepChar;
     Boln result = TRUE;
@@ -328,7 +321,7 @@ static Boln load_24 (Tcl_Interp *interp, tkimg_MFile *ifp,
 {
     Int x, y, c;
     Int stopY, outY;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     UByte *line, *buffer;
     Boln result = TRUE;
 
@@ -380,7 +373,7 @@ static Boln load_1 (Tcl_Interp *interp, tkimg_MFile *ifp,
 {
     Int x, y;
     Int stopY, outY;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     UByte *line, *buffer;
     Boln result = TRUE;
 

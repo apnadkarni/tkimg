@@ -25,9 +25,9 @@
  */
 
 #include "tiffInt.h"
+#include "jpegtcl.h"
 #include <assert.h>
 #include <setjmp.h>
-#include "jpegtcl.h"
 
 /*
  * TIFF Library

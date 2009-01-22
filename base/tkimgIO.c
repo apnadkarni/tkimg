@@ -18,7 +18,6 @@
  *
  */
 
-#include "tk.h"
 #include "tkimg.h"
 
 /*

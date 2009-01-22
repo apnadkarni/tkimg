@@ -21,8 +21,6 @@
 #ifndef __TKIMG_H__
 #define __TKIMG_H__
 
-#define USE_PANIC_ON_PHOTO_ALLOC_FAILURE
-
 #include <stdio.h> /* stdout, and other definitions */
 #include <string.h>
 #include <stdlib.h>
