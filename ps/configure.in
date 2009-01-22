@@ -92,17 +92,8 @@ sed < "`${CYGPATH} ${srcdir}/../init.c`" > "init.c"	\
 # This MUST be called after TEA_LOAD_TCLCONFIG / TEA_LOAD_TKCONFIG
 #--------------------------------------------------------------------
 
-# This module is special. On windows it requires access to the
-# internal headers of Tk and thus tcl to implement its functionality
-# (TkWinReleaseDrawableDC).
-
-if test "${TEA_PLATFORM}" = "windows" ; then
-    TEA_PRIVATE_TCL_HEADERS
-    TEA_PRIVATE_TK_HEADERS
-else
-    TEA_PUBLIC_TCL_HEADERS
-    TEA_PUBLIC_TK_HEADERS
-fi
+TEA_PUBLIC_TCL_HEADERS
+TEA_PUBLIC_TK_HEADERS
 
 #--------------------------------------------------------------------
 # A few miscellaneous platform-specific items:
