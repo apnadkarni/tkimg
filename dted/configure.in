@@ -10,7 +10,7 @@ AC_REVISION($Id: configure.in 67 2006-01-24 18:05:01Z andreas_kupries $)
 
 AC_INIT([tkimgdted],[1.4])
 
-TEA_INIT([3.6])
+TEA_INIT([3.7])
 
 AC_CONFIG_AUX_DIR(../tclconfig)
 

@@ -4,7 +4,7 @@ dnl	to configure the system for the local environment.
 
 AC_INIT([Img],[1.4])
 
-TEA_INIT([3.6])
+TEA_INIT([3.7])
 
 AC_CONFIG_AUX_DIR(tclconfig)
 
