@@ -12,7 +12,7 @@ AC_INIT([jpegtcl],[1.0])
 
 TEA_INIT([3.7])
 
-AC_CONFIG_AUX_DIR(../../../tclconfig)
+AC_CONFIG_AUX_DIR(../tclconfig)
 
 #--------------------------------------------------------------------
 # Load the tclConfig.sh file
@@ -55,22 +55,22 @@ JPEG_CC=$CC
 TEA_ADD_SOURCES([jpegtcl.c jpegtclStubInit.c])
 
 TEA_ADD_SOURCES([
-	../jcapimin.c	../jcapistd.c	../jccoefct.c
-	../jccolor.c	../jcdctmgr.c	../jchuff.c
-	../jcinit.c	../jcmainct.c	../jcmarker.c
-	../jcmaster.c	../jcomapi.c	../jcparam.c
-	../jcphuff.c	../jcprepct.c	../jcsample.c
-	../jctrans.c	../jdapimin.c	../jdapistd.c
-	../jdatadst.c	../jdatasrc.c	../jdcoefct.c
-	../jdcolor.c	../jddctmgr.c	../jdhuff.c
-	../jdinput.c	../jdmainct.c	../jdmarker.c
-	../jdmaster.c	../jdmerge.c	../jdphuff.c
-	../jdpostct.c	../jdsample.c	../jdtrans.c
-	../jerror.c	../jfdctflt.c	../jfdctfst.c
-	../jfdctint.c	../jidctflt.c	../jidctfst.c
-	../jidctint.c	../jidctred.c	../jquant1.c
-	../jquant2.c	../jutils.c	../jmemmgr.c
-	../jmemansi.c
+	../compat/libjpeg/jcapimin.c	../compat/libjpeg/jcapistd.c	../compat/libjpeg/jccoefct.c
+	../compat/libjpeg/jccolor.c	../compat/libjpeg/jcdctmgr.c	../compat/libjpeg/jchuff.c
+	../compat/libjpeg/jcinit.c	../compat/libjpeg/jcmainct.c	../compat/libjpeg/jcmarker.c
+	../compat/libjpeg/jcmaster.c	../compat/libjpeg/jcomapi.c	../compat/libjpeg/jcparam.c
+	../compat/libjpeg/jcphuff.c	../compat/libjpeg/jcprepct.c	../compat/libjpeg/jcsample.c
+	../compat/libjpeg/jctrans.c	../compat/libjpeg/jdapimin.c	../compat/libjpeg/jdapistd.c
+	../compat/libjpeg/jdatadst.c	../compat/libjpeg/jdatasrc.c	../compat/libjpeg/jdcoefct.c
+	../compat/libjpeg/jdcolor.c	../compat/libjpeg/jddctmgr.c	../compat/libjpeg/jdhuff.c
+	../compat/libjpeg/jdinput.c	../compat/libjpeg/jdmainct.c	../compat/libjpeg/jdmarker.c
+	../compat/libjpeg/jdmaster.c	../compat/libjpeg/jdmerge.c	../compat/libjpeg/jdphuff.c
+	../compat/libjpeg/jdpostct.c	../compat/libjpeg/jdsample.c	../compat/libjpeg/jdtrans.c
+	../compat/libjpeg/jerror.c	../compat/libjpeg/jfdctflt.c	../compat/libjpeg/jfdctfst.c
+	../compat/libjpeg/jfdctint.c	../compat/libjpeg/jidctflt.c	../compat/libjpeg/jidctfst.c
+	../compat/libjpeg/jidctint.c	../compat/libjpeg/jidctred.c	../compat/libjpeg/jquant1.c
+	../compat/libjpeg/jquant2.c	../compat/libjpeg/jutils.c	../compat/libjpeg/jmemmgr.c
+	../compat/libjpeg/jmemansi.c
 ])
 
 TEA_ADD_HEADERS([jpegtcl.h jpegtclDecls.h])
@@ -199,11 +199,11 @@ TEA_EXPORT_CONFIG(jpegtcl)
 
 case "$srcdir" in
 .) # No --srcdir option.  We are building in place.
-  jpegdir=$srcdir/.. ;;
+  jpegdir=$srcdir/../compat/libjpeg ;;
 /*) # Absolute path.
-  jpegdir=$srcdir/.. ;;
+  jpegdir=$srcdir/../compat/libjpeg ;;
 *) # Relative path.
-  jpegdir=../$ac_dots$srcdir/.. ;;
+  jpegdir=../$ac_dots$srcdir/../compat/libjpeg ;;
 esac
 
 mkdir libjpeg

@@ -12,7 +12,7 @@ AC_INIT([pngtcl],[1.2.34])
 
 TEA_INIT([3.7])
 
-AC_CONFIG_AUX_DIR(../../../tclconfig)
+AC_CONFIG_AUX_DIR(../tclconfig)
 
 #--------------------------------------------------------------------
 # Load the tclConfig.sh file
@@ -66,12 +66,12 @@ IMG_SRCPATH(zlibtcl)
 TEA_ADD_SOURCES([pngtcl.c pngtclStubInit.c])
 
 TEA_ADD_SOURCES([
-	../png.c	../pngerror.c	../pngmem.c
-	../pngpread.c	../pngread.c	../pngrio.c
-	../pngrtran.c	../pngrutil.c	../pngset.c
-	../pngtrans.c	../pngwio.c	../pngwrite.c
-	../pngwtran.c	../pngwutil.c	../pngget.c
-	../pnggccrd.c
+	../compat/libpng/png.c	../compat/libpng/pngerror.c	../compat/libpng/pngmem.c
+	../compat/libpng/pngpread.c	../compat/libpng/pngread.c	../compat/libpng/pngrio.c
+	../compat/libpng/pngrtran.c	../compat/libpng/pngrutil.c	../compat/libpng/pngset.c
+	../compat/libpng/pngtrans.c	../compat/libpng/pngwio.c	../compat/libpng/pngwrite.c
+	../compat/libpng/pngwtran.c	../compat/libpng/pngwutil.c	../compat/libpng/pngget.c
+	../compat/libpng/pnggccrd.c
 ])
 
 TEA_ADD_HEADERS([pngtcl.h pngtclDecls.h])

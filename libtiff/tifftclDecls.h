@@ -24,9 +24,9 @@
 #undef INLINE
 
 #include "tifftclDeclsMask.h"
-#include "../libtiff/tiffio.h"
-#include "../libtiff/tiffiop.h"
-#include "../libtiff/tif_predict.h"
+#include "../compat/libtiff/libtiff/tiffio.h"
+#include "../compat/libtiff/libtiff/tiffiop.h"
+#include "../compat/libtiff/libtiff/tif_predict.h"
 #include "tifftclDeclsUnmask.h"
 
 /* !BEGIN!: Do not edit below this line. */

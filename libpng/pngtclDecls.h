@@ -16,7 +16,7 @@
 
 #include "tcl.h"
 #include "pngtclDeclsMask.h"
-#include "../png.h"
+#include "../compat/libpng/png.h"
 #include "pngtclDeclsUnmask.h"
 
 /* !BEGIN!: Do not edit below this line. */

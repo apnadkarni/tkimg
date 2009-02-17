@@ -19,10 +19,6 @@
 # have been added in a customized configure script.
 #========================================================================
 
-zlibtcl_STUB_LIB_FILE	= @zlibtcl_STUB_LIB_FILE@
-zlibtcl_SRC_PATH	= @zlibtcl_SRC_PATH@
-zlibtcl_VERSION		= @zlibtcl_VERSION@
-
 #========================================================================
 # Nothing of the variables below this line should need to be changed.
 # Please check the TARGETS section below to make sure the make targets
@@ -269,7 +265,7 @@ $(PKG_STUB_LIB_FILE): $(PKG_STUB_OBJECTS)
 # As necessary, add $(srcdir):$(srcdir)/compat:....
 #========================================================================
 
-VPATH = $(srcdir):$(srcdir)/generic:$(srcdir)/unix:$(srcdir)/win:$(srcdir)/..
+VPATH = $(srcdir):$(srcdir)/../compat/libjpeg
 
 .c.@OBJEXT@:
 	$(COMPILE) -c `@CYGPATH@ $<` -o $@
@@ -415,7 +411,7 @@ install-lib-binaries:
 	    echo " Install pkgIndex.tcl $(DESTDIR)$(pkglibdir)"; \
 	    $(INSTALL_DATA) pkgIndex.tcl $(DESTDIR)$(pkglibdir); \
 	fi
-	$(INSTALL_DATA) pngtclConfig.sh $(DESTDIR)$(libdir)
+	$(INSTALL_DATA) jpegtclConfig.sh $(DESTDIR)$(libdir)
 
 #========================================================================
 # Install binary executables (e.g. .exe files and dependent .dll files)
@@ -462,7 +458,7 @@ uninstall-binaries:
 genstubs:
 	$(TCLSH_PROG)	\
 		$(srcdir)/../../tools/genStubs.tcl $(srcdir)	\
-		$(srcdir)/pngtcl.decls
+		$(srcdir)/jpegtcl.decls
 
 #========================================================================
 #
@@ -471,14 +467,14 @@ genstubs:
 #
 #========================================================================
 
-pngtcl_DECLS = \
-	$(srcdir)/pngtcl.decls
+jpegtcl_DECLS = \
+	$(srcdir)/jpegtcl.decls
 
 checkstubs:
-	-@for i in `nm -p $(pngtcl_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
+	-@for i in `nm -p $(jpegtcl_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
 		| sort -n`; do \
 		match=0; \
-		for j in $(pngtcl_DECLS); do \
+		for j in $(jpegtcl_DECLS); do \
 		    if [ `grep -c $$i $$j` -gt 0 ]; then \
 			match=1; \
 		    fi; \

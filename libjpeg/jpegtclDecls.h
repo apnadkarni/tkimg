@@ -20,8 +20,8 @@
 #undef EXTERN
 
 #include "jpegtclDeclsMask.h"
-#include "../jpeglib.h"
-#include "../jerror.h"
+#include "../compat/libjpeg/jpeglib.h"
+#include "../compat/libjpeg/jerror.h"
 #include "jpegtclDeclsUnmask.h"
 
 /*

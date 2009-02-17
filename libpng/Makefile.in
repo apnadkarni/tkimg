@@ -19,6 +19,10 @@
 # have been added in a customized configure script.
 #========================================================================
 
+zlibtcl_STUB_LIB_FILE	= @zlibtcl_STUB_LIB_FILE@
+zlibtcl_SRC_PATH	= @zlibtcl_SRC_PATH@
+zlibtcl_VERSION		= @zlibtcl_VERSION@
+
 #========================================================================
 # Nothing of the variables below this line should need to be changed.
 # Please check the TARGETS section below to make sure the make targets
@@ -33,10 +37,8 @@
 # $(srcdir) or in the generic, win or unix subdirectory.
 #========================================================================
 
-# tif_fax3sm is special. It is generated.
-
-PKG_SOURCES	= @PKG_SOURCES@ tif_fax3sm.c
-PKG_OBJECTS	= @PKG_OBJECTS@ tif_fax3sm.$(OBJEXT)
+PKG_SOURCES	= @PKG_SOURCES@
+PKG_OBJECTS	= @PKG_OBJECTS@
 
 PKG_STUB_SOURCES = @PKG_STUB_SOURCES@
 PKG_STUB_OBJECTS = @PKG_STUB_OBJECTS@
@@ -267,7 +269,7 @@ $(PKG_STUB_LIB_FILE): $(PKG_STUB_OBJECTS)
 # As necessary, add $(srcdir):$(srcdir)/compat:....
 #========================================================================
 
-VPATH = $(srcdir):$(srcdir)/generic:$(srcdir)/unix:$(srcdir)/win:$(srcdir)/../libtiff
+VPATH = $(srcdir):$(srcdir)/../compat/libpng
 
 .c.@OBJEXT@:
 	$(COMPILE) -c `@CYGPATH@ $<` -o $@
@@ -349,17 +351,6 @@ dist_orig:
 	rm -rf $(PKG_DIR)
 
 #========================================================================
-# Generate the special source file.
-#========================================================================
-
-tif_fax3sm.c: mkg3states$(EXEEXT)
-	./mkg3states$(EXEEXT) -b -c const tif_fax3sm.c
-
-mkg3states$(EXEEXT): mkg3states.c
-	$(COMPILE) `@CYGPATH@ $<` -o $@
-	chmod u+x $@
-
-#========================================================================
 # End of user-definable section
 #========================================================================
 
@@ -424,7 +415,7 @@ install-lib-binaries:
 	    echo " Install pkgIndex.tcl $(DESTDIR)$(pkglibdir)"; \
 	    $(INSTALL_DATA) pkgIndex.tcl $(DESTDIR)$(pkglibdir); \
 	fi
-	$(INSTALL_DATA) tifftclConfig.sh $(DESTDIR)$(libdir)
+	$(INSTALL_DATA) pngtclConfig.sh $(DESTDIR)$(libdir)
 
 #========================================================================
 # Install binary executables (e.g. .exe files and dependent .dll files)
@@ -471,7 +462,7 @@ uninstall-binaries:
 genstubs:
 	$(TCLSH_PROG)	\
 		$(srcdir)/../../tools/genStubs.tcl $(srcdir)	\
-		$(srcdir)/tifftcl.decls
+		$(srcdir)/pngtcl.decls
 
 #========================================================================
 #
@@ -480,14 +471,14 @@ genstubs:
 #
 #========================================================================
 
-tifftcl_DECLS = \
-	$(srcdir)/tifftcl.decls
+pngtcl_DECLS = \
+	$(srcdir)/pngtcl.decls
 
 checkstubs:
-	-@for i in `nm -p $(tifftcl_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
+	-@for i in `nm -p $(pngtcl_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
 		| sort -n`; do \
 		match=0; \
-		for j in $(tifftcl_DECLS); do \
+		for j in $(pngtcl_DECLS); do \
 		    if [ `grep -c $$i $$j` -gt 0 ]; then \
 			match=1; \
 		    fi; \

@@ -12,7 +12,7 @@ AC_INIT([tifftcl],[3.8.2])
 
 TEA_INIT([3.7])
 
-AC_CONFIG_AUX_DIR(../../../tclconfig)
+AC_CONFIG_AUX_DIR(../tclconfig)
 
 #--------------------------------------------------------------------
 # Load the tclConfig.sh file
@@ -50,7 +50,7 @@ TIFFCC=`which $TIFFCC 2>/dev/null`
 
 #--------------------------------------------------------------------
 # Run the configuration of TIFF itself, and do some special checks
-# to if the configuration agress with the sources of tiff itself.
+# to if the configuration agrees with the sources of tiff itself.
 # F.e. tiff is hardwired to use "stdarg.h". If the chosen compiler
 # does not support this we have to bail out.
 #--------------------------------------------------------------------
@@ -67,7 +67,7 @@ then
 else
     TIFFHOST="$host"
 fi
-${srcdir}/../configure --disable-zlib --disable-pixarlog --disable-jpeg \
+${srcdir}/../compat/libtiff/configure --disable-zlib --disable-pixarlog --disable-jpeg \
 	"--with-CC=$TIFFCC" $TIFFHOST
 mv -f tifftcl_confdefs.h confdefs.h
 
@@ -83,24 +83,24 @@ mv -f tifftcl_confdefs.h confdefs.h
 TEA_ADD_SOURCES([tifftcl.c tifftclStubInit.c])
 
 TEA_ADD_SOURCES([
-	../libtiff/tif_aux.c		../libtiff/tif_close.c		../libtiff/tif_codec.c
-	../libtiff/tif_compress.c	../libtiff/tif_dir.c		../libtiff/tif_dirinfo.c
-	../libtiff/tif_dirread.c	../libtiff/tif_dirwrite.c	../libtiff/tif_dumpmode.c
-	../libtiff/tif_error.c		../libtiff/tif_fax3.c
-	../libtiff/tif_getimage.c	../libtiff/tif_flush.c		../libtiff/tif_luv.c
-	../libtiff/tif_lzw.c		../libtiff/tif_next.c		../libtiff/tif_open.c
-	../libtiff/tif_packbits.c	../libtiff/tif_predict.c	../libtiff/tif_print.c
-	../libtiff/tif_read.c		../libtiff/tif_swab.c		../libtiff/tif_strip.c
-	../libtiff/tif_thunder.c	../libtiff/tif_tile.c		../libtiff/tif_version.c
-	../libtiff/tif_warning.c	../libtiff/tif_write.c
-	../libtiff/tif_color.c		../libtiff/tif_extension.c
+	../compat/libtiff/libtiff/tif_aux.c		../compat/libtiff/libtiff/tif_close.c		../compat/libtiff/libtiff/tif_codec.c
+	../compat/libtiff/libtiff/tif_compress.c	../compat/libtiff/libtiff/tif_dir.c		../compat/libtiff/libtiff/tif_dirinfo.c
+	../compat/libtiff/libtiff/tif_dirread.c	../compat/libtiff/libtiff/tif_dirwrite.c	../compat/libtiff/libtiff/tif_dumpmode.c
+	../compat/libtiff/libtiff/tif_error.c		../compat/libtiff/libtiff/tif_fax3.c
+	../compat/libtiff/libtiff/tif_getimage.c	../compat/libtiff/libtiff/tif_flush.c		../compat/libtiff/libtiff/tif_luv.c
+	../compat/libtiff/libtiff/tif_lzw.c		../compat/libtiff/libtiff/tif_next.c		../compat/libtiff/libtiff/tif_open.c
+	../compat/libtiff/libtiff/tif_packbits.c	../compat/libtiff/libtiff/tif_predict.c	../compat/libtiff/libtiff/tif_print.c
+	../compat/libtiff/libtiff/tif_read.c		../compat/libtiff/libtiff/tif_swab.c		../compat/libtiff/libtiff/tif_strip.c
+	../compat/libtiff/libtiff/tif_thunder.c	../compat/libtiff/libtiff/tif_tile.c		../compat/libtiff/libtiff/tif_version.c
+	../compat/libtiff/libtiff/tif_warning.c	../compat/libtiff/libtiff/tif_write.c
+	../compat/libtiff/libtiff/tif_color.c		../compat/libtiff/libtiff/tif_extension.c
 ])
 
 TEA_ADD_HEADERS([tifftcl.h tifftclDecls.h])
 TEA_ADD_HEADERS([tifftclDeclsMask.h tifftclDeclsUnmask.h])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}`\"])
 TEA_ADD_INCLUDES([-I\"./libtiff\"])
-TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}/../libtiff`\"])
+TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}/../compat/libtiff/libtiff`\"])
 TEA_ADD_STUB_SOURCES([tifftclStubLib.c])
 TEA_ADD_SOURCES([tifftclStubLib.c])
 TEA_ADD_TCL_SOURCES([])
@@ -135,10 +135,10 @@ TEA_PUBLIC_TK_HEADERS
 if test "${TEA_PLATFORM}" = "windows" ; then
     AC_DEFINE(BUILD_tifftcl)
     CLEANFILES="*.lib *.dll *.exp *.ilk *.pdb vc*.pch"
-    TEA_ADD_SOURCES([../libtiff/tif_win32.c])
+    TEA_ADD_SOURCES([../compat/libtiff/libtiff/tif_win32.c])
 else
     CLEANFILES=""
-    TEA_ADD_SOURCES([../libtiff/tif_unix.c])
+    TEA_ADD_SOURCES([../compat/libtiff/libtiff/tif_unix.c])
 fi
 AC_SUBST(CLEANFILES)
 

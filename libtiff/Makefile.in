@@ -33,8 +33,10 @@
 # $(srcdir) or in the generic, win or unix subdirectory.
 #========================================================================
 
-PKG_SOURCES	= @PKG_SOURCES@
-PKG_OBJECTS	= @PKG_OBJECTS@
+# tif_fax3sm is special. It is generated.
+
+PKG_SOURCES	= @PKG_SOURCES@ tif_fax3sm.c
+PKG_OBJECTS	= @PKG_OBJECTS@ tif_fax3sm.$(OBJEXT)
 
 PKG_STUB_SOURCES = @PKG_STUB_SOURCES@
 PKG_STUB_OBJECTS = @PKG_STUB_OBJECTS@
@@ -265,7 +267,7 @@ $(PKG_STUB_LIB_FILE): $(PKG_STUB_OBJECTS)
 # As necessary, add $(srcdir):$(srcdir)/compat:....
 #========================================================================
 
-VPATH = $(srcdir):$(srcdir)/generic:$(srcdir)/unix:$(srcdir)/win:$(srcdir)/..
+VPATH = $(srcdir):$(srcdir)/../compat/libtiff/libtiff
 
 .c.@OBJEXT@:
 	$(COMPILE) -c `@CYGPATH@ $<` -o $@
@@ -347,6 +349,17 @@ dist_orig:
 	rm -rf $(PKG_DIR)
 
 #========================================================================
+# Generate the special source file.
+#========================================================================
+
+tif_fax3sm.c: mkg3states$(EXEEXT)
+	./mkg3states$(EXEEXT) -b -c const tif_fax3sm.c
+
+mkg3states$(EXEEXT): mkg3states.c
+	$(COMPILE) `@CYGPATH@ $<` -o $@
+	chmod u+x $@
+
+#========================================================================
 # End of user-definable section
 #========================================================================
 
@@ -411,7 +424,7 @@ install-lib-binaries:
 	    echo " Install pkgIndex.tcl $(DESTDIR)$(pkglibdir)"; \
 	    $(INSTALL_DATA) pkgIndex.tcl $(DESTDIR)$(pkglibdir); \
 	fi
-	$(INSTALL_DATA) jpegtclConfig.sh $(DESTDIR)$(libdir)
+	$(INSTALL_DATA) tifftclConfig.sh $(DESTDIR)$(libdir)
 
 #========================================================================
 # Install binary executables (e.g. .exe files and dependent .dll files)
@@ -458,7 +471,7 @@ uninstall-binaries:
 genstubs:
 	$(TCLSH_PROG)	\
 		$(srcdir)/../../tools/genStubs.tcl $(srcdir)	\
-		$(srcdir)/jpegtcl.decls
+		$(srcdir)/tifftcl.decls
 
 #========================================================================
 #
@@ -467,14 +480,14 @@ genstubs:
 #
 #========================================================================
 
-jpegtcl_DECLS = \
-	$(srcdir)/jpegtcl.decls
+tifftcl_DECLS = \
+	$(srcdir)/tifftcl.decls
 
 checkstubs:
-	-@for i in `nm -p $(jpegtcl_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
+	-@for i in `nm -p $(tifftcl_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
 		| sort -n`; do \
 		match=0; \
-		for j in $(jpegtcl_DECLS); do \
+		for j in $(tifftcl_DECLS); do \
 		    if [ `grep -c $$i $$j` -gt 0 ]; then \
 			match=1; \
 		    fi; \
