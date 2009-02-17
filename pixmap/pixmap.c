@@ -1243,12 +1243,12 @@ Tkimgpixmap_Init (interp)
   static int initialized = 0;
 
 #ifdef USE_TCL_STUBS
-    if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
+    if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
         return TCL_ERROR;
     }
 #endif
 #ifdef USE_TK_STUBS
-    if (Tk_InitStubs(interp, "8.1", 0) == NULL) {
+    if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
         return TCL_ERROR;
     }
 #endif

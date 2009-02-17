@@ -12,7 +12,7 @@ AC_INIT([zlibtcl],[1.2.3])
 
 TEA_INIT([3.7])
 
-AC_CONFIG_AUX_DIR(../../tclconfig)
+AC_CONFIG_AUX_DIR(../tclconfig)
 
 #--------------------------------------------------------------------
 # Load the tclConfig.sh file
@@ -51,10 +51,10 @@ TEA_SETUP_COMPILER
 #-----------------------------------------------------------------------
 
 TEA_ADD_SOURCES([zlibtcl.c zlibtclStubInit.c])
-TEA_ADD_SOURCES([../adler32.c	../compress.c	../crc32.c])
-TEA_ADD_SOURCES([../deflate.c	../gzio.c	../infback.c])
-TEA_ADD_SOURCES([../inffast.c	../inflate.c	../inftrees.c])
-TEA_ADD_SOURCES([../trees.c	../uncompr.c	../zutil.c])
+TEA_ADD_SOURCES([../compat/zlib/adler32.c	../compat/zlib/compress.c	../compat/zlib/crc32.c])
+TEA_ADD_SOURCES([../compat/zlib/deflate.c	../compat/zlib/gzio.c	../compat/zlib/infback.c])
+TEA_ADD_SOURCES([../compat/zlib/inffast.c	../compat/zlib/inflate.c	../compat/zlib/inftrees.c])
+TEA_ADD_SOURCES([../compat/zlib/trees.c	../compat/zlib/uncompr.c	../compat/zlib/zutil.c])
 
 TEA_ADD_HEADERS([zlibtcl.h zlibtclDecls.h])
 TEA_ADD_HEADERS([zlibtclDeclsMask.h zlibtclDeclsUnmask.h])

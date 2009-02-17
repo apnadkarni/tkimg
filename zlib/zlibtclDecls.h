@@ -17,7 +17,7 @@
 
 #include "tcl.h"
 #include "zlibtclDeclsMask.h"
-#include "../zlib.h"
+#include "../compat/zlib/zlib.h"
 #include "zlibtclDeclsUnmask.h"
 
 /* !BEGIN!: Do not edit below this line. */

@@ -21,10 +21,6 @@
 #include "zlibtcl.h"
 #include "pngtcl.h"
 
-#define TCL_DOES_STUBS \
-    (TCL_MAJOR_VERSION > 8 || TCL_MAJOR_VERSION == 8 && (TCL_MINOR_VERSION > 1 || \
-    (TCL_MINOR_VERSION == 1 && TCL_RELEASE_LEVEL == TCL_FINAL_RELEASE)))
-
 /*
  * Declarations for externally visible functions.
  */
@@ -71,12 +67,10 @@ int
 Pngtcl_Init (interp)
       Tcl_Interp *interp; /* Interpreter to initialise. */
 {
-#if TCL_DOES_STUBS
   extern PngtclStubs pngtclStubs;
-#endif
 
 #ifdef USE_TCL_STUBS
-  if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
+  if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
     return TCL_ERROR;
   }
 #endif
@@ -86,16 +80,10 @@ Pngtcl_Init (interp)
   }
 #endif
 
-#if TCL_DOES_STUBS
   if (Tcl_PkgProvideEx(interp, PACKAGE_NAME, PACKAGE_VERSION,
 		       (ClientData) &pngtclStubs) != TCL_OK) {
     return TCL_ERROR;
   }
-#else
-  if (Tcl_PkgProvide(interp, PACKAGE_NAME, PACKAGE_VERSION) != TCL_OK) {
-    return TCL_ERROR;
-  }
-#endif
 
   return TCL_OK;
 }

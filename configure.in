@@ -109,8 +109,8 @@ TEA_PATH_X
 CC=`echo $CC | sed -e 's/ .*$//'`
 
 TEA_CONFIG_COLLECT
-TEA_CONFIG_SUBDIR(libz/tcl,   [--disable-option-checking])
-TEA_CONFIG_SUBDIR(libpng/tcl, [--with-zlibtcl=`pwd`/libz/tcl --disable-option-checking])
+TEA_CONFIG_SUBDIR(zlib,       [--disable-option-checking])
+TEA_CONFIG_SUBDIR(libpng/tcl, [--with-zlibtcl=`pwd`/zlib --disable-option-checking])
 TEA_CONFIG_SUBDIR(libtiff/tcl,[--disable-option-checking])
 TEA_CONFIG_SUBDIR(libjpeg/tcl,[--disable-option-checking])
 TEA_CONFIG_SUBDIR(base,       [--disable-option-checking])
@@ -120,13 +120,13 @@ TEA_CONFIG_SUBDIR(ico,        [--with-tkimg=`pwd`/base --disable-option-checking
 TEA_CONFIG_SUBDIR(jpeg,       [--with-tkimg=`pwd`/base --with-jpegtcl=`pwd`/libjpeg/tcl --disable-option-checking])
 TEA_CONFIG_SUBDIR(pcx,        [--with-tkimg=`pwd`/base --disable-option-checking])
 TEA_CONFIG_SUBDIR(pixmap,     [--with-tkimg=`pwd`/base --disable-option-checking])
-TEA_CONFIG_SUBDIR(png,        [--with-tkimg=`pwd`/base --with-pngtcl=`pwd`/libpng/tcl --with-zlibtcl=`pwd`/libz/tcl --disable-option-checking])
+TEA_CONFIG_SUBDIR(png,        [--with-tkimg=`pwd`/base --with-pngtcl=`pwd`/libpng/tcl --with-zlibtcl=`pwd`/zlib --disable-option-checking])
 TEA_CONFIG_SUBDIR(ppm,        [--with-tkimg=`pwd`/base --disable-option-checking])
 TEA_CONFIG_SUBDIR(ps,         [--with-tkimg=`pwd`/base --disable-option-checking])
 TEA_CONFIG_SUBDIR(sgi,        [--with-tkimg=`pwd`/base --disable-option-checking])
 TEA_CONFIG_SUBDIR(sun,        [--with-tkimg=`pwd`/base --disable-option-checking])
 TEA_CONFIG_SUBDIR(tga,        [--with-tkimg=`pwd`/base --disable-option-checking])
-TEA_CONFIG_SUBDIR(tiff,       [--with-tkimg=`pwd`/base --with-tifftcl=`pwd`/libtiff/tcl --with-zlibtcl=`pwd`/libz/tcl --with-jpegtcl=`pwd`/libjpeg/tcl --disable-option-checking])
+TEA_CONFIG_SUBDIR(tiff,       [--with-tkimg=`pwd`/base --with-tifftcl=`pwd`/libtiff/tcl --with-zlibtcl=`pwd`/zlib --with-jpegtcl=`pwd`/libjpeg/tcl --disable-option-checking])
 TEA_CONFIG_SUBDIR(window,     [--with-tkimg=`pwd`/base --disable-option-checking])
 TEA_CONFIG_SUBDIR(xbm,        [--with-tkimg=`pwd`/base --disable-option-checking])
 TEA_CONFIG_SUBDIR(xpm,        [--with-tkimg=`pwd`/base --disable-option-checking])

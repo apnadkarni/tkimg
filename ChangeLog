@@ -1,3 +1,8 @@
+2009-02-17  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Move ./libz to ./compat/zlib and ./libz/tcl to ./zlib
+	* Require Tcl/Tk 8.3 for libz, libpng, libtiff and libjpeg
+
 2009-01-12  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* upgrade to libpng 1.2.34

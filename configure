@@ -11995,7 +11995,7 @@ CC=`echo $CC | sed -e 's/ .*$//'`
   done
 
 
-    tea_config_dir="libz/tcl"
+    tea_config_dir="zlib"
     tea_config_arguments="--disable-option-checking"
     subdirs="$subdirs $tea_config_dir"
 
@@ -12071,7 +12071,7 @@ CC=`echo $CC | sed -e 's/ .*$//'`
 
 
     tea_config_dir="libpng/tcl"
-    tea_config_arguments="--with-zlibtcl=`pwd`/libz/tcl --disable-option-checking"
+    tea_config_arguments="--with-zlibtcl=`pwd`/zlib --disable-option-checking"
     subdirs="$subdirs $tea_config_dir"
 
 
@@ -12821,7 +12821,7 @@ CC=`echo $CC | sed -e 's/ .*$//'`
 
 
     tea_config_dir="png"
-    tea_config_arguments="--with-tkimg=`pwd`/base --with-pngtcl=`pwd`/libpng/tcl --with-zlibtcl=`pwd`/libz/tcl --disable-option-checking"
+    tea_config_arguments="--with-tkimg=`pwd`/base --with-pngtcl=`pwd`/libpng/tcl --with-zlibtcl=`pwd`/zlib --disable-option-checking"
     subdirs="$subdirs $tea_config_dir"
 
 
@@ -13271,7 +13271,7 @@ CC=`echo $CC | sed -e 's/ .*$//'`
 
 
     tea_config_dir="tiff"
-    tea_config_arguments="--with-tkimg=`pwd`/base --with-tifftcl=`pwd`/libtiff/tcl --with-zlibtcl=`pwd`/libz/tcl --with-jpegtcl=`pwd`/libjpeg/tcl --disable-option-checking"
+    tea_config_arguments="--with-tkimg=`pwd`/base --with-tifftcl=`pwd`/libtiff/tcl --with-zlibtcl=`pwd`/zlib --with-jpegtcl=`pwd`/libjpeg/tcl --disable-option-checking"
     subdirs="$subdirs $tea_config_dir"
 
 
