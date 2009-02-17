@@ -16,7 +16,7 @@ Changes compared to version 1.2.4:
 
 -	New formats: ICO, PCX, PPM, SGI, SUN, TGA.
 -	New build system, based upon TEA 2.
--	Refactored into several smaler and more independent
+-	Refactored into several smaller and more independent
 	packages. See file README in the (source) distributions for
 	more information.
 -	Bug fixes and enhancements in some formats.
