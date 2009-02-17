@@ -1,6 +1,9 @@
 2009-02-17  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Move ./libz to ./compat/zlib and ./libz/tcl to ./zlib
+	* Move ./libjpeg to ./compat/libjpeg
+	* Move ./libpng to ./compat/libpng
+	* Move ./libtiff to ./compat/libtiff
 	* Require Tcl/Tk 8.3 for libz, libpng, libtiff and libjpeg
 
 2009-01-12  Jan Nijtmans <nijtmans@users.sourceforge.net>

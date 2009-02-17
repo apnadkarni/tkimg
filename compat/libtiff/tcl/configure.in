@@ -4,15 +4,15 @@ dnl
 AC_REVISION($Id$)
 
 #--------------------------------------------------------------------
-# Configure script for package 'jpegtcl', as distributed at November 20, 2001.
+# Configure script for package 'tifftcl', as distributed at November 20, 2001.
 # TEA compliant.
 #--------------------------------------------------------------------
 
-AC_INIT([jpegtcl],[1.0])
+AC_INIT([tifftcl],[3.8.2])
 
 TEA_INIT([3.7])
 
-AC_CONFIG_AUX_DIR(../../tclconfig)
+AC_CONFIG_AUX_DIR(../../../tclconfig)
 
 #--------------------------------------------------------------------
 # Load the tclConfig.sh file
@@ -39,9 +39,37 @@ TEA_PREFIX
 # the basic setup necessary to compile executables.
 #-----------------------------------------------------------------------
 
-JPEG_CFLAGS="$CFLAGS"
 TEA_SETUP_COMPILER
-JPEG_CC=$CC
+AC_HEADER_STDC
+
+# Determine a full path for the chosen compiler to ensure that the
+# libtiff configure tool is using the same one as ourselves.
+
+TIFFCC=`echo "$CC" | sed -e 's/-pipe//'`
+TIFFCC=`which $TIFFCC 2>/dev/null`
+
+#--------------------------------------------------------------------
+# Run the configuration of TIFF itself, and do some special checks
+# to if the configuration agress with the sources of tiff itself.
+# F.e. tiff is hardwired to use "stdarg.h". If the chosen compiler
+# does not support this we have to bail out.
+#--------------------------------------------------------------------
+
+if test `grep STDC_HEADERS confdefs.h | wc -l` -eq 0
+then
+    AC_MSG_ERROR([Compiler does not use stdarg.h, required for TIFF])
+fi
+
+mv -f confdefs.h tifftcl_confdefs.h
+if test "X$host" = X -o "X$host" = XNONE
+then
+    TIFFHOST=""
+else
+    TIFFHOST="$host"
+fi
+${srcdir}/../configure --disable-zlib --disable-pixarlog --disable-jpeg \
+	"--with-CC=$TIFFCC" $TIFFHOST
+mv -f tifftcl_confdefs.h confdefs.h
 
 #-----------------------------------------------------------------------
 # Specify the C source files to compile in TEA_ADD_SOURCES,
@@ -52,36 +80,29 @@ JPEG_CC=$CC
 # and PKG_TCL_SOURCES.
 #-----------------------------------------------------------------------
 
-TEA_ADD_SOURCES([jpegtcl.c jpegtclStubInit.c])
+TEA_ADD_SOURCES([tifftcl.c tifftclStubInit.c])
 
 TEA_ADD_SOURCES([
-	../jcapimin.c	../jcapistd.c	../jccoefct.c
-	../jccolor.c	../jcdctmgr.c	../jchuff.c
-	../jcinit.c	../jcmainct.c	../jcmarker.c
-	../jcmaster.c	../jcomapi.c	../jcparam.c
-	../jcphuff.c	../jcprepct.c	../jcsample.c
-	../jctrans.c	../jdapimin.c	../jdapistd.c
-	../jdatadst.c	../jdatasrc.c	../jdcoefct.c
-	../jdcolor.c	../jddctmgr.c	../jdhuff.c
-	../jdinput.c	../jdmainct.c	../jdmarker.c
-	../jdmaster.c	../jdmerge.c	../jdphuff.c
-	../jdpostct.c	../jdsample.c	../jdtrans.c
-	../jerror.c	../jfdctflt.c	../jfdctfst.c
-	../jfdctint.c	../jidctflt.c	../jidctfst.c
-	../jidctint.c	../jidctred.c	../jquant1.c
-	../jquant2.c	../jutils.c	../jmemmgr.c
-	../jmemansi.c
+	../libtiff/tif_aux.c		../libtiff/tif_close.c		../libtiff/tif_codec.c
+	../libtiff/tif_compress.c	../libtiff/tif_dir.c		../libtiff/tif_dirinfo.c
+	../libtiff/tif_dirread.c	../libtiff/tif_dirwrite.c	../libtiff/tif_dumpmode.c
+	../libtiff/tif_error.c		../libtiff/tif_fax3.c
+	../libtiff/tif_getimage.c	../libtiff/tif_flush.c		../libtiff/tif_luv.c
+	../libtiff/tif_lzw.c		../libtiff/tif_next.c		../libtiff/tif_open.c
+	../libtiff/tif_packbits.c	../libtiff/tif_predict.c	../libtiff/tif_print.c
+	../libtiff/tif_read.c		../libtiff/tif_swab.c		../libtiff/tif_strip.c
+	../libtiff/tif_thunder.c	../libtiff/tif_tile.c		../libtiff/tif_version.c
+	../libtiff/tif_warning.c	../libtiff/tif_write.c
+	../libtiff/tif_color.c		../libtiff/tif_extension.c
 ])
 
-TEA_ADD_HEADERS([jpegtcl.h jpegtclDecls.h])
-TEA_ADD_HEADERS([jpegtclDeclsMask.h jpegtclDeclsUnmask.h])
-
+TEA_ADD_HEADERS([tifftcl.h tifftclDecls.h])
+TEA_ADD_HEADERS([tifftclDeclsMask.h tifftclDeclsUnmask.h])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}`\"])
-TEA_ADD_INCLUDES([-I\"./libjpeg\"])
-TEA_ADD_LIBS([])
-TEA_ADD_CFLAGS([])
-TEA_ADD_STUB_SOURCES([jpegtclStubLib.c])
-TEA_ADD_SOURCES([jpegtclStubLib.c])
+TEA_ADD_INCLUDES([-I\"./libtiff\"])
+TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}/../libtiff`\"])
+TEA_ADD_STUB_SOURCES([tifftclStubLib.c])
+TEA_ADD_SOURCES([tifftclStubLib.c])
 TEA_ADD_TCL_SOURCES([])
 
 #--------------------------------------------------------------------
@@ -99,7 +120,7 @@ TEA_PUBLIC_TK_HEADERS
 #--------------------------------------------------------------------
 # A few miscellaneous platform-specific items:
 #
-# We have to define a special symbol for Windows (BUILD_jpegtcl in this
+# We have to define a special symbol for Windows (BUILD_tifftcl in this
 # case) so that we create the export library with the dll.
 #
 # Windows creates a few extra files that need to be cleaned up.
@@ -112,10 +133,12 @@ TEA_PUBLIC_TK_HEADERS
 #--------------------------------------------------------------------
 
 if test "${TEA_PLATFORM}" = "windows" ; then
-    AC_DEFINE(BUILD_jpegtcl)
+    AC_DEFINE(BUILD_tifftcl)
     CLEANFILES="*.lib *.dll *.exp *.ilk *.pdb vc*.pch"
+    TEA_ADD_SOURCES([../libtiff/tif_win32.c])
 else
     CLEANFILES=""
+    TEA_ADD_SOURCES([../libtiff/tif_unix.c])
 fi
 AC_SUBST(CLEANFILES)
 
@@ -176,7 +199,11 @@ TEA_MAKE_LIB
 # Add platform libs to LIBS or SHLIB_LD_LIBS as necessary.
 #--------------------------------------------------------------------
 
-SHLIB_LD_LIBS="${SHLIB_LD_LIBS} \${TCL_LIBS}"
+if test "${TEA_PLATFORM}" = "windows" -a "$GCC" != "yes" ; then
+    TEA_ADD_LIBS([user32.lib])
+else
+    TEA_ADD_LIBS([-lm])
+fi
 
 #--------------------------------------------------------------------
 # Find tclsh so that we can run pkg_mkIndex to generate the pkgIndex.tcl
@@ -188,29 +215,7 @@ SHLIB_LD_LIBS="${SHLIB_LD_LIBS} \${TCL_LIBS}"
 #--------------------------------------------------------------------
 
 TEA_PROG_TCLSH
-TEA_EXPORT_CONFIG(jpegtcl)
-
-#--------------------------------------------------------------------
-# We call the configure for the jpeg code on our own, without using
-# AC_CONFIG_SUBDIR ... Using that requires a symlink, thus making setup
-# difficult, and the transfer information ot it is busted, due to how
-# TEA handles CFLAGS.
-#--------------------------------------------------------------------
-
-case "$srcdir" in
-.) # No --srcdir option.  We are building in place.
-  jpegdir=$srcdir/.. ;;
-/*) # Absolute path.
-  jpegdir=$srcdir/.. ;;
-*) # Relative path.
-  jpegdir=../$ac_dots$srcdir/.. ;;
-esac
-
-mkdir libjpeg
-sleep 2        ; # Wait two seconds for the directory to actually appear (Windows).
-cd    libjpeg
-env CC="$JPEG_CC" CFLAGS="$JPEG_CFLAGS" $jpegdir/configure
-cd ..
+TEA_EXPORT_CONFIG(tifftcl)
 
 #--------------------------------------------------------------------
 # Finally, substitute all of the various values into the Makefile.
@@ -218,6 +223,6 @@ cd ..
 # which require substituting th AC variables in.  Include these here.
 #--------------------------------------------------------------------
 
-AC_OUTPUT([Makefile jpegtclConfig.sh])
+AC_OUTPUT([Makefile tifftclConfig.sh])
 
 #--------------------------------------------------------------------

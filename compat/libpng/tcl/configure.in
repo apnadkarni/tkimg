@@ -12,7 +12,7 @@ AC_INIT([pngtcl],[1.2.34])
 
 TEA_INIT([3.7])
 
-AC_CONFIG_AUX_DIR(../../tclconfig)
+AC_CONFIG_AUX_DIR(../../../tclconfig)
 
 #--------------------------------------------------------------------
 # Load the tclConfig.sh file
