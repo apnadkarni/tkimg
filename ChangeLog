@@ -1,6 +1,8 @@
 2009-02-23  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Attempt to fix HP-UX Itanium 64-bit build
+	* revert r177 change to pkgIndex.tcl: it broke TEApot package
+	  handling.
 
 2009-02-17  Jan Nijtmans <nijtmans@users.sourceforge.net>
 

@@ -16,7 +16,7 @@ package ifneeded @PACKAGE_TCLNAME@ @PACKAGE_VERSION@ [list load [file join $dir 
 # Therefore file formats with some "magic" identifier, which can be
 # recognized safely, should be added at the end of this list.
 
-package ifneeded img @PACKAGE_VERSION@ {
+package ifneeded Img @PACKAGE_VERSION@ {
     package require img::window
     package require img::tga
     package require img::ico
@@ -36,7 +36,3 @@ package ifneeded img @PACKAGE_VERSION@ {
     package provide img @PACKAGE_VERSION@
 }
 
-package ifneeded Img @PACKAGE_VERSION@ {
-    package require -exact img @PACKAGE_VERSION@
-    package provide Img @PACKAGE_VERSION@
-}
