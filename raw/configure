@@ -9333,7 +9333,7 @@ else
 
 		    do64bit_ok=yes
 		    CFLAGS="$CFLAGS +DD64"
-		    LDFLAGS_ARCH="+DD64"
+		    LDFLAGS_ARCH="+DD64 -Wl,+DD64"
 
 fi
 

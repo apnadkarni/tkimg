@@ -1512,7 +1512,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 		], [
 		    do64bit_ok=yes
 		    CFLAGS="$CFLAGS +DD64"
-		    LDFLAGS_ARCH="+DD64"
+		    LDFLAGS_ARCH="+DD64 -Wl,+DD64"
 		])
 	    ]) ;;
 	HP-UX-*.08.*|HP-UX-*.09.*|HP-UX-*.10.*)
