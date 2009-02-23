@@ -1011,6 +1011,9 @@ EXTERN void		png_push_handle_iTXt(png_structp png_ptr,
 /* 317 */
 EXTERN void		png_push_read_iTXt(png_structp png_ptr,
 				png_infop info_ptr, png_uint_32 length);
+/* 318 */
+EXTERN void		png_info_init_3(png_infop info_ptr,
+				png_size_t png_info_struct_size);
 
 typedef struct PngtclStubs {
     int magic;
@@ -1334,6 +1337,7 @@ typedef struct PngtclStubs {
     void (*png_push_read_zTXt) (png_structp png_ptr, png_infop info_ptr); /* 315 */
     void (*png_push_handle_iTXt) (png_structp png_ptr, png_infop info_ptr, png_uint_32 length); /* 316 */
     void (*png_push_read_iTXt) (png_structp png_ptr, png_infop info_ptr, png_uint_32 length); /* 317 */
+    void (*png_info_init_3) (png_infop info_ptr, png_size_t png_info_struct_size); /* 318 */
 } PngtclStubs;
 
 #ifdef __cplusplus
@@ -2619,10 +2623,17 @@ extern const PngtclStubs *pngtclStubsPtr;
 #define png_push_read_iTXt \
 	(pngtclStubsPtr->png_push_read_iTXt) /* 317 */
 #endif
+#ifndef png_info_init_3
+#define png_info_init_3 \
+	(pngtclStubsPtr->png_info_init_3) /* 318 */
+#endif
 
 #endif /* defined(USE_PNGTCL_STUBS) && !defined(USE_PNGTCL_STUB_PROCS) */
 
 /* !END!: Do not edit above this line. */
+
+#define png_info_init(info_ptr) png_info_init_3(&info_ptr,\
+    png_sizeof(png_info));
 
 #endif /* _PNGTCLDECLS */
 

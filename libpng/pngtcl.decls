@@ -1012,5 +1012,8 @@ declare 316 generic {!PNG_INTERNAL !PNG_PROGRESSIVE_READ_SUPPORTED !PNG_iTXt_SUP
 declare 317 generic {!PNG_INTERNAL !PNG_PROGRESSIVE_READ_SUPPORTED !PNG_iTXt_SUPPORTED} {
     void png_push_read_iTXt (png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 }
+declare 318 generic {
+    void png_info_init_3 (png_infop info_ptr, png_size_t png_info_struct_size)
+}
 
 #########################################################################

@@ -1,3 +1,7 @@
+2009-02-24  Jan Nijtmans  <nijtmans@users.sourceforge.net>
+
+	* libpng:     Added support for new png_info_init_3 function
+
 2009-01-12  Jan Nijtmans  <nijtmans@users.sourceforge.net>
 
 	* libpng:     Updated libpng from version 1.2.24 to 1.2.34.

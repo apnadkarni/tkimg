@@ -4,7 +4,7 @@
  * same as the definitions in 'zlibDecls.h' on Windows they are not,
  * in a small detail: DLLEXPORT vs. DLLIMPORT. As our artificial
  * definitions do the right thing we use the macro definitions below
- * to move the original definitionsd out of the way. We do retain the
+ * to move the original definitions out of the way. We do retain the
  * inclusion of all the type definitions, etc.
  */
 #define png_access_version_number __mask_png_access_version_number
@@ -24,6 +24,7 @@
 #define png_write_chunk_end __mask_png_write_chunk_end
 #define png_create_info_struct __mask_png_create_info_struct
 #define png_info_init __mask_png_info_init
+#define png_info_init_3 __mask_png_info_init_3
 #define png_write_info_before_PLTE __mask_png_write_info_before_PLTE
 #define png_write_info __mask_png_write_info
 #define png_read_info __mask_png_read_info
