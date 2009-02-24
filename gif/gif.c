@@ -226,14 +226,6 @@ ChnRead(interp, chan, fileName, format, imageHandle, destX, destY,
  *----------------------------------------------------------------------
  */
 
-typedef struct {
-    Tk_PhotoImageBlock ck;
-    int dummy; /* extra space for offset[3], if not included already
-		  in Tk_PhotoImageBlock */
-} myblock;
-
-#define block bl.ck
-
 static int
 CommonRead(interp, gifConfPtr, fileName, format, imageHandle, destX, destY,
 	width, height, srcX, srcY)
@@ -252,7 +244,7 @@ CommonRead(interp, gifConfPtr, fileName, format, imageHandle, destX, destY,
     int fileWidth, fileHeight;
     int nBytes, index = 0, objc = 0;
     Tcl_Obj **objv = NULL;
-    myblock bl;
+    Tk_PhotoImageBlock block;
     unsigned char buf[100];
     char *trashBuffer = NULL;
     unsigned char *pixBuf = NULL;
@@ -274,8 +266,6 @@ CommonRead(interp, gifConfPtr, fileName, format, imageHandle, destX, destY,
 		    tkimg_GetStringFromObj(format, NULL), "\"", (char *) NULL);
 	    return TCL_ERROR;
 	}
-    }
-    if (objc > 1) {
 	if (Tcl_GetIntFromObj(interp, objv[objc-1], &index) != TCL_OK) {
 	    return TCL_ERROR;
 	}

@@ -595,7 +595,31 @@ CommonRead(interp, tif, format, imageHandle,
     size_t npixels;
     uint32 *raster;
     int result = TCL_OK;
+    int nBytes, index = 0, objc = 0;
+    Tcl_Obj **objv = NULL;
 
+    if (tkimg_ListObjGetElements(interp, format, &objc, &objv) != TCL_OK) {
+	return TCL_ERROR;
+    }
+    if (objc > 1) {
+	char *c = Tcl_GetStringFromObj(objv[1], &nBytes);
+	if ((objc > 3) || ((objc == 3) && ((c[0] != '-') ||
+		(c[1] != 'i') || strncmp(c, "-index", strlen(c))))) {
+	    Tcl_AppendResult(interp, "invalid format: \"",
+		    tkimg_GetStringFromObj(format, NULL), "\"", (char *) NULL);
+	    return TCL_ERROR;
+	}
+	if (Tcl_GetIntFromObj(interp, objv[objc-1], &index) != TCL_OK) {
+	    return TCL_ERROR;
+	}
+    }
+    while (index-- != 0) {
+	if (TIFFReadDirectory(tif) != 1) {
+	    Tcl_AppendResult(interp,"no image data for this index",
+		    (char *) NULL);
+	    return TCL_ERROR;
+	}
+    }
 #ifdef WORDS_BIGENDIAN
     block.offset[0] = 3;
     block.offset[1] = 2;

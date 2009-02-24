@@ -1,3 +1,8 @@
+2009-02-24  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* gif handler cleanup
+	* Allow -index N option for TIFF images too [Feature Request #706277]
+
 2009-02-23  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Attempt to fix HP-UX Itanium 64-bit build
