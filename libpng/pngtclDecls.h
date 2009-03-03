@@ -18,6 +18,7 @@
 #include "pngtclDeclsMask.h"
 #include "../compat/libpng/png.h"
 #include "pngtclDeclsUnmask.h"
+#undef png_info_init
 
 /* !BEGIN!: Do not edit below this line. */
 
@@ -1012,7 +1013,7 @@ EXTERN void		png_push_handle_iTXt(png_structp png_ptr,
 EXTERN void		png_push_read_iTXt(png_structp png_ptr,
 				png_infop info_ptr, png_uint_32 length);
 /* 318 */
-EXTERN void		png_info_init_3(png_infop info_ptr,
+EXTERN void		png_info_init_3(png_infopp info_ptr,
 				png_size_t png_info_struct_size);
 
 typedef struct PngtclStubs {
@@ -1337,7 +1338,7 @@ typedef struct PngtclStubs {
     void (*png_push_read_zTXt) (png_structp png_ptr, png_infop info_ptr); /* 315 */
     void (*png_push_handle_iTXt) (png_structp png_ptr, png_infop info_ptr, png_uint_32 length); /* 316 */
     void (*png_push_read_iTXt) (png_structp png_ptr, png_infop info_ptr, png_uint_32 length); /* 317 */
-    void (*png_info_init_3) (png_infop info_ptr, png_size_t png_info_struct_size); /* 318 */
+    void (*png_info_init_3) (png_infopp info_ptr, png_size_t png_info_struct_size); /* 318 */
 } PngtclStubs;
 
 #ifdef __cplusplus
@@ -2632,6 +2633,7 @@ extern const PngtclStubs *pngtclStubsPtr;
 
 /* !END!: Do not edit above this line. */
 
+#undef png_info_init
 #define png_info_init(info_ptr) png_info_init_3(&info_ptr,\
     png_sizeof(png_info));
 

@@ -470,7 +470,7 @@ uninstall-binaries:
 
 genstubs:
 	$(TCLSH_PROG)	\
-		$(srcdir)/../../tools/genStubs.tcl $(srcdir)	\
+		$(srcdir)/../tools/genStubs.tcl $(srcdir)	\
 		$(srcdir)/tifftcl.decls
 
 #========================================================================

@@ -16,7 +16,6 @@
 #undef png_write_chunk_data
 #undef png_write_chunk_end
 #undef png_create_info_struct
-#undef png_info_init
 #undef png_info_init_3
 #undef png_write_info_before_PLTE
 #undef png_write_info

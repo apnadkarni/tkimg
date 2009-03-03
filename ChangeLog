@@ -1,3 +1,8 @@
+2009-03-03  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* fix "make genstubs" for libpng, libtiff, libz, libjpeg
+	* PNG build fix
+
 2009-02-24  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* gif handler cleanup
