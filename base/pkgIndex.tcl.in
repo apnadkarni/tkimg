@@ -33,6 +33,6 @@ package ifneeded Img @PACKAGE_VERSION@ {
     package require img::ppm
     package require img::gif
     package require img::pixmap
-    package provide img @PACKAGE_VERSION@
+    package provide Img @PACKAGE_VERSION@
 }
 
