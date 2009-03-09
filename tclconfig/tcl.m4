@@ -1476,19 +1476,20 @@ dnl AC_CHECK_TOOL(AR, ar)
 		SHLIB_LD_LIBS='${LIBS}'
 		DL_OBJS="tclLoadShl.o"
 		DL_LIBS="-ldld"
-		LDFLAGS="$LDFLAGS -Wl,-E"
+		LDFLAGS="$LDFLAGS -E"
 		CC_SEARCH_FLAGS='-Wl,+s,+b,${LIB_RUNTIME_DIR}:.'
-		LD_SEARCH_FLAGS='-Wl,+s,+b,${LIB_RUNTIME_DIR}:.'
+		LD_SEARCH_FLAGS='+s +b ${LIB_RUNTIME_DIR}:.'
 		LD_LIBRARY_PATH_VAR="SHLIB_PATH"
 	    ])
 	    AS_IF([test "$GCC" = yes], [
 		SHLIB_LD='${CC} -shared'
+		LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
 	    ], [
 		CFLAGS="$CFLAGS -z"
 		# Users may want PA-RISC 1.1/2.0 portable code - needs HP cc
 		#CFLAGS="$CFLAGS +DAportable"
 		SHLIB_CFLAGS="+z"
-		SHLIB_LD="${CC} -b"
+		SHLIB_LD="ld -b"
 	    ])
 
 	    # Check to enable 64-bit flags for compiler/linker
@@ -1512,7 +1513,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 		], [
 		    do64bit_ok=yes
 		    CFLAGS="$CFLAGS +DD64"
-		    LDFLAGS_ARCH="+DD64 -Wl,+DD64"
+		    LDFLAGS_ARCH="+DD64"
 		])
 	    ]) ;;
 	HP-UX-*.08.*|HP-UX-*.09.*|HP-UX-*.10.*)

@@ -1,3 +1,8 @@
+2009-03-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Revert to using "ld -b" in stead of "${CC} -b" for
+	  HP-UX-11; it doesn't work in 64-bit mode.
+
 2009-03-03  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* fix "make genstubs" for libpng, libtiff, libz, libjpeg
