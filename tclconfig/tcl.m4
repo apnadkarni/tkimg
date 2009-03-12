@@ -1463,12 +1463,16 @@ dnl AC_CHECK_TOOL(AR, ar)
 	HP-UX-*.11.*)
 	    # Use updated header definitions where possible
 	    AC_DEFINE(_XOPEN_SOURCE_EXTENDED, 1, [Do we want to use the XOPEN network library?])
-	    # Needed by Tcl, but not most extensions
+	    # TEA specific: Needed by Tcl, but not most extensions
 	    #AC_DEFINE(_XOPEN_SOURCE, 1, [Do we want to use the XOPEN network library?])
 	    #LIBS="$LIBS -lxnet"               # Use the XOPEN network library
 
 	    AS_IF([test "`uname -m`" = ia64], [
 		SHLIB_SUFFIX=".so"
+		# Use newer C++ library for C++ extensions
+		#if test "$GCC" != "yes" ; then
+		#   CPPFLAGS="-AA"
+		#fi
 	    ], [
 		SHLIB_SUFFIX=".sl"
 	    ])
