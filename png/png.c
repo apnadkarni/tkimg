@@ -392,7 +392,7 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
 static int
 ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST84 char *filename;
+    const char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

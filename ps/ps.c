@@ -239,7 +239,7 @@ CommonRead(interp, handle, format, imageHandle,
     int srcX, srcY;
 {
 #ifndef MAC_TCL
-    CONST84 char *argv[10];
+    const char *argv[10];
     int len, i, j, fileWidth, fileHeight, maxintensity, index;
     char *p, type;
     char buffer[1025];
@@ -293,7 +293,7 @@ CommonRead(interp, handle, format, imageHandle,
     argv[6] = "-sOutputFile=-";
     argv[7] = "-";
 
-    chan = Tcl_OpenCommandChannel(interp, 8, argv,
+    chan = Tcl_OpenCommandChannel(interp, 8, (CONST84 char *) argv,
 	    TCL_STDIN|TCL_STDOUT|TCL_STDERR|TCL_ENFORCE_MODE);
     if (!chan) {
 	return TCL_ERROR;
@@ -442,7 +442,7 @@ CommonRead(interp, handle, format, imageHandle,
 static int
 ChnWrite(interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST84 char *filename;
+    const char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

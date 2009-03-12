@@ -555,8 +555,8 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
     }
     if (objc) {
 	for (i=1; i<objc; i++) {
-	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)jpegReadOptions, "format option",
-		    0, &index)!=TCL_OK) {
+	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)jpegReadOptions,
+		    "format option", 0, &index)!=TCL_OK) {
 		return TCL_ERROR;
 	    }
 	    switch (index) {
@@ -677,7 +677,7 @@ CommonRead(interp, cinfo, format, imageHandle, destX, destY,
 static int
 ChnWrite(interp, fileName, format, blockPtr)
     Tcl_Interp *interp;
-    CONST84 char *fileName;
+    const char *fileName;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

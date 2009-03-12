@@ -442,7 +442,7 @@ static int ParseFormatOpts (interp, format, opts)
     };
     int objc, length, c, i, index;
     Tcl_Obj **objv;
-    CONST84 char *indexStr, *verboseStr;
+    const char *indexStr, *verboseStr;
 
     /* Initialize format options with default values. */
     verboseStr = "0";
@@ -858,7 +858,7 @@ error:
 
 static int ChnWrite (interp, filename, format, blockPtr)
     Tcl_Interp *interp;
-    CONST84 char *filename;
+    const char *filename;
     Tcl_Obj *format;
     Tk_PhotoImageBlock *blockPtr;
 {

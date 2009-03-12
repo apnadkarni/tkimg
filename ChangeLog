@@ -7,6 +7,7 @@
 2009-03-12  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* fix "make checkstubs"
+	* a few CONST84 eliminations
 
 2009-03-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
