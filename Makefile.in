@@ -103,10 +103,18 @@ all:
 test:	all
 	for sub in $(SUBDIRS) ; \
 	do	\
+		test -d $(srcdir)/$$sub/tests || continue ; \
 		here=`pwd` && \
 		cd $$sub && \
-		$(MAKE) test || exit $$? && \
+		$(MAKE) top_builddir=$$here test || exit $$? && \
 		cd $$here ; \
+	done
+
+install-man:
+	mkdir -p $(MAN_INSTALL_DIR)/mann
+	for i in $(srcdir)/doc/*.man ; \
+	do	\
+		dtplite -ext n -o $(MAN_INSTALL_DIR)/mann nroff $$i ; \
 	done
 
 collate: all
@@ -133,7 +141,7 @@ collate: all
 			$$p > $$p.1 && mv -f $$p.1 $$p ; \
 	done
 
-install: collate
+install: collate install-man
 	mkdir -p    $(INSTALL_ROOT)$(LIB_RUNTIME_DIR)
 	for p in Img/exec_prefix/lib/Img/* ; do \
 		$(INSTALL_PROGRAM) $$p $(INSTALL_ROOT)$(LIB_RUNTIME_DIR)/`basename $$p` ; \
