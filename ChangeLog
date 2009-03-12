@@ -1,3 +1,8 @@
+2009-03-12  Stuart Cassoff <stwo@users.sourceforge.net>
+
+	* various fixes to tcl.m4 [Bug #2669308] (Stuart Cassoff)
+	  (To be checked in in sampleextension as well.)
+
 2009-03-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Revert to using "ld -b" in stead of "${CC} -b" for
