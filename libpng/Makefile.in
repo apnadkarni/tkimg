@@ -475,7 +475,7 @@ pngtcl_DECLS = \
 	$(srcdir)/pngtcl.decls
 
 checkstubs:
-	-@for i in `nm -p $(pngtcl_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
+	-@for i in `nm -p $(PKG_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
 		| sort -n`; do \
 		match=0; \
 		for j in $(pngtcl_DECLS); do \

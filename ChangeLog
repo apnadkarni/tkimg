@@ -2,6 +2,7 @@
 
 	* various fixes to tcl.m4 [Bug #2669308] (Stuart Cassoff)
 	  (To be checked in in sampleextension as well.)
+	* fix "make checkstubs"
 
 2009-03-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
 

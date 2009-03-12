@@ -471,7 +471,7 @@ zlibtcl_DECLS = \
 	$(srcdir)/zlibtcl.decls
 
 checkstubs:
-	-@for i in `nm -p $(zlibtcl_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
+	-@for i in `nm -p $(PKG_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
 		| sort -n`; do \
 		match=0; \
 		for j in $(zlibtcl_DECLS); do \
