@@ -1758,13 +1758,13 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
     tf.matteScan = (UByte *)  ckalloc (blockPtr->width);
     tf.pixbuf    = (UShort *) ckalloc (blockPtr->width * sizeof (UShort));
     tf.th.imagic = IMAGIC;
-    tf.th.dorev  = isIntel();
 
     if (!writeHeader(handle, &tf.th,
                       compr? RLE(bpp): UNCOMPRESSED(bpp),
                       nchan, blockPtr->width, blockPtr->height, nchan)) {
 	return TCL_ERROR;
     }
+    tf.th.dorev  = isIntel();
 
     rowPixPtr = blockPtr->pixelPtr + blockPtr->offset[0];
     for (y = blockPtr->height -1; y >=0; y--) {
