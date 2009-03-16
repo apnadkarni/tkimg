@@ -1,3 +1,7 @@
+2009-03-15	Paul Obermeier <obermeier@users.sourceforge.net>
+
+	* Fixed issue #2685291: Fill ALL unused header bytes with zeros.
+
 2009-01-12	Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* No longer Panic when an out-of-memory error occurs,
