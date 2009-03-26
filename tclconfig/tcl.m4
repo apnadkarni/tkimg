@@ -1500,8 +1500,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    # Check to enable 64-bit flags for compiler/linker
 	    AS_IF([test "$do64bit" = "yes"], [
 		AS_IF([test "$GCC" = yes], [
-		    hpux_arch=`${CC} -dumpmachine`
-		    case $hpux_arch in
+		    case `${CC} -dumpmachine` in
 			hppa64*)
 			    # 64-bit gcc in use.  Fix flags for GNU ld.
 			    do64bit_ok=yes
@@ -2588,7 +2587,7 @@ AC_DEFUN([TEA_BLOCKING_STYLE], [
 ])
 
 #--------------------------------------------------------------------
-# TEA_TIME_HANLDER
+# TEA_TIME_HANDLER
 #
 #	Checks how the system deals with time.h, what time structures
 #	are used on the system, and what fields the structures have.
