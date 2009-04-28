@@ -1,3 +1,7 @@
+2009-04-28  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Fix [Bug #82910] teacup requires libX11 to run
+    
 2009-03-12  Stuart Cassoff <stwo@users.sourceforge.net>
 
 	* various fixes to tcl.m4 [Bug #2669308] (Stuart Cassoff)

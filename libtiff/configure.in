@@ -175,7 +175,8 @@ TEA_ENABLE_SYMBOLS
 # This must be called after TEA_CONFIG_CFLAGS as it adjusts LIBS.
 #--------------------------------------------------------------------
 
-TEA_PATH_X
+# See [Bug #82910]
+#TEA_PATH_X
 
 #--------------------------------------------------------------------
 # Everyone should be linking against the Tcl stub library.  If you
