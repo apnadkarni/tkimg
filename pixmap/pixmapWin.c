@@ -15,8 +15,8 @@
 #include "tkWinInt.h"
 #include "pixmapInt.h"
 #include <stdlib.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
+#include "X11/Xlib.h"
+#include "X11/Xutil.h"
 
 typedef struct PixmapData {
     HDC bitmapDC;               /* Bitmap used on Windows platforms */

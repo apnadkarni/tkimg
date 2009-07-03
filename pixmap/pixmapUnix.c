@@ -14,8 +14,8 @@
 #include "tk.h"
 #include "pixmapInt.h"
 #include <stdlib.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
+#include "X11/Xlib.h"
+#include "X11/Xutil.h"
 
 #ifdef MAC_OSX_TK
 #define XPutImage
