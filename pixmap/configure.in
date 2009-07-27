@@ -73,15 +73,6 @@ TEA_ADD_TCL_SOURCES([])
 
 PUP="`echo ${PACKAGE}| tr 'a-z' 'A-Z'`"
 
-sed < "`${CYGPATH} ${srcdir}/../init.c`" > "init.c"	\
-	-e	"s/@CPACKAGE@/${CPACKAGE}/"		\
-	-e	"s/%PACKAGE%/${PACKAGE_NAME}/"		\
-	-e	"s/%PACKAGE_UP%/${PUP}/"		\
-	-e	"s/%PHIMGTYPE%/${PHIMGTYPE}/"
-
-# init.c is an included source file, not a source by itself
-# FUTURE: Do this through AC_OUTPUT!!
-
 #--------------------------------------------------------------------
 # __CHANGE__
 # Choose which headers you need.  Extension authors should try very

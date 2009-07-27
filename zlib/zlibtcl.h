@@ -46,9 +46,6 @@
 #ifndef CONST84
 #   define CONST84
 #endif
-#ifndef CONST86
-#   define CONST86
-#endif
 
 /*
  * Fix the Borland bug that's in the EXTERN macro from tcl.h.

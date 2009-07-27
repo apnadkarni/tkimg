@@ -270,8 +270,8 @@ dlopen(path, flags)
   startAddress = (char *) (((unsigned long) sbrk (0)
 			    + TCL_LOADSHIM + TCL_LOADALIGN - 1)
 			   & (- TCL_LOADALIGN));
-  p = strstr (linkCommand, "-T") + 3;
-  sprintf (p, "%08lx", (long) startAddress);
+  p = strstr(linkCommand, "-T") + 3;
+  sprintf(p, "%08lx", (long) startAddress);
   p [8] = ' ';
 
   /* Run the linker */
@@ -286,11 +286,11 @@ dlopen(path, flags)
 
   /* Open the linker's result file and read the header */
 
-  relocatedFd = open (relocatedFileName, O_RDONLY);
+  relocatedFd = open(relocatedFileName, O_RDONLY);
   if (relocatedFd < 0) {
     goto ioError;
   }
-  status= read (relocatedFd, (char *) & relocatedHead, sizeof relocatedHead);
+  status= read(relocatedFd, (char *) & relocatedHead, sizeof relocatedHead);
   if (status < sizeof relocatedHead) {
     goto ioError;
   }

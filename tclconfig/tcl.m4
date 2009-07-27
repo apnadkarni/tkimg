@@ -1335,11 +1335,12 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    AS_IF([test "${TCL_THREADS}" = "1" -a "$GCC" != "yes"], [
 		# AIX requires the _r compiler when gcc isn't being used
 		case "${CC}" in
-		    *_r)
+		    *_r|*_r\ *)
 			# ok ...
 			;;
 		    *)
-			CC=${CC}_r
+			# Make sure only first arg gets _r
+		    	CC=`echo "$CC" | sed -e 's/^\([[^ ]]*\)/\1_r/'`
 			;;
 		esac
 		AC_MSG_RESULT([Using $CC for compiling with threads])
@@ -1866,9 +1867,22 @@ dnl AC_CHECK_TOOL(AR, ar)
 			    eval $v'="$hold_'$v'"'
 			done])
 		])
+		AS_IF([test "${TEA_WINDOWINGSYSTEM}" = aqua], [
+		    AC_CACHE_CHECK([for 64-bit Tk], tcl_cv_lib_tk_64, [
+			for v in CFLAGS CPPFLAGS LDFLAGS; do
+			    eval 'hold_'$v'="$'$v'";'$v'="`echo "$'$v' "|sed -e "s/-arch ppc / /g" -e "s/-arch i386 / /g"`"'
+			done
+			CPPFLAGS="$CPPFLAGS -DUSE_TCL_STUBS=1 -DUSE_TK_STUBS=1 ${TCL_INCLUDES} ${TK_INCLUDES}"
+			LDFLAGS="$LDFLAGS ${TCL_STUB_LIB_SPEC} ${TK_STUB_LIB_SPEC}"
+			AC_TRY_LINK([#include <tk.h>], [Tk_InitStubs(NULL, "", 0);],
+			    tcl_cv_lib_tk_64=yes, tcl_cv_lib_tk_64=no)
+			for v in CFLAGS CPPFLAGS LDFLAGS; do
+			    eval $v'="$hold_'$v'"'
+			done])
+		])
 		# remove 64-bit arch flags from CFLAGS et al. if configuration
 		# does not support 64-bit.
-		AS_IF([test "${TEA_WINDOWINGSYSTEM}" = aqua -o "$tcl_cv_lib_x11_64" = no], [
+		AS_IF([test "$tcl_cv_lib_tk_64" = no -o "$tcl_cv_lib_x11_64" = no], [
 		    AC_MSG_NOTICE([Removing 64-bit architectures from compiler & linker flags])
 		    for v in CFLAGS CPPFLAGS LDFLAGS; do
 			eval $v'="`echo "$'$v' "|sed -e "s/-arch ppc64 / /g" -e "s/-arch x86_64 / /g"`"'

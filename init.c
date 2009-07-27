@@ -170,9 +170,9 @@ int
 	 * Register the new photo image type.
 	 */
 
-	Tk_CreatePhotoImageFormat (&format);
+	Tk_CreatePhotoImageFormat(&format);
 #ifdef SECOND_FORMAT
-	Tk_CreatePhotoImageFormat (&format_beta);
+	Tk_CreatePhotoImageFormat(&format_beta);
 #endif /* SECOND_FORMAT */
 
 	/*
@@ -205,6 +205,6 @@ int
 @CPACKAGE@_SafeInit(
 	Tcl_Interp *interp /* Interpreter to initialise. */
 ) {
-	return @CPACKAGE@_Init (interp);
+	return @CPACKAGE@_Init(interp);
 }
 
