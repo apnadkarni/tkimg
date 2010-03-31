@@ -81,12 +81,12 @@ and JPEG in packages directly loadable by Tcl. They provide the
 functionality of their underlying libraries via stub-tables. The names
 of these packages are:
 
-	Name		Directory		Dependency
+	Name		Directory		    Dependency
 	-------------------------------------------------
-	zlibtcl		tkimg/libz/tcl
-	pngtcl		tkimg/libpng/tcl	zlibtcl
-	jpegtcl		tkimg/libjpeg/tcl
-	tifftcl		tkimg/libtiff/tcl
+	zlibtcl		tkimg/compat/libz
+	pngtcl		tkimg/compat/libpng	  zlibtcl
+	jpegtcl		tkimg/compat/libjpeg
+	tifftcl		tkimg/compat/libtiff
 	-------------------------------------------------
 
 The package 'pngtcl' depends on 'zlibtcl' and has to be built after
@@ -95,7 +95,7 @@ can be found in the directories listed above.
 
 The configure/Makefile's in the directories
 
-	tkimg/libz, tkimg/libpng, tkimg/libjpeg, tkimg/libtiff
+	tkimg/compat/libz, tkimg/compat/libpng, tkimg/compat/libjpeg, tkimg/compat/libtiff
 
 must _not_ be used directly under any circumstances.
 
@@ -184,8 +184,6 @@ formats. Each format will automatically load all of the packages it is
 dependent on.
 
 The line
-	package require img
-or
 	package require Img
 
 is still legal and will load all format handlers provided by this
