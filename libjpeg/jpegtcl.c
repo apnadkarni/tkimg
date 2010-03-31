@@ -67,7 +67,7 @@ int
 Jpegtcl_Init (interp)
       Tcl_Interp *interp; /* Interpreter to initialise. */
 {
-  extern JpegtclStubs jpegtclStubs;
+  extern const JpegtclStubs jpegtclStubs;
 
 #ifdef USE_TCL_STUBS
   if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {

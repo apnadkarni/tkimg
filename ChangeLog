@@ -1,3 +1,11 @@
+2010-03-31  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Sync with latest TEA (tcl.m4), regenerated all
+	  configure scripts with autoconf-2.65.
+	* Sync genStubs.tcl with latest one from Tcl 8.6,
+	  regenerated all *Decls.h files. All stubs
+	  pointers are const now.
+    
 2009-07-26  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Sync with latest TEA (tcl.m4), regenerated all

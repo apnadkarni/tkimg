@@ -17,7 +17,7 @@
 
 /* !BEGIN!: Do not edit below this line. */
 
-TkimgStubs tkimgStubs = {
+const TkimgStubs tkimgStubs = {
     TCL_STUB_MAGIC,
     NULL,
     tkimg_OpenFileChannel, /* 0 */

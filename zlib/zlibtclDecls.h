@@ -31,9 +31,9 @@ EXTERN const char *	zlibVersion(void);
 /* 1 */
 EXTERN const char *	zError(int err);
 /* 2 */
-EXTERN uLong		crc32(uLong crc, const Bytef * buf, uInt len);
+EXTERN uLong		crc32(uLong crc, const Bytef *buf, uInt len);
 /* 3 */
-EXTERN uLong		adler32(uLong adler, const Bytef * buf, uInt len);
+EXTERN uLong		adler32(uLong adler, const Bytef *buf, uInt len);
 /* Slot 4 is reserved */
 /* Slot 5 is reserved */
 /* Slot 6 is reserved */
@@ -42,11 +42,11 @@ EXTERN uLong		adler32(uLong adler, const Bytef * buf, uInt len);
 /* Slot 9 is reserved */
 /* 10 */
 EXTERN int		deflateInit_(z_streamp stream, int level,
-				const char * version, int stream_size);
+				const char *version, int stream_size);
 /* 11 */
 EXTERN int		deflateInit2_(z_streamp stream, int level,
 				int method, int windowBits, int memLevel,
-				int strategy, const char * version,
+				int strategy, const char *version,
 				int stream_size);
 /* 12 */
 EXTERN int		deflate(z_streamp stream, int flush);
@@ -54,7 +54,7 @@ EXTERN int		deflate(z_streamp stream, int flush);
 EXTERN int		deflateEnd(z_streamp stream);
 /* 14 */
 EXTERN int		deflateSetDictionary(z_streamp stream,
-				const Bytef * dict, uInt dictLength);
+				const Bytef *dict, uInt dictLength);
 /* 15 */
 EXTERN int		deflateCopy(z_streamp dst, z_streamp src);
 /* 16 */
@@ -63,38 +63,38 @@ EXTERN int		deflateReset(z_streamp stream);
 EXTERN int		deflateParams(z_streamp stream, int level,
 				int strategy);
 /* 18 */
-EXTERN int		compress(Bytef * dest, uLongf * destLen,
-				const Bytef * source, uLong sourceLen);
+EXTERN int		compress(Bytef *dest, uLongf *destLen,
+				const Bytef *source, uLong sourceLen);
 /* 19 */
-EXTERN int		compress2(Bytef * dest, uLongf * destLen,
-				const Bytef * source, uLong sourceLen,
+EXTERN int		compress2(Bytef *dest, uLongf *destLen,
+				const Bytef *source, uLong sourceLen,
 				int level);
 /* 20 */
-EXTERN int		inflateInit_(z_streamp stream, const char * version,
+EXTERN int		inflateInit_(z_streamp stream, const char *version,
 				int stream_size);
 /* 21 */
 EXTERN int		inflateInit2_(z_streamp stream, int windowBits,
-				const char * version, int stream_size);
+				const char *version, int stream_size);
 /* 22 */
 EXTERN int		inflate(z_streamp stream, int flush);
 /* 23 */
 EXTERN int		inflateEnd(z_streamp stream);
 /* 24 */
 EXTERN int		inflateSetDictionary(z_streamp stream,
-				const Bytef * dict, uInt dictLength);
+				const Bytef *dict, uInt dictLength);
 /* 25 */
 EXTERN int		inflateSync(z_streamp stream);
 /* 26 */
 EXTERN int		inflateReset(z_streamp stream);
 /* 27 */
-EXTERN int		uncompress(Bytef * dest, uLongf * destLen,
-				const Bytef * source, uLong sourceLen);
+EXTERN int		uncompress(Bytef *dest, uLongf *destLen,
+				const Bytef *source, uLong sourceLen);
 /* Slot 28 is reserved */
 /* Slot 29 is reserved */
 /* 30 */
-EXTERN gzFile		gzopen(const char * path, const char * mode);
+EXTERN gzFile		gzopen(const char *path, const char *mode);
 /* 31 */
-EXTERN gzFile		gzdopen(int fd, const char * mode);
+EXTERN gzFile		gzdopen(int fd, const char *mode);
 /* 32 */
 EXTERN int		gzsetparams(gzFile file, int level, int strategy);
 /* 33 */
@@ -102,11 +102,11 @@ EXTERN int		gzread(gzFile file, voidp buf, unsigned len);
 /* 34 */
 EXTERN int		gzwrite(gzFile file, voidpc buf, unsigned len);
 /* 35 */
-EXTERN int		gzprintf(gzFile file, const char * format, ...);
+EXTERN int		gzprintf(gzFile file, const char *format, ...);
 /* 36 */
-EXTERN int		gzputs(gzFile file, const char * s);
+EXTERN int		gzputs(gzFile file, const char *s);
 /* 37 */
-EXTERN char *		gzgets(gzFile file, char * buf, int len);
+EXTERN char *		gzgets(gzFile file, char *buf, int len);
 /* 38 */
 EXTERN int		gzputc(gzFile file, int c);
 /* 39 */
@@ -124,59 +124,59 @@ EXTERN int		gzeof(gzFile file);
 /* 45 */
 EXTERN int		gzclose(gzFile file);
 /* 46 */
-EXTERN const char *	gzerror(gzFile file, int * errnum);
+EXTERN const char *	gzerror(gzFile file, int *errnum);
 
 typedef struct ZlibtclStubs {
     int magic;
     const struct ZlibtclStubHooks *hooks;
 
-    const char * (*zlibVersion) (void); /* 0 */
-    const char * (*zError) (int err); /* 1 */
-    uLong (*crc32) (uLong crc, const Bytef * buf, uInt len); /* 2 */
-    uLong (*adler32) (uLong adler, const Bytef * buf, uInt len); /* 3 */
+    const char * (*zlibVersionPtr) (void); /* 0 */
+    const char * (*zErrorPtr) (int err); /* 1 */
+    uLong (*crc32Ptr) (uLong crc, const Bytef *buf, uInt len); /* 2 */
+    uLong (*adler32Ptr) (uLong adler, const Bytef *buf, uInt len); /* 3 */
     void *reserved4;
     void *reserved5;
     void *reserved6;
     void *reserved7;
     void *reserved8;
     void *reserved9;
-    int (*deflateInit_) (z_streamp stream, int level, const char * version, int stream_size); /* 10 */
-    int (*deflateInit2_) (z_streamp stream, int level, int method, int windowBits, int memLevel, int strategy, const char * version, int stream_size); /* 11 */
-    int (*deflate) (z_streamp stream, int flush); /* 12 */
-    int (*deflateEnd) (z_streamp stream); /* 13 */
-    int (*deflateSetDictionary) (z_streamp stream, const Bytef * dict, uInt dictLength); /* 14 */
-    int (*deflateCopy) (z_streamp dst, z_streamp src); /* 15 */
-    int (*deflateReset) (z_streamp stream); /* 16 */
-    int (*deflateParams) (z_streamp stream, int level, int strategy); /* 17 */
-    int (*compress) (Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen); /* 18 */
-    int (*compress2) (Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen, int level); /* 19 */
-    int (*inflateInit_) (z_streamp stream, const char * version, int stream_size); /* 20 */
-    int (*inflateInit2_) (z_streamp stream, int windowBits, const char * version, int stream_size); /* 21 */
-    int (*inflate) (z_streamp stream, int flush); /* 22 */
-    int (*inflateEnd) (z_streamp stream); /* 23 */
-    int (*inflateSetDictionary) (z_streamp stream, const Bytef * dict, uInt dictLength); /* 24 */
-    int (*inflateSync) (z_streamp stream); /* 25 */
-    int (*inflateReset) (z_streamp stream); /* 26 */
-    int (*uncompress) (Bytef * dest, uLongf * destLen, const Bytef * source, uLong sourceLen); /* 27 */
+    int (*deflateInit_Ptr) (z_streamp stream, int level, const char *version, int stream_size); /* 10 */
+    int (*deflateInit2_Ptr) (z_streamp stream, int level, int method, int windowBits, int memLevel, int strategy, const char *version, int stream_size); /* 11 */
+    int (*deflatePtr) (z_streamp stream, int flush); /* 12 */
+    int (*deflateEndPtr) (z_streamp stream); /* 13 */
+    int (*deflateSetDictionaryPtr) (z_streamp stream, const Bytef *dict, uInt dictLength); /* 14 */
+    int (*deflateCopyPtr) (z_streamp dst, z_streamp src); /* 15 */
+    int (*deflateResetPtr) (z_streamp stream); /* 16 */
+    int (*deflateParamsPtr) (z_streamp stream, int level, int strategy); /* 17 */
+    int (*compressPtr) (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen); /* 18 */
+    int (*compress2Ptr) (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen, int level); /* 19 */
+    int (*inflateInit_Ptr) (z_streamp stream, const char *version, int stream_size); /* 20 */
+    int (*inflateInit2_Ptr) (z_streamp stream, int windowBits, const char *version, int stream_size); /* 21 */
+    int (*inflatePtr) (z_streamp stream, int flush); /* 22 */
+    int (*inflateEndPtr) (z_streamp stream); /* 23 */
+    int (*inflateSetDictionaryPtr) (z_streamp stream, const Bytef *dict, uInt dictLength); /* 24 */
+    int (*inflateSyncPtr) (z_streamp stream); /* 25 */
+    int (*inflateResetPtr) (z_streamp stream); /* 26 */
+    int (*uncompressPtr) (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen); /* 27 */
     void *reserved28;
     void *reserved29;
-    gzFile (*gzopen) (const char * path, const char * mode); /* 30 */
-    gzFile (*gzdopen) (int fd, const char * mode); /* 31 */
-    int (*gzsetparams) (gzFile file, int level, int strategy); /* 32 */
-    int (*gzread) (gzFile file, voidp buf, unsigned len); /* 33 */
-    int (*gzwrite) (gzFile file, voidpc buf, unsigned len); /* 34 */
-    int (*gzprintf) (gzFile file, const char * format, ...); /* 35 */
-    int (*gzputs) (gzFile file, const char * s); /* 36 */
-    char * (*gzgets) (gzFile file, char * buf, int len); /* 37 */
-    int (*gzputc) (gzFile file, int c); /* 38 */
-    int (*gzgetc) (gzFile file); /* 39 */
-    int (*gzflush) (gzFile file, int flush); /* 40 */
-    z_off_t (*gzseek) (gzFile file, z_off_t offset, int whence); /* 41 */
-    int (*gzrewind) (gzFile file); /* 42 */
-    z_off_t (*gztell) (gzFile file); /* 43 */
-    int (*gzeof) (gzFile file); /* 44 */
-    int (*gzclose) (gzFile file); /* 45 */
-    const char * (*gzerror) (gzFile file, int * errnum); /* 46 */
+    gzFile (*gzopenPtr) (const char *path, const char *mode); /* 30 */
+    gzFile (*gzdopenPtr) (int fd, const char *mode); /* 31 */
+    int (*gzsetparamsPtr) (gzFile file, int level, int strategy); /* 32 */
+    int (*gzreadPtr) (gzFile file, voidp buf, unsigned len); /* 33 */
+    int (*gzwritePtr) (gzFile file, voidpc buf, unsigned len); /* 34 */
+    int (*gzprintfPtr) (gzFile file, const char *format, ...); /* 35 */
+    int (*gzputsPtr) (gzFile file, const char *s); /* 36 */
+    char * (*gzgetsPtr) (gzFile file, char *buf, int len); /* 37 */
+    int (*gzputcPtr) (gzFile file, int c); /* 38 */
+    int (*gzgetcPtr) (gzFile file); /* 39 */
+    int (*gzflushPtr) (gzFile file, int flush); /* 40 */
+    z_off_t (*gzseekPtr) (gzFile file, z_off_t offset, int whence); /* 41 */
+    int (*gzrewindPtr) (gzFile file); /* 42 */
+    z_off_t (*gztellPtr) (gzFile file); /* 43 */
+    int (*gzeofPtr) (gzFile file); /* 44 */
+    int (*gzclosePtr) (gzFile file); /* 45 */
+    const char * (*gzerrorPtr) (gzFile file, int *errnum); /* 46 */
 } ZlibtclStubs;
 
 #ifdef __cplusplus
@@ -195,19 +195,19 @@ extern const ZlibtclStubs *zlibtclStubsPtr;
 
 #ifndef zlibVersion
 #define zlibVersion \
-	(zlibtclStubsPtr->zlibVersion) /* 0 */
+	(zlibtclStubsPtr->zlibVersionPtr) /* 0 */
 #endif
 #ifndef zError
 #define zError \
-	(zlibtclStubsPtr->zError) /* 1 */
+	(zlibtclStubsPtr->zErrorPtr) /* 1 */
 #endif
 #ifndef crc32
 #define crc32 \
-	(zlibtclStubsPtr->crc32) /* 2 */
+	(zlibtclStubsPtr->crc32Ptr) /* 2 */
 #endif
 #ifndef adler32
 #define adler32 \
-	(zlibtclStubsPtr->adler32) /* 3 */
+	(zlibtclStubsPtr->adler32Ptr) /* 3 */
 #endif
 /* Slot 4 is reserved */
 /* Slot 5 is reserved */
@@ -217,145 +217,145 @@ extern const ZlibtclStubs *zlibtclStubsPtr;
 /* Slot 9 is reserved */
 #ifndef deflateInit_
 #define deflateInit_ \
-	(zlibtclStubsPtr->deflateInit_) /* 10 */
+	(zlibtclStubsPtr->deflateInit_Ptr) /* 10 */
 #endif
 #ifndef deflateInit2_
 #define deflateInit2_ \
-	(zlibtclStubsPtr->deflateInit2_) /* 11 */
+	(zlibtclStubsPtr->deflateInit2_Ptr) /* 11 */
 #endif
 #ifndef deflate
 #define deflate \
-	(zlibtclStubsPtr->deflate) /* 12 */
+	(zlibtclStubsPtr->deflatePtr) /* 12 */
 #endif
 #ifndef deflateEnd
 #define deflateEnd \
-	(zlibtclStubsPtr->deflateEnd) /* 13 */
+	(zlibtclStubsPtr->deflateEndPtr) /* 13 */
 #endif
 #ifndef deflateSetDictionary
 #define deflateSetDictionary \
-	(zlibtclStubsPtr->deflateSetDictionary) /* 14 */
+	(zlibtclStubsPtr->deflateSetDictionaryPtr) /* 14 */
 #endif
 #ifndef deflateCopy
 #define deflateCopy \
-	(zlibtclStubsPtr->deflateCopy) /* 15 */
+	(zlibtclStubsPtr->deflateCopyPtr) /* 15 */
 #endif
 #ifndef deflateReset
 #define deflateReset \
-	(zlibtclStubsPtr->deflateReset) /* 16 */
+	(zlibtclStubsPtr->deflateResetPtr) /* 16 */
 #endif
 #ifndef deflateParams
 #define deflateParams \
-	(zlibtclStubsPtr->deflateParams) /* 17 */
+	(zlibtclStubsPtr->deflateParamsPtr) /* 17 */
 #endif
 #ifndef compress
 #define compress \
-	(zlibtclStubsPtr->compress) /* 18 */
+	(zlibtclStubsPtr->compressPtr) /* 18 */
 #endif
 #ifndef compress2
 #define compress2 \
-	(zlibtclStubsPtr->compress2) /* 19 */
+	(zlibtclStubsPtr->compress2Ptr) /* 19 */
 #endif
 #ifndef inflateInit_
 #define inflateInit_ \
-	(zlibtclStubsPtr->inflateInit_) /* 20 */
+	(zlibtclStubsPtr->inflateInit_Ptr) /* 20 */
 #endif
 #ifndef inflateInit2_
 #define inflateInit2_ \
-	(zlibtclStubsPtr->inflateInit2_) /* 21 */
+	(zlibtclStubsPtr->inflateInit2_Ptr) /* 21 */
 #endif
 #ifndef inflate
 #define inflate \
-	(zlibtclStubsPtr->inflate) /* 22 */
+	(zlibtclStubsPtr->inflatePtr) /* 22 */
 #endif
 #ifndef inflateEnd
 #define inflateEnd \
-	(zlibtclStubsPtr->inflateEnd) /* 23 */
+	(zlibtclStubsPtr->inflateEndPtr) /* 23 */
 #endif
 #ifndef inflateSetDictionary
 #define inflateSetDictionary \
-	(zlibtclStubsPtr->inflateSetDictionary) /* 24 */
+	(zlibtclStubsPtr->inflateSetDictionaryPtr) /* 24 */
 #endif
 #ifndef inflateSync
 #define inflateSync \
-	(zlibtclStubsPtr->inflateSync) /* 25 */
+	(zlibtclStubsPtr->inflateSyncPtr) /* 25 */
 #endif
 #ifndef inflateReset
 #define inflateReset \
-	(zlibtclStubsPtr->inflateReset) /* 26 */
+	(zlibtclStubsPtr->inflateResetPtr) /* 26 */
 #endif
 #ifndef uncompress
 #define uncompress \
-	(zlibtclStubsPtr->uncompress) /* 27 */
+	(zlibtclStubsPtr->uncompressPtr) /* 27 */
 #endif
 /* Slot 28 is reserved */
 /* Slot 29 is reserved */
 #ifndef gzopen
 #define gzopen \
-	(zlibtclStubsPtr->gzopen) /* 30 */
+	(zlibtclStubsPtr->gzopenPtr) /* 30 */
 #endif
 #ifndef gzdopen
 #define gzdopen \
-	(zlibtclStubsPtr->gzdopen) /* 31 */
+	(zlibtclStubsPtr->gzdopenPtr) /* 31 */
 #endif
 #ifndef gzsetparams
 #define gzsetparams \
-	(zlibtclStubsPtr->gzsetparams) /* 32 */
+	(zlibtclStubsPtr->gzsetparamsPtr) /* 32 */
 #endif
 #ifndef gzread
 #define gzread \
-	(zlibtclStubsPtr->gzread) /* 33 */
+	(zlibtclStubsPtr->gzreadPtr) /* 33 */
 #endif
 #ifndef gzwrite
 #define gzwrite \
-	(zlibtclStubsPtr->gzwrite) /* 34 */
+	(zlibtclStubsPtr->gzwritePtr) /* 34 */
 #endif
 #ifndef gzprintf
 #define gzprintf \
-	(zlibtclStubsPtr->gzprintf) /* 35 */
+	(zlibtclStubsPtr->gzprintfPtr) /* 35 */
 #endif
 #ifndef gzputs
 #define gzputs \
-	(zlibtclStubsPtr->gzputs) /* 36 */
+	(zlibtclStubsPtr->gzputsPtr) /* 36 */
 #endif
 #ifndef gzgets
 #define gzgets \
-	(zlibtclStubsPtr->gzgets) /* 37 */
+	(zlibtclStubsPtr->gzgetsPtr) /* 37 */
 #endif
 #ifndef gzputc
 #define gzputc \
-	(zlibtclStubsPtr->gzputc) /* 38 */
+	(zlibtclStubsPtr->gzputcPtr) /* 38 */
 #endif
 #ifndef gzgetc
 #define gzgetc \
-	(zlibtclStubsPtr->gzgetc) /* 39 */
+	(zlibtclStubsPtr->gzgetcPtr) /* 39 */
 #endif
 #ifndef gzflush
 #define gzflush \
-	(zlibtclStubsPtr->gzflush) /* 40 */
+	(zlibtclStubsPtr->gzflushPtr) /* 40 */
 #endif
 #ifndef gzseek
 #define gzseek \
-	(zlibtclStubsPtr->gzseek) /* 41 */
+	(zlibtclStubsPtr->gzseekPtr) /* 41 */
 #endif
 #ifndef gzrewind
 #define gzrewind \
-	(zlibtclStubsPtr->gzrewind) /* 42 */
+	(zlibtclStubsPtr->gzrewindPtr) /* 42 */
 #endif
 #ifndef gztell
 #define gztell \
-	(zlibtclStubsPtr->gztell) /* 43 */
+	(zlibtclStubsPtr->gztellPtr) /* 43 */
 #endif
 #ifndef gzeof
 #define gzeof \
-	(zlibtclStubsPtr->gzeof) /* 44 */
+	(zlibtclStubsPtr->gzeofPtr) /* 44 */
 #endif
 #ifndef gzclose
 #define gzclose \
-	(zlibtclStubsPtr->gzclose) /* 45 */
+	(zlibtclStubsPtr->gzclosePtr) /* 45 */
 #endif
 #ifndef gzerror
 #define gzerror \
-	(zlibtclStubsPtr->gzerror) /* 46 */
+	(zlibtclStubsPtr->gzerrorPtr) /* 46 */
 #endif
 
 #endif /* defined(USE_ZLIBTCL_STUBS) && !defined(USE_ZLIBTCL_STUB_PROCS) */

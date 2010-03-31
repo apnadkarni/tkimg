@@ -17,7 +17,7 @@
 
 /* !BEGIN!: Do not edit below this line. */
 
-JpegtclStubs jpegtclStubs = {
+const JpegtclStubs jpegtclStubs = {
     TCL_STUB_MAGIC,
     NULL,
     jpeg_std_error, /* 0 */

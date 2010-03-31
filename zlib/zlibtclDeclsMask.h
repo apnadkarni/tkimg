@@ -1,10 +1,10 @@
 #ifdef WIN32
 /*
  * While the definitions in the original header are technically the
- * same as the definitions in 'zlibDecls.h' on Windows they are not,
+ * same as the definitions in 'zlibtclDecls.h' on Windows they are not,
  * in a small detail: DLLEXPORT vs. DLLIMPORT. As our artificial
  * definitions do the right thing we use the macro definitions below
- * to move the original definitionsd out of the way. We do retain the
+ * to move the original definitions out of the way. We do retain the
  * inclusion of all the type definitions, etc.
  */
 #define zlibVersion	__mask_zlibVersion

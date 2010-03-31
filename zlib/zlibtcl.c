@@ -66,7 +66,7 @@ int
 Zlibtcl_Init (interp)
       Tcl_Interp *interp; /* Interpreter to initialise. */
 {
-  extern ZlibtclStubs zlibtclStubs;
+  extern const ZlibtclStubs zlibtclStubs;
 
 #ifdef USE_TCL_STUBS
   if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {

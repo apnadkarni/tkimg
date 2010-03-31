@@ -344,7 +344,7 @@ proc genStubs::parseDecl {decl} {
 	return
     }
     set rtype [string trim $rtype]
-    if {$args == ""||[string index $args end]=="]"} {
+    if {$args eq ""||[string index $args end]eq"]"} {
 	return [list $rtype $fname $args]
     }
     foreach arg [split $args ,] {
@@ -422,7 +422,10 @@ proc genStubs::makeDecl {name decl index} {
     lassign $decl rtype fname args
 
     append text "/* $index */\n"
-    set line "EXTERN $rtype"
+    set line $rtype
+    if {$args ne ""} {
+	set line "EXTERN $line"
+    }
     set count [expr {2 - ([string length $line] / 8)}]
     append line [string range "\t\t\t" 0 $count]
     set pad [expr {24 - [string length $line]}]
@@ -436,7 +439,7 @@ proc genStubs::makeDecl {name decl index} {
 	append text ";\n"
 	return $text
     }
-    append line "$fname"
+    append line $fname
 
     set arg1 [lindex $args 0]
     switch -exact $arg1 {
@@ -448,8 +451,11 @@ proc genStubs::makeDecl {name decl index} {
 	    foreach arg [lrange $args 1 end] {
 		append line $sep
 		set next {}
-		append next [lindex $arg 0] " " [lindex $arg 1] \
-			[lindex $arg 2]
+		append next [lindex $arg 0]
+		if {[string index $next end] ne "*"} {
+		    append next " "
+		}
+		append next [lindex $arg 1] [lindex $arg 2]
 		if {[string length $line] + [string length $next] \
 			+ $pad > 76} {
 		    append text [string trimright $line] \n
@@ -466,8 +472,11 @@ proc genStubs::makeDecl {name decl index} {
 	    foreach arg $args {
 		append line $sep
 		set next {}
-		append next [lindex $arg 0] " " [lindex $arg 1] \
-			[lindex $arg 2]
+		append next [lindex $arg 0]
+		if {[string index $next end] ne "*"} {
+		    append next " "
+		}
+		append next [lindex $arg 1] [lindex $arg 2]
 		if {[string length $line] + [string length $next] \
 			+ $pad > 76} {
 		    append text [string trimright $line] \n
@@ -480,10 +489,7 @@ proc genStubs::makeDecl {name decl index} {
 	    append line ")"
 	}
     }
-    append text $line
-
-    append text ";\n"
-    return $text
+    return "$text$line;\n"
 }
 
 # genStubs::makeMacro --
@@ -504,81 +510,18 @@ proc genStubs::makeMacro {name decl index} {
 
     set lfname [string tolower [string index $fname 0]]
     append lfname [string range $fname 1 end]
+    if {$fname eq $lfname} {
+	append lfname Ptr
+    }
 
     set text "#ifndef $fname\n#define $fname"
-    if {$args == ""||[string index $args end]=="]"} {
+    if {$args eq ""||[string index $args end]eq"]"} {
 	append text " \\\n\t(*${name}StubsPtr->$lfname)"
 	append text " /* $index */\n#endif\n"
 	return $text
     }
     append text " \\\n\t(${name}StubsPtr->$lfname)"
     append text " /* $index */\n#endif\n"
-    return $text
-}
-
-# genStubs::makeStub --
-#
-#	Emits a stub function definition.
-#
-# Arguments:
-#	name	The interface name.
-#	decl	The function declaration.
-#	index	The slot index for this function.
-#
-# Results:
-#	Returns the formatted stub function definition.
-
-proc genStubs::makeStub {name decl index} {
-    set decl [lindex $decl 0]
-    lassign $decl rtype fname args
-
-    set lfname [string tolower [string index $fname 0]]
-    append lfname [string range $fname 1 end]
-
-    append text "/* Slot $index */\n" $rtype "\n" $fname
-
-    set arg1 [lindex $args 0]
-
-    if {![string compare $arg1 "TCL_VARARGS"]} {
-	lassign [lindex $args 1] type argName
-	append text " ($type$argName, ...)\n\{\n"
-	append text "    " $type " var;\n    va_list argList;\n"
-	if {[string compare $rtype "void"]} {
-	    append text "    " $rtype " resultValue;\n"
-	}
-	append text "\n    var = (" $type ") (va_start(argList, " \
-		$argName "), " $argName ");\n\n    "
-	if {[string compare $rtype "void"]} {
-	    append text "resultValue = "
-	}
-	append text "(" $name "StubsPtr->" $lfname "VA)(var, argList);\n"
-	append text "    va_end(argList);\n"
-	if {[string compare $rtype "void"]} {
-	    append text "return resultValue;\n"
-	}
-	append text "\}\n\n"
-	return $text
-    }
-
-    if {![string compare $arg1 "void"]} {
-	set argList "()"
-	set argDecls ""
-    } else {
-	set argList ""
-	set sep "("
-	foreach arg $args {
-	    append argList $sep [lindex $arg 1]
-	    append argDecls "    " [lindex $arg 0] " " \
-		    [lindex $arg 1] [lindex $arg 2] ";\n"
-	    set sep ", "
-	}
-	append argList ")"
-    }
-    append text $argList "\n" $argDecls "{\n    "
-    if {[string compare $rtype "void"]} {
-	append text "return "
-    }
-    append text "(" $name "StubsPtr->" $lfname ")" $argList ";\n}\n\n"
     return $text
 }
 
@@ -600,14 +543,20 @@ proc genStubs::makeSlot {name decl index} {
 
     set lfname [string tolower [string index $fname 0]]
     append lfname [string range $fname 1 end]
+    if {$fname eq $lfname} {
+	append lfname Ptr
+    }
 
     set text "    "
-    if {$args == ""||[string index $args end]=="]"} {
+    if {$args eq ""||[string index $args end]eq"]"} {
 	append text $rtype " *" $lfname$args "; /* $index */\n"
 	return $text
     }
-    append text $rtype " (*" $lfname ") "
-
+    if {[string range $rtype end-7 end] eq "CALLBACK"} {
+	append text [string trim [string range $rtype 0 end-8]] " (CALLBACK *" $lfname ") "
+    } else {
+	append text $rtype " (*" $lfname ") "
+    }
     set arg1 [lindex $args 0]
     switch -exact $arg1 {
 	void {
@@ -616,8 +565,11 @@ proc genStubs::makeSlot {name decl index} {
 	TCL_VARARGS {
 	    set sep "("
 	    foreach arg [lrange $args 1 end] {
-		append text $sep [lindex $arg 0] " " [lindex $arg 1] \
-			[lindex $arg 2]
+		append text $sep [lindex $arg 0]
+		if {[string index $text end] ne "*"} {
+		    append text " "
+		}
+		append text [lindex $arg 1] [lindex $arg 2]
 		set sep ", "
 	    }
 	    append text ", ...)"
@@ -625,8 +577,11 @@ proc genStubs::makeSlot {name decl index} {
 	default {
 	    set sep "("
 	    foreach arg $args {
-		append text $sep [lindex $arg 0] " " [lindex $arg 1] \
-			[lindex $arg 2]
+		append text $sep [lindex $arg 0]
+		if {[string index $text end] ne "*"} {
+		    append text " "
+		}
+		append text [lindex $arg 1] [lindex $arg 2]
 		set sep ", "
 	    }
 	    append text ")"
@@ -677,7 +632,7 @@ proc genStubs::makeInit {name decl index} {
 	append text "    NULL, /* " $index " */\n"
 	append text "#else  /* " [join $suppressors] " */\n"
     }
-    if {[lindex $decl 2] == ""} {
+    if {[lindex $decl 2] eq ""} {
 	append text "    &" [lindex $decl 1] ", /* " $index " */\n"
     } else {
 	append text "    " [lindex $decl 1] ", /* " $index " */\n"
@@ -1051,27 +1006,6 @@ proc genStubs::emitHeader {name} {
     return
 }
 
-# genStubs::emitStubs --
-#
-#	This function emits the body of the <name>Stubs.c file for
-#	the specified interface.
-#
-# Arguments:
-#	name	The name of the interface being emitted.
-#
-# Results:
-#	None.
-
-proc genStubs::emitStubs {name} {
-    variable outDir
-
-    append text "\n/*\n * Exported stub functions:\n */\n\n"
-    forAllStubs $name makeStub 0 text
-
-    rewriteFile [file join $outDir ${name}Stubs.c] $text
-    return
-}
-
 # genStubs::emitInit --
 #
 #	Generate the table initializers for an interface.
@@ -1086,7 +1020,9 @@ proc genStubs::emitStubs {name} {
 proc genStubs::emitInit {name textVar} {
     variable stubs
     variable hooks
+    variable interfaces
     upvar $textVar text
+    set root 1
 
     set capName [string toupper [string index $name 0]]
     append capName [string range $name 1 end]
@@ -1100,8 +1036,20 @@ proc genStubs::emitInit {name textVar} {
 	}
 	append text "\n\};\n"
     }
-    append text "\n${capName}Stubs ${name}Stubs = \{\n"
-    append text "    TCL_STUB_MAGIC,\n"
+    foreach intf [array names interfaces] {
+	if {[info exists hooks($intf)]} {
+	    if {0<=[lsearch -exact $hooks($intf) $name]} {
+		set root 0
+		break;
+	    }
+	}
+    }
+
+    append text "\n"
+    if {!$root} {
+	append text "static "
+    }
+    append text "const ${capName}Stubs ${name}Stubs = \{\n    TCL_STUB_MAGIC,\n"
     if {[info exists hooks($name)]} {
 	append text "    &${name}StubHooks,\n"
     } else {
@@ -1201,7 +1149,7 @@ proc genStubs::init {} {
 if {[string length [namespace which lassign]] == 0} {
     proc lassign {valueList args} {
 	if {[llength $args] == 0} {
-	    error "wrong # args: should be \"lassign list ?varName ...?\""
+	    error "wrong # args: should be \"lassign list varName ?varName ...?\""
 	}
 	uplevel [list foreach $args $valueList {break}]
 	return [lrange $valueList [llength $args] end]

@@ -18,7 +18,7 @@
 
 /* !BEGIN!: Do not edit below this line. */
 
-PngtclStubs pngtclStubs = {
+const PngtclStubs pngtclStubs = {
     TCL_STUB_MAGIC,
     NULL,
     png_access_version_number, /* 0 */

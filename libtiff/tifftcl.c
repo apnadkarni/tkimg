@@ -67,7 +67,7 @@ int
 Tifftcl_Init (interp)
       Tcl_Interp *interp; /* Interpreter to initialise. */
 {
-  extern TifftclStubs tifftclStubs;
+  extern const TifftclStubs tifftclStubs;
 
 #ifdef USE_TCL_STUBS
   if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {

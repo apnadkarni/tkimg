@@ -17,7 +17,7 @@
 
 /* !BEGIN!: Do not edit below this line. */
 
-TifftclStubs tifftclStubs = {
+const TifftclStubs tifftclStubs = {
     TCL_STUB_MAGIC,
     NULL,
     TIFFGetVersion, /* 0 */

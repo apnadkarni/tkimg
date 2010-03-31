@@ -414,6 +414,26 @@ AC_DEFUN([TEA_LOAD_TCLCONFIG], [
     AC_SUBST(TCL_STUB_LIB_FLAG)
     AC_SUBST(TCL_STUB_LIB_SPEC)
 
+    case "`uname -s`" in
+	*CYGWIN_*)
+	    AC_MSG_CHECKING([for cygwin variant])
+	    case ${TCL_EXTRA_CFLAGS} in
+		*-mwin32*|*-mno-cygwin*)
+		    TEA_PLATFORM="windows"
+		    AC_MSG_RESULT([win32])
+		    AC_CHECK_PROG(CYGPATH, cygpath, cygpath -w, echo)
+		    ;;
+		*)
+		    TEA_PLATFORM="unix"
+		    AC_MSG_RESULT([unix])
+		    ;;
+	    esac
+	    EXEEXT=".exe"
+	    ;;
+	*)
+	    ;;
+    esac
+
     # TEA specific:
     AC_SUBST(TCL_LIBS)
     AC_SUBST(TCL_DEFS)
@@ -1742,7 +1762,12 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    AS_IF([test $tcl_cv_ld_elf = yes], [
 		LDFLAGS=-Wl,-export-dynamic
 	    ], [LDFLAGS=""])
-
+	    AS_IF([test "${TCL_THREADS}" = "1"], [
+		# OpenBSD builds and links with -pthread, never -lpthread.
+		LIBS=`echo $LIBS | sed s/-lpthread//`
+		CFLAGS="$CFLAGS -pthread"
+		SHLIB_CFLAGS="$SHLIB_CFLAGS -pthread"
+	    ])
 	    # OpenBSD doesn't do version numbers with dots.
 	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.a'
 	    TCL_LIB_VERSIONS_OK=nodots
@@ -2245,7 +2270,7 @@ dnl # preprocessing tests use only CPPFLAGS.
 	    AIX-*) ;;
 	    BSD/OS*) ;;
 	    IRIX*) ;;
-	    NetBSD-*|FreeBSD-*) ;;
+	    NetBSD-*|FreeBSD-*|OpenBSD-*) ;;
 	    Darwin-*) ;;
 	    SCO_SV-3.2*) ;;
 	    windows) ;;
@@ -3023,10 +3048,14 @@ TEA version not specified.])
 	AC_MSG_RESULT([ok (TEA ${TEA_VERSION})])
     fi
     case "`uname -s`" in
-	*win32*|*WIN32*|*CYGWIN_NT*|*CYGWIN_9*|*CYGWIN_ME*|*MINGW32_*)
+	*win32*|*WIN32*|*MINGW32_*)
 	    AC_CHECK_PROG(CYGPATH, cygpath, cygpath -w, echo)
 	    EXEEXT=".exe"
 	    TEA_PLATFORM="windows"
+	    ;;
+	*CYGWIN_*)
+	    # CYGPATH and TEA_PLATFORM are determined later
+	    EXEEXT=".exe"
 	    ;;
 	*)
 	    CYGPATH=echo

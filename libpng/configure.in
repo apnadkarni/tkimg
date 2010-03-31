@@ -100,9 +100,6 @@ TEA_PUBLIC_TK_HEADERS
 #--------------------------------------------------------------------
 # A few miscellaneous platform-specific items:
 #
-# We have to define a special symbol for Windows (BUILD_pngtcl in this
-# case) so that we create the export library with the dll.
-#
 # Windows creates a few extra files that need to be cleaned up.
 # We can add more files to clean if our extension creates any extra
 # files in the future.
@@ -113,7 +110,6 @@ TEA_PUBLIC_TK_HEADERS
 #--------------------------------------------------------------------
 
 if test "${TEA_PLATFORM}" = "windows" ; then
-    AC_DEFINE(BUILD_pngtcl)
     CLEANFILES="*.lib *.dll *.exp *.ilk *.pdb vc*.pch"
 else
     CLEANFILES=""

@@ -70,7 +70,7 @@ TEA_ADD_CFLAGS([-DTKIMG_VERSION=\\\"\${tkimg_VERSION}\\\"])
 TEA_ADD_STUB_SOURCES([])
 TEA_ADD_TCL_SOURCES([])
 
-PUP="`echo ${PACKAGE}| tr 'a-z' 'A-Z'`"
+PUP="`echo ${PACKAGE_NAME}| tr 'a-z' 'A-Z'`"
 
 sed < "`${CYGPATH} ${srcdir}/../init.c`" > "init.c"	\
 	-e	"s/@CPACKAGE@/${CPACKAGE}/"		\
@@ -96,9 +96,6 @@ TEA_PUBLIC_TK_HEADERS
 #--------------------------------------------------------------------
 # A few miscellaneous platform-specific items:
 #
-# We have to define a special symbol for Windows (BUILD_tkimggif in this
-# case) so that we create the export library with the dll.
-#
 # Windows creates a few extra files that need to be cleaned up.
 # We can add more files to clean if our extension creates any extra
 # files in the future.
@@ -109,7 +106,6 @@ TEA_PUBLIC_TK_HEADERS
 #--------------------------------------------------------------------
 
 if test "${TEA_PLATFORM}" = "windows" ; then
-    AC_DEFINE(BUILD_tkimggif)
     CLEANFILES="*.lib *.dll *.exp *.ilk *.pdb vc*.pch init.c"
 else
     CLEANFILES="init.c"

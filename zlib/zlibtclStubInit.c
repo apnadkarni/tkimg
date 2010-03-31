@@ -17,7 +17,7 @@
 
 /* !BEGIN!: Do not edit below this line. */
 
-ZlibtclStubs zlibtclStubs = {
+const ZlibtclStubs zlibtclStubs = {
     TCL_STUB_MAGIC,
     NULL,
     zlibVersion, /* 0 */
