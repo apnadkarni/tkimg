@@ -10,7 +10,7 @@ Changes compared to version 1.3.x:
 -  Support for Tk 8.5's PhotoPutblock functions,
    which no longer panic when out-of-memory
 -  TEA upgraded to 3.7
--  autoconf upgraded to version 2.63
+-  autoconf upgraded to version 2.65
 
 Changes compared to version 1.2.4:
 
@@ -22,7 +22,7 @@ Changes compared to version 1.2.4:
 -	Bug fixes and enhancements in some formats.
 
 This version only works with Tcl/Tk 8.3 or higher (tested up to
-8.6b1). If you are using Tk8.2 or lower, please stick with Img1.3
+8.6b1). If you are using Tk8.2 or lower, please stick with tkImg1.3
 (which is still available).
 
 Currently there are two identical source distributions:
