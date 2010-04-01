@@ -41,12 +41,11 @@ EXTERN int @CPACKAGE@_SafeInit(Tcl_Interp *interp);
  * Declarations of internal functions.
  */
 
-static int ChnMatch(Tcl_Interp *interp, Tcl_Channel chan,
-	const char *fileName, Tcl_Obj *format, int *widthPtr,
-	int *heightPtr);
+static int ChnMatch(Tcl_Channel chan, const char *fileName,
+	Tcl_Obj *format, int *widthPtr, int *heightPtr,	Tcl_Interp *interp);
 
-static int ObjMatch(Tcl_Interp *interp, Tcl_Obj *dataObj,
-	Tcl_Obj *format, int *widthPtr, int *heightPtr);
+static int ObjMatch(Tcl_Obj *dataObj, Tcl_Obj *format,
+	int *widthPtr, int *heightPtr, Tcl_Interp *interp);
 
 static int ChnRead(Tcl_Interp *interp, Tcl_Channel chan,
 	const char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
@@ -59,18 +58,17 @@ static int ObjRead(Tcl_Interp *interp, Tcl_Obj *dataObj,
 static int ChnWrite(Tcl_Interp *interp, const char *filename,
 	Tcl_Obj *format, Tk_PhotoImageBlock *blockPtr);
 
-static int StringWrite(Tcl_Interp *interp,
-	Tcl_DString *data, Tcl_Obj *format,
+static int StringWrite(Tcl_Interp *interp, Tcl_Obj *format,
 	Tk_PhotoImageBlock *blockPtr);
 
 static Tk_PhotoImageFormat format = {
 	(char *) "%PHIMGTYPE%", /* name */
-	(Tk_ImageFileMatchProc *) ChnMatch, /* fileMatchProc */
-	(Tk_ImageStringMatchProc *) ObjMatch, /* stringMatchProc */
-	(Tk_ImageFileReadProc *) ChnRead, /* fileReadProc */
-	(Tk_ImageStringReadProc *) ObjRead, /* stringReadProc */
-	(Tk_ImageFileWriteProc *) ChnWrite, /* fileWriteProc */
-	(Tk_ImageStringWriteProc *) StringWrite /* stringWriteProc */
+	ChnMatch, /* fileMatchProc */
+	ObjMatch, /* stringMatchProc */
+	ChnRead, /* fileReadProc */
+	ObjRead, /* stringReadProc */
+	ChnWrite, /* fileWriteProc */
+	StringWrite /* stringWriteProc */
 };
 
 #ifdef SECOND_FORMAT
@@ -82,14 +80,13 @@ static Tk_PhotoImageFormat format = {
 
 #ifndef SECOND_CHNMATCH
 #define SECOND_CHNMATCH ChnMatchBeta
-static int ChnMatchBeta(Tcl_Interp *interp, Tcl_Channel chan,
-	const char *fileName, Tcl_Obj *format, int *widthPtr,
-	int *heightPtr);
+static int ChnMatchBeta(Tcl_Channel chan, const char *fileName,
+	Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp);
 #endif
 #ifndef SECOND_OBJMATCH
 #define SECOND_OBJMATCH ObjMatchBeta
-static int ObjMatchBeta(Tcl_Interp *interp, Tcl_Obj *dataObj,
-	Tcl_Obj *format, int *widthPtr, int *heightPtr);
+static int ObjMatchBeta(Tcl_Obj *dataObj, Tcl_Obj *format,
+	int *widthPtr, int *heightPtr, Tcl_Interp *interp);
 #endif
 #ifndef SECOND_CHNREAD
 #define SECOND_CHNREAD ChnReadBeta
@@ -110,19 +107,18 @@ static int ChnWriteBeta(Tcl_Interp *interp, const char *filename,
 #endif
 #ifndef SECOND_STRWRITE
 #define SECOND_STRWRITE StringWriteBeta
-static int StringWriteBeta(Tcl_Interp *interp,
-	Tcl_DString *data, Tcl_Obj *format,
+static int StringWriteBeta(Tcl_Interp *interp, Tcl_Obj *format,
 	Tk_PhotoImageBlock *blockPtr);
 #endif
 
 static Tk_PhotoImageFormat format_beta = {
 	(char *) "%PHIMGTYPE_BETA%", /* name */
-	(Tk_ImageFileMatchProc *) SECOND_CHNMATCH, /* fileMatchProc */
-	(Tk_ImageStringMatchProc *) SECOND_OBJMATCH, /* stringMatchProc */
-	(Tk_ImageFileReadProc *) SECOND_CHNREAD, /* fileReadProc */
-	(Tk_ImageStringReadProc *) SECOND_OBJREAD, /* stringReadProc */
-	(Tk_ImageFileWriteProc *) SECOND_CHNWRITE, /* fileWriteProc */
-	(Tk_ImageStringWriteProc *) SECOND_STRWRITE /* stringWriteProc */
+	SECOND_CHNMATCH, /* fileMatchProc */
+	SECOND_OBJMATCH, /* stringMatchProc */
+	SECOND_CHNREAD, /* fileReadProc */
+	SECOND_OBJREAD, /* stringReadProc */
+	SECOND_CHNWRITE, /* fileWriteProc */
+	SECOND_STRWRITE /* stringWriteProc */
 };
 
 #endif /* SECOND_FORMAT */

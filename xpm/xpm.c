@@ -131,19 +131,16 @@ Gets(handle, buffer, size)
  *
  *----------------------------------------------------------------------
  */
-static int
-ObjMatch(interp, data, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Obj *data;		/* The data supplied by the image */
-    Tcl_Obj *format;		/* User-specified format object, or NULL. */
-    int *widthPtr, *heightPtr;	/* The dimensions of the image are
-				 * returned here if the file is a valid
+static int ObjMatch(
+    Tcl_Obj *data,		/* The data supplied by the image */
+    Tcl_Obj *format,		/* User-specified format object, or NULL. */
+    int *widthPtr,		/* The dimensions of the image are */
+	int *heightPtr,			/* returned here if the file is a valid
 				 * raw XPM file. */
-{
+    Tcl_Interp *interp
+) {
     int numColors, byteSize;
     tkimg_MFile handle;
-
-    tkimg_FixObjMatchProc(&interp, &data, &format, &widthPtr, &heightPtr);
 
     handle.data = (char *)tkimg_GetStringFromObj(data, &handle.length);
     handle.state = IMG_STRING;
@@ -169,20 +166,17 @@ ObjMatch(interp, data, format, widthPtr, heightPtr)
  *----------------------------------------------------------------------
  */
 
-static int
-ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Channel chan;		/* The image channel, open for reading. */
-    const char *fileName;	/* The name of the image file. */
-    Tcl_Obj *format;		/* User-specified format object, or NULL. */
-    int *widthPtr, *heightPtr;	/* The dimensions of the image are
-				 * returned here if the file is a valid
+static int ChnMatch(
+    Tcl_Channel chan,		/* The image channel, open for reading. */
+    const char *fileName,	/* The name of the image file. */
+    Tcl_Obj *format,		/* User-specified format object, or NULL. */
+    int *widthPtr,        	/* The dimensions of the image are */
+	int *heightPtr,			/* returned here if the file is a valid
 				 * raw XPM file. */
-{
+    Tcl_Interp *interp
+) {
     int numColors, byteSize;
     tkimg_MFile handle;
-
-    tkimg_FixChanMatchProc(&interp, &chan, &fileName, &format, &widthPtr, &heightPtr);
 
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
@@ -809,19 +803,20 @@ ChnWrite(interp, fileName, format, blockPtr)
  *
  *----------------------------------------------------------------------
  */
-static int
-StringWrite(interp, dataPtr, format, blockPtr)
-    Tcl_Interp *interp;
-    Tcl_DString *dataPtr;
-    Tcl_Obj *format;
-    Tk_PhotoImageBlock *blockPtr;
-{
+static int StringWrite(
+    Tcl_Interp *interp,
+    Tcl_Obj *format,
+    Tk_PhotoImageBlock *blockPtr
+) {
     int result;
     Tcl_DString data;
-    tkimg_FixStringWriteProc(&data, &interp, &dataPtr, &format, &blockPtr);
-    result = CommonWrite(interp, "InlineData", dataPtr, format, blockPtr);
-    if ((result == TCL_OK) && (dataPtr == &data)) {
-	Tcl_DStringResult(interp, dataPtr);
+
+    Tcl_DStringInit(&data);
+    result = CommonWrite(interp, "InlineData", &data, format, blockPtr);
+    if (result == TCL_OK) {
+	Tcl_DStringResult(interp, &data);
+    } else {
+	Tcl_DStringFree(&data);
     }
     return result;
 }

@@ -354,16 +354,14 @@ sizeString(fd)
  */
 
 static int
-ObjMatch(interp, data, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Obj *data;		/* the object containing the image data */
-    Tcl_Obj *format;		/* the image format string */
-    int *widthPtr;		/* where to put the string width */
-    int *heightPtr;		/* where to put the string height */
-{
+ObjMatch(
+    Tcl_Obj *data,		/* the object containing the image data */
+    Tcl_Obj *format,		/* the image format string */
+    int *widthPtr,		/* where to put the string width */
+    int *heightPtr,		/* where to put the string height */
+    Tcl_Interp *interp
+) {
     tkimg_MFile handle;
-
-    tkimg_FixObjMatchProc(&interp, &data, &format, &widthPtr, &heightPtr);
 
     if (!tkimg_ReadInit(data, '\111', &handle) &&
 	    !tkimg_ReadInit(data, '\115', &handle)) {
@@ -373,17 +371,15 @@ ObjMatch(interp, data, format, widthPtr, heightPtr)
     return CommonMatch(&handle, widthPtr, heightPtr);
 }
 
-static int
-ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Channel chan;
-    const char *fileName;
-    Tcl_Obj *format;
-    int *widthPtr, *heightPtr;
-{
+static int ChnMatch(
+    Tcl_Channel chan,
+    const char *fileName,
+    Tcl_Obj *format,
+    int *widthPtr,
+    int *heightPtr,
+    Tcl_Interp *interp
+) {
     tkimg_MFile handle;
-
-    tkimg_FixChanMatchProc(&interp, &chan, &fileName, &format, &widthPtr, &heightPtr);
 
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
@@ -670,13 +666,11 @@ CommonRead(interp, tif, format, imageHandle,
     return result;
 }
 
-static int
-StringWrite(interp, dataPtr, format, blockPtr)
-    Tcl_Interp *interp;
-    Tcl_DString *dataPtr;
-    Tcl_Obj *format;
-    Tk_PhotoImageBlock *blockPtr;
-{
+static int StringWrite(
+    Tcl_Interp *interp,
+    Tcl_Obj *format,
+    Tk_PhotoImageBlock *blockPtr
+) {
     TIFF *tif;
     int result, comp;
     tkimg_MFile handle;
@@ -685,8 +679,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
     const char *mode;
     Tcl_DString data;
 
-    tkimg_FixStringWriteProc(&data, &interp, &dataPtr, &format, &blockPtr);
-
+    Tcl_DStringInit(&data);
     if (ParseWriteFormat(interp, format, &comp, &mode) != TCL_OK) {
     	return TCL_ERROR;
     }
@@ -723,7 +716,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
 	if (!inchan) {
 	    return TCL_ERROR;
 	}
-	tkimg_WriteInit(dataPtr, &handle);
+	tkimg_WriteInit(&data, &handle);
 
 	result = Tcl_Read(inchan, buffer, 1024);
 	while ((result == TCL_OK) && !Tcl_Eof(inchan)) {
@@ -737,13 +730,15 @@ StringWrite(interp, dataPtr, format, blockPtr)
 	unlink(tempFileName);
     } else {
 	int length = handle.length;
-	tkimg_WriteInit(dataPtr, &handle);
+	tkimg_WriteInit(&data, &handle);
 	tkimg_Write(&handle, Tcl_DStringValue(&dstring), length);
 	Tcl_DStringFree(&dstring);
     }
     tkimg_Putc(IMG_DONE, &handle);
-    if ((result == TCL_OK) && (dataPtr == &data)) {
-	Tcl_DStringResult(interp, dataPtr);
+    if (result == TCL_OK) {
+	Tcl_DStringResult(interp, &data);
+    } else {
+	Tcl_DStringFree(&data);
     }
     return result;
 }

@@ -1,3 +1,10 @@
+2010-04-01  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* [Bug 2975449] Kill the Tk 8.2/8.3 ifdeffery - at
+	  least the runtime swizzle (I don't consider
+	  this a bug at all, because it worked fine
+	  as long as it was needed!)
+
 2010-03-31  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Sync with latest TEA (tcl.m4), regenerated all

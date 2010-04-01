@@ -237,19 +237,16 @@ SetupJPegLibrary (interp)
  *----------------------------------------------------------------------
  */
 
-static int
-ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Channel chan;		/* The image channel, open for reading. */
-    const char *fileName;	/* The name of the image file. */
-    Tcl_Obj *format;		/* User-specified format string, or NULL. */
-    int *widthPtr, *heightPtr;	/* The dimensions of the image are
-				 * returned here if the file is a valid
+static int ChnMatch(
+    Tcl_Channel chan,		/* The image channel, open for reading. */
+    const char *fileName,	/* The name of the image file. */
+    Tcl_Obj *format,		/* User-specified format string, or NULL. */
+    int *widthPtr,			/* The dimensions of the image are */
+	int *heightPtr,			/* returned here if the file is a valid
 				 * JPEG file. */
-{
+    Tcl_Interp *interp
+) {
     tkimg_MFile handle;
-
-    tkimg_FixChanMatchProc(&interp, &chan, &fileName, &format, &widthPtr, &heightPtr);
 
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
@@ -275,18 +272,15 @@ ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
  *----------------------------------------------------------------------
  */
 
-static int
-ObjMatch(interp, data, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Obj *data;		/* the object containing the image data */
-    Tcl_Obj *format;		/* User-specified format object, or NULL. */
-    int *widthPtr, *heightPtr;	/* The dimensions of the image are
-				 * returned here if the string is a valid
+static int ObjMatch(
+    Tcl_Obj *data,		/* the object containing the image data */
+    Tcl_Obj *format,		/* User-specified format object, or NULL. */
+    int *widthPtr,		/* The dimensions of the image are */
+	int *heightPtr,		/* returned here if the string is a valid
 				 * JPEG image. */
-{
+    Tcl_Interp *interp
+) {
     tkimg_MFile handle;
-
-    tkimg_FixObjMatchProc(&interp, &data, &format, &widthPtr, &heightPtr);
 
     tkimg_ReadInit(data, '\377', &handle);
     return CommonMatch(&handle, widthPtr, heightPtr);
@@ -740,19 +734,17 @@ ChnWrite(interp, fileName, format, blockPtr)
  *----------------------------------------------------------------------
  */
 
-static int
-StringWrite(interp, dataPtr, format, blockPtr)
-    Tcl_Interp *interp;
-    Tcl_DString *dataPtr;
-    Tcl_Obj *format;
-    Tk_PhotoImageBlock *blockPtr;
-{
+static int StringWrite(
+    Tcl_Interp *interp,
+    Tcl_Obj *format,
+    Tk_PhotoImageBlock *blockPtr
+) {
     struct jpeg_compress_struct cinfo; /* libjpeg's parameter structure */
     struct my_error_mgr jerror;	/* for controlling libjpeg error handling */
     int result;
     Tcl_DString data;
 
-    tkimg_FixStringWriteProc(&data, &interp, &dataPtr, &format, &blockPtr);
+    Tcl_DStringInit(&data);
 
     /* Initialize JPEG error handler */
     /* We set up the normal JPEG error routines, then override error_exit. */
@@ -771,7 +763,7 @@ StringWrite(interp, dataPtr, format, blockPtr)
 
     /* Now we can initialize libjpeg. */
     jpeg_create_compress(&cinfo);
-    my_jpeg_string_dest(&cinfo, dataPtr);
+    my_jpeg_string_dest(&cinfo, &data);
 
     /* Share code with ChnWrite. */
     result = CommonWrite(interp, &cinfo, format, blockPtr);
@@ -779,12 +771,10 @@ StringWrite(interp, dataPtr, format, blockPtr)
 writeend:
 
     jpeg_destroy_compress(&cinfo);
-    if (dataPtr == &data) {
-	if (result == TCL_OK) {
-	    Tcl_DStringResult(interp, dataPtr);
-	} else {
-	    Tcl_DStringFree(dataPtr);
-	}
+    if (result == TCL_OK) {
+	Tcl_DStringResult(interp, &data);
+    } else {
+	Tcl_DStringFree(&data);
     }
 
     return result;

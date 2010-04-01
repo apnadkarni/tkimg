@@ -1387,17 +1387,15 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     return TCL_OK;
 }
 
-static int ChnMatch(interp, chan, filename, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Channel chan;
-    const char *filename;
-    Tcl_Obj *format;
-    int *widthPtr, *heightPtr;
-{
+static int ChnMatch(
+    Tcl_Channel chan,
+    const char *filename,
+    Tcl_Obj *format,
+    int *widthPtr,
+    int *heightPtr,
+    Tcl_Interp *interp
+) {
     tkimg_MFile handle;
-
-    tkimg_FixChanMatchProc (&interp, &chan, &filename, &format,
-			 &widthPtr, &heightPtr);
 
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
@@ -1405,15 +1403,14 @@ static int ChnMatch(interp, chan, filename, format, widthPtr, heightPtr)
     return CommonMatch(&handle, widthPtr, heightPtr, NULL);
 }
 
-static int ObjMatch(interp, data, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Obj *data;
-    Tcl_Obj *format;
-    int *widthPtr, *heightPtr;
-{
+static int ObjMatch(
+    Tcl_Obj *data,
+    Tcl_Obj *format,
+    int *widthPtr,
+    int *heightPtr,
+    Tcl_Interp *interp
+) {
     tkimg_MFile handle;
-
-    tkimg_FixObjMatchProc (&interp, &data, &format, &widthPtr, &heightPtr);
 
     if (!tkimg_ReadInit(data, '\001', &handle)) {
         return 0;
@@ -1655,12 +1652,11 @@ static int ChnWrite (interp, filename, format, blockPtr)
     return result;
 }
 
-static int StringWrite (interp, dataPtr, format, blockPtr)
-    Tcl_Interp *interp;
-    Tcl_DString *dataPtr;
-    Tcl_Obj *format;
-    Tk_PhotoImageBlock *blockPtr;
-{
+static int StringWrite(
+    Tcl_Interp *interp,
+    Tcl_Obj *format,
+    Tk_PhotoImageBlock *blockPtr
+) {
     tkimg_MFile handle;
     int result;
     Tcl_DString data;
@@ -1670,8 +1666,7 @@ static int StringWrite (interp, dataPtr, format, blockPtr)
     char buffer[BUFLEN];
     int count;
 
-    tkimg_FixStringWriteProc (&data, &interp, &dataPtr, &format, &blockPtr);
-
+    Tcl_DStringInit(&data);
     tmpnam(tempFileName);
 #ifdef TCLSEEK_WORKAROUND
     outchan = (Tcl_Channel)fopen(tempFileName, "wb");
@@ -1685,34 +1680,36 @@ static int StringWrite (interp, dataPtr, format, blockPtr)
     handle.data = (char *) outchan;
     handle.state = IMG_CHAN;
 
-    result = CommonWrite (interp, tempFileName, format, &handle, blockPtr);
-    if (MYCLOSE (interp, outchan) == TCL_ERROR) {
+    result = CommonWrite(interp, tempFileName, format, &handle, blockPtr);
+    if (MYCLOSE(interp, outchan) == TCL_ERROR) {
 	return TCL_ERROR;
     }
 
-    tkimg_WriteInit(dataPtr, &handle);
+    tkimg_WriteInit(&data, &handle);
 
-    inchan = tkimg_OpenFileChannel (interp, tempFileName, 0);
+    inchan = tkimg_OpenFileChannel(interp, tempFileName, 0);
     if (!inchan) {
 	return TCL_ERROR;
     }
 
-    count = Tcl_Read (inchan, buffer, BUFLEN);
+    count = Tcl_Read(inchan, buffer, BUFLEN);
     while (count == BUFLEN) {
 	tkimg_Write(&handle, buffer, count);
-	count = Tcl_Read (inchan, buffer, BUFLEN);
+	count = Tcl_Read(inchan, buffer, BUFLEN);
     }
     if (count>0) {
 	tkimg_Write(&handle, buffer, count);
     }
-    if (Tcl_Close (interp, inchan) == TCL_ERROR) {
+    if (Tcl_Close(interp, inchan) == TCL_ERROR) {
 	return TCL_ERROR;
     }
     remove (tempFileName);
-    tkimg_Putc (IMG_DONE, &handle);
+    tkimg_Putc(IMG_DONE, &handle);
 
-    if ((result == TCL_OK) && (dataPtr == &data)) {
-	Tcl_DStringResult (interp, dataPtr);
+    if (result == TCL_OK) {
+	Tcl_DStringResult(interp, &data);
+    } else {
+	Tcl_DStringFree(&data);
     }
     return result;
 }

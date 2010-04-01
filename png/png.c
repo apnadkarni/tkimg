@@ -145,17 +145,15 @@ tk_png_flush(png_ptr)
 {
 }
 
-static int
-ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Channel chan;
-    const char *fileName;
-    Tcl_Obj *format;
-    int *widthPtr, *heightPtr;
-{
+static int ChnMatch(
+    Tcl_Channel chan,
+    const char *fileName,
+    Tcl_Obj *format,
+    int *widthPtr,
+    int *heightPtr,
+    Tcl_Interp *interp
+) {
     tkimg_MFile handle;
-
-    tkimg_FixChanMatchProc(&interp, &chan, &fileName, &format, &widthPtr, &heightPtr);
 
     handle.data = (char *) chan;
     handle.state = IMG_CHAN;
@@ -164,17 +162,16 @@ ChnMatch(interp, chan, fileName, format, widthPtr, heightPtr)
 }
 
 static int
-ObjMatch(interp, data, format, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Tcl_Obj *data;
-    Tcl_Obj *format;
-    int *widthPtr, *heightPtr;
-{
+ObjMatch(
+    Tcl_Obj *data,
+    Tcl_Obj *format,
+    int *widthPtr,
+    int *heightPtr,
+    Tcl_Interp *interp
+) {
     tkimg_MFile handle;
 
-    tkimg_FixObjMatchProc(&interp, &data, &format, &widthPtr, &heightPtr);
-
-    if (!tkimg_ReadInit(data,'\211',&handle)) {
+    if (!tkimg_ReadInit(data, '\211', &handle)) {
 	return 0;
     }
     return CommonMatchPNG(&handle, widthPtr, heightPtr);
@@ -434,13 +431,11 @@ ChnWrite (interp, filename, format, blockPtr)
     return result;
 }
 
-static int
-StringWrite (interp, dataPtr, format, blockPtr)
-    Tcl_Interp *interp;
-    Tcl_DString *dataPtr;
-    Tcl_Obj *format;
-    Tk_PhotoImageBlock *blockPtr;
-{
+static int StringWrite(
+    Tcl_Interp *interp,
+    Tcl_Obj *format,
+    Tk_PhotoImageBlock *blockPtr
+) {
     png_structp png_ptr;
     png_infop info_ptr;
     tkimg_MFile handle;
@@ -448,8 +443,7 @@ StringWrite (interp, dataPtr, format, blockPtr)
     cleanup_info cleanup;
     Tcl_DString data;
 
-    tkimg_FixStringWriteProc(&data, &interp, &dataPtr, &format, &blockPtr);
-
+    Tcl_DStringInit(&data);
     cleanup.interp = interp;
 
     png_ptr=png_create_write_struct(PNG_LIBPNG_VER_STRING,
@@ -466,12 +460,14 @@ StringWrite (interp, dataPtr, format, blockPtr)
 
     png_set_write_fn(png_ptr, (png_voidp) &handle, tk_png_write, tk_png_flush);
 
-    tkimg_WriteInit(dataPtr, &handle);
+    tkimg_WriteInit(&data, &handle);
 
     result = CommonWritePNG(interp, png_ptr, info_ptr, format, blockPtr);
     tkimg_Putc(IMG_DONE, &handle);
-    if ((result == TCL_OK) && (dataPtr == &data)) {
-	Tcl_DStringResult(interp, dataPtr);
+    if (result == TCL_OK) {
+	Tcl_DStringResult(interp, &data);
+    } else {
+	Tcl_DStringFree(&data);
     }
     return result;
 }
