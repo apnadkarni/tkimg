@@ -4,6 +4,7 @@
 	  least the runtime swizzle (I don't consider
 	  this a bug at all, because it worked fine
 	  as long as it was needed!)
+	* [Bug 2907616] configure ignores --mandir switch
 
 2010-03-31  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
