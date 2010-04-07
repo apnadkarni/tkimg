@@ -1,3 +1,8 @@
+2010-04-07  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* TkimgInitUtilities() always succeeds, and does not
+	  return TCL_ERROR/TCL_OK.
+
 2010-04-01  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* [Bug 2975449] Kill the Tk 8.2/8.3 ifdeffery - at

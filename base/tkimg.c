@@ -75,26 +75,19 @@ Tcl_Interp *interp; /* Interpreter to initialise. */
 
 	extern const TkimgStubs tkimgStubs;
 
-#ifdef USE_TCL_STUBS
 	if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
 		return TCL_ERROR;
 	}
-#endif
-#ifdef USE_TK_STUBS
 	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
 		return TCL_ERROR;
 	}
-#endif
-	if (!TkimgInitUtilities(interp)) {
-		return TCL_ERROR;
-	}
+	TkimgInitUtilities(interp);
 #ifdef ALLOW_B64 /* Undocumented feature */
-	Tcl_CreateObjCommand(interp, "img_to_base64", tob64, (ClientData) NULL, NULL);
-	Tcl_CreateObjCommand(interp, "img_from_base64", fromb64, (ClientData) NULL, NULL);
+	Tcl_CreateObjCommand(interp, "img_to_base64", tob64, NULL, NULL);
+	Tcl_CreateObjCommand(interp, "img_from_base64", fromb64, NULL, NULL);
 #endif
 
-	if (Tcl_PkgProvideEx
-		(interp, PACKAGE_TCLNAME, PACKAGE_VERSION,
+	if (Tcl_PkgProvideEx(interp, PACKAGE_TCLNAME, PACKAGE_VERSION,
 			(ClientData) &tkimgStubs) != TCL_OK
 	) {
 		return TCL_ERROR;
@@ -177,7 +170,7 @@ Tcl_Obj *const objv[];
 	if ((Tcl_Close(interp, chan) == TCL_ERROR) || (len < 0)) {
 		Tcl_DStringFree(&dstring);
 		Tcl_AppendResult(interp, Tcl_GetStringFromObj(objv[1], &len),
-			": ", Tcl_PosixError(interp), (char *)NULL);
+			": ", Tcl_PosixError(interp),NULL);
 		return TCL_ERROR;
 	}
 	tkimg_Putc(IMG_DONE, &handle);
@@ -242,7 +235,7 @@ Tcl_Obj *const objv[];
 
 writeerror:
 	Tcl_AppendResult(interp, Tcl_GetStringFromObj(objv[1], &len), ": ",
-		Tcl_PosixError(interp), (char *)NULL);
+		Tcl_PosixError(interp), NULL);
 	return TCL_ERROR;
 }
 #endif
