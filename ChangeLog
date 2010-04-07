@@ -2,6 +2,9 @@
 
 	* TkimgInitUtilities() always succeeds, and does not
 	  return TCL_ERROR/TCL_OK.
+	* Eliminate forced dependancy for aqua on
+	  ::tk::unsupported::MacWindowStyle
+	* Eliminate msgcat compatibility layer
 
 2010-04-01  Jan Nijtmans <nijtmans@users.sourceforge.net>
 

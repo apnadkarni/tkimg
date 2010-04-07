@@ -2,7 +2,9 @@
 # The next line restarts using wish \
 exec wish $0 ${1+"$@"}
 
-source [file join [file dirname [info script]] imgmsg.tcl]
+package require msgcat
+::msgcat::mcload [file join [file dirname [info script]] msgs]
+namespace import ::msgcat::mc
 
 #
 # Make the Image format available.
@@ -158,7 +160,7 @@ proc toolhelpInit { w { bgColor yellow } { fgColor black } } {
     label $w.l -text "This is toolhelp" -bg $bgColor -fg $fgColor -relief ridge
     pack $w.l
     wm overrideredirect $w true
-    if {[string equal [tk windowingsystem] aqua]}  {
+    catch  {
         ::tk::unsupported::MacWindowStyle style $w help none
     }
     wm geometry $w [format "+%d+%d" -100 -100]

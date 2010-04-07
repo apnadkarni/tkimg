@@ -2,7 +2,9 @@
 # The next line restarts using wish \
 exec wish $0 ${1+"$@"}
 
-source [file join [file dirname [info script]] imgmsg.tcl]
+package require msgcat
+::msgcat::mcload [file join [file dirname [info script]] msgs]
+namespace import ::msgcat::mc
 
 proc mmc string {
     regsub & $string {} string
