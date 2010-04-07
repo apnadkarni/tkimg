@@ -4,7 +4,7 @@ exec wish $0 ${1+"$@"}
 
 package require msgcat
 ::msgcat::mcload [file join [file dirname [info script]] msgs]
-namespace import ::msgcat::mc
+catch {namespace import ::msgcat::mc}
 
 proc mmc string {
     regsub & $string {} string
