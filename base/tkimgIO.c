@@ -457,7 +457,7 @@ int tkimg_ReadInit(
     }
     c = base64_table[(c>>2)&63];
 
-    while((handle->length) && (char64(*handle->data) == IMG_SPACE)) {
+    while ((handle->length) && (char64(*handle->data) == IMG_SPACE)) {
 	handle->data++;
 	handle->length--;
     }
