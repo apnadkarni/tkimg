@@ -1,3 +1,7 @@
+2010-04-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* [Bug 682911] Build failure for jconfig.h
+
 2004-08-18  Andreas Kupries  <andreas_kupries@users.sourceforge.net>
 
 	*

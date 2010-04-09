@@ -196,14 +196,14 @@ TEA_EXPORT_CONFIG(jpegtcl)
 
 case "$srcdir" in
 .) # No --srcdir option.  We are building in place.
-  jpegdir=$srcdir/../compat/libjpeg ;;
+  jpegdir=../$srcdir/../compat/libjpeg ;;
 /*) # Absolute path.
   jpegdir=$srcdir/../compat/libjpeg ;;
 *) # Relative path.
   jpegdir=../$ac_dots$srcdir/../compat/libjpeg ;;
 esac
 
-mkdir libjpeg
+mkdir -p libjpeg
 sleep 2        ; # Wait two seconds for the directory to actually appear (Windows).
 cd    libjpeg
 env CC="$JPEG_CC" CFLAGS="$JPEG_CFLAGS" $jpegdir/configure
