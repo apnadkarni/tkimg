@@ -52,41 +52,6 @@
 #endif
 
 /*
- * Fix the Borland bug that's in the EXTERN macro from tcl.h.
- */
-#ifndef TCL_EXTERN
-#   undef DLLIMPORT
-#   undef DLLEXPORT
-#   if defined(STATIC_BUILD)
-#   define DLLIMPORT
-#   define DLLEXPORT
-#   elif (defined(__WIN32__) && (defined(_MSC_VER) || (__BORLANDC__ >= 0x0550) || (defined(__GNUC__) && defined(__declspec)))) || (defined(MAC_TCL) && FUNCTION_DECLSPEC)
-#   define DLLIMPORT __declspec(dllimport)
-#   define DLLEXPORT __declspec(dllexport)
-#   elif defined(__BORLANDC__)
-#   define OLDBORLAND 1
-#   define DLLIMPORT __import
-#   define DLLEXPORT __export
-#   else
-#   define DLLIMPORT
-#   define DLLEXPORT
-#   endif
-/* Avoid name mangling from C++ compilers. */
-#   ifdef __cplusplus
-#   define TCL_EXTRNC extern "C"
-#   else
-#   define TCL_EXTRNC extern
-#   endif
-/* Pre-5.5 Borland requires the attributes be placed after the */
-/* return type. */
-#   ifdef OLDBORLAND
-#   define TCL_EXTERN(RTYPE) TCL_EXTRNC RTYPE TCL_STORAGE_CLASS
-#   else
-#   define TCL_EXTERN(RTYPE) TCL_EXTRNC TCL_STORAGE_CLASS RTYPE
-#   endif
-#endif
-
-/*
  * These macros are used to control whether functions are being declared for
  * import or export in Windows,
  * They map to no-op declarations on non-Windows systems.
@@ -99,7 +64,7 @@
  * to be included in a shared library, then it should have the DLLEXPORT
  * storage class.  If is being declared for use by a module that is going to
  * link against the shared library, then it should have the DLLIMPORT storage
- * class.  If the symbol is beind declared for a static build or for use from a
+ * class.  If the symbol is being declared for a static build or for use from a
  * stub library, then the storage class should be empty.
  *
  * The convention is that a macro called BUILD_xxxx, where xxxx is the
@@ -122,17 +87,17 @@
 
 /*
  *----------------------------------------------------------------------------
- * C API for Tkimg generic layer
+ * Function prototypes for publically accessible routines
  *----------------------------------------------------------------------------
  */
 
-typedef struct tkimg_MFile {
-	Tcl_DString *buffer; /* pointer to dynamical string */
-	char *data; /* mmencoded source string */
-	int c; /* bits left over from previous char */
-	int state; /* decoder state (0-4 or IMG_DONE) */
-	int length; /* length of physical line already written */
-} tkimg_MFile;
+#include "tkimgDecls.h"
+
+/*
+ *----------------------------------------------------------------------------
+ * C API for Tkimg generic layer
+ *----------------------------------------------------------------------------
+ */
 
 #define IMG_SPECIAL (1<<8)
 #define IMG_PAD     (IMG_SPECIAL+1)
@@ -147,7 +112,6 @@ typedef struct tkimg_MFile {
  * version of Tcl or Perl we are running:
  *
  *  IMG_TCL    Tcl
- *  IMG_OBJS   using Tcl_Objs in stead of char* (Tk 8.3 or higher)
  *  IMG_PERL   perl
  *  IMG_COMPOSITE Tcl 8.4 or higher
  *  IMG_NOPANIC Tcl 8.5 or higher
@@ -157,23 +121,12 @@ typedef struct tkimg_MFile {
  * Tcl/Tk versions (and for Perl/Tk in the future).
  */
 
-extern int tkimg_initialized;
+MODULE_SCOPE int tkimg_initialized;
 
 #define IMG_TCL (1<<9)
-#define IMG_OBJS (1<<10)
 #define IMG_PERL (1<<11)
-#define IMG_UTF (1<<12)
-#define IMG_NEWPHOTO (1<<13)
 #define IMG_COMPOSITE (1<<14)
 #define IMG_NOPANIC (1<<15)
-
-/*
- *----------------------------------------------------------------------------
- * Function prototypes for publically accessible routines
- *----------------------------------------------------------------------------
- */
-
-#include "tkimgDecls.h"
 
 /*
  *----------------------------------------------------------------------------
@@ -182,8 +135,8 @@ extern int tkimg_initialized;
  */
 
 #ifdef USE_TKIMG_STUBS
-EXTERN const char *
-Tkimg_InitStubs (Tcl_Interp *interp, const char *version, int exact);
+const char *
+Tkimg_InitStubs(Tcl_Interp *interp, const char *version, int exact);
 #else
 /*
  * When not using stubs, make it a macro.

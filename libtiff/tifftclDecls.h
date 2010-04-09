@@ -558,13 +558,20 @@ typedef struct TifftclStubs {
     int (*tIFFInitSGILog) (TIFF *tiffptr, int a); /* 162 */
 } TifftclStubs;
 
-#ifdef __cplusplus
-extern "C" {
+/*
+ * Used to tag functions that are only to be visible within the module being
+ * built and not outside it (where this is supported by the linker).
+ */
+
+#ifndef MODULE_SCOPE
+#   ifdef __cplusplus
+#	define MODULE_SCOPE extern "C"
+#   else
+#	define MODULE_SCOPE extern
+#   endif
 #endif
-extern const TifftclStubs *tifftclStubsPtr;
-#ifdef __cplusplus
-}
-#endif
+
+MODULE_SCOPE const TifftclStubs *tifftclStubsPtr;
 
 #if defined(USE_TIFFTCL_STUBS) && !defined(USE_TIFFTCL_STUB_PROCS)
 

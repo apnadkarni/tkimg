@@ -43,7 +43,7 @@ const JpegtclStubs *jpegtclStubsPtr;
 #undef Jpegtcl_InitStubs
 #endif
 
-const char *
+MODULE_SCOPE const char *
 Jpegtcl_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
     const char *version;

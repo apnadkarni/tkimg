@@ -218,13 +218,20 @@ typedef struct JpegtclStubs {
     boolean (*jpeg_resync_to_restartPtr) (j_decompress_ptr cinfo, int desired); /* 47 */
 } JpegtclStubs;
 
-#ifdef __cplusplus
-extern "C" {
+/*
+ * Used to tag functions that are only to be visible within the module being
+ * built and not outside it (where this is supported by the linker).
+ */
+
+#ifndef MODULE_SCOPE
+#   ifdef __cplusplus
+#	define MODULE_SCOPE extern "C"
+#   else
+#	define MODULE_SCOPE extern
+#   endif
 #endif
-extern const JpegtclStubs *jpegtclStubsPtr;
-#ifdef __cplusplus
-}
-#endif
+
+MODULE_SCOPE const JpegtclStubs *jpegtclStubsPtr;
 
 #if defined(USE_JPEGTCL_STUBS) && !defined(USE_JPEGTCL_STUB_PROCS)
 

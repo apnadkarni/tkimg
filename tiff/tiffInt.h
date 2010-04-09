@@ -8,13 +8,13 @@
  * Declarations shared between the .c files of the TIFF format handler.
  */
 
-extern int TkimgTIFFInitZip(TIFF *, int);
-extern int TkimgTIFFInitJpeg(TIFF *, int);
-extern int TkimgTIFFInitPixar(TIFF *, int);
+MODULE_SCOPE int TkimgTIFFInitZip(TIFF *, int);
+MODULE_SCOPE int TkimgTIFFInitJpeg(TIFF *, int);
+MODULE_SCOPE int TkimgTIFFInitPixar(TIFF *, int);
 
-extern void TkimgTIFFfree(tdata_t data);
-extern tdata_t TkimgTIFFmalloc(tsize_t size);
-extern tdata_t TkimgTIFFrealloc(tdata_t data, tsize_t size);
+MODULE_SCOPE void TkimgTIFFfree(tdata_t data);
+MODULE_SCOPE tdata_t TkimgTIFFmalloc(tsize_t size);
+MODULE_SCOPE tdata_t TkimgTIFFrealloc(tdata_t data, tsize_t size);
 
 #ifndef CONST84
 #   define CONST84

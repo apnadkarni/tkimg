@@ -46,43 +46,6 @@
 #endif
 
 /*
- * Fix the Borland bug that's in the EXTERN macro from tcl.h.
- */
-#ifndef TCL_EXTERN
-#   undef DLLIMPORT
-#   undef DLLEXPORT
-#   if defined(STATIC_BUILD)
-#	define DLLIMPORT
-#	define DLLEXPORT
-#   elif (defined(__WIN32__) && (defined(_MSC_VER) || (__BORLANDC__ >= 0x0550) || (defined(__GNUC__) && defined(__declspec)))) || (defined(MAC_TCL) && FUNCTION_DECLSPEC)
-#	define DLLIMPORT __declspec(dllimport)
-#	define DLLEXPORT __declspec(dllexport)
-#   elif defined(__BORLANDC__)
-#	define OLDBORLAND 1
-#	define DLLIMPORT __import
-#	define DLLEXPORT __export
-#   else
-#	define DLLIMPORT
-#	define DLLEXPORT
-#   endif
-    /* Avoid name mangling from C++ compilers. */
-#   ifdef __cplusplus
-#	define TCL_EXTRNC extern "C"
-#   else
-#	define TCL_EXTRNC extern
-#   endif
-    /* Pre-5.5 Borland requires the attributes be placed after the */
-    /* return type. */
-#   ifdef OLDBORLAND
-#	define TCL_EXTERN(RTYPE) TCL_EXTRNC RTYPE TCL_STORAGE_CLASS
-#   else
-#	define TCL_EXTERN(RTYPE) TCL_EXTRNC TCL_STORAGE_CLASS RTYPE
-#   endif
-#endif
-
-
-
-/*
  * These macros are used to control whether functions are being declared for
  * import or export in Windows,
  * They map to no-op declarations on non-Windows systems.
@@ -95,7 +58,7 @@
  * to be included in a shared library, then it should have the DLLEXPORT
  * storage class.  If is being declared for use by a module that is going to
  * link against the shared library, then it should have the DLLIMPORT storage
- * class.  If the symbol is beind declared for a static build or for use from a
+ * class.  If the symbol is being declared for a static build or for use from a
  * stub library, then the storage class should be empty.
  *
  * The convention is that a macro called BUILD_xxxx, where xxxx is the
@@ -137,7 +100,7 @@
  */
 
 #ifdef USE_PNGTCL_STUBS
-EXTERN const char *
+const char *
 Pngtcl_InitStubs(Tcl_Interp *interp, const char *version, int exact);
 #else
 /*

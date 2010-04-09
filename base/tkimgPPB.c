@@ -2,8 +2,8 @@
  *  tkimgPPB.tcl
  */
 
-#include "tkimg.h"
 #include <string.h>
+#include "tkimg.h"
 
 /*
  *----------------------------------------------------------------------
@@ -24,20 +24,17 @@
  *----------------------------------------------------------------------
  */
 
-int
-tkimg_PhotoPutBlock(interp, handle, blockPtr, x, y, width, height, flags)
-Tcl_Interp *interp; /* Interpreter for error-reporting. */
-Tk_PhotoHandle handle; /* Opaque handle for the photo image
- * to be updated. */
-Tk_PhotoImageBlock *blockPtr;
-/* Pointer to a structure describing the
- * pixel data to be copied into the image. */
-int x, y; /* Coordinates of the top-left pixel to
-* be updated in the image. */
-int width, height; /* Dimensions of the area of the image
-* to be updated. */
-int flags; /* TK_PHOTO_COMPOSITE_OVERLAY or TK_PHOTO_COMPOSITE_SET */
-{
+int tkimg_PhotoPutBlock(
+	Tcl_Interp *interp, /* Interpreter for error-reporting. */
+	Tk_PhotoHandle handle, /* Opaque handle for the photo image to be updated. */
+	Tk_PhotoImageBlock *blockPtr, /* Pointer to a structure describing the
+	 * pixel data to be copied into the image. */
+	int x, /* Coordinates of the top-left pixel to */
+	int y, /* be updated in the image. */
+	int width, /* Dimensions of the area of the image */
+	int height,/* to be updated. */
+	int flags /* TK_PHOTO_COMPOSITE_OVERLAY or TK_PHOTO_COMPOSITE_SET */
+) {
 #if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
 	if (tkimg_initialized & IMG_NOPANIC) {
 		return Tk_PhotoPutBlock(interp, handle, blockPtr, x, y, width, height, flags);
@@ -105,14 +102,13 @@ int flags; /* TK_PHOTO_COMPOSITE_OVERLAY or TK_PHOTO_COMPOSITE_SET */
 	return TCL_OK;
 }
 
-int
-tkimg_PhotoExpand(interp, handle, width, height)
-Tcl_Interp *interp; /* Interpreter for error-reporting. */
-Tk_PhotoHandle handle; /* Opaque handle for the photo image
- * to be updated. */
-int width, height; /* Dimensions of the area of the image
-* to be updated. */
-{
+int tkimg_PhotoExpand(
+	Tcl_Interp *interp, /* Interpreter for error-reporting. */
+	Tk_PhotoHandle handle, /* Opaque handle for the photo image
+	 * to be updated. */
+	int width, /* Dimensions of the area of the image */
+	int height /* to be updated. */
+) {
 #if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
 	if (tkimg_initialized & IMG_NOPANIC) {
 		return Tk_PhotoExpand(interp, handle, width, height);
@@ -124,14 +120,13 @@ int width, height; /* Dimensions of the area of the image
 	return TCL_OK;
 }
 
-int
-tkimg_PhotoSetSize(interp, handle, width, height)
-Tcl_Interp *interp; /* Interpreter for error-reporting. */
-Tk_PhotoHandle handle; /* Opaque handle for the photo image
- * to be updated. */
-int width, height; /* Dimensions of the area of the image
-* to be updated. */
-{
+int tkimg_PhotoSetSize(
+	Tcl_Interp *interp, /* Interpreter for error-reporting. */
+	Tk_PhotoHandle handle, /* Opaque handle for the photo image
+	 * to be updated. */
+	int width, /* Dimensions of the area of the image */
+	int height /* to be updated. */
+) {
 #if (TK_MAJOR_VERSION > 8) || ((TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION > 4))
 	if (tkimg_initialized & IMG_NOPANIC) {
 		return Tk_PhotoSetSize(interp, handle, width, height);

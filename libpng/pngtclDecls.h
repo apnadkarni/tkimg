@@ -1341,13 +1341,20 @@ typedef struct PngtclStubs {
     void (*png_info_init_3Ptr) (png_infopp info_ptr, png_size_t png_info_struct_size); /* 318 */
 } PngtclStubs;
 
-#ifdef __cplusplus
-extern "C" {
+/*
+ * Used to tag functions that are only to be visible within the module being
+ * built and not outside it (where this is supported by the linker).
+ */
+
+#ifndef MODULE_SCOPE
+#   ifdef __cplusplus
+#	define MODULE_SCOPE extern "C"
+#   else
+#	define MODULE_SCOPE extern
+#   endif
 #endif
-extern const PngtclStubs *pngtclStubsPtr;
-#ifdef __cplusplus
-}
-#endif
+
+MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 
 #if defined(USE_PNGTCL_STUBS) && !defined(USE_PNGTCL_STUB_PROCS)
 

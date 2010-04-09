@@ -25,7 +25,7 @@
 
 int tkimg_initialized = 0;
 
-int
+MODULE_SCOPE int
 TkimgInitUtilities(
 	Tcl_Interp *interp
 ) {
@@ -34,7 +34,7 @@ TkimgInitUtilities(
 #else
 
 	int major, minor, patchlevel, type;
-	tkimg_initialized = 0;
+	tkimg_initialized = IMG_TCL;
 
 	Tcl_GetVersion(&major, &minor, &patchlevel, &type);
 

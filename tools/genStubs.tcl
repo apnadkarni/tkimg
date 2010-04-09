@@ -994,11 +994,17 @@ proc genStubs::emitHeader {name} {
 
     emitSlots $name text
 
-    append text "} ${capName}Stubs;\n"
-
-    append text "\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n"
-    append text "extern const ${capName}Stubs *${name}StubsPtr;\n"
-    append text "#ifdef __cplusplus\n}\n#endif\n"
+    append text "} ${capName}Stubs;\n\n/*\n"
+    append text " * Used to tag functions that are only to be visible within the module being\n"
+    append text " * built and not outside it (where this is supported by the linker).\n */\n\n"
+    append text "#ifndef MODULE_SCOPE\n"
+    append text "#   ifdef __cplusplus\n"
+    append text "#\tdefine MODULE_SCOPE extern \"C\"\n"
+    append text "#   else\n"
+    append text "#\tdefine MODULE_SCOPE extern\n"
+    append text "#   endif\n"
+    append text "#endif\n\n"
+    append text "MODULE_SCOPE const ${capName}Stubs *${name}StubsPtr;\n"
 
     emitMacros $name text
 

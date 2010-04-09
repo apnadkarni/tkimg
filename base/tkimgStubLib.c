@@ -43,7 +43,7 @@ const TkimgStubs *tkimgStubsPtr;
 #undef Tkimg_InitStubs
 #endif
 
-const char *
+MODULE_SCOPE const char *
 Tkimg_InitStubs(
 	Tcl_Interp *interp,
 	const char *version,

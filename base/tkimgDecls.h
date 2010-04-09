@@ -16,6 +16,14 @@
 
 #include "tk.h"
 
+typedef struct tkimg_MFile {
+	Tcl_DString *buffer; /* pointer to dynamical string */
+	char *data; /* mmencoded source string */
+	int c; /* bits left over from previous char */
+	int state; /* decoder state (0-4 or IMG_DONE) */
+	int length; /* length of physical line already written */
+} tkimg_MFile;
+
 /* !BEGIN!: Do not edit below this line. */
 
 /*
@@ -131,13 +139,20 @@ typedef struct TkimgStubs {
     int (*tkimg_ListObjGetElementsPtr) (Tcl_Interp *interp, Tcl_Obj *objPtr, int *argc, Tcl_Obj ***argv); /* 32 */
 } TkimgStubs;
 
-#ifdef __cplusplus
-extern "C" {
+/*
+ * Used to tag functions that are only to be visible within the module being
+ * built and not outside it (where this is supported by the linker).
+ */
+
+#ifndef MODULE_SCOPE
+#   ifdef __cplusplus
+#	define MODULE_SCOPE extern "C"
+#   else
+#	define MODULE_SCOPE extern
+#   endif
 #endif
-extern const TkimgStubs *tkimgStubsPtr;
-#ifdef __cplusplus
-}
-#endif
+
+MODULE_SCOPE const TkimgStubs *tkimgStubsPtr;
 
 #if defined(USE_TKIMG_STUBS) && !defined(USE_TKIMG_STUB_PROCS)
 

@@ -43,7 +43,7 @@ const TifftclStubs *tifftclStubsPtr;
 #undef Tifftcl_InitStubs
 #endif
 
-const char *
+MODULE_SCOPE const char *
 Tifftcl_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
     const char *version;

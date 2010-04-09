@@ -37,8 +37,8 @@
 # endif
 #endif
 
-EXTERN int Tkimg_Init (Tcl_Interp *interp);
-EXTERN int Tkimg_SafeInit (Tcl_Interp *interp);
+EXTERN int Tkimg_Init(Tcl_Interp *interp);
+EXTERN int Tkimg_SafeInit(Tcl_Interp *interp);
 
 #undef  TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLIMPORT
@@ -67,11 +67,10 @@ static int fromb64(ClientData clientData, Tcl_Interp *interp,
  *----------------------------------------------------------------------------
  */
 
-int
-Tkimg_Init (interp)
-Tcl_Interp *interp; /* Interpreter to initialise. */
-{
-	extern int TkimgInitUtilities (Tcl_Interp* interp);
+int Tkimg_Init(
+	Tcl_Interp *interp /* Interpreter to initialise. */
+) {
+	extern int TkimgInitUtilities(Tcl_Interp* interp);
 
 	extern const TkimgStubs tkimgStubs;
 
@@ -113,10 +112,9 @@ Tcl_Interp *interp; /* Interpreter to initialise. */
  *----------------------------------------------------------------------------
  */
 
-int
-Tkimg_SafeInit (interp)
-Tcl_Interp *interp; /* Interpreter to initialise. */
-{
+int Tkimg_SafeInit(
+	Tcl_Interp *interp /* Interpreter to initialise. */
+) {
 	return Tkimg_Init(interp);
 }
 

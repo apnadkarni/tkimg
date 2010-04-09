@@ -48,8 +48,7 @@ static char readBuf[BUFLEN];
  *--------------------------------------------------------------------------
  */
 
-static int
-char64(
+static int char64(
     int c
 ) {
     switch(c) {
@@ -134,8 +133,7 @@ void tkimg_ReadBuffer(
  *--------------------------------------------------------------------------
  */
 
-int
-tkimg_Read(
+int tkimg_Read(
 	tkimg_MFile *handle /* mmdecode "file" handle */,
 	char *dst /* where to put the result */,
 	int count /* number of bytes */
@@ -225,8 +223,7 @@ tkimg_Read(
  *--------------------------------------------------------------------------
  */
 
-int
-tkimg_Getc(
+int tkimg_Getc(
 	tkimg_MFile *handle /* Input stream handle */
 ) {
     int c;
@@ -294,8 +291,7 @@ tkimg_Getc(
  *-----------------------------------------------------------------------
  */
 
-int
-tkimg_Write(
+int tkimg_Write(
     tkimg_MFile *handle /* mmencode "file" handle */,
     const char *src /* where to get the data */,
     int count /* number of bytes */
@@ -349,8 +345,7 @@ static char const base64_table[64] = {
     '4', '5', '6', '7', '8', '9', '+', '/'
 };
 
-int
-tkimg_Putc(
+int tkimg_Putc(
     register int c /* character to be written */,
     register tkimg_MFile *handle /* handle containing decoder data and state */
 ) {
@@ -425,8 +420,7 @@ tkimg_Putc(
  *-------------------------------------------------------------------------
  */
 
-void
-tkimg_WriteInit(
+void tkimg_WriteInit(
 	Tcl_DString *buffer,
 	tkimg_MFile *handle /* mmencode "file" handle */
 ) {
@@ -451,8 +445,7 @@ tkimg_WriteInit(
  *-------------------------------------------------------------------------
  */
 
-int
-tkimg_ReadInit(
+int tkimg_ReadInit(
 	Tcl_Obj *data /* string containing initial mmencoded data */,
 	int c,
 	tkimg_MFile *handle /* mmdecode "file" handle */
@@ -495,8 +488,7 @@ tkimg_ReadInit(
  *----------------------------------------------------------------------
  */
 
-Tcl_Channel
-tkimg_OpenFileChannel(
+Tcl_Channel tkimg_OpenFileChannel(
 	Tcl_Interp *interp,
 	const char *fileName,
 	int permissions

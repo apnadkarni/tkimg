@@ -43,7 +43,7 @@ const PngtclStubs *pngtclStubsPtr;
 #undef Pngtcl_InitStubs
 #endif
 
-const char *
+MODULE_SCOPE const char *
 Pngtcl_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
     const char *version;

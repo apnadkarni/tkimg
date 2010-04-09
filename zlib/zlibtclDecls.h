@@ -1,4 +1,3 @@
-
 /*
  * zlibtclDecls.h --
  *
@@ -179,13 +178,20 @@ typedef struct ZlibtclStubs {
     const char * (*gzerrorPtr) (gzFile file, int *errnum); /* 46 */
 } ZlibtclStubs;
 
-#ifdef __cplusplus
-extern "C" {
+/*
+ * Used to tag functions that are only to be visible within the module being
+ * built and not outside it (where this is supported by the linker).
+ */
+
+#ifndef MODULE_SCOPE
+#   ifdef __cplusplus
+#	define MODULE_SCOPE extern "C"
+#   else
+#	define MODULE_SCOPE extern
+#   endif
 #endif
-extern const ZlibtclStubs *zlibtclStubsPtr;
-#ifdef __cplusplus
-}
-#endif
+
+MODULE_SCOPE const ZlibtclStubs *zlibtclStubsPtr;
 
 #if defined(USE_ZLIBTCL_STUBS) && !defined(USE_ZLIBTCL_STUB_PROCS)
 

@@ -14,7 +14,7 @@
 #ifndef _TKIMG_PIXMAP_INT_H_
 #define _TKIMG_PIXMAP_INT_H_
 
-#include "tk.h"
+#include "tkimg.h"
 
 #ifndef CONST84
 #   define CONST84
@@ -36,7 +36,7 @@
  * to be included in a shared library, then it should have the DLLEXPORT
  * storage class.  If is being declared for use by a module that is going to
  * link against the shared library, then it should have the DLLIMPORT storage
- * class.  If the symbol is beind declared for a static build or for use from a
+ * class.  If the symbol is being declared for a static build or for use from a
  * stub library, then the storage class should be empty.
  *
  * The convention is that a macro called BUILD_xxxx, where xxxx is the
@@ -146,28 +146,28 @@ typedef struct PixmapInstance {
  * generic part of the implementation
  */
 
-EXTERN void TkimgInitPixmapInstance(
+MODULE_SCOPE void TkimgInitPixmapInstance(
 	PixmapMaster *masterPtr,
 	PixmapInstance *instancePtr);
-EXTERN void TkimgXpmAllocTmpBuffer(
+MODULE_SCOPE void TkimgXpmAllocTmpBuffer(
 	PixmapMaster *masterPtr,
 	PixmapInstance *instancePtr,
 	XImage **imagePtr, XImage **maskPtr);
-EXTERN void TkimgXpmFreeTmpBuffer(
+MODULE_SCOPE void TkimgXpmFreeTmpBuffer(
 	PixmapMaster *masterPtr,
 	PixmapInstance *instancePtr,
 	XImage *image, XImage *mask);
-EXTERN void TkimgXpmSetPixel(
+MODULE_SCOPE void TkimgXpmSetPixel(
 	PixmapInstance *instancePtr, XImage *image,
 	XImage *mask, int x, int y, XColor *colorPtr,
 	int *isTranspPtr);
-EXTERN void TkimgXpmRealizePixmap(
+MODULE_SCOPE void TkimgXpmRealizePixmap(
 	PixmapMaster *masterPtr,
 	PixmapInstance *instancePtr,
 	XImage *image, XImage *mask, int isTransp);
-EXTERN void TkimgXpmFreeInstanceData(
+MODULE_SCOPE void TkimgXpmFreeInstanceData(
 	PixmapInstance *instancePtr, int delete);
-EXTERN void TkimgpXpmDisplay(ClientData clientData,
+MODULE_SCOPE void TkimgpXpmDisplay(ClientData clientData,
 	Display *display, Drawable drawable,
 	int imageX, int imageY, int width, int height,
 	int drawableX, int drawableY);
