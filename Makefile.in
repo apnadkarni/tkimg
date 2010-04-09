@@ -30,11 +30,12 @@ srcdir		=	@srcdir@
 # at configure-time with the --exec-prefix and --prefix options
 # to the "configure" script.
 
-prefix		=	@prefix@
-exec_prefix	=	@exec_prefix@
-libdir          =	@libdir@
-includedir      =	@includedir@
-mandir      =	@mandir@
+prefix		= @prefix@
+exec_prefix	= @exec_prefix@
+libdir      = @libdir@
+datarootdir	= @datarootdir@
+includedir  = @includedir@
+mandir      = @mandir@
 
 # Directory containing scripts supporting the work of this makefile
 tool		=	$(srcdir)/tools
