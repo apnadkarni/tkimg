@@ -953,7 +953,7 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     /* compute number of characters per pixel */
     chars_per_pixel = 1;
     i = ncolors;
-    while(i > 64) {
+    while (i > 64) {
 	chars_per_pixel++;
 	i /= 64;
     }
@@ -975,7 +975,7 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     entry = Tcl_FirstHashEntry(&colors, &search);
     y = 0;
     temp.component[chars_per_pixel] = 0;
-    while(entry) {
+    while (entry) {
 	/* compute a color identifier for color #y */
 	for (i = 0, x = y++; i < chars_per_pixel; i++, x /= 64)
 	    temp.component[i] = xpm_chars[x & 63];

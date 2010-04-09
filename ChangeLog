@@ -1,3 +1,7 @@
+2010-04-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Only build pkgIndex.tcl when something changed.
+
 2010-04-07  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* TkimgInitUtilities() always succeeds, and does not

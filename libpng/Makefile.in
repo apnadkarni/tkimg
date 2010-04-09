@@ -178,7 +178,7 @@ all: binaries libraries doc
 # of the Makefile, in the "BINARIES" variable.
 #========================================================================
 
-binaries: $(BINARIES) pkgIndex.tcl-hand
+binaries: $(BINARIES) pkgIndex.tcl
 
 libraries:
 
@@ -282,10 +282,7 @@ VPATH = $(srcdir):$(srcdir)/../compat/libpng
 # the configure script output the pkgIndex.tcl by editing configure.in.
 #========================================================================
 
-pkgIndex.tcl:
-	( echo pkg_mkIndex . $(PKG_LIB_FILE) \; exit; ) | $(TCLSH)
-
-pkgIndex.tcl-hand:
+pkgIndex.tcl:	$(PKG_LIB_FILE)
 	(echo 'package ifneeded $(PACKAGE_NAME) $(PACKAGE_VERSION) \
 	    [list load [file join $$dir $(PKG_LIB_FILE)]]'\
 	) > pkgIndex.tcl
