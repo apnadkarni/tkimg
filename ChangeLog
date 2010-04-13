@@ -1,3 +1,7 @@
+2010-04-14  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Regenerate all configure scripts with latest TEA tcl.m4
+
 2010-04-09  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Only build pkgIndex.tcl when something changed.
