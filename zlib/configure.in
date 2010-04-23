@@ -8,7 +8,7 @@ AC_REVISION($Id$)
 # TEA compliant.
 #--------------------------------------------------------------------
 
-AC_INIT([zlibtcl],[1.2.3])
+AC_INIT([zlibtcl],[1.2.5])
 
 TEA_INIT([3.7])
 
@@ -52,7 +52,8 @@ TEA_SETUP_COMPILER
 
 TEA_ADD_SOURCES([zlibtcl.c zlibtclStubInit.c])
 TEA_ADD_SOURCES([../compat/zlib/adler32.c	../compat/zlib/compress.c	../compat/zlib/crc32.c])
-TEA_ADD_SOURCES([../compat/zlib/deflate.c	../compat/zlib/gzio.c	../compat/zlib/infback.c])
+TEA_ADD_SOURCES([../compat/zlib/deflate.c	../compat/zlib/gzclose.c	../compat/zlib/gzlib.c])
+TEA_ADD_SOURCES([../compat/zlib/gzread.c	../compat/zlib/gzwrite.c	../compat/zlib/infback.c])
 TEA_ADD_SOURCES([../compat/zlib/inffast.c	../compat/zlib/inflate.c	../compat/zlib/inftrees.c])
 TEA_ADD_SOURCES([../compat/zlib/trees.c	../compat/zlib/uncompr.c	../compat/zlib/zutil.c])
 
