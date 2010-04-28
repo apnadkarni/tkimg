@@ -1,3 +1,8 @@
+2010-04-28  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* More MODULE_SCOPE functions in base
+	* Use TKIMGAPI in stead of EXTERN in tkImg base package
+
 2010-04-23  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* upgrade to zlib 1.2.5

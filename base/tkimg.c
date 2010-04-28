@@ -18,30 +18,16 @@
  *
  */
 
-#include "tk.h"
 #include "tkimg.h"
 
+MODULE_SCOPE const TkimgStubs tkimgStubs;
 
 /*
  * Declarations for externally visible functions.
  */
 
-#undef TCL_STORAGE_CLASS
-#ifdef BUILD_tkimg
-# define TCL_STORAGE_CLASS DLLEXPORT
-#else
-# ifdef USE_TKIMG_STUBS
-#  define TCL_STORAGE_CLASS
-# else
-#  define TCL_STORAGE_CLASS DLLIMPORT
-# endif
-#endif
-
-EXTERN int Tkimg_Init(Tcl_Interp *interp);
-EXTERN int Tkimg_SafeInit(Tcl_Interp *interp);
-
-#undef  TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLIMPORT
+TKIMGAPI int Tkimg_Init(Tcl_Interp *interp);
+TKIMGAPI int Tkimg_SafeInit(Tcl_Interp *interp);
 
 #ifdef ALLOW_B64
 static int tob64(ClientData clientData, Tcl_Interp *interp,
@@ -70,9 +56,6 @@ static int fromb64(ClientData clientData, Tcl_Interp *interp,
 int Tkimg_Init(
 	Tcl_Interp *interp /* Interpreter to initialise. */
 ) {
-	extern int TkimgInitUtilities(Tcl_Interp* interp);
-
-	extern const TkimgStubs tkimgStubs;
 
 	if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
 		return TCL_ERROR;

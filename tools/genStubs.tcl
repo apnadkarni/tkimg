@@ -18,7 +18,7 @@ namespace eval genStubs {
     # libraryName --
     #
     #	The name of the entire library.  This value is used to compute
-    #	the USE_*_STUB_PROCS macro and the name of the init file.
+    #	the USE_*_STUBS macro and the name of the init file.
 
     variable libraryName "UNKNOWN"
 
@@ -34,6 +34,13 @@ namespace eval genStubs {
     #	The name of the interface currently being defined.
 
     variable curName "UNKNOWN"
+
+    # scspec --
+    #
+    #	Storage class specifier for external function declarations.
+    #	Normally "extern", may be set to something like XYZAPI
+    #
+    variable scspec "EXTERN"
 
     # hooks --
     #
@@ -94,6 +101,17 @@ proc genStubs::interface {name} {
 
     set interfaces($name) {}
     return
+}
+
+# genStubs::scspec --
+#
+#	Define the storage class macro used for external function declarations.
+#	Typically, this will be a macro like XYZAPI or EXTERN that
+#	expands to either DLLIMPORT or DLLEXPORT, depending on whether
+#	-DBUILD_XYZ has been set.
+#
+proc genStubs::scspec {value} {
+    variable scspec $value
 }
 
 # genStubs::hooks --
@@ -418,13 +436,14 @@ proc genStubs::parseArg {arg} {
 #	Returns the formatted declaration string.
 
 proc genStubs::makeDecl {name decl index} {
+    variable scspec
     set decl [lindex $decl 0]
     lassign $decl rtype fname args
 
     append text "/* $index */\n"
     set line $rtype
     if {$args ne ""} {
-	set line "EXTERN $line"
+	set line "$scspec $line"
     }
     set count [expr {2 - ([string length $line] / 8)}]
     append line [string range "\t\t\t" 0 $count]
@@ -433,7 +452,7 @@ proc genStubs::makeDecl {name decl index} {
 	append line " "
 	set pad 0
     }
-    if {$args == ""||[string index $args end]=="]"} {
+    if {$args eq ""||[string index $args end]=="]"} {
 	append line $fname$args
 	append text $line
 	append text ";\n"
@@ -948,14 +967,12 @@ proc genStubs::emitMacros {name textVar} {
     upvar $textVar text
 
     set upName [string toupper $libraryName]
-    append text "\n#if defined(USE_${upName}_STUBS) &&\
-	    !defined(USE_${upName}_STUB_PROCS)\n"
+    append text "\n#if defined(USE_${upName}_STUBS)\n"
     append text "\n/*\n * Inline function declarations:\n */\n\n"
 
     forAllStubs $name makeMacro 0 text
 
-    append text "\n#endif /* defined(USE_${upName}_STUBS) &&\
-	    !defined(USE_${upName}_STUB_PROCS) */\n"
+    append text "\n#endif /* defined(USE_${upName}_STUBS) */\n"
     return
 }
 
@@ -998,11 +1015,7 @@ proc genStubs::emitHeader {name} {
     append text " * Used to tag functions that are only to be visible within the module being\n"
     append text " * built and not outside it (where this is supported by the linker).\n */\n\n"
     append text "#ifndef MODULE_SCOPE\n"
-    append text "#   ifdef __cplusplus\n"
-    append text "#\tdefine MODULE_SCOPE extern \"C\"\n"
-    append text "#   else\n"
-    append text "#\tdefine MODULE_SCOPE extern\n"
-    append text "#   endif\n"
+    append text "#   define MODULE_SCOPE extern\n"
     append text "#endif\n\n"
     append text "MODULE_SCOPE const ${capName}Stubs *${name}StubsPtr;\n"
 

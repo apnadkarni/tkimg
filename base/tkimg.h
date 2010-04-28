@@ -21,6 +21,11 @@
 #ifndef __TKIMG_H__
 #define __TKIMG_H__
 
+#ifdef _MSC_VER
+#pragma warning(disable:4244)
+#pragma warning(disable:4616)
+#endif
+
 #include <stdio.h> /* stdout, and other definitions */
 #include <string.h>
 #include <stdlib.h>
@@ -54,7 +59,6 @@
 /*
  * These macros are used to control whether functions are being declared for
  * import or export in Windows,
- * They map to no-op declarations on non-Windows systems.
  * Assumes that tcl.h defines DLLEXPORT & DLLIMPORT correctly.
  * The default build on windows is for a DLL, which causes the DLLIMPORT
  * and DLLEXPORT macros to be nonempty. To build a static library, the
@@ -70,20 +74,19 @@
  * The convention is that a macro called BUILD_xxxx, where xxxx is the
  * name of a library we are building, is set on the compile line for sources
  * that are to be placed in the library.  When this macro is set, the
- * storage class will be set to DLLEXPORT.  At the end of the header file, the
- * storage class will be reset to DLLIMPORt.
+ * TKIMGAPI macro will be set to "extern DLLEXPORT".
  */
 
-#undef TCL_STORAGE_CLASS
 #ifdef BUILD_tkimg
-# define TCL_STORAGE_CLASS DLLEXPORT
+# define TKIMGAPI extern DLLEXPORT
 #else
 # ifdef USE_TKIMG_STUBS
-#  define TCL_STORAGE_CLASS
+#  define TKIMGAPI extern
 # else
-#  define TCL_STORAGE_CLASS DLLIMPORT
+#  define TKIMGAPI extern DLLIMPORT
 # endif
 #endif
+
 
 /*
  *----------------------------------------------------------------------------
@@ -92,6 +95,10 @@
  */
 
 #include "tkimgDecls.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /*
  *----------------------------------------------------------------------------
@@ -128,6 +135,8 @@ MODULE_SCOPE int tkimg_initialized;
 #define IMG_COMPOSITE (1<<14)
 #define IMG_NOPANIC (1<<15)
 
+MODULE_SCOPE int TkimgInitUtilities(Tcl_Interp* interp);
+
 /*
  *----------------------------------------------------------------------------
  * Function prototypes for stub initialization.
@@ -146,8 +155,10 @@ Tkimg_InitStubs(Tcl_Interp *interp, const char *version, int exact);
     Tcl_PkgRequire(interp, "tkimg", (CONST84 char *) version, exact)
 #endif
 
-#undef TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLIMPORT
-
 #endif /* RC_INVOKED */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 #endif /* __TKIMG_H__ */

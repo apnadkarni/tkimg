@@ -16,6 +16,7 @@ library tkimg
 
 interface tkimg
 #hooks {}
+scspec TKIMGAPI
 
 #########################################################################
 ###  Reading and writing image data from channels and/or strings.

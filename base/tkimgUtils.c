@@ -25,7 +25,7 @@
 
 int tkimg_initialized = 0;
 
-MODULE_SCOPE int
+int
 TkimgInitUtilities(
 	Tcl_Interp *interp
 ) {
