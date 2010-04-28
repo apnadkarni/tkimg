@@ -3,7 +3,6 @@
 #undef png_access_version_number
 #undef png_set_sig_bytes
 #undef png_sig_cmp
-#undef png_check_sig
 #undef png_create_read_struct
 #undef png_create_write_struct
 #undef png_get_compression_buffer_size
@@ -24,7 +23,6 @@
 #undef png_convert_from_struct_tm
 #undef png_convert_from_time_t
 #undef png_set_expand
-#undef png_set_gray_1_2_4_to_8
 #undef png_set_palette_to_rgb
 #undef png_set_tRNS_to_alpha
 #undef png_set_bgr
@@ -99,8 +97,6 @@
 #undef png_data_freer
 #undef png_malloc_default
 #undef png_free_default
-#undef png_memcpy_check
-#undef png_memset_check
 #undef png_far_to_near
 #undef png_error
 #undef png_chunk_error
@@ -180,13 +176,8 @@
 #undef png_get_header_ver
 #undef png_get_header_version
 #undef png_get_libpng_ver
-#undef png_get_int_32
-#undef png_get_uint_32
-#undef png_get_uint_16
 #undef png_read_init
 #undef png_read_init_2
-#undef png_write_init
-#undef png_write_init_2
 #undef png_create_struct
 #undef png_destroy_struct
 #undef png_create_struct_2

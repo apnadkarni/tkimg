@@ -3,6 +3,7 @@
 	* More MODULE_SCOPE functions in base
 	* Use TKIMGAPI in stead of EXTERN in tkImg base package
 	* Fix various gcc and MSVC warnings
+	* upgrade to libpng 1.4.1
 
 2010-04-23  Jan Nijtmans <nijtmans@users.sourceforge.net>
 

@@ -10,7 +10,6 @@
 #define png_access_version_number __mask_png_access_version_number
 #define png_set_sig_bytes __mask_png_set_sig_bytes
 #define png_sig_cmp __mask_png_sig_cmp
-#define png_check_sig __mask_png_check_sig
 #define png_create_read_struct __mask_png_create_read_struct
 #define png_create_write_struct __mask_png_create_write_struct
 #define png_get_compression_buffer_size __mask_png_get_compression_buffer_size
@@ -23,7 +22,6 @@
 #define png_write_chunk_data __mask_png_write_chunk_data
 #define png_write_chunk_end __mask_png_write_chunk_end
 #define png_create_info_struct __mask_png_create_info_struct
-#define png_info_init __mask_png_info_init
 #define png_info_init_3 __mask_png_info_init_3
 #define png_write_info_before_PLTE __mask_png_write_info_before_PLTE
 #define png_write_info __mask_png_write_info
@@ -32,7 +30,6 @@
 #define png_convert_from_struct_tm __mask_png_convert_from_struct_tm
 #define png_convert_from_time_t __mask_png_convert_from_time_t
 #define png_set_expand __mask_png_set_expand
-#define png_set_gray_1_2_4_to_8 __mask_png_set_gray_1_2_4_to_8
 #define png_set_palette_to_rgb __mask_png_set_palette_to_rgb
 #define png_set_tRNS_to_alpha __mask_png_set_tRNS_to_alpha
 #define png_set_bgr __mask_png_set_bgr
@@ -107,8 +104,6 @@
 #define png_data_freer __mask_png_data_freer
 #define png_malloc_default __mask_png_malloc_default
 #define png_free_default __mask_png_free_default
-#define png_memcpy_check __mask_png_memcpy_check
-#define png_memset_check __mask_png_memset_check
 #define png_far_to_near __mask_png_far_to_near
 #define png_error __mask_png_error
 #define png_chunk_error __mask_png_chunk_error
@@ -188,13 +183,8 @@
 #define png_get_header_ver __mask_png_get_header_ver
 #define png_get_header_version __mask_png_get_header_version
 #define png_get_libpng_ver __mask_png_get_libpng_ver
-#define png_get_int_32 __mask_png_get_int_32
-#define png_get_uint_32 __mask_png_get_uint_32
-#define png_get_uint_16 __mask_png_get_uint_16
 #define png_read_init __mask_png_read_init
 #define png_read_init_2 __mask_png_read_init_2
-#define png_write_init __mask_png_write_init
-#define png_write_init_2 __mask_png_write_init_2
 #define png_create_struct __mask_png_create_struct
 #define png_destroy_struct __mask_png_destroy_struct
 #define png_create_struct_2 __mask_png_create_struct_2

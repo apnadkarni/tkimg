@@ -29,9 +29,6 @@ declare 1 generic {
 declare 2 generic {
     int png_sig_cmp (png_bytep sig, png_size_t start, png_size_t num_to_check)
 }
-declare 3 generic {
-    int png_check_sig (png_bytep sig, int num)
-}
 declare 4 generic {
     png_structp png_create_read_struct (png_const_charp user_png_ver,
     	png_voidp error_ptr, png_error_ptr error_fn, png_error_ptr warn_fn)
@@ -77,9 +74,6 @@ declare 14 generic {
 declare 15 generic {
     png_infop png_create_info_struct (png_structp png_ptr)
 }
-declare 16 generic {
-    void png_info_init (png_infop info_ptr)
-}
 declare 17 generic {
     void png_write_info_before_PLTE (png_structp png_ptr, png_infop info_ptr)
 }
@@ -100,9 +94,6 @@ declare 22 generic {_WIN32_WCE !PNG_WRITE_tIME_SUPPORTED} {
 }
 declare 23 generic {!PNG_READ_EXPAND_SUPPORTED} {
     void png_set_expand (png_structp png_ptr)
-}
-declare 24 generic {!PNG_READ_EXPAND_SUPPORTED} {
-    void png_set_gray_1_2_4_to_8 (png_structp png_ptr)
 }
 declare 25 generic {!PNG_READ_EXPAND_SUPPORTED} {
     void png_set_palette_to_rgb (png_structp png_ptr)
@@ -346,12 +337,6 @@ declare 98 generic {!PNG_USER_MEM_SUPPORTED} {
 }
 declare 99 generic {!PNG_USER_MEM_SUPPORTED} {
     void png_free_default (png_structp png_ptr, png_voidp ptr)
-}
-declare 100 generic {
-    png_voidp png_memcpy_check (png_structp png_ptr, png_voidp s1, png_voidp s2, png_uint_32 size)
-}
-declare 101 generic {
-    png_voidp png_memset_check (png_structp png_ptr, png_voidp s1, int value, png_uint_32 size)
 }
 declare 102 generic {!USE_FAR_KEYWORD} {
     void *png_far_to_near (png_structp png_ptr,png_voidp ptr, int check)
@@ -601,26 +586,11 @@ declare 179 generic {
 declare 180 generic {
     png_charp png_get_libpng_ver (png_structp png_ptr)
 }
-declare 181 generic {!PNG_INTERNAL PNG_READ_BIG_ENDIAN_SUPPORTED {!PNG_READ_pCAL_SUPPORTED !PNG_READ_oFFs_SUPPORTED}} {
-    png_int_32 png_get_int_32 (png_bytep buf)
-}
-declare 182 generic {!PNG_INTERNAL PNG_READ_BIG_ENDIAN_SUPPORTED} {
-    png_uint_32 png_get_uint_32 (png_bytep buf)
-}
-declare 183 generic {!PNG_INTERNAL PNG_READ_BIG_ENDIAN_SUPPORTED} {
-    png_uint_16 png_get_uint_16 (png_bytep buf)
-}
 declare 184 generic {!PNG_INTERNAL} {
     void png_read_init (png_structp png_ptr)
 }
 declare 185 generic {!PNG_INTERNAL} {
     void png_read_init_2 (png_structp png_ptr, png_const_charp user_png_ver, png_size_t png_struct_size, png_size_t png_info_size)
-}
-declare 186 generic {!PNG_INTERNAL} {
-    void png_write_init (png_structp png_ptr)
-}
-declare 187 generic {!PNG_INTERNAL} {
-    void png_write_init_2 (png_structp png_ptr, png_const_charp user_png_ver, png_size_t png_struct_size, png_size_t png_info_size)
 }
 declare 188 generic {!PNG_INTERNAL} {
     png_voidp png_create_struct (int type)

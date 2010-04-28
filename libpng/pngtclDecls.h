@@ -18,7 +18,6 @@
 #include "pngtclDeclsMask.h"
 #include "../compat/libpng/png.h"
 #include "pngtclDeclsUnmask.h"
-#undef png_info_init
 
 /* !BEGIN!: Do not edit below this line. */
 
@@ -33,8 +32,7 @@ EXTERN void		png_set_sig_bytes(png_structp png_ptr, int num_bytes);
 /* 2 */
 EXTERN int		png_sig_cmp(png_bytep sig, png_size_t start,
 				png_size_t num_to_check);
-/* 3 */
-EXTERN int		png_check_sig(png_bytep sig, int num);
+/* Slot 3 is reserved */
 /* 4 */
 EXTERN png_structp	png_create_read_struct(png_const_charp user_png_ver,
 				png_voidp error_ptr, png_error_ptr error_fn,
@@ -78,8 +76,7 @@ EXTERN void		png_write_chunk_data(png_structp png_ptr,
 EXTERN void		png_write_chunk_end(png_structp png_ptr);
 /* 15 */
 EXTERN png_infop	png_create_info_struct(png_structp png_ptr);
-/* 16 */
-EXTERN void		png_info_init(png_infop info_ptr);
+/* Slot 16 is reserved */
 /* 17 */
 EXTERN void		png_write_info_before_PLTE(png_structp png_ptr,
 				png_infop info_ptr);
@@ -100,8 +97,7 @@ EXTERN void		png_convert_from_time_t(png_timep ptime,
 				time_t ttime);
 /* 23 */
 EXTERN void		png_set_expand(png_structp png_ptr);
-/* 24 */
-EXTERN void		png_set_gray_1_2_4_to_8(png_structp png_ptr);
+/* Slot 24 is reserved */
 /* 25 */
 EXTERN void		png_set_palette_to_rgb(png_structp png_ptr);
 /* 26 */
@@ -315,12 +311,8 @@ EXTERN png_voidp	png_malloc_default(png_structp png_ptr,
 				png_uint_32 size);
 /* 99 */
 EXTERN void		png_free_default(png_structp png_ptr, png_voidp ptr);
-/* 100 */
-EXTERN png_voidp	png_memcpy_check(png_structp png_ptr, png_voidp s1,
-				png_voidp s2, png_uint_32 size);
-/* 101 */
-EXTERN png_voidp	png_memset_check(png_structp png_ptr, png_voidp s1,
-				int value, png_uint_32 size);
+/* Slot 100 is reserved */
+/* Slot 101 is reserved */
 /* 102 */
 EXTERN void *		png_far_to_near(png_structp png_ptr, png_voidp ptr,
 				int check);
@@ -599,12 +591,9 @@ EXTERN png_charp	png_get_header_ver(png_structp png_ptr);
 EXTERN png_charp	png_get_header_version(png_structp png_ptr);
 /* 180 */
 EXTERN png_charp	png_get_libpng_ver(png_structp png_ptr);
-/* 181 */
-EXTERN png_int_32	png_get_int_32(png_bytep buf);
-/* 182 */
-EXTERN png_uint_32	png_get_uint_32(png_bytep buf);
-/* 183 */
-EXTERN png_uint_16	png_get_uint_16(png_bytep buf);
+/* Slot 181 is reserved */
+/* Slot 182 is reserved */
+/* Slot 183 is reserved */
 /* 184 */
 EXTERN void		png_read_init(png_structp png_ptr);
 /* 185 */
@@ -612,13 +601,8 @@ EXTERN void		png_read_init_2(png_structp png_ptr,
 				png_const_charp user_png_ver,
 				png_size_t png_struct_size,
 				png_size_t png_info_size);
-/* 186 */
-EXTERN void		png_write_init(png_structp png_ptr);
-/* 187 */
-EXTERN void		png_write_init_2(png_structp png_ptr,
-				png_const_charp user_png_ver,
-				png_size_t png_struct_size,
-				png_size_t png_info_size);
+/* Slot 186 is reserved */
+/* Slot 187 is reserved */
 /* 188 */
 EXTERN png_voidp	png_create_struct(int type);
 /* 189 */
@@ -1023,7 +1007,7 @@ typedef struct PngtclStubs {
     png_uint_32 (*png_access_version_numberPtr) (void); /* 0 */
     void (*png_set_sig_bytesPtr) (png_structp png_ptr, int num_bytes); /* 1 */
     int (*png_sig_cmpPtr) (png_bytep sig, png_size_t start, png_size_t num_to_check); /* 2 */
-    int (*png_check_sigPtr) (png_bytep sig, int num); /* 3 */
+    void *reserved3;
     png_structp (*png_create_read_structPtr) (png_const_charp user_png_ver, png_voidp error_ptr, png_error_ptr error_fn, png_error_ptr warn_fn); /* 4 */
     png_structp (*png_create_write_structPtr) (png_const_charp user_png_ver, png_voidp error_ptr, png_error_ptr error_fn, png_error_ptr warn_fn); /* 5 */
     png_uint_32 (*png_get_compression_buffer_sizePtr) (png_structp png_ptr); /* 6 */
@@ -1036,7 +1020,7 @@ typedef struct PngtclStubs {
     void (*png_write_chunk_dataPtr) (png_structp png_ptr, png_bytep data, png_size_t length); /* 13 */
     void (*png_write_chunk_endPtr) (png_structp png_ptr); /* 14 */
     png_infop (*png_create_info_structPtr) (png_structp png_ptr); /* 15 */
-    void (*png_info_initPtr) (png_infop info_ptr); /* 16 */
+    void *reserved16;
     void (*png_write_info_before_PLTEPtr) (png_structp png_ptr, png_infop info_ptr); /* 17 */
     void (*png_write_infoPtr) (png_structp png_ptr, png_infop info_ptr); /* 18 */
     void (*png_read_infoPtr) (png_structp png_ptr, png_infop info_ptr); /* 19 */
@@ -1044,7 +1028,7 @@ typedef struct PngtclStubs {
     void (*png_convert_from_struct_tmPtr) (png_timep ptime, struct tm FAR *ttime); /* 21 */
     void (*png_convert_from_time_tPtr) (png_timep ptime, time_t ttime); /* 22 */
     void (*png_set_expandPtr) (png_structp png_ptr); /* 23 */
-    void (*png_set_gray_1_2_4_to_8Ptr) (png_structp png_ptr); /* 24 */
+    void *reserved24;
     void (*png_set_palette_to_rgbPtr) (png_structp png_ptr); /* 25 */
     void (*png_set_tRNS_to_alphaPtr) (png_structp png_ptr); /* 26 */
     void (*png_set_bgrPtr) (png_structp png_ptr); /* 27 */
@@ -1120,8 +1104,8 @@ typedef struct PngtclStubs {
     void (*png_data_freerPtr) (png_structp png_ptr, png_infop info_ptr, int freer, png_uint_32 mask); /* 97 */
     png_voidp (*png_malloc_defaultPtr) (png_structp png_ptr, png_uint_32 size); /* 98 */
     void (*png_free_defaultPtr) (png_structp png_ptr, png_voidp ptr); /* 99 */
-    png_voidp (*png_memcpy_checkPtr) (png_structp png_ptr, png_voidp s1, png_voidp s2, png_uint_32 size); /* 100 */
-    png_voidp (*png_memset_checkPtr) (png_structp png_ptr, png_voidp s1, int value, png_uint_32 size); /* 101 */
+    void *reserved100;
+    void *reserved101;
     void * (*png_far_to_nearPtr) (png_structp png_ptr, png_voidp ptr, int check); /* 102 */
     void (*png_errorPtr) (png_structp png_ptr, png_const_charp error); /* 103 */
     void (*png_chunk_errorPtr) (png_structp png_ptr, png_const_charp error); /* 104 */
@@ -1201,13 +1185,13 @@ typedef struct PngtclStubs {
     png_charp (*png_get_header_verPtr) (png_structp png_ptr); /* 178 */
     png_charp (*png_get_header_versionPtr) (png_structp png_ptr); /* 179 */
     png_charp (*png_get_libpng_verPtr) (png_structp png_ptr); /* 180 */
-    png_int_32 (*png_get_int_32Ptr) (png_bytep buf); /* 181 */
-    png_uint_32 (*png_get_uint_32Ptr) (png_bytep buf); /* 182 */
-    png_uint_16 (*png_get_uint_16Ptr) (png_bytep buf); /* 183 */
+    void *reserved181;
+    void *reserved182;
+    void *reserved183;
     void (*png_read_initPtr) (png_structp png_ptr); /* 184 */
     void (*png_read_init_2Ptr) (png_structp png_ptr, png_const_charp user_png_ver, png_size_t png_struct_size, png_size_t png_info_size); /* 185 */
-    void (*png_write_initPtr) (png_structp png_ptr); /* 186 */
-    void (*png_write_init_2Ptr) (png_structp png_ptr, png_const_charp user_png_ver, png_size_t png_struct_size, png_size_t png_info_size); /* 187 */
+    void *reserved186;
+    void *reserved187;
     png_voidp (*png_create_structPtr) (int type); /* 188 */
     void (*png_destroy_structPtr) (png_voidp struct_ptr); /* 189 */
     png_voidp (*png_create_struct_2Ptr) (int type, png_malloc_ptr malloc_fn); /* 190 */
@@ -1347,16 +1331,12 @@ typedef struct PngtclStubs {
  */
 
 #ifndef MODULE_SCOPE
-#   ifdef __cplusplus
-#	define MODULE_SCOPE extern "C"
-#   else
-#	define MODULE_SCOPE extern
-#   endif
+#   define MODULE_SCOPE extern
 #endif
 
 MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 
-#if defined(USE_PNGTCL_STUBS) && !defined(USE_PNGTCL_STUB_PROCS)
+#if defined(USE_PNGTCL_STUBS)
 
 /*
  * Inline function declarations:
@@ -1374,10 +1354,7 @@ MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 #define png_sig_cmp \
 	(pngtclStubsPtr->png_sig_cmpPtr) /* 2 */
 #endif
-#ifndef png_check_sig
-#define png_check_sig \
-	(pngtclStubsPtr->png_check_sigPtr) /* 3 */
-#endif
+/* Slot 3 is reserved */
 #ifndef png_create_read_struct
 #define png_create_read_struct \
 	(pngtclStubsPtr->png_create_read_structPtr) /* 4 */
@@ -1426,10 +1403,7 @@ MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 #define png_create_info_struct \
 	(pngtclStubsPtr->png_create_info_structPtr) /* 15 */
 #endif
-#ifndef png_info_init
-#define png_info_init \
-	(pngtclStubsPtr->png_info_initPtr) /* 16 */
-#endif
+/* Slot 16 is reserved */
 #ifndef png_write_info_before_PLTE
 #define png_write_info_before_PLTE \
 	(pngtclStubsPtr->png_write_info_before_PLTEPtr) /* 17 */
@@ -1458,10 +1432,7 @@ MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 #define png_set_expand \
 	(pngtclStubsPtr->png_set_expandPtr) /* 23 */
 #endif
-#ifndef png_set_gray_1_2_4_to_8
-#define png_set_gray_1_2_4_to_8 \
-	(pngtclStubsPtr->png_set_gray_1_2_4_to_8Ptr) /* 24 */
-#endif
+/* Slot 24 is reserved */
 #ifndef png_set_palette_to_rgb
 #define png_set_palette_to_rgb \
 	(pngtclStubsPtr->png_set_palette_to_rgbPtr) /* 25 */
@@ -1759,14 +1730,8 @@ MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 #define png_free_default \
 	(pngtclStubsPtr->png_free_defaultPtr) /* 99 */
 #endif
-#ifndef png_memcpy_check
-#define png_memcpy_check \
-	(pngtclStubsPtr->png_memcpy_checkPtr) /* 100 */
-#endif
-#ifndef png_memset_check
-#define png_memset_check \
-	(pngtclStubsPtr->png_memset_checkPtr) /* 101 */
-#endif
+/* Slot 100 is reserved */
+/* Slot 101 is reserved */
 #ifndef png_far_to_near
 #define png_far_to_near \
 	(pngtclStubsPtr->png_far_to_nearPtr) /* 102 */
@@ -2083,18 +2048,9 @@ MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 #define png_get_libpng_ver \
 	(pngtclStubsPtr->png_get_libpng_verPtr) /* 180 */
 #endif
-#ifndef png_get_int_32
-#define png_get_int_32 \
-	(pngtclStubsPtr->png_get_int_32Ptr) /* 181 */
-#endif
-#ifndef png_get_uint_32
-#define png_get_uint_32 \
-	(pngtclStubsPtr->png_get_uint_32Ptr) /* 182 */
-#endif
-#ifndef png_get_uint_16
-#define png_get_uint_16 \
-	(pngtclStubsPtr->png_get_uint_16Ptr) /* 183 */
-#endif
+/* Slot 181 is reserved */
+/* Slot 182 is reserved */
+/* Slot 183 is reserved */
 #ifndef png_read_init
 #define png_read_init \
 	(pngtclStubsPtr->png_read_initPtr) /* 184 */
@@ -2103,14 +2059,8 @@ MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 #define png_read_init_2 \
 	(pngtclStubsPtr->png_read_init_2Ptr) /* 185 */
 #endif
-#ifndef png_write_init
-#define png_write_init \
-	(pngtclStubsPtr->png_write_initPtr) /* 186 */
-#endif
-#ifndef png_write_init_2
-#define png_write_init_2 \
-	(pngtclStubsPtr->png_write_init_2Ptr) /* 187 */
-#endif
+/* Slot 186 is reserved */
+/* Slot 187 is reserved */
 #ifndef png_create_struct
 #define png_create_struct \
 	(pngtclStubsPtr->png_create_structPtr) /* 188 */
@@ -2636,7 +2586,7 @@ MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 	(pngtclStubsPtr->png_info_init_3Ptr) /* 318 */
 #endif
 
-#endif /* defined(USE_PNGTCL_STUBS) && !defined(USE_PNGTCL_STUB_PROCS) */
+#endif /* defined(USE_PNGTCL_STUBS) */
 
 /* !END!: Do not edit above this line. */
 
