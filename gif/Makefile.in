@@ -302,7 +302,7 @@ VPATH = $(srcdir):$(srcdir)/generic:$(srcdir)/unix:$(srcdir)/win
 # the configure script output the pkgIndex.tcl by editing configure.in.
 #========================================================================
 
-pkgIndex:	$(PKG_LIB_FILE)
+pkgIndex.tcl:	$(PKG_LIB_FILE)
 	(echo 'package ifneeded $(PACKAGE_TCLNAME) $(PACKAGE_VERSION) \
 	    [list load [file join $$dir $(PKG_LIB_FILE)]]'\
 	) > pkgIndex.tcl
