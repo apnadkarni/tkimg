@@ -632,8 +632,8 @@ static Boln readFloatFile (tkimg_MFile *handle, Float *buf, Int width, Int heigh
                  width, height, nchan, swapBytes? "yes": "no");
 #endif
     for (c=0; c<nchan; c++) {
-	minVals[c] =  1.0E30;
-	maxVals[c] = -1.0E30;
+	minVals[c] =  (Float)1.0E30;
+	maxVals[c] = (Float)-1.0E30;
     }
     line = ckalloc (sizeof (Float) * nchan * width);
 
@@ -678,8 +678,8 @@ static Boln readUShortFile (tkimg_MFile *handle, UShort *buf, Int width, Int hei
                  width, height, nchan, swapBytes? "yes": "no");
 #endif
     for (c=0; c<nchan; c++) {
-	minVals[c] =  1.0E30;
-	maxVals[c] = -1.0E30;
+	minVals[c] =  (Float)1.0E30;
+	maxVals[c] = (Float)-1.0E30;
     }
     line = ckalloc (sizeof (UShort) * nchan * width);
 
@@ -724,8 +724,8 @@ static Boln readUByteFile (tkimg_MFile *handle, UByte *buf, Int width, Int heigh
                  width, height, nchan, swapBytes? "yes": "no");
 #endif
     for (c=0; c<nchan; c++) {
-	minVals[c] =  1.0E30;
-	maxVals[c] = -1.0E30;
+	minVals[c] =  (Float)1.0E30;
+	maxVals[c] = (Float)-1.0E30;
     }
     line = ckalloc (sizeof (UByte) * nchan * width);
 

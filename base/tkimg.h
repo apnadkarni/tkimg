@@ -24,6 +24,7 @@
 #ifdef _MSC_VER
 #pragma warning(disable:4244)
 #pragma warning(disable:4616)
+#pragma warning(disable:4761)
 #endif
 
 #include <stdio.h> /* stdout, and other definitions */

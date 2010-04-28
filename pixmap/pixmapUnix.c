@@ -11,7 +11,6 @@
  *
  */
 
-#include "tk.h"
 #include "pixmapInt.h"
 #include <stdlib.h>
 #include "X11/Xlib.h"

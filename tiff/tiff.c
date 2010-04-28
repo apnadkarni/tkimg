@@ -34,7 +34,7 @@ static int SetupTiffLibrary(Tcl_Interp *interp);
 #include "tiffInt.h"
 
 
-extern int unlink(const char *);
+extern DLLIMPORT int unlink(const char *);
 
 /*
  * Prototypes for local procedures defined in this file:

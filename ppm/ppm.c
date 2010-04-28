@@ -162,10 +162,10 @@ typedef struct {
     {                                                                   \
         Int     gc_i;                                                   \
         Float   gc_t;                                                   \
-        gc_t = (valIn) * (GTABSIZE - 2);                                \
-        gc_i = gc_t;                                                    \
-        gc_t -= gc_i;                                                   \
-        (valOut) = (tab)[gc_i] * (1.0-gc_t) + (tab)[gc_i+1] * gc_t;     \
+        gc_t = (valIn) * (Float)(GTABSIZE - 2);                         \
+        gc_i = (Int)gc_t;                                               \
+        gc_t -= (Int)gc_i;                                              \
+        (valOut) = (Float)((tab)[gc_i] * (1.0-gc_t) + (tab)[gc_i+1] * gc_t);\
     }
 
 static Boln gtableFloat (Float gamma, Float table[])
@@ -177,7 +177,7 @@ static Boln gtableFloat (Float gamma, Float table[])
         return FALSE;
     }
     for (i = 0; i < GTABSIZE - 1; ++i) {
-        table[i] = pow ((Float) i / (Float) (GTABSIZE - 2), 1.0 / gamma);
+        table[i] = (Float)pow((Float)i / (Float)(GTABSIZE - 2), 1.0 / gamma);
     }
     table[GTABSIZE - 1] = 1.0;
     return TRUE;
@@ -202,9 +202,9 @@ static void UShortGammaUByte (Int n, const UShort shortIn[],
        Quite nice speed improvement for the maybe most used case. */
     if (gtable) {
         while (src < stop) {
-            ftmp = *src / 65535.0;
-            ftmp = MAX (0.0, MIN (ftmp, 1.0));
-            gcorrectFloat (ftmp, gtable, ftmp);
+            ftmp = (Float)(*src / 65535.0);
+            ftmp = MAX((Float)0.0, MIN(ftmp, (Float)1.0));
+            gcorrectFloat(ftmp, gtable, ftmp);
             itmp = (Int)(ftmp * 255.0 + 0.5);
             *ubdest = MAX (0, MIN (itmp, 255));
             ++ubdest;
@@ -377,8 +377,8 @@ static Boln readUShortFile (Tcl_Interp *interp, tkimg_MFile *handle, UShort *buf
                  width, height, nchan, swapBytes? "yes": "no");
     #endif
     for (c=0; c<nchan; c++) {
-        minVals[c] =  1.0E30;
-        maxVals[c] = -1.0E30;
+        minVals[c] =  (Float)1.0E30;
+        maxVals[c] = (Float)-1.0E30;
     }
     line = ckalloc (sizeof (UShort) * nchan * width);
 
@@ -423,8 +423,8 @@ static Boln readUByteFile (Tcl_Interp *interp, tkimg_MFile *handle, UByte *buf, 
                  width, height, nchan, swapBytes? "yes": "no");
     #endif
     for (c=0; c<nchan; c++) {
-        minVals[c] =  1.0E30;
-        maxVals[c] = -1.0E30;
+        minVals[c] =  (Float)1.0E30;
+        maxVals[c] = (Float)-1.0E30;
     }
     line = ckalloc (sizeof (UByte) * nchan * width);
 
@@ -464,13 +464,13 @@ static Boln remapUShortValues (UShort *buf, Int width, Int height, Int nchan,
     Float m[MAXCHANS], t[MAXCHANS];
 
     for (c=0; c<nchan; c++) {
-        m[c] = (65535.0 - 0.0) / (maxVals[c] - minVals[c]);
-        t[c] = 0.0 - m[c] * minVals[c];
+        m[c] = (Float)((65535.0 - 0.0) / (maxVals[c] - minVals[c]));
+        t[c] = (Float)(0.0 - m[c] * minVals[c]);
     }
     for (y=0; y<height; y++) {
         for (x=0; x<width; x++) {
             for (c=0; c<nchan; c++) {
-                *bufPtr = *bufPtr * m[c] + t[c]; 
+                *bufPtr = (UShort)(*bufPtr * m[c] + t[c]);
                 bufPtr++;
             }
         }
@@ -483,7 +483,7 @@ static int ParseFormatOpts (interp, format, opts)
     Tcl_Obj *format;
     FMTOPT *opts;
 {
-    static const char *rawOptions[] = {
+    static const char *const rawOptions[] = {
          "-verbose", "-min", "-max", "-gamma", "-scanorder", "-ascii"
     };
     int objc, length, c, i, index;
@@ -502,7 +502,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     if (objc) {
         for (i=1; i<objc; i++) {
-            if (Tcl_GetIndexFromObj (interp, objv[i], rawOptions,
+            if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)rawOptions,
                     "format option", 0, &index) != TCL_OK) {
                 return TCL_ERROR;
             }
@@ -535,9 +535,9 @@ static int ParseFormatOpts (interp, format, opts)
         }
     }
 
-    opts->minVal = atof (minStr);
-    opts->maxVal = atof (maxStr);
-    opts->gamma  = atof (gammaStr);
+    opts->minVal = (Float)atof(minStr);
+    opts->maxVal = (Float)atof(maxStr);
+    opts->gamma  = (Float)atof(gammaStr);
 
     c = verboseStr[0]; length = strlen (verboseStr);
     if (!strncmp (verboseStr, "1", length) || \
@@ -600,7 +600,7 @@ static int CommonWrite (Tcl_Interp *interp,
                 const char *filename, Tcl_Obj *format,
                 tkimg_MFile *handle, Tk_PhotoImageBlock *blockPtr);
 static int ReadPPMFileHeader (tkimg_MFile *handle, int *widthPtr, 
-                int *heightPtr, int *maxIntensityPtr, int *isAsciiPtr);
+                int *heightPtr, int *maxIntensityPtr, Boln *isAsciiPtr);
 
 
 /*
@@ -659,8 +659,8 @@ static int CommonMatch(handle, widthPtr, heightPtr, maxIntensityPtr)
     int *heightPtr;
     int *maxIntensityPtr;
 {
-    int dummy;
-    return ReadPPMFileHeader (handle, widthPtr, heightPtr, maxIntensityPtr, &dummy);
+    Boln dummy;
+    return ReadPPMFileHeader(handle, widthPtr, heightPtr, maxIntensityPtr, &dummy);
 }
 
 
@@ -744,7 +744,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     Tk_PhotoImageBlock block;
     FMTOPT opts;
     PPMFILE tf;
-    int swapBytes, isAscii;
+    Boln swapBytes, isAscii;
     int stopY, outY;
     int bytesPerPixel;
     Float minVals[MAXCHANS], maxVals[MAXCHANS];
@@ -822,7 +822,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     switch (bytesPerPixel) {
         case 2: {
             tf.ushortBuf = (UShort *)ckalloc (fileWidth*fileHeight*block.pixelSize*sizeof (UShort));
-            if (!readUShortFile (interp, handle, tf.ushortBuf, fileWidth, fileHeight, block.pixelSize,
+            if (!readUShortFile(interp, handle, tf.ushortBuf, fileWidth, fileHeight, block.pixelSize,
                                  swapBytes, isAscii, opts.verbose, minVals, maxVals)) {
                 ppmClose (&tf);
                 return TCL_ERROR;
@@ -832,7 +832,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
         case 1: {
             tf.ubyteBuf = (UByte *)ckalloc (fileWidth*fileHeight*block.pixelSize*sizeof (UByte));
             if (!readUByteFile (interp, handle, tf.ubyteBuf, fileWidth, fileHeight, block.pixelSize,
-                                swapBytes, isAscii, opts.verbose, minVals, maxVals)) {
+            		swapBytes, isAscii, opts.verbose, minVals, maxVals)) {
                 ppmClose (&tf);
                 return TCL_ERROR;
             }
@@ -978,7 +978,7 @@ static int writeAsciiRow (tkimg_MFile *handle, const unsigned char *scanline, in
 
     for (i=0; i<nBytes; i++) {
         sprintf (buf, "%d\n\0", scanline[i]);
-        if (tkimg_Write (handle, buf, strlen (buf)) != strlen (buf)) {
+        if (tkimg_Write(handle, buf, strlen(buf)) != (int)strlen(buf)) {
             return i;
         }
     }
@@ -1005,7 +1005,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
 
     sprintf(header, "P%d\n%d %d\n255\n", opts.writeAscii? 3: 6,
                      blockPtr->width, blockPtr->height);
-    if (tkimg_Write(handle, header, strlen (header)) != strlen (header)) {
+    if (tkimg_Write(handle, header, strlen(header)) != (int)strlen(header)) {
         goto writeerror;
     }
 
@@ -1075,7 +1075,7 @@ ReadPPMFileHeader (handle, widthPtr, heightPtr, maxIntensityPtr, isAsciiPtr)
                                  * returned here. */
     int *maxIntensityPtr;       /* The maximum intensity value for
                                  * the image is stored here. */
-    int *isAsciiPtr;    
+    Boln *isAsciiPtr;
 {
 #define BUFFER_SIZE 1000
     char buffer[BUFFER_SIZE];
