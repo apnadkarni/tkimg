@@ -1127,11 +1127,10 @@ typedef struct {
 
 static int isIntel (void)
 {
-    char order[] = { 1, 2, 3, 4};
-    unsigned int val = (unsigned int)*((short *)order);
-    /* On Intel (little-endian) systems this value is equal to 513.
-       On big-endian systems this value equals 258. */
-    return (val == 513);
+    unsigned long val = 513;
+    /* On Intel (little-endian) systems this value is equal to "\01\02\00\00".
+       On big-endian systems this value equals "\00\00\02\01" */
+    return memcmp(&val, "\01\02", 2) == 0;
 }
 
 static void sgiClose (SGIFILE *tf)
@@ -1478,7 +1477,7 @@ static int ObjRead (interp, data, format, imageHandle,
     int srcX, srcY;
 {
     tkimg_MFile handle;
-    char tempFileName[256];
+    char *tempFileName, tempFileNameBuffer[256];
     char buffer[BUFLEN];
     MYCHANNEL outchan;
     Tcl_Channel inchan;
@@ -1486,7 +1485,7 @@ static int ObjRead (interp, data, format, imageHandle,
 
     tkimg_ReadInit (data, '\001', &handle);
 
-    tmpnam(tempFileName);
+    tempFileName = tmpnam(tempFileNameBuffer);
 #ifdef TCLSEEK_WORKAROUND
     outchan = (Tcl_Channel)fopen (tempFileName, "wb");
 #else
@@ -1662,12 +1661,12 @@ static int StringWrite(
     Tcl_DString data;
     Tcl_Channel inchan;
     MYCHANNEL outchan;
-    char tempFileName[256];
+    char *tempFileName, tempFileNameBuffer[256];
     char buffer[BUFLEN];
     int count;
 
     Tcl_DStringInit(&data);
-    tmpnam(tempFileName);
+    tempFileName = tmpnam(tempFileNameBuffer);
 #ifdef TCLSEEK_WORKAROUND
     outchan = (Tcl_Channel)fopen(tempFileName, "wb");
 #else

@@ -314,11 +314,10 @@ static void UShortGammaUByte (Int n, const UShort shortIn[],
 
 static int isIntel (void)
 {
-    char order[] = { 1, 2, 3, 4};
-    unsigned long val = (unsigned long)*((short *)order);
-    /* On Intel (little-endian) systems this value is equal to 513.
-       On big-endian systems this value equals 258. */
-    return (val == 513);
+    unsigned long val = 513;
+    /* On Intel (little-endian) systems this value is equal to "\01\02\00\00".
+       On big-endian systems this value equals "\00\00\02\01" */
+    return memcmp(&val, "\01\02", 2) == 0;
 }
 
 static void rawClose (RAWFILE *tf)

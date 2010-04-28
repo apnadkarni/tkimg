@@ -447,7 +447,7 @@ ObjRead(interp, data, format, imageHandle,
     int srcX, srcY;
 {
     TIFF *tif;
-    char tempFileName[256];
+    char *tempFileName = NULL, tempFileNameBuffer[256];
     int count, result;
     tkimg_MFile handle;
     char buffer[1024];
@@ -458,7 +458,6 @@ ObjRead(interp, data, format, imageHandle,
     }
 
     if (TIFFClientOpen) {
-	tempFileName[0] = 0;
 	if (handle.state != IMG_STRING) {
 	    dataPtr = ckalloc((handle.length*3)/4 + 2);
 	    handle.length = tkimg_Read(&handle, dataPtr, handle.length);
@@ -470,7 +469,7 @@ ObjRead(interp, data, format, imageHandle,
 		sizeString, mapDummy, unMapDummy);
     } else {
 	Tcl_Channel outchan;
-	tmpnam(tempFileName);
+	tempFileName = tmpnam(tempFileNameBuffer);
 	outchan = tkimg_OpenFileChannel(interp, tempFileName, 0644);
 	if (!outchan) {
 	    return TCL_ERROR;
@@ -496,7 +495,7 @@ ObjRead(interp, data, format, imageHandle,
     } else {
 	result = TCL_ERROR;
     }
-    if (tempFileName[0]) {
+    if (tempFileName) {
 	unlink(tempFileName);
     }
     if (result == TCL_ERROR) {
@@ -523,13 +522,12 @@ ChnRead(interp, chan, fileName, format, imageHandle,
     int srcX, srcY;
 {
     TIFF *tif;
-    char tempFileName[256];
+    char *tempFileName = NULL, tempFileNameBuffer[256];
     int count, result;
     char buffer[1024];
 
     if (TIFFClientOpen) {
 	tkimg_MFile handle;
-	tempFileName[0] = 0;
 	handle.data = (char *) chan;
 	handle.state = IMG_CHAN;
 	tif = TIFFClientOpen(fileName, "r", (thandle_t) &handle,
@@ -537,7 +535,7 @@ ChnRead(interp, chan, fileName, format, imageHandle,
 		sizeMFile, mapDummy, unMapDummy);
     } else {
 	Tcl_Channel outchan;
-	tmpnam(tempFileName);
+	tempFileName = tmpnam(tempFileNameBuffer);
 	outchan = tkimg_OpenFileChannel(interp, tempFileName, 0644);
 	if (!outchan) {
 	    return TCL_ERROR;
@@ -563,7 +561,7 @@ ChnRead(interp, chan, fileName, format, imageHandle,
     } else {
 	result = TCL_ERROR;
     }
-    if (tempFileName[0]) {
+    if (tempFileName) {
 	unlink(tempFileName);
     }
     if (result == TCL_ERROR) {
@@ -674,7 +672,7 @@ static int StringWrite(
     TIFF *tif;
     int result, comp;
     tkimg_MFile handle;
-    char tempFileName[256];
+    char *tempFileName = NULL, tempFileNameBuffer[256];
     Tcl_DString dstring;
     const char *mode;
     Tcl_DString data;
@@ -685,14 +683,13 @@ static int StringWrite(
     }
 
     if (TIFFClientOpen) {
-	tempFileName[0] = 0;
 	Tcl_DStringInit(&dstring);
 	tkimg_WriteInit(&dstring, &handle);
 	tif = TIFFClientOpen("inline data", mode, (thandle_t) &handle,
 		readString, writeString, seekString, closeDummy,
 		sizeString, mapDummy, unMapDummy);
     } else {
-	tmpnam(tempFileName);
+	tempFileName = tmpnam(tempFileNameBuffer);
 	tif = TIFFOpen(tempFileName,mode);
     }
 
@@ -700,7 +697,7 @@ static int StringWrite(
     TIFFClose(tif);
 
     if (result != TCL_OK) {
-	if (tempFileName[0]) {
+	if (tempFileName) {
 	    unlink(tempFileName);
 	}
 	Tcl_AppendResult(interp, errorMessage, (char *) NULL);
@@ -709,7 +706,7 @@ static int StringWrite(
 	return TCL_ERROR;
     }
 
-    if (tempFileName[0]) {
+    if (tempFileName) {
 	Tcl_Channel inchan;
 	char buffer[1024];
 	inchan = tkimg_OpenFileChannel(interp, tempFileName, 0644);

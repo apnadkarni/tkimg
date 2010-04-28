@@ -296,11 +296,10 @@ static void gammaShortUByte (Int n, const Short s_in[],
 
 static int isIntel (void)
 {
-    char order[] = { 1, 2, 3, 4};
-    unsigned long val = (unsigned long)*((short *)order);
-    /* On Intel (little-endian) systems this value is equal to 513.
-       On big-endian systems this value equals 258. */
-    return (val == 513);
+    unsigned long val = 513;
+    /* On Intel (little-endian) systems this value is equal to "\01\02\00\00".
+       On big-endian systems this value equals "\00\00\02\01" */
+    return memcmp(&val, "\01\02", 2) == 0;
 }
 
 static void dtedClose (DTEDFILE *tf)
@@ -312,6 +311,7 @@ static void dtedClose (DTEDFILE *tf)
 
 /* Read 1 byte, representing an unsigned integer number. */
 
+#if 0 /* unused */
 static Boln readUByte (tkimg_MFile *handle, UByte *b)
 {
     char buf[1];
@@ -320,6 +320,7 @@ static Boln readUByte (tkimg_MFile *handle, UByte *b)
     *b = buf[0];
     return TRUE;
 }
+#endif  /* unused */
 
 /* Read 2 bytes, representing a signed 16 bit integer in the form
    <LowByte, HighByte>, from a file and convert them into the current
@@ -352,6 +353,7 @@ static Boln readInt (tkimg_MFile *handle, Int *i)
 
 /* Write a byte, representing an unsigned integer to a file. */
 
+#if 0 /* unused */
 static Boln writeUByte (tkimg_MFile *handle, UByte b)
 {
     UByte buf[1];
@@ -360,9 +362,11 @@ static Boln writeUByte (tkimg_MFile *handle, UByte b)
         return FALSE;
     return TRUE;
 }
+#endif /* unused */
 
 /* Write a byte, representing a signed integer to a file. */
 
+#if 0 /* unused */
 static Boln writeByte (tkimg_MFile *handle, Byte b)
 {
     Byte buf[1];
@@ -371,10 +375,12 @@ static Boln writeByte (tkimg_MFile *handle, Byte b)
         return FALSE;
     return TRUE;
 }
+#endif /* unused */
 
 /* Convert a signed 16 bit integer number into the format
    <LowByte, HighByte> (an array of 2 bytes) and write the array to a file. */
 
+#if 0 /* unused */
 static Boln writeShort (tkimg_MFile *handle, Short s)
 {
     Byte buf[2];
@@ -384,10 +390,12 @@ static Boln writeShort (tkimg_MFile *handle, Short s)
         return FALSE;
     return TRUE;
 }
+#endif /* unused */
 
 /* Convert a unsigned 16 bit integer number into the format
    <LowByte, HighByte> (an array of 2 bytes) and write the array to a file. */
 
+#if 0 /* unused */
 static Boln writeUShort (tkimg_MFile *handle, UShort s)
 {
     Byte buf[2];
@@ -397,6 +405,7 @@ static Boln writeUShort (tkimg_MFile *handle, UShort s)
         return FALSE;
     return TRUE;
 }
+#endif /* unused */
 
 #define OUT Tcl_WriteChars (outChan, str, -1)
 static void printImgInfo (DTEDHEADER *th, FMTOPT *opts,
@@ -442,11 +451,14 @@ static Boln readHeader (tkimg_MFile *handle, DTEDHEADER *th)
     return TRUE;
 }
 
+#if 0 /* unused */
 static Boln writeHeader (tkimg_MFile *handle, DTEDHEADER *th)
 {
     return TRUE;
 }
+#endif /* unused */
 
+#if 0 /* unused */
 static void initHeader (DTEDHEADER *th)
 {
     th->uhl.uhl_tag[0] = 'U';
@@ -455,6 +467,7 @@ static void initHeader (DTEDHEADER *th)
     /* OPA: More to follow for DTED writing */
     return;
 }
+#endif /* unused */
 
 static Boln readDtedColumn (tkimg_MFile *handle, Short *pixels, Int nRows,
                             Int nCols, Int curCol, char *buf, Boln hostIsIntel)

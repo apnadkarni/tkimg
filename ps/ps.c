@@ -264,7 +264,7 @@ CommonRead(interp, handle, format, imageHandle,
 	p += 14;
 	srcX += (strtoul(p, &p, 0) * zoomx + 36) / 72;
 	fileHeight += (strtoul(p, &p, 0) * zoomy + 36) / 72;
-	strtoul(p, &p, 0);
+	i = strtoul(p, &p, 0);
 	srcY -= (strtoul(p, &p, 0) * zoomy + 36) / 72;
     } else {
 	/* pdf */
