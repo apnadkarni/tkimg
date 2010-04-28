@@ -71,7 +71,6 @@ TEA_ADD_SOURCES([
 	../compat/libpng/pngrtran.c	../compat/libpng/pngrutil.c	../compat/libpng/pngset.c
 	../compat/libpng/pngtrans.c	../compat/libpng/pngwio.c	../compat/libpng/pngwrite.c
 	../compat/libpng/pngwtran.c	../compat/libpng/pngwutil.c	../compat/libpng/pngget.c
-	../compat/libpng/pnggccrd.c
 ])
 
 TEA_ADD_HEADERS([pngtcl.h pngtclDecls.h])
