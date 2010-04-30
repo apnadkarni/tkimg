@@ -135,7 +135,9 @@ collate: all
 			DESTDIR=					\
 			|| exit $$? &&					\
 		cd $$here && \
+		if test "x$(SHARED_BUILD)" = "x1"; then \
 		cat Img/exec_prefix/lib/Img/pkgIndex.tcl >> pkgIndex.tcl ; \
+		fi ; \
 	done
 	mv pkgIndex.tcl Img/exec_prefix/lib/Img/pkgIndex.tcl
 	for p in Img/exec_prefix/lib/*.sh ; do \

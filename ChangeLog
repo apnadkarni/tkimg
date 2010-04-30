@@ -1,3 +1,7 @@
+2010-04-30  Andreas Kupries <andreask@activestate.com>
+
+	* Fix building tkimg --disable-shared
+
 2010-04-28  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* More MODULE_SCOPE functions in base
