@@ -16,6 +16,7 @@ library pngtcl
 
 interface pngtcl
 #hooks {}
+scspec PNGTCLAPI
 
 #########################################################################
 ###  PNG API
@@ -38,10 +39,10 @@ declare 5 generic {
     	png_voidp error_ptr, png_error_ptr error_fn, png_error_ptr warn_fn)
 }
 declare 6 generic {
-    png_uint_32 png_get_compression_buffer_size (png_structp png_ptr)
+    png_size_t png_get_compression_buffer_size (png_structp png_ptr)
 }
 declare 7 generic {
-    void png_set_compression_buffer_size (png_structp png_ptr, png_uint_32 size)
+    void png_set_compression_buffer_size (png_structp png_ptr, png_size_t size)
 }
 declare 8 generic {
     int png_reset_zstream (png_structp png_ptr)
@@ -321,7 +322,7 @@ declare 93 generic {!PNG_PROGRESSIVE_READ_SUPPORTED} {
     	png_bytep new_row)
 }
 declare 94 generic {
-    png_voidp png_malloc (png_structp png_ptr, png_uint_32 size)
+    png_voidp png_malloc (png_structp png_ptr, png_alloc_size_t size)
 }
 declare 95 generic {
     void png_free (png_structp png_ptr, png_voidp ptr)
@@ -357,7 +358,7 @@ declare 107 generic {
     png_uint_32 png_get_valid (png_structp png_ptr, png_infop info_ptr, png_uint_32 flag)
 }
 declare 108 generic {
-    png_uint_32 png_get_rowbytes (png_structp png_ptr, png_infop info_ptr)
+    png_size_t png_get_rowbytes (png_structp png_ptr, png_infop info_ptr)
 }
 declare 109 generic {!PNG_INFO_IMAGE_SUPPORTED} {
     png_bytepp png_get_rows (png_structp png_ptr, png_infop info_ptr)

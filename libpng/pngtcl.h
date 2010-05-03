@@ -68,14 +68,13 @@
  * storage class will be reset to DLLIMPORt.
  */
 
-#undef TCL_STORAGE_CLASS
 #ifdef BUILD_pngtcl
-# define TCL_STORAGE_CLASS DLLEXPORT
+# define PNGTCLAPI extern DLLEXPORT
 #else
 # ifdef USE_PNGTCL_STUBS
-#  define TCL_STORAGE_CLASS
+#  define PNGTCLAPI extern
 # else
-#  define TCL_STORAGE_CLASS DLLIMPORT
+#  define PNGTCLAPI extern DLLIMPORT
 # endif
 #endif
 

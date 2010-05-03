@@ -86,6 +86,7 @@ INSTALL_DATA =		$(INSTALL) -m 644
 INSTALL_SHLIB =		$(INSTALL) -m 555
 RANLIB =		@RANLIB@
 SHLIB_SUFFIX =		@SHLIB_SUFFIX@
+SHARED_BUILD	= @SHARED_BUILD@
 
 #----------------------------------------------------------------
 

@@ -575,7 +575,7 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
     Tcl_Channel chan = (Tcl_Channel) NULL;
     char buffer[256];
     unsigned char *pp;
-    int x, y, i, value, mask;
+    int x, y, value, mask;
     int sep = ' ';
     int alphaOffset;
     char *p = (char *) NULL;
@@ -640,7 +640,6 @@ static char %s_bits[] = {\n";
 		/* make transparent pixel */
 	    }
 	    pp += blockPtr->pixelSize;
-	    i++;
 	    mask <<= 1;
 	    if (mask >= 256)
              {

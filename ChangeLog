@@ -1,3 +1,8 @@
+2010-04-30  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Use PNGTCLAPI in stead of EXTERN in tkImg png package
+	* xbm fix unused variable
+
 2010-04-30  Andreas Kupries <andreask@activestate.com>
 
 	* Fix building tkimg --disable-shared
