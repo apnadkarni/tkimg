@@ -112,7 +112,7 @@ void tkimg_ReadBuffer(
 ) {
     useReadBuf = onOff;
     if (onOff) {
-	memset (readBuf, 0, BUFLEN);
+	memset(readBuf, 0, BUFLEN);
 	bufStart = -1;
 	bufEnd   = -1;
     }
@@ -178,17 +178,17 @@ int tkimg_Read(
 	    }
 	    if (bufStart + bytesToRead <= bufEnd +1) {
 #ifdef DEBUG_LOCAL
-		    printf ("All in buffer: memcpy %d bytes\n", bytesToRead);
+		    printf("All in buffer: memcpy %d bytes\n", bytesToRead);
 #endif
 		/* All bytes already in the buffer. Just copy them to dst. */
-		memcpy (dstPtr, readBuf + bufStart, bytesToRead);
+		memcpy(dstPtr, readBuf + bufStart, bytesToRead);
 		bufStart += bytesToRead;
 		if (bufStart > BUFLEN)
 		    bufStart = -1;
 		return bytesRead + bytesToRead;
 	    } else {
 #ifdef DEBUG_LOCAL
-		    printf ("Copy rest of buffer: memcpy %d bytes\n",
+		    printf("Copy rest of buffer: memcpy %d bytes\n",
                             bufEnd+1-bufStart);
 #endif
 		memcpy (dstPtr, readBuf + bufStart, bufEnd+1 - bufStart);
@@ -200,7 +200,7 @@ int tkimg_Read(
 	}
     }
 
-    for(i=0; i<count && (c=tkimg_Getc(handle)) != IMG_DONE; i++) {
+    for(i = 0; i < count && (c = tkimg_Getc(handle)) != IMG_DONE; i++) {
 	*dst++ = c;
     }
     return i;

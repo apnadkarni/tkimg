@@ -22,9 +22,8 @@
 #define __TKIMG_H__
 
 #ifdef _MSC_VER
-#pragma warning(disable:4244)
-#pragma warning(disable:4616)
-#pragma warning(disable:4761)
+#pragma warning(disable:4244) /* '=' : conversion from '__int64' to 'int', possible loss of data */
+#pragma warning(disable:4761) /* integral size mismatch in argument; conversion supplied */
 #endif
 
 #include <stdio.h> /* stdout, and other definitions */
@@ -32,6 +31,14 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "tk.h"
+
+#ifndef HAVE_BOOLEAN
+/* Define "boolean" as unsigned char, not int, per Windows custom */
+#   ifndef __RPCNDR_H__     /* don't conflict if rpcndr.h already read */
+typedef unsigned char boolean;
+#   endif
+#   define HAVE_BOOLEAN     /* prevent jmorecfg.h from redefining it */
+#endif
 
 /*
  * Used to block the rest of this header file from resource compilers so

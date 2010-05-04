@@ -14,7 +14,7 @@
  */
 
 #ifndef USE_TCL_STUBS
-#define USE_TCL_STUBS
+#   define USE_TCL_STUBS
 #endif
 
 #include "tkimg.h"

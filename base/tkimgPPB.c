@@ -1,5 +1,5 @@
 /*
- *  tkimgPPB.tcl
+ * tkimgPPB.tcl
  */
 
 #include <string.h>

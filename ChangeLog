@@ -1,3 +1,11 @@
+2010-05-04  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* Make type "boolean" available everywhere, so individual
+	  handlers don't need to define Boln any more.
+	* Formatting.
+	* Make --enable-symbols build on MSVC a little bit
+	  closer to reality and explain disabled warnings.
+
 2010-05-03  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* Use PNGTCLAPI in stead of EXTERN in tkImg png package

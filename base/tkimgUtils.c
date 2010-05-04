@@ -1,10 +1,10 @@
 /*
- *  tkimgMap.tcl
+ *  tkimgUtils.tcl
  */
 
-#include "tkimg.h"
 #include <string.h>
 #include <stdlib.h>
+#include "tkimg.h"
 
 /*
  * The variable "tkimg_initialized" contains flags indicating which
@@ -25,8 +25,7 @@
 
 int tkimg_initialized = 0;
 
-int
-TkimgInitUtilities(
+int TkimgInitUtilities(
 	Tcl_Interp *interp
 ) {
 #ifdef _LANG
@@ -80,8 +79,7 @@ TkimgInitUtilities(
  *----------------------------------------------------------------------
  */
 
-const char *
-tkimg_GetStringFromObj(
+const char *tkimg_GetStringFromObj(
 	register Tcl_Obj *objPtr, /* Object whose string rep byte pointer
 	 * should be returned, or NULL */
 	register int *lengthPtr /* If non-NULL, the location where the
@@ -130,8 +128,7 @@ tkimg_GetStringFromObj(
  *
  *----------------------------------------------------------------------
  */
-unsigned char *
-tkimg_GetByteArrayFromObj(
+unsigned char *tkimg_GetByteArrayFromObj(
 	register Tcl_Obj *objPtr, /**< Object whose string rep byte pointer
 	 * should be returned, or NULL */
 	register int *lengthPtr /**< If non-NULL, the location where the
@@ -172,8 +169,7 @@ tkimg_GetByteArrayFromObj(
  *----------------------------------------------------------------------
  */
 
-int
-tkimg_ListObjGetElements(
+int tkimg_ListObjGetElements(
 	Tcl_Interp *interp,
 	Tcl_Obj *objPtr,
 	int *objc,
@@ -205,8 +201,7 @@ tkimg_ListObjGetElements(
  *----------------------------------------------------------------------
  */
 
-void
-tkimg_FixChanMatchProc(
+void tkimg_FixChanMatchProc(
 	Tcl_Interp **interp,
 	Tcl_Channel *chan,
 	const char **file,
@@ -229,8 +224,7 @@ tkimg_FixChanMatchProc(
 	*interp = tmp;
 }
 
-void
-tkimg_FixObjMatchProc(
+void tkimg_FixObjMatchProc(
 	Tcl_Interp **interp,
 	Tcl_Obj **data,
 	Tcl_Obj **format,
@@ -251,8 +245,7 @@ tkimg_FixObjMatchProc(
 	*interp = tmp;
 }
 
-void
-tkimg_FixStringWriteProc(
+void tkimg_FixStringWriteProc(
 	Tcl_DString *data,
 	Tcl_Interp **interp,
 	Tcl_DString **dataPtr,
