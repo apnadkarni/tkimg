@@ -81,6 +81,11 @@
 #  endif
 #endif
 
+/* In case a system header (e.g., on AIX) defined jmpbuf */
+#ifdef jmpbuf
+#  undef jmpbuf
+#endif
+
 /* Various modes of operation.  Note that after an init, mode is set to
  * zero automatically when the structure is created.
  */
