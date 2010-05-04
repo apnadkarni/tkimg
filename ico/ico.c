@@ -182,7 +182,7 @@ static Boln writeUByte (tkimg_MFile *handle, UByte b)
 static Boln writeUShort (tkimg_MFile *handle, UShort s)
 {
     Byte buf[2];
-    buf[0] = s;
+    buf[0] = (Byte)s;
     buf[1] = s >> 8;
     if (2 != tkimg_Write(handle, buf, 2)) {
         return FALSE;
