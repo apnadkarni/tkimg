@@ -196,15 +196,12 @@ PNGTCLAPI void		png_destroy_info_struct(png_structp png_ptr,
 PNGTCLAPI void		png_destroy_read_struct(png_structpp png_ptr_ptr,
 				png_infopp info_ptr_ptr,
 				png_infopp end_info_ptr_ptr);
-/* 62 */
-PNGTCLAPI void		png_read_destroy(png_structp png_ptr,
-				png_infop info_ptr, png_infop end_info_ptr);
+/* Slot 62 is reserved */
 /* 63 */
 PNGTCLAPI void		png_destroy_write_struct(png_structpp png_ptr_ptr,
 				png_infopp info_ptr_ptr);
 /* Slot 64 is reserved */
-/* 65 */
-PNGTCLAPI void		png_write_destroy(png_structp png_ptr);
+/* Slot 65 is reserved */
 /* 66 */
 PNGTCLAPI void		png_set_crc_action(png_structp png_ptr,
 				int crit_action, int ancil_action);
@@ -1067,10 +1064,10 @@ typedef struct PngtclStubs {
     void (*png_read_endPtr) (png_structp png_ptr, png_infop info_ptr); /* 59 */
     void (*png_destroy_info_structPtr) (png_structp png_ptr, png_infopp info_ptr_ptr); /* 60 */
     void (*png_destroy_read_structPtr) (png_structpp png_ptr_ptr, png_infopp info_ptr_ptr, png_infopp end_info_ptr_ptr); /* 61 */
-    void (*png_read_destroyPtr) (png_structp png_ptr, png_infop info_ptr, png_infop end_info_ptr); /* 62 */
+    void *reserved62;
     void (*png_destroy_write_structPtr) (png_structpp png_ptr_ptr, png_infopp info_ptr_ptr); /* 63 */
     void *reserved64;
-    void (*png_write_destroyPtr) (png_structp png_ptr); /* 65 */
+    void *reserved65;
     void (*png_set_crc_actionPtr) (png_structp png_ptr, int crit_action, int ancil_action); /* 66 */
     void (*png_set_filterPtr) (png_structp png_ptr, int method, int filters); /* 67 */
     void (*png_set_filter_heuristicsPtr) (png_structp png_ptr, int heuristic_method, int num_weights, png_doublep filter_weights, png_doublep filter_costs); /* 68 */
@@ -1582,19 +1579,13 @@ MODULE_SCOPE const PngtclStubs *pngtclStubsPtr;
 #define png_destroy_read_struct \
 	(pngtclStubsPtr->png_destroy_read_structPtr) /* 61 */
 #endif
-#ifndef png_read_destroy
-#define png_read_destroy \
-	(pngtclStubsPtr->png_read_destroyPtr) /* 62 */
-#endif
+/* Slot 62 is reserved */
 #ifndef png_destroy_write_struct
 #define png_destroy_write_struct \
 	(pngtclStubsPtr->png_destroy_write_structPtr) /* 63 */
 #endif
 /* Slot 64 is reserved */
-#ifndef png_write_destroy
-#define png_write_destroy \
-	(pngtclStubsPtr->png_write_destroyPtr) /* 65 */
-#endif
+/* Slot 65 is reserved */
 #ifndef png_set_crc_action
 #define png_set_crc_action \
 	(pngtclStubsPtr->png_set_crc_actionPtr) /* 66 */

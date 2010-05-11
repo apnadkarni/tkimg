@@ -52,9 +52,7 @@
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
 
-#include <stdio.h>
-
-#include "tcl.h"
+#include "tkimg.h"
 #include "jpegtcl.h"
 
 static int SetupJPegLibrary(Tcl_Interp *interp);

@@ -60,9 +60,7 @@
 #undef png_read_end
 #undef png_destroy_info_struct
 #undef png_destroy_read_struct
-#undef png_read_destroy
 #undef png_destroy_write_struct
-#undef png_write_destroy
 #undef png_set_crc_action
 #undef png_set_filter
 #undef png_set_filter_heuristics

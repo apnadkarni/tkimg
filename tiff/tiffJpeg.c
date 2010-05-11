@@ -24,6 +24,7 @@
  * OF THIS SOFTWARE.
  */
 
+#include "tkimg.h"
 #include "tiffInt.h"
 #include "jpegtcl.h"
 #include <assert.h>

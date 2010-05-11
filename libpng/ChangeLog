@@ -1,3 +1,8 @@
+2009-05-11  Jan Nijtmans  <nijtmans@users.sourceforge.net>
+
+	* Remove deprecated functions png_read_destroy and
+	png_write_destroy
+
 2009-02-24  Jan Nijtmans  <nijtmans@users.sourceforge.net>
 
 	* libpng:     Added support for new png_info_init_3 function

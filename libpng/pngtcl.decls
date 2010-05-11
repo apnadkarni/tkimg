@@ -210,20 +210,8 @@ declare 61 generic {
     void png_destroy_read_struct (png_structpp png_ptr_ptr, png_infopp info_ptr_ptr,
     	png_infopp end_info_ptr_ptr)
 }
-declare 62 generic {
-    void png_read_destroy (png_structp png_ptr, png_infop info_ptr, png_infop end_info_ptr)
-}
 declare 63 generic {
     void png_destroy_write_struct (png_structpp png_ptr_ptr, png_infopp info_ptr_ptr)
-}
-if 0 {
-    # Declared, not defined
-    declare 64 generic {
-	void png_write_destroy_info (png_infop info_ptr)
-    }
-}
-declare 65 generic {
-    void png_write_destroy (png_structp png_ptr)
 }
 declare 66 generic {
     void png_set_crc_action (png_structp png_ptr, int crit_action, int ancil_action)

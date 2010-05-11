@@ -14,7 +14,7 @@
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
 
-#include "tcl.h"
+#include "tkimg.h"
 #include "tifftcl.h"
 #include "zlibtcl.h"
 

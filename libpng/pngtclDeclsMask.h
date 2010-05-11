@@ -67,9 +67,7 @@
 #define png_read_end __mask_png_read_end
 #define png_destroy_info_struct __mask_png_destroy_info_struct
 #define png_destroy_read_struct __mask_png_destroy_read_struct
-#define png_read_destroy __mask_png_read_destroy
 #define png_destroy_write_struct __mask_png_destroy_write_struct
-#define png_write_destroy __mask_png_write_destroy
 #define png_set_crc_action __mask_png_set_crc_action
 #define png_set_filter __mask_png_set_filter
 #define png_set_filter_heuristics __mask_png_set_filter_heuristics
