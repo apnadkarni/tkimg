@@ -894,7 +894,7 @@ CommonWrite(interp, fileName, dataPtr, format, blockPtr)
 
     /* open the output file (if needed) */
     if (!dataPtr) {
-      chan = Tcl_OpenFileChannel(interp, (char *) fileName, "w", 0644);
+      chan = Tcl_OpenFileChannel(interp, (CONST84 char *) fileName, "w", 0644);
       if (!chan) {
 	return TCL_ERROR;
       }
