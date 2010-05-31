@@ -1059,7 +1059,7 @@ proc genStubs::emitInit {name textVar} {
 	if {[info exists hooks($intf)]} {
 	    if {0<=[lsearch -exact $hooks($intf) $name]} {
 		set root 0
-		break;
+		break
 	    }
 	}
     }
