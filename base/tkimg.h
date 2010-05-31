@@ -32,12 +32,28 @@
 #include <ctype.h>
 #include "tk.h"
 
+/*
+ * On a few systems, type boolean and/or its values FALSE, TRUE may appear
+ * in standard header files.  Or you may have conflicts with application-
+ * specific header files that you want to include together with these files.
+ * Defining HAVE_BOOLEAN before including tkimg.h should make it work.
+ */
+
+/* On windows use the boolean definition from its headers to prevent
+ * any conflicts should a user of this header use "windows.h". Without
+ * this we will have/get conflicting definitions of 'boolean' ('int'
+ * here, 'unsigned' char for windows)
+ */
+
 #ifndef HAVE_BOOLEAN
-/* Define "boolean" as unsigned char, not int, per Windows custom */
+#define HAVE_BOOLEAN
 #   ifndef __RPCNDR_H__     /* don't conflict if rpcndr.h already read */
+#if defined(_WINDOWS) || defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(_Windows)
 typedef unsigned char boolean;
-#   endif
-#   define HAVE_BOOLEAN     /* prevent jmorecfg.h from redefining it */
+#else
+typedef int boolean;
+#endif
+#endif
 #endif
 
 /*
