@@ -26,9 +26,6 @@ MODULE_SCOPE const TkimgStubs tkimgStubs;
  * Declarations for externally visible functions.
  */
 
-TKIMGAPI int Tkimg_Init(Tcl_Interp *interp);
-TKIMGAPI int Tkimg_SafeInit(Tcl_Interp *interp);
-
 #ifdef ALLOW_B64
 static int tob64(ClientData clientData, Tcl_Interp *interp,
 	int argc, Tcl_Obj *const objv[]);

@@ -15,27 +15,13 @@
 #define MORE_INITIALIZATION /* Nothing */
 #endif
 
-#undef TCL_STORAGE_CLASS
-#ifdef BUILD_%PACKAGE%
-# define TCL_STORAGE_CLASS DLLEXPORT
-#else
-# ifdef USE_%PACKAGE_UP%_STUBS
-#  define TCL_STORAGE_CLASS
-# else
-#  define TCL_STORAGE_CLASS DLLIMPORT
-# endif
-#endif
-
 /*
  * Functions exported for package management.
  */
 
 
-EXTERN int @CPACKAGE@_Init(Tcl_Interp *interp);
-EXTERN int @CPACKAGE@_SafeInit(Tcl_Interp *interp);
-
-#undef  TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLIMPORT
+extern DLLEXPORT int @CPACKAGE@_Init(Tcl_Interp *interp);
+extern DLLEXPORT int @CPACKAGE@_SafeInit(Tcl_Interp *interp);
 
 /*
  * Declarations of internal functions.
@@ -144,21 +130,15 @@ int
 @CPACKAGE@_Init(
 	Tcl_Interp *interp /* Interpreter to initialise. */
 ) {
-#ifdef USE_TCL_STUBS
 	if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
 		return TCL_ERROR;
 	}
-#endif
-#ifdef USE_TK_STUBS
 	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
 		return TCL_ERROR;
 	}
-#endif
-#ifdef USE_TKIMG_STUBS
 	if (Tkimg_InitStubs(interp, TKIMG_VERSION, 0) == NULL) {
 		return TCL_ERROR;
 	}
-#endif
 
 	MORE_INITIALIZATION;
 

@@ -30,7 +30,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "tk.h"
+#include <tk.h>
 
 /*
  * On a few systems, type boolean and/or its values FALSE, TRUE may appear
@@ -79,44 +79,6 @@ typedef int boolean;
 #ifndef TK_PHOTO_COMPOSITE_SET
 #   define TK_PHOTO_COMPOSITE_SET 1
 #endif
-
-/*
- * These macros are used to control whether functions are being declared for
- * import or export in Windows,
- * Assumes that tcl.h defines DLLEXPORT & DLLIMPORT correctly.
- * The default build on windows is for a DLL, which causes the DLLIMPORT
- * and DLLEXPORT macros to be nonempty. To build a static library, the
- * macro STATIC_BUILD should be defined before the inclusion of tcl.h
- *
- * If a function is being declared while it is being built
- * to be included in a shared library, then it should have the DLLEXPORT
- * storage class.  If is being declared for use by a module that is going to
- * link against the shared library, then it should have the DLLIMPORT storage
- * class.  If the symbol is being declared for a static build or for use from a
- * stub library, then the storage class should be empty.
- *
- * The convention is that a macro called BUILD_xxxx, where xxxx is the
- * name of a library we are building, is set on the compile line for sources
- * that are to be placed in the library.  When this macro is set, the
- * TKIMGAPI macro will be set to "extern DLLEXPORT".
- */
-
-#ifdef BUILD_tkimg
-# define TKIMGAPI extern DLLEXPORT
-#else
-# ifdef USE_TKIMG_STUBS
-#  define TKIMGAPI extern
-# else
-#  define TKIMGAPI extern DLLIMPORT
-# endif
-#endif
-
-
-/*
- *----------------------------------------------------------------------------
- * Function prototypes for publically accessible routines
- *----------------------------------------------------------------------------
- */
 
 #include "tkimgDecls.h"
 
@@ -167,17 +129,8 @@ MODULE_SCOPE int TkimgInitUtilities(Tcl_Interp* interp);
  *----------------------------------------------------------------------------
  */
 
-#ifdef USE_TKIMG_STUBS
 const char *
 Tkimg_InitStubs(Tcl_Interp *interp, const char *version, int exact);
-#else
-/*
- * When not using stubs, make it a macro.
- */
-
-#define Tkimg_InitStubs(interp, version, exact) \
-    Tcl_PkgRequire(interp, "tkimg", (CONST84 char *) version, exact)
-#endif
 
 #endif /* RC_INVOKED */
 

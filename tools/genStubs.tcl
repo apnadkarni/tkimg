@@ -988,6 +988,7 @@ proc genStubs::emitMacros {name textVar} {
 #	None.
 
 proc genStubs::emitHeader {name} {
+    variable scspec
     variable outDir
     variable hooks
 
@@ -1011,13 +1012,8 @@ proc genStubs::emitHeader {name} {
 
     emitSlots $name text
 
-    append text "} ${capName}Stubs;\n\n/*\n"
-    append text " * Used to tag functions that are only to be visible within the module being\n"
-    append text " * built and not outside it (where this is supported by the linker).\n */\n\n"
-    append text "#ifndef MODULE_SCOPE\n"
-    append text "#   define MODULE_SCOPE extern\n"
-    append text "#endif\n\n"
-    append text "MODULE_SCOPE const ${capName}Stubs *${name}StubsPtr;\n"
+    append text "} ${capName}Stubs;\n\n"
+    append text "$scspec const ${capName}Stubs *${name}StubsPtr;\n"
 
     emitMacros $name text
 

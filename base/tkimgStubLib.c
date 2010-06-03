@@ -39,10 +39,6 @@ const TkimgStubs *tkimgStubsPtr;
  *----------------------------------------------------------------------
  */
 
-#ifdef Tkimg_InitStubs
-#undef Tkimg_InitStubs
-#endif
-
 MODULE_SCOPE const char *
 Tkimg_InitStubs(
 	Tcl_Interp *interp,

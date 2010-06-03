@@ -20,6 +20,19 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#undef TCL_STORAGE_CLASS
+#ifdef TKIMGAPI
+#   define TCL_STORAGE_CLASS DLLEXPORT
+#else
+#   define TKIMGAPI extern
+#   undef USE_TKIMG_STUBS
+#   define USE_TKIMG_STUBS 1
+#   define TCL_STORAGE_CLASS DLLIMPORT
+#endif
+
+EXTERN int Tkimg_Init(Tcl_Interp *interp);
+EXTERN int Tkimg_SafeInit(Tcl_Interp *interp);
+
 typedef struct tkimg_MFile {
 	Tcl_DString *buffer; /* pointer to dynamical string */
 	char *data; /* mmencoded source string */
@@ -143,16 +156,7 @@ typedef struct TkimgStubs {
     int (*tkimg_ListObjGetElementsPtr) (Tcl_Interp *interp, Tcl_Obj *objPtr, int *argc, Tcl_Obj ***argv); /* 32 */
 } TkimgStubs;
 
-/*
- * Used to tag functions that are only to be visible within the module being
- * built and not outside it (where this is supported by the linker).
- */
-
-#ifndef MODULE_SCOPE
-#   define MODULE_SCOPE extern
-#endif
-
-MODULE_SCOPE const TkimgStubs *tkimgStubsPtr;
+TKIMGAPI const TkimgStubs *tkimgStubsPtr;
 
 #if defined(USE_TKIMG_STUBS)
 
@@ -248,6 +252,9 @@ MODULE_SCOPE const TkimgStubs *tkimgStubsPtr;
 #endif /* defined(USE_TKIMG_STUBS) */
 
 /* !END!: Do not edit above this line. */
+
+#undef TCL_STORAGE_CLASS
+#define TCL_STORAGE_CLASS DLLIMPORT
 
 #ifdef __cplusplus
 }
