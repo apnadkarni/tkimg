@@ -21,27 +21,6 @@
 #include "zlibtcl.h"
 
 /*
- * Declarations for externally visible functions.
- */
-
-#undef TCL_STORAGE_CLASS
-#ifdef BUILD_zlibtcl
-# define TCL_STORAGE_CLASS DLLEXPORT
-#else
-# ifdef USE_ZLIBTCL_STUBS
-#  define TCL_STORAGE_CLASS
-# else
-#  define TCL_STORAGE_CLASS DLLIMPORT
-# endif
-#endif
-
-EXTERN int Zlibtcl_Init(Tcl_Interp *interp);
-EXTERN int Zlibtcl_SafeInit(Tcl_Interp *interp);
-
-#undef  TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLIMPORT
-
-/*
  * Prototypes for procedures defined later in this file:
  */
 

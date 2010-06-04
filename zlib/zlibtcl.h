@@ -48,46 +48,6 @@
 #endif
 
 /*
- * These macros are used to control whether functions are being declared for
- * import or export in Windows,
- * They map to no-op declarations on non-Windows systems.
- * Assumes that tcl.h defines DLLEXPORT & DLLIMPORT correctly.
- * The default build on windows is for a DLL, which causes the DLLIMPORT
- * and DLLEXPORT macros to be nonempty. To build a static library, the
- * macro STATIC_BUILD should be defined before the inclusion of tcl.h
- *
- * If a function is being declared while it is being built
- * to be included in a shared library, then it should have the DLLEXPORT
- * storage class.  If is being declared for use by a module that is going to
- * link against the shared library, then it should have the DLLIMPORT storage
- * class.  If the symbol is being declared for a static build or for use from a
- * stub library, then the storage class should be empty.
- *
- * The convention is that a macro called BUILD_xxxx, where xxxx is the
- * name of a library we are building, is set on the compile line for sources
- * that are to be placed in the library.  When this macro is set, the
- * storage class will be set to DLLEXPORT.  At the end of the header file, the
- * storage class will be reset to DLLIMPORt.
- */
-
-#undef TCL_STORAGE_CLASS
-#ifdef BUILD_zlibtcl
-# define TCL_STORAGE_CLASS DLLEXPORT
-#else
-# ifdef USE_ZLIBTCL_STUBS
-#  define TCL_STORAGE_CLASS
-# else
-#  define TCL_STORAGE_CLASS DLLIMPORT
-# endif
-#endif
-
-/*
- *----------------------------------------------------------------------------
- * C API for Zlibtcl generic layer
- *----------------------------------------------------------------------------
- */
-
-/*
  *----------------------------------------------------------------------------
  * Function prototypes for publically accessible routines
  *----------------------------------------------------------------------------
@@ -101,21 +61,8 @@
  *----------------------------------------------------------------------------
  */
 
-#ifdef USE_ZLIBTCL_STUBS
 const char *
 Zlibtcl_InitStubs(Tcl_Interp *interp, const char *version, int exact);
-#else
-
-/*
- * When not using stubs, make it a macro.
- */
-
-#define Zlibtcl_InitStubs(interp, version, exact) \
-    Tcl_PkgRequire(interp, "zlibtcl", (CONST84 char *) version, exact)
-#endif
-
-#undef TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif /* RC_INVOKED */
 #endif /* __ZLIBTCL_H__ */

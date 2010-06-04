@@ -16,6 +16,7 @@ library zlibtcl
 
 interface zlibtcl
 #hooks {}
+scspec ZEXTERN
 
 #########################################################################
 ###  Misc. interfaces

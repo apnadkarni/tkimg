@@ -14,10 +14,25 @@
  * below should be made in the zlibtcl.decls script.
  */
 
-#include "tcl.h"
-#include "zlibtclDeclsMask.h"
+#include <tcl.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+#ifdef ZEXTERN
+#   undef TCL_STORAGE_CLASS
+#   define TCL_STORAGE_CLASS DLLEXPORT
+#else
+#   define ZEXTERN extern
+#   undef USE_ZLIBTCL_STUBS
+#   define USE_ZLIBTCL_STUBS 1
+#endif
+
+EXTERN int Zlibtcl_Init(Tcl_Interp *interp);
+EXTERN int Zlibtcl_SafeInit(Tcl_Interp *interp);
+
 #include "../compat/zlib/zlib.h"
-#include "zlibtclDeclsUnmask.h"
 
 /* !BEGIN!: Do not edit below this line. */
 
@@ -26,13 +41,13 @@
  */
 
 /* 0 */
-EXTERN const char *	zlibVersion(void);
+ZEXTERN const char *	zlibVersion(void);
 /* 1 */
-EXTERN const char *	zError(int err);
+ZEXTERN const char *	zError(int err);
 /* 2 */
-EXTERN uLong		crc32(uLong crc, const Bytef *buf, uInt len);
+ZEXTERN uLong		crc32(uLong crc, const Bytef *buf, uInt len);
 /* 3 */
-EXTERN uLong		adler32(uLong adler, const Bytef *buf, uInt len);
+ZEXTERN uLong		adler32(uLong adler, const Bytef *buf, uInt len);
 /* Slot 4 is reserved */
 /* Slot 5 is reserved */
 /* Slot 6 is reserved */
@@ -40,90 +55,90 @@ EXTERN uLong		adler32(uLong adler, const Bytef *buf, uInt len);
 /* Slot 8 is reserved */
 /* Slot 9 is reserved */
 /* 10 */
-EXTERN int		deflateInit_(z_streamp stream, int level,
+ZEXTERN int		deflateInit_(z_streamp stream, int level,
 				const char *version, int stream_size);
 /* 11 */
-EXTERN int		deflateInit2_(z_streamp stream, int level,
+ZEXTERN int		deflateInit2_(z_streamp stream, int level,
 				int method, int windowBits, int memLevel,
 				int strategy, const char *version,
 				int stream_size);
 /* 12 */
-EXTERN int		deflate(z_streamp stream, int flush);
+ZEXTERN int		deflate(z_streamp stream, int flush);
 /* 13 */
-EXTERN int		deflateEnd(z_streamp stream);
+ZEXTERN int		deflateEnd(z_streamp stream);
 /* 14 */
-EXTERN int		deflateSetDictionary(z_streamp stream,
+ZEXTERN int		deflateSetDictionary(z_streamp stream,
 				const Bytef *dict, uInt dictLength);
 /* 15 */
-EXTERN int		deflateCopy(z_streamp dst, z_streamp src);
+ZEXTERN int		deflateCopy(z_streamp dst, z_streamp src);
 /* 16 */
-EXTERN int		deflateReset(z_streamp stream);
+ZEXTERN int		deflateReset(z_streamp stream);
 /* 17 */
-EXTERN int		deflateParams(z_streamp stream, int level,
+ZEXTERN int		deflateParams(z_streamp stream, int level,
 				int strategy);
 /* 18 */
-EXTERN int		compress(Bytef *dest, uLongf *destLen,
+ZEXTERN int		compress(Bytef *dest, uLongf *destLen,
 				const Bytef *source, uLong sourceLen);
 /* 19 */
-EXTERN int		compress2(Bytef *dest, uLongf *destLen,
+ZEXTERN int		compress2(Bytef *dest, uLongf *destLen,
 				const Bytef *source, uLong sourceLen,
 				int level);
 /* 20 */
-EXTERN int		inflateInit_(z_streamp stream, const char *version,
+ZEXTERN int		inflateInit_(z_streamp stream, const char *version,
 				int stream_size);
 /* 21 */
-EXTERN int		inflateInit2_(z_streamp stream, int windowBits,
+ZEXTERN int		inflateInit2_(z_streamp stream, int windowBits,
 				const char *version, int stream_size);
 /* 22 */
-EXTERN int		inflate(z_streamp stream, int flush);
+ZEXTERN int		inflate(z_streamp stream, int flush);
 /* 23 */
-EXTERN int		inflateEnd(z_streamp stream);
+ZEXTERN int		inflateEnd(z_streamp stream);
 /* 24 */
-EXTERN int		inflateSetDictionary(z_streamp stream,
+ZEXTERN int		inflateSetDictionary(z_streamp stream,
 				const Bytef *dict, uInt dictLength);
 /* 25 */
-EXTERN int		inflateSync(z_streamp stream);
+ZEXTERN int		inflateSync(z_streamp stream);
 /* 26 */
-EXTERN int		inflateReset(z_streamp stream);
+ZEXTERN int		inflateReset(z_streamp stream);
 /* 27 */
-EXTERN int		uncompress(Bytef *dest, uLongf *destLen,
+ZEXTERN int		uncompress(Bytef *dest, uLongf *destLen,
 				const Bytef *source, uLong sourceLen);
 /* Slot 28 is reserved */
 /* Slot 29 is reserved */
 /* 30 */
-EXTERN gzFile		gzopen(const char *path, const char *mode);
+ZEXTERN gzFile		gzopen(const char *path, const char *mode);
 /* 31 */
-EXTERN gzFile		gzdopen(int fd, const char *mode);
+ZEXTERN gzFile		gzdopen(int fd, const char *mode);
 /* 32 */
-EXTERN int		gzsetparams(gzFile file, int level, int strategy);
+ZEXTERN int		gzsetparams(gzFile file, int level, int strategy);
 /* 33 */
-EXTERN int		gzread(gzFile file, voidp buf, unsigned len);
+ZEXTERN int		gzread(gzFile file, voidp buf, unsigned len);
 /* 34 */
-EXTERN int		gzwrite(gzFile file, voidpc buf, unsigned len);
+ZEXTERN int		gzwrite(gzFile file, voidpc buf, unsigned len);
 /* 35 */
-EXTERN int		gzprintf(gzFile file, const char *format, ...);
+ZEXTERN int		gzprintf(gzFile file, const char *format, ...);
 /* 36 */
-EXTERN int		gzputs(gzFile file, const char *s);
+ZEXTERN int		gzputs(gzFile file, const char *s);
 /* 37 */
-EXTERN char *		gzgets(gzFile file, char *buf, int len);
+ZEXTERN char *		gzgets(gzFile file, char *buf, int len);
 /* 38 */
-EXTERN int		gzputc(gzFile file, int c);
+ZEXTERN int		gzputc(gzFile file, int c);
 /* 39 */
-EXTERN int		gzgetc(gzFile file);
+ZEXTERN int		gzgetc(gzFile file);
 /* 40 */
-EXTERN int		gzflush(gzFile file, int flush);
+ZEXTERN int		gzflush(gzFile file, int flush);
 /* 41 */
-EXTERN z_off_t		gzseek(gzFile file, z_off_t offset, int whence);
+ZEXTERN z_off_t		gzseek(gzFile file, z_off_t offset, int whence);
 /* 42 */
-EXTERN int		gzrewind(gzFile file);
+ZEXTERN int		gzrewind(gzFile file);
 /* 43 */
-EXTERN z_off_t		gztell(gzFile file);
+ZEXTERN z_off_t		gztell(gzFile file);
 /* 44 */
-EXTERN int		gzeof(gzFile file);
+ZEXTERN int		gzeof(gzFile file);
 /* 45 */
-EXTERN int		gzclose(gzFile file);
+ZEXTERN int		gzclose(gzFile file);
 /* 46 */
-EXTERN const char *	gzerror(gzFile file, int *errnum);
+ZEXTERN const char *	gzerror(gzFile file, int *errnum);
 
 typedef struct ZlibtclStubs {
     int magic;
@@ -178,22 +193,9 @@ typedef struct ZlibtclStubs {
     const char * (*gzerrorPtr) (gzFile file, int *errnum); /* 46 */
 } ZlibtclStubs;
 
-/*
- * Used to tag functions that are only to be visible within the module being
- * built and not outside it (where this is supported by the linker).
- */
+ZEXTERN const ZlibtclStubs *zlibtclStubsPtr;
 
-#ifndef MODULE_SCOPE
-#   ifdef __cplusplus
-#	define MODULE_SCOPE extern "C"
-#   else
-#	define MODULE_SCOPE extern
-#   endif
-#endif
-
-MODULE_SCOPE const ZlibtclStubs *zlibtclStubsPtr;
-
-#if defined(USE_ZLIBTCL_STUBS) && !defined(USE_ZLIBTCL_STUB_PROCS)
+#if defined(USE_ZLIBTCL_STUBS)
 
 /*
  * Inline function declarations:
@@ -364,9 +366,13 @@ MODULE_SCOPE const ZlibtclStubs *zlibtclStubsPtr;
 	(zlibtclStubsPtr->gzerrorPtr) /* 46 */
 #endif
 
-#endif /* defined(USE_ZLIBTCL_STUBS) && !defined(USE_ZLIBTCL_STUB_PROCS) */
+#endif /* defined(USE_ZLIBTCL_STUBS) */
 
 /* !END!: Do not edit above this line. */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _ZLIBTCLDECLS */
 
