@@ -1,3 +1,8 @@
+2010-06-04  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* [tkimg-Bugs-3011001] Only support accessing tkImg
+	procs through stub table implemented for base
+
 2010-05-11  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* upgrade to libpng 1.4.2

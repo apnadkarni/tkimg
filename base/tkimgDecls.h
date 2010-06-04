@@ -20,14 +20,16 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#undef TCL_STORAGE_CLASS
 #ifdef TKIMGAPI
+#   undef TCL_STORAGE_CLASS
 #   define TCL_STORAGE_CLASS DLLEXPORT
+#   ifndef MODULE_SCOPE
+#	define MODULE_SCOPE
+#   endif
 #else
 #   define TKIMGAPI extern
 #   undef USE_TKIMG_STUBS
 #   define USE_TKIMG_STUBS 1
-#   define TCL_STORAGE_CLASS DLLIMPORT
 #endif
 
 EXTERN int Tkimg_Init(Tcl_Interp *interp);

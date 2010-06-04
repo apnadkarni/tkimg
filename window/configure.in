@@ -165,7 +165,6 @@ TEA_PATH_X
 
 AC_DEFINE(USE_TCL_STUBS)
 AC_DEFINE(USE_TK_STUBS)
-AC_DEFINE(USE_TKIMG_STUBS)
 
 #--------------------------------------------------------------------
 # This macro generates a line to use when building a library.  It
