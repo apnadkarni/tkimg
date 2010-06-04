@@ -1918,6 +1918,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    AS_IF([test "$tcl_cv_cc_visibility_hidden" != yes], [
 		AC_DEFINE(MODULE_SCOPE, [__private_extern__],
 		    [Compiler support for module scope symbols])
+		tcl_cv_cc_visibility_hidden=yes
 	    ])
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
@@ -2289,6 +2290,12 @@ dnl # preprocessing tests use only CPPFLAGS.
 	    windows) ;;
 	    *) SHLIB_CFLAGS="-fPIC" ;;
 	esac])
+
+    AS_IF([test "$tcl_cv_cc_visibility_hidden" != yes], [
+	AC_DEFINE(MODULE_SCOPE, [extern],
+	    [No Compiler support for module scope symbols])
+	AC_DEFINE(NO_VIZ)
+    ])
 
     AS_IF([test "$SHARED_LIB_SUFFIX" = ""], [
 	# TEA specific: use PACKAGE_VERSION instead of VERSION
