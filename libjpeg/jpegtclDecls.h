@@ -14,7 +14,7 @@
  * below should be made in the jpegtcl.decls script.
  */
 
-#include "tcl.h"
+#include <tcl.h>
 
 /* undef Tcl macros that conflict with libjpeg stuff (sigh) */
 #undef EXTERN
@@ -25,7 +25,7 @@
 #include "jpegtclDeclsUnmask.h"
 
 /*
- * And recreate the definition of "tcl.h", we need it below.
+ * And recreate the definition of <tcl.h>, we need it below.
  */
 
 #undef EXTERN

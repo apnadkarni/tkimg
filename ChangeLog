@@ -1,3 +1,7 @@
+2010-05-11  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* upgrade to libjpeg version 8b
+
 2010-06-04  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* [tkimg-Bugs-3011001] Only support accessing tkImg

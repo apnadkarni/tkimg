@@ -18,29 +18,14 @@
  *
  */
 
-#include "tcl.h"
 #include "jpegtcl.h"
 
 /*
  * Declarations for externally visible functions.
  */
 
-#undef TCL_STORAGE_CLASS
-#ifdef BUILD_jpegtcl
-# define TCL_STORAGE_CLASS DLLEXPORT
-#else
-# ifdef USE_JPEGTCL_STUBS
-#  define TCL_STORAGE_CLASS
-# else
-#  define TCL_STORAGE_CLASS DLLIMPORT
-# endif
-#endif
-
-EXTERN int Jpegtcl_Init(Tcl_Interp *interp);
-EXTERN int Jpegtcl_SafeInit(Tcl_Interp *interp);
-
-#undef  TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLIMPORT
+extern DLLEXPORT int Jpegtcl_Init(Tcl_Interp *interp);
+extern DLLEXPORT int Jpegtcl_SafeInit(Tcl_Interp *interp);
 
 /*
  * Prototypes for procedures defined later in this file:
@@ -69,12 +54,9 @@ Jpegtcl_Init (interp)
 {
   extern const JpegtclStubs jpegtclStubs;
 
-#ifdef USE_TCL_STUBS
   if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
     return TCL_ERROR;
   }
-#endif
-
   if (Tcl_PkgProvideEx(interp, PACKAGE_NAME, PACKAGE_VERSION,
 		       (ClientData) &jpegtclStubs) != TCL_OK) {
     return TCL_ERROR;
