@@ -20,7 +20,6 @@
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
 
-#include "tcl.h"
 #include "pngtcl.h"
 #include <string.h>
 #include <stdlib.h>

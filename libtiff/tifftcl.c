@@ -18,29 +18,14 @@
  *
  */
 
-#include "tcl.h"
 #include "tifftcl.h"
 
 /*
  * Declarations for externally visible functions.
  */
 
-#undef TCL_STORAGE_CLASS
-#ifdef BUILD_tifftcl
-# define TCL_STORAGE_CLASS DLLEXPORT
-#else
-# ifdef USE_TIFFTCL_STUBS
-#  define TCL_STORAGE_CLASS
-# else
-#  define TCL_STORAGE_CLASS DLLIMPORT
-# endif
-#endif
-
-EXTERN int Tifftcl_Init(Tcl_Interp *interp);
-EXTERN int Tifftcl_SafeInit(Tcl_Interp *interp);
-
-#undef  TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLIMPORT
+extern DLLEXPORT int Tifftcl_Init(Tcl_Interp *interp);
+extern DLLEXPORT int Tifftcl_SafeInit(Tcl_Interp *interp);
 
 /*
  * Prototypes for procedures defined later in this file:
@@ -69,12 +54,9 @@ Tifftcl_Init (interp)
 {
   extern const TifftclStubs tifftclStubs;
 
-#ifdef USE_TCL_STUBS
   if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
     return TCL_ERROR;
   }
-#endif
-
   if (Tcl_PkgProvideEx(interp, PACKAGE_NAME, PACKAGE_VERSION,
 		       (ClientData) &tifftclStubs) != TCL_OK) {
     return TCL_ERROR;

@@ -14,7 +14,7 @@
  * below should be made in the tifftcl.decls script.
  */
 
-#include "tcl.h"
+#include <tcl.h>
 #include <stdarg.h>
 
 /*

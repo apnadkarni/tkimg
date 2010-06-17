@@ -143,7 +143,7 @@ SetupJPegLibrary (interp)
     struct my_error_mgr jerror;	/* for controlling libjpeg error handling */
     int i;
 
-    if (Jpegtcl_InitStubs(interp, "1.0", 0) == NULL) {
+    if (Jpegtcl_InitStubs(interp, JPEGTCL_VERSION, 0) == NULL) {
         return TCL_ERROR;
     }
 

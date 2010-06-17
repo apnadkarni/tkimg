@@ -27,6 +27,9 @@
 
 #define UCHAR(c) ((unsigned char) (c))
 
+extern DLLEXPORT int Tkimgpixmap_Init(Tcl_Interp *interp);
+extern DLLEXPORT int Tkimgpixmap_SafeInit(Tcl_Interp *interp);
+
 /*
  * Prototypes for procedures used only locally in this file:
  */
@@ -56,16 +59,16 @@ static int TkimgXpmConfigureMaster(
 static int TkimgXpmGetData(Tcl_Interp *interp,
 	PixmapMaster *masterPtr);
 static CONST84 char **TkimgXpmGetDataFromFile(Tcl_Interp *interp,
-	char * string, int * numLines_return);
+	char *string, int *numLines_return);
 static CONST84 char **TkimgXpmGetDataFromString(Tcl_Interp *interp,
 	char *string, int *numLines_return);
 static void TkimgXpmGetPixmapFromData(
-	Tcl_Interp * interp,
+	Tcl_Interp *interp,
 	PixmapMaster *masterPtr,
 	PixmapInstance *instancePtr);
-static char *GetType(char * colorDefn,
+static char *GetType(char *colorDefn,
 	int *type_ret);
-static char *GetColor(char * colorDefn,
+static char *GetColor(char *colorDefn,
 	char *colorName, int *type_ret);
 
 /*
@@ -1240,23 +1243,17 @@ int
 Tkimgpixmap_Init (interp)
       Tcl_Interp *interp; /* Interpreter to initialise. */
 {
-  static int initialized = 0;
+    static int initialized = 0;
 
-#ifdef USE_TCL_STUBS
     if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
         return TCL_ERROR;
     }
-#endif
-#ifdef USE_TK_STUBS
     if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
         return TCL_ERROR;
     }
-#endif
-#ifdef USE_TKIMG_STUBS
     if (Tkimg_InitStubs(interp, TKIMG_VERSION, 0) == NULL) {
         return TCL_ERROR;
     }
-#endif
 
 #ifndef TCL_MAC
     if (!initialized) {

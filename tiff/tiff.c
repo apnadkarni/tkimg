@@ -106,7 +106,7 @@ SetupTiffLibrary (interp)
      * with the base TIFF library in this package.
      */
 
-    if (Jpegtcl_InitStubs(interp, "1.0", 0) == NULL) {
+    if (Jpegtcl_InitStubs(interp, JPEGTCL_VERSION, 0) == NULL) {
         return TCL_ERROR;
     }
 
@@ -119,13 +119,13 @@ SetupTiffLibrary (interp)
 	    TIFFVSetField       && TIFFSwabArrayOfShort
 	    ) {
 
-	  if (Zlibtcl_InitStubs(interp, "1.0", 0) == NULL) {
+	  if (Zlibtcl_InitStubs(interp, ZLIBTCL_VERSION, 0) == NULL) {
 	    return TCL_ERROR;
 	  }
 	  TIFFRegisterCODEC (COMPRESSION_DEFLATE,  "Deflate",  TkimgTIFFInitZip);
 	  TIFFRegisterCODEC (COMPRESSION_ADOBE_DEFLATE, "AdobeDeflate", TkimgTIFFInitZip);
 
-	  if (Jpegtcl_InitStubs(interp, "1.0", 0) == NULL) {
+	  if (Jpegtcl_InitStubs(interp, JPEGTCL_VERSION, 0) == NULL) {
 	    return TCL_ERROR;
 	  }
 	  TIFFRegisterCODEC (COMPRESSION_JPEG,     "JPEG",     TkimgTIFFInitJpeg);

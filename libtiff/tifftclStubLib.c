@@ -39,10 +39,6 @@ const TifftclStubs *tifftclStubsPtr;
  *----------------------------------------------------------------------
  */
 
-#ifdef Tifftcl_InitStubs
-#undef Tifftcl_InitStubs
-#endif
-
 MODULE_SCOPE const char *
 Tifftcl_InitStubs(interp, version, exact)
     Tcl_Interp *interp;
