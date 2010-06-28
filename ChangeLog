@@ -1,4 +1,8 @@
-2010-05-11  Jan Nijtmans <nijtmans@users.sourceforge.net>
+2010-06-28  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* upgrade to libpng 1.4.3
+
+2010-06-17  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* upgrade to libjpeg version 8b
 
