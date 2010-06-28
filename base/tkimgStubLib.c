@@ -46,7 +46,7 @@ Tkimg_InitStubs(
 	int exact
 ) {
 	const char *result;
-	ClientData data;
+	void *data;
 
 	result = Tcl_PkgRequireEx(interp, PACKAGE_TCLNAME, (CONST84 char *) version, exact, &data);
 	if (!result || !data) {

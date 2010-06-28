@@ -15,21 +15,23 @@
  * below should be made in the zlibtcl.decls script.
  */
 
+MODULE_SCOPE const ZlibtclStubs zlibtclStubs;
+
 /* !BEGIN!: Do not edit below this line. */
 
 const ZlibtclStubs zlibtclStubs = {
     TCL_STUB_MAGIC,
-    NULL,
+    0,
     zlibVersion, /* 0 */
     zError, /* 1 */
     crc32, /* 2 */
     adler32, /* 3 */
-    NULL, /* 4 */
-    NULL, /* 5 */
-    NULL, /* 6 */
-    NULL, /* 7 */
-    NULL, /* 8 */
-    NULL, /* 9 */
+    0, /* 4 */
+    0, /* 5 */
+    0, /* 6 */
+    0, /* 7 */
+    0, /* 8 */
+    0, /* 9 */
     deflateInit_, /* 10 */
     deflateInit2_, /* 11 */
     deflate, /* 12 */
@@ -48,8 +50,8 @@ const ZlibtclStubs zlibtclStubs = {
     inflateSync, /* 25 */
     inflateReset, /* 26 */
     uncompress, /* 27 */
-    NULL, /* 28 */
-    NULL, /* 29 */
+    0, /* 28 */
+    0, /* 29 */
     gzopen, /* 30 */
     gzdopen, /* 31 */
     gzsetparams, /* 32 */

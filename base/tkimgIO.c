@@ -496,15 +496,15 @@ Tcl_Channel tkimg_OpenFileChannel(
     Tcl_Channel chan = Tcl_OpenFileChannel(interp, (CONST84 char *) fileName,
 	    permissions?"w":"r", permissions);
     if (!chan) {
-	return (Tcl_Channel) NULL;
+	return NULL;
     }
     if (Tcl_SetChannelOption(interp, chan, "-buffersize", "131072") != TCL_OK) {
         Tcl_Close(interp, chan);
-        return (Tcl_Channel) NULL;
+        return NULL;
     }
     if (Tcl_SetChannelOption(interp, chan, "-translation", "binary") != TCL_OK) {
 	Tcl_Close(interp, chan);
-	return (Tcl_Channel) NULL;
+	return NULL;
     }
     return chan;
 }

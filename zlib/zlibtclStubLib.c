@@ -44,19 +44,19 @@ const ZlibtclStubs *zlibtclStubsPtr;
 #endif
 
 MODULE_SCOPE const char *
-Zlibtcl_InitStubs(interp, version, exact)
-    Tcl_Interp *interp;
-    const char *version;
-    int exact;
-{
-    const char *result;
-    ClientData data;
+Zlibtcl_InitStubs(
+	Tcl_Interp *interp,
+	const char *version,
+	int exact
+) {
+	const char *result;
+	void *data;
 
-    result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, (CONST84 char *) version, exact, &data);
-    if (!result || !data) {
-        return (char *) NULL;
-    }
+	result = Tcl_PkgRequireEx(interp, PACKAGE_NAME, (CONST84 char *) version, exact, &data);
+	if (!result || !data) {
+		return NULL;
+	}
 
-    zlibtclStubsPtr = (const ZlibtclStubs *) data;
-    return result;
+	zlibtclStubsPtr = data;
+	return result;
 }

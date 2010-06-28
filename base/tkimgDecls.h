@@ -16,16 +16,9 @@
 
 #include <tk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
 #ifdef TKIMGAPI
 #   undef TCL_STORAGE_CLASS
 #   define TCL_STORAGE_CLASS DLLEXPORT
-#   ifndef MODULE_SCOPE
-#	define MODULE_SCOPE
-#   endif
 #else
 #   define TKIMGAPI extern
 #   undef USE_TKIMG_STUBS
@@ -131,34 +124,40 @@ typedef struct TkimgStubs {
     int (*tkimg_PutcPtr) (int c, tkimg_MFile *handle); /* 5 */
     int (*tkimg_WritePtr) (tkimg_MFile *handle, const char *src, int count); /* 6 */
     void (*tkimg_ReadBufferPtr) (int onOff); /* 7 */
-    void *reserved8;
-    void *reserved9;
+    void (*reserved8)(void);
+    void (*reserved9)(void);
     int (*tkimg_PhotoPutBlockPtr) (Tcl_Interp *interp, Tk_PhotoHandle handle, Tk_PhotoImageBlock *blockPtr, int x, int y, int width, int height, int flags); /* 10 */
     int (*tkimg_PhotoExpandPtr) (Tcl_Interp *interp, Tk_PhotoHandle handle, int width, int height); /* 11 */
     int (*tkimg_PhotoSetSizePtr) (Tcl_Interp *interp, Tk_PhotoHandle handle, int width, int height); /* 12 */
-    void *reserved13;
-    void *reserved14;
-    void *reserved15;
-    void *reserved16;
-    void *reserved17;
-    void *reserved18;
-    void *reserved19;
+    void (*reserved13)(void);
+    void (*reserved14)(void);
+    void (*reserved15)(void);
+    void (*reserved16)(void);
+    void (*reserved17)(void);
+    void (*reserved18)(void);
+    void (*reserved19)(void);
     void (*tkimg_FixChanMatchProcPtr) (Tcl_Interp **interp, Tcl_Channel *chan, const char **file, Tcl_Obj **format, int **width, int **height); /* 20 */
     void (*tkimg_FixObjMatchProcPtr) (Tcl_Interp **interp, Tcl_Obj **data, Tcl_Obj **format, int **width, int **height); /* 21 */
     void (*tkimg_FixStringWriteProcPtr) (Tcl_DString *data, Tcl_Interp **interp, Tcl_DString **dataPtr, Tcl_Obj **format, Tk_PhotoImageBlock **blockPtr); /* 22 */
-    void *reserved23;
-    void *reserved24;
-    void *reserved25;
-    void *reserved26;
-    void *reserved27;
-    void *reserved28;
-    void *reserved29;
+    void (*reserved23)(void);
+    void (*reserved24)(void);
+    void (*reserved25)(void);
+    void (*reserved26)(void);
+    void (*reserved27)(void);
+    void (*reserved28)(void);
+    void (*reserved29)(void);
     const char * (*tkimg_GetStringFromObjPtr) (Tcl_Obj *objPtr, int *lengthPtr); /* 30 */
     unsigned char * (*tkimg_GetByteArrayFromObjPtr) (Tcl_Obj *objPtr, int *lengthPtr); /* 31 */
     int (*tkimg_ListObjGetElementsPtr) (Tcl_Interp *interp, Tcl_Obj *objPtr, int *argc, Tcl_Obj ***argv); /* 32 */
 } TkimgStubs;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 TKIMGAPI const TkimgStubs *tkimgStubsPtr;
+#ifdef __cplusplus
+}
+#endif
 
 #if defined(USE_TKIMG_STUBS)
 
@@ -257,9 +256,5 @@ TKIMGAPI const TkimgStubs *tkimgStubsPtr;
 
 #undef TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLIMPORT
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
 
 #endif /* _TKIMGDECLS */

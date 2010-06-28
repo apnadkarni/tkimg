@@ -1,6 +1,8 @@
 2010-06-28  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* upgrade to libpng 1.4.3
+	* backport various ttkGenStubs.tcl improvements
+	  to genStubs.tcl
 
 2010-06-17  Jan Nijtmans <nijtmans@users.sourceforge.net>
 

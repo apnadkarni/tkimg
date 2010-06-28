@@ -130,13 +130,13 @@ int
 @CPACKAGE@_Init(
 	Tcl_Interp *interp /* Interpreter to initialise. */
 ) {
-	if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
+	if (!Tcl_InitStubs(interp, "8.3", 0)) {
 		return TCL_ERROR;
 	}
-	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
+	if (!Tk_InitStubs(interp, "8.3", 0)) {
 		return TCL_ERROR;
 	}
-	if (Tkimg_InitStubs(interp, TKIMG_VERSION, 0) == NULL) {
+	if (!Tkimg_InitStubs(interp, TKIMG_VERSION, 0)) {
 		return TCL_ERROR;
 	}
 

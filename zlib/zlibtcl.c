@@ -20,6 +20,8 @@
 
 #include "zlibtcl.h"
 
+MODULE_SCOPE const ZlibtclStubs zlibtclStubs;
+
 /*
  * Prototypes for procedures defined later in this file:
  */
@@ -36,29 +38,25 @@
  *
  * Side effects:
  *  Creates commands in the interpreter,
- *  loads xml package.
+ *  loads zlibtcl package.
  *
  *----------------------------------------------------------------------------
  */
 
 int
-Zlibtcl_Init (interp)
-      Tcl_Interp *interp; /* Interpreter to initialise. */
-{
-  extern const ZlibtclStubs zlibtclStubs;
+Zlibtcl_Init (
+	Tcl_Interp *interp /* Interpreter to initialise. */
+) {
+	if (!Tcl_InitStubs(interp, "8.3", 0)) {
+		return TCL_ERROR;
+	}
 
-#ifdef USE_TCL_STUBS
-  if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
-    return TCL_ERROR;
-  }
-#endif
+	if (Tcl_PkgProvideEx(interp, PACKAGE_NAME, PACKAGE_VERSION,
+			(void *) &zlibtclStubs) != TCL_OK) {
+		return TCL_ERROR;
+	}
 
-  if (Tcl_PkgProvideEx(interp, PACKAGE_NAME, PACKAGE_VERSION,
-		       (ClientData) &zlibtclStubs) != TCL_OK) {
-    return TCL_ERROR;
-  }
-
-  return TCL_OK;
+	return TCL_OK;
 }
 
 /*
@@ -73,36 +71,14 @@ Zlibtcl_Init (interp)
  *
  * Side effects:
  *  Creates commands in the interpreter,
- *  loads xml package.
+ *  loads zlibtcl package.
  *
  *----------------------------------------------------------------------------
  */
 
 int
-Zlibtcl_SafeInit (interp)
-      Tcl_Interp *interp; /* Interpreter to initialise. */
-{
-    return Zlibtcl_Init(interp);
+Zlibtcl_SafeInit (
+	Tcl_Interp *interp /* Interpreter to initialise. */
+) {
+	return Zlibtcl_Init(interp);
 }
-
-/*
- *----------------------------------------------------------------------------
- *
- * Zlibtcl_XXX --
- *
- *  Wrappers around the zlib functionality.
- *
- * Results:
- *  Depends on function.
- *
- * Side effects:
- *  Depends on function.
- *
- *----------------------------------------------------------------------------
- */
-
-/*
- * No wrappers are required. Due to intelligent definition of the stub
- * table using the function names of the libz sources the stub table
- * contains jumps to the actual functionality.
- */

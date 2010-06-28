@@ -16,7 +16,7 @@ MODULE_SCOPE const TkimgStubs tkimgStubs;
 
 const TkimgStubs tkimgStubs = {
     TCL_STUB_MAGIC,
-    NULL,
+    0,
     tkimg_OpenFileChannel, /* 0 */
     tkimg_ReadInit, /* 1 */
     tkimg_WriteInit, /* 2 */
@@ -25,28 +25,28 @@ const TkimgStubs tkimgStubs = {
     tkimg_Putc, /* 5 */
     tkimg_Write, /* 6 */
     tkimg_ReadBuffer, /* 7 */
-    NULL, /* 8 */
-    NULL, /* 9 */
+    0, /* 8 */
+    0, /* 9 */
     tkimg_PhotoPutBlock, /* 10 */
     tkimg_PhotoExpand, /* 11 */
     tkimg_PhotoSetSize, /* 12 */
-    NULL, /* 13 */
-    NULL, /* 14 */
-    NULL, /* 15 */
-    NULL, /* 16 */
-    NULL, /* 17 */
-    NULL, /* 18 */
-    NULL, /* 19 */
+    0, /* 13 */
+    0, /* 14 */
+    0, /* 15 */
+    0, /* 16 */
+    0, /* 17 */
+    0, /* 18 */
+    0, /* 19 */
     tkimg_FixChanMatchProc, /* 20 */
     tkimg_FixObjMatchProc, /* 21 */
     tkimg_FixStringWriteProc, /* 22 */
-    NULL, /* 23 */
-    NULL, /* 24 */
-    NULL, /* 25 */
-    NULL, /* 26 */
-    NULL, /* 27 */
-    NULL, /* 28 */
-    NULL, /* 29 */
+    0, /* 23 */
+    0, /* 24 */
+    0, /* 25 */
+    0, /* 26 */
+    0, /* 27 */
+    0, /* 28 */
+    0, /* 29 */
     tkimg_GetStringFromObj, /* 30 */
     tkimg_GetByteArrayFromObj, /* 31 */
     tkimg_ListObjGetElements, /* 32 */

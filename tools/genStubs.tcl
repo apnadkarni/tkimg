@@ -42,6 +42,15 @@ namespace eval genStubs {
     #
     variable scspec "EXTERN"
 
+    # epoch, revision --
+    #
+    #	The epoch and revision numbers of the interface currently being defined.
+    #   (@@@TODO: should be an array mapping interface names -> numbers)
+    #
+
+    variable epoch {}
+    variable revision 0
+
     # hooks --
     #
     #	An array indexed by interface name that contains the set of
@@ -98,8 +107,10 @@ proc genStubs::library {name} {
 proc genStubs::interface {name} {
     variable curName $name
     variable interfaces
+    variable stubs
 
     set interfaces($name) {}
+    set stubs($name,lastNum) 0
     return
 }
 
@@ -112,6 +123,16 @@ proc genStubs::interface {name} {
 #
 proc genStubs::scspec {value} {
     variable scspec $value
+}
+
+# genStubs::epoch --
+#
+#	Define the epoch number for this library.  The epoch
+#	should be incrememented when a release is made that
+#	contains incompatible changes to the public API.
+#
+proc genStubs::epoch {value} {
+    variable epoch $value
 }
 
 # genStubs::hooks --
@@ -152,7 +173,9 @@ proc genStubs::hooks {names} {
 proc genStubs::declare {args} {
     variable stubs
     variable curName
+    variable revision
 
+    incr revision
     if {[llength $args] != 3 && [llength $args] != 4} {
 	puts stderr "wrong # args: declare $args"
     }
@@ -175,7 +198,7 @@ proc genStubs::declare {args} {
     set decl [parseDecl $decl]
 
     foreach platform $platformList {
-	if {$decl != ""} {
+	if {$decl ne ""} {
 	    set stubs($curName,$platform,$index) [list $decl $supressorList]
 	    if {![info exists stubs($curName,$platform,lastNum)] \
 		    || ($index > $stubs($curName,$platform,lastNum))} {
@@ -199,9 +222,6 @@ proc genStubs::declare {args} {
 #	None.
 
 proc genStubs::export {args} {
-    variable stubs
-    variable curName
-
     if {[llength $args] != 1} {
 	puts stderr "wrong # args: export $args"
     }
@@ -325,10 +345,9 @@ proc genStubs::addPlatformGuard {plat iftxt {eltxt {}}} {
 #	None.
 
 proc genStubs::emitSlots {name textVar} {
-    variable stubs
     upvar $textVar text
 
-    forAllStubs $name makeSlot 1 text {"    void *reserved$i;\n"}
+    forAllStubs $name makeSlot 1 text {"    void (*reserved$i)(void);\n"}
     return
 }
 
@@ -410,14 +429,14 @@ proc genStubs::parseDecl {decl} {
 
 proc genStubs::parseArg {arg} {
     if {![regexp {^(.+[ ][*]*)([^][ *]+)(\[\])?$} $arg all type name array]} {
-	if {$arg == "void"} {
+	if {$arg eq "void"} {
 	    return $arg
 	} else {
 	    return
 	}
     }
     set result [list [string trim $type] $name]
-    if {$array != ""} {
+    if {$array ne ""} {
 	lappend result $array
     }
     return $result
@@ -437,6 +456,7 @@ proc genStubs::parseArg {arg} {
 
 proc genStubs::makeDecl {name decl index} {
     variable scspec
+
     set decl [lindex $decl 0]
     lassign $decl rtype fname args
 
@@ -648,7 +668,7 @@ proc genStubs::makeInit {name decl index} {
 	    }
 	}
 	append text "#if " [join $sup " || "] "\n"
-	append text "    NULL, /* " $index " */\n"
+	append text "    0, /* " $index " */\n"
 	append text "#else  /* " [join $suppressors] " */\n"
     }
     if {[lindex $decl 2] eq ""} {
@@ -683,7 +703,7 @@ proc genStubs::makeInit {name decl index} {
 # Results:
 #	None.
 
-proc genStubs::forAllStubs {name slotProc onAll textVar \
+proc genStubs::forAllStubs {name slotProc onAll textVar
 	{skipString {"/* Slot $i is reserved */\n"}}} {
     variable stubs
     upvar $textVar text
@@ -942,7 +962,6 @@ proc genStubs::forAllStubs {name slotProc onAll textVar \
 #	None.
 
 proc genStubs::emitDeclarations {name textVar} {
-    variable stubs
     upvar $textVar text
 
     append text "\n/*\n * Exported function declarations:\n */\n\n"
@@ -962,7 +981,6 @@ proc genStubs::emitDeclarations {name textVar} {
 #	None.
 
 proc genStubs::emitMacros {name textVar} {
-    variable stubs
     variable libraryName
     upvar $textVar text
 
@@ -991,9 +1009,18 @@ proc genStubs::emitHeader {name} {
     variable scspec
     variable outDir
     variable hooks
+    variable epoch
+    variable revision
 
     set capName [string toupper [string index $name 0]]
     append capName [string range $name 1 end]
+
+    if {$epoch ne ""} {
+	set CAPName [string toupper $name]
+	append text "\n"
+	append text "#define ${CAPName}_STUBS_EPOCH $epoch\n"
+	append text "#define ${CAPName}_STUBS_REVISION $revision\n"
+    }
 
     emitDeclarations $name text
 
@@ -1008,12 +1035,19 @@ proc genStubs::emitHeader {name} {
     }
     append text "\ntypedef struct ${capName}Stubs {\n"
     append text "    int magic;\n"
+    if {$epoch ne ""} {
+	append text "    int epoch;\n"
+	append text "    int revision;\n"
+    }
     append text "    const struct ${capName}StubHooks *hooks;\n\n"
 
     emitSlots $name text
 
-    append text "} ${capName}Stubs;\n\n"
+    append text "} ${capName}Stubs;\n"
+
+    append text "\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n"
     append text "$scspec const ${capName}Stubs *${name}StubsPtr;\n"
+    append text "#ifdef __cplusplus\n}\n#endif\n"
 
     emitMacros $name text
 
@@ -1033,9 +1067,9 @@ proc genStubs::emitHeader {name} {
 #	Returns the formatted output.
 
 proc genStubs::emitInit {name textVar} {
-    variable stubs
     variable hooks
     variable interfaces
+    variable epoch
     upvar $textVar text
     set root 1
 
@@ -1065,13 +1099,18 @@ proc genStubs::emitInit {name textVar} {
 	append text "static "
     }
     append text "const ${capName}Stubs ${name}Stubs = \{\n    TCL_STUB_MAGIC,\n"
+    if {$epoch ne ""} {
+	set CAPName [string toupper $name]
+	append text "    ${CAPName}_STUBS_EPOCH,\n"
+	append text "    ${CAPName}_STUBS_REVISION,\n"
+    }
     if {[info exists hooks($name)]} {
 	append text "    &${name}StubHooks,\n"
     } else {
-	append text "    NULL,\n"
+	append text "    0,\n"
     }
 
-    forAllStubs $name makeInit 1 text {"    NULL, /* $i */\n"}
+    forAllStubs $name makeInit 1 text {"    0, /* $i */\n"}
 
     append text "\};\n"
     return

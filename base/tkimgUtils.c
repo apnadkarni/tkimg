@@ -87,15 +87,15 @@ const char *tkimg_GetStringFromObj(
 	 * stored. If NULL, no length is stored. */
 ) {
 	if (!objPtr) {
-		if (lengthPtr != NULL) {
+		if (lengthPtr) {
 			*lengthPtr = 0;
 		}
-		return (char *) NULL;
+		return NULL;
 	}
 #ifdef _LANG
 	{
 		char *string = LangString((Arg) objPtr);
-		if (lengthPtr != NULL) {
+		if (lengthPtr) {
 			*lengthPtr = string? strlen(string): 0;
 		}
 		return string;
@@ -137,7 +137,7 @@ unsigned char *tkimg_GetByteArrayFromObj(
 ) {
 #ifdef _LANG
 	char *string = LangString((Arg) objPtr);
-	if (lengthPtr != NULL) {
+	if (lengthPtr) {
 		*lengthPtr = string? strlen(string): 0;
 	}
 	return (unsigned char *) string;
@@ -175,7 +175,7 @@ int tkimg_ListObjGetElements(
 	int *objc,
 	Tcl_Obj ***objv
 ) {
-	if (objPtr == NULL) {
+	if (!objPtr) {
 		*objc = 0;
 		return TCL_OK;
 	}

@@ -27,9 +27,9 @@ MODULE_SCOPE const TkimgStubs tkimgStubs;
  */
 
 #ifdef ALLOW_B64
-static int tob64(ClientData clientData, Tcl_Interp *interp,
+static int tob64(void *clientData, Tcl_Interp *interp,
 	int argc, Tcl_Obj *const objv[]);
-static int fromb64(ClientData clientData, Tcl_Interp *interp,
+static int fromb64(void *clientData, Tcl_Interp *interp,
 	int argc, Tcl_Obj *const objv[]);
 #endif
 
@@ -54,10 +54,10 @@ int Tkimg_Init(
 	Tcl_Interp *interp /* Interpreter to initialise. */
 ) {
 
-	if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
+	if (!Tcl_InitStubs(interp, "8.3", 0)) {
 		return TCL_ERROR;
 	}
-	if (Tk_InitStubs(interp, "8.3", 0) == NULL) {
+	if (!Tk_InitStubs(interp, "8.3", 0)) {
 		return TCL_ERROR;
 	}
 	TkimgInitUtilities(interp);
@@ -67,7 +67,7 @@ int Tkimg_Init(
 #endif
 
 	if (Tcl_PkgProvideEx(interp, PACKAGE_TCLNAME, PACKAGE_VERSION,
-			(ClientData) &tkimgStubs) != TCL_OK
+			(void *)&tkimgStubs) != TCL_OK
 	) {
 		return TCL_ERROR;
 	}
@@ -114,12 +114,12 @@ int Tkimg_SafeInit(
  */
 
 #ifdef ALLOW_B64
-int tob64(clientData, interp, argc, objv)
-ClientData clientData;
-Tcl_Interp *interp;
-int argc;
-Tcl_Obj *const objv[];
-{
+int tob64(
+	void *clientData,
+	Tcl_Interp *interp,
+	int argc,
+	Tcl_Obj *const objv[]
+) {
 	Tcl_DString dstring;
 	tkimg_MFile handle;
 	Tcl_Channel chan;
@@ -148,7 +148,7 @@ Tcl_Obj *const objv[];
 	if ((Tcl_Close(interp, chan) == TCL_ERROR) || (len < 0)) {
 		Tcl_DStringFree(&dstring);
 		Tcl_AppendResult(interp, Tcl_GetStringFromObj(objv[1], &len),
-			": ", Tcl_PosixError(interp),NULL);
+			": ", Tcl_PosixError(interp), NULL);
 		return TCL_ERROR;
 	}
 	tkimg_Putc(IMG_DONE, &handle);
@@ -172,12 +172,12 @@ Tcl_Obj *const objv[];
  *-------------------------------------------------------------------------
  */
 
-int fromb64(clientData, interp, argc, objv)
-ClientData clientData;
-Tcl_Interp *interp;
-int argc;
-Tcl_Obj *const objv[];
-{
+int fromb64(
+	void *clientData,
+	Tcl_Interp *interp,
+	int argc,
+	Tcl_Obj *const objv[]
+) {
 	tkimg_MFile handle;
 	Tcl_Channel chan;
 	char buffer[1024];

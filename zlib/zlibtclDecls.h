@@ -16,10 +16,6 @@
 
 #include <tcl.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
 #ifdef ZEXTERN
 #   undef TCL_STORAGE_CLASS
 #   define TCL_STORAGE_CLASS DLLEXPORT
@@ -148,12 +144,12 @@ typedef struct ZlibtclStubs {
     const char * (*zErrorPtr) (int err); /* 1 */
     uLong (*crc32Ptr) (uLong crc, const Bytef *buf, uInt len); /* 2 */
     uLong (*adler32Ptr) (uLong adler, const Bytef *buf, uInt len); /* 3 */
-    void *reserved4;
-    void *reserved5;
-    void *reserved6;
-    void *reserved7;
-    void *reserved8;
-    void *reserved9;
+    void (*reserved4)(void);
+    void (*reserved5)(void);
+    void (*reserved6)(void);
+    void (*reserved7)(void);
+    void (*reserved8)(void);
+    void (*reserved9)(void);
     int (*deflateInit_Ptr) (z_streamp stream, int level, const char *version, int stream_size); /* 10 */
     int (*deflateInit2_Ptr) (z_streamp stream, int level, int method, int windowBits, int memLevel, int strategy, const char *version, int stream_size); /* 11 */
     int (*deflatePtr) (z_streamp stream, int flush); /* 12 */
@@ -172,8 +168,8 @@ typedef struct ZlibtclStubs {
     int (*inflateSyncPtr) (z_streamp stream); /* 25 */
     int (*inflateResetPtr) (z_streamp stream); /* 26 */
     int (*uncompressPtr) (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen); /* 27 */
-    void *reserved28;
-    void *reserved29;
+    void (*reserved28)(void);
+    void (*reserved29)(void);
     gzFile (*gzopenPtr) (const char *path, const char *mode); /* 30 */
     gzFile (*gzdopenPtr) (int fd, const char *mode); /* 31 */
     int (*gzsetparamsPtr) (gzFile file, int level, int strategy); /* 32 */
@@ -193,7 +189,13 @@ typedef struct ZlibtclStubs {
     const char * (*gzerrorPtr) (gzFile file, int *errnum); /* 46 */
 } ZlibtclStubs;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 ZEXTERN const ZlibtclStubs *zlibtclStubsPtr;
+#ifdef __cplusplus
+}
+#endif
 
 #if defined(USE_ZLIBTCL_STUBS)
 
@@ -369,10 +371,6 @@ ZEXTERN const ZlibtclStubs *zlibtclStubsPtr;
 #endif /* defined(USE_ZLIBTCL_STUBS) */
 
 /* !END!: Do not edit above this line. */
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
 
 #endif /* _ZLIBTCLDECLS */
 
