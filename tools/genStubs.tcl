@@ -107,10 +107,8 @@ proc genStubs::library {name} {
 proc genStubs::interface {name} {
     variable curName $name
     variable interfaces
-    variable stubs
 
     set interfaces($name) {}
-    set stubs($name,lastNum) 0
     return
 }
 
@@ -366,7 +364,7 @@ proc genStubs::emitSlots {name textVar} {
 
 proc genStubs::parseDecl {decl} {
     if {![regexp {^(.*)\((.*)\)$} $decl all prefix args]} {
-	if {[string index $decl end]=={]}} {
+	if {[string index $decl end] eq "]"} {
 	    set pos [string first {[} $decl]
 	    set prefix [string range $decl 0 [expr {$pos-1}]]
 	    set args [string range $decl $pos end]
@@ -381,7 +379,7 @@ proc genStubs::parseDecl {decl} {
 	return
     }
     set rtype [string trim $rtype]
-    if {$args eq ""||[string index $args end]eq"]"} {
+    if {$args eq "" || [string index $args end] eq "]"} {
 	return [list $rtype $fname $args]
     }
     foreach arg [split $args ,] {
@@ -472,8 +470,8 @@ proc genStubs::makeDecl {name decl index} {
 	append line " "
 	set pad 0
     }
-    if {$args eq ""||[string index $args end]=="]"} {
-	append line $fname$args
+    if {$args eq "" || [string index $args end] eq "]"} {
+	append line $fname $args
 	append text $line
 	append text ";\n"
 	return $text
@@ -528,7 +526,10 @@ proc genStubs::makeDecl {name decl index} {
 	    append line ")"
 	}
     }
-    return "$text$line;\n"
+    append text $line
+    
+    append text ";\n"
+    return $text
 }
 
 # genStubs::makeMacro --
@@ -554,7 +555,7 @@ proc genStubs::makeMacro {name decl index} {
     }
 
     set text "#ifndef $fname\n#define $fname"
-    if {$args eq ""||[string index $args end]eq"]"} {
+    if {$args eq "" || [string index $args end] eq "]"} {
 	append text " \\\n\t(*${name}StubsPtr->$lfname)"
 	append text " /* $index */\n#endif\n"
 	return $text
@@ -587,8 +588,8 @@ proc genStubs::makeSlot {name decl index} {
     }
 
     set text "    "
-    if {$args eq ""||[string index $args end]eq"]"} {
-	append text $rtype " *" $lfname$args "; /* $index */\n"
+    if {$args eq "" || [string index $args end] eq "]"} {
+	append text $rtype " *" $lfname $args "; /* $index */\n"
 	return $text
     }
     if {[string range $rtype end-7 end] eq "CALLBACK"} {
@@ -676,7 +677,7 @@ proc genStubs::makeInit {name decl index} {
     } else {
 	append text "    " [lindex $decl 1] ", /* " $index " */\n"
     }
-    if {[llength $suppressors] > 0} {
+    if {[llength $suppressors]} {
 	append text "#endif /* " [join $suppressors] " */\n"
     }
     return $text
@@ -1087,7 +1088,7 @@ proc genStubs::emitInit {name textVar} {
     }
     foreach intf [array names interfaces] {
 	if {[info exists hooks($intf)]} {
-	    if {0<=[lsearch -exact $hooks($intf) $name]} {
+	    if {[lsearch -exact $hooks($intf) $name] >= 0} {
 		set root 0
 		break
 	    }
