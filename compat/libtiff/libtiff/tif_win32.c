@@ -28,8 +28,9 @@
  * TIFF Library Win32-specific Routines.  Adapted from tif_unix.c 4/5/95 by
  * Scott Wagner (wagner@itek.com), Itek Graphix, Rochester, NY USA
  */
-#include "windows.h"
 #include "tiffiop.h"
+
+#include <windows.h>
 
 static tsize_t
 _tiffReadProc(thandle_t fd, tdata_t buf, tsize_t size)
@@ -52,11 +53,10 @@ _tiffWriteProc(thandle_t fd, tdata_t buf, tsize_t size)
 static toff_t
 _tiffSeekProc(thandle_t fd, toff_t off, int whence)
 {
-	DWORD dwMoveMethod, dwMoveHigh;
+        ULARGE_INTEGER li;
+	DWORD dwMoveMethod;
 
-        /* we use this as a special code, so avoid accepting it */
-        if( off == 0xFFFFFFFF )
-            return 0xFFFFFFFF;
+	li.QuadPart = off;
         
 	switch(whence)
 	{
@@ -73,9 +73,8 @@ _tiffSeekProc(thandle_t fd, toff_t off, int whence)
 		dwMoveMethod = FILE_BEGIN;
 		break;
 	}
-        dwMoveHigh = 0;
-	return ((toff_t)SetFilePointer(fd, (LONG) off, (PLONG)&dwMoveHigh,
-                                       dwMoveMethod));
+	return ((toff_t)SetFilePointer(fd, (LONG) li.LowPart,
+				       (PLONG)&li.HighPart, dwMoveMethod));
 }
 
 static int
@@ -90,12 +89,12 @@ _tiffSizeProc(thandle_t fd)
 	return ((toff_t)GetFileSize(fd, NULL));
 }
 
-#ifdef __BORLANDC__
-#pragma argsused
-#endif
 static int
 _tiffDummyMapProc(thandle_t fd, tdata_t* pbase, toff_t* psize)
 {
+	(void) fd;
+	(void) pbase;
+	(void) psize;
 	return (0);
 }
 
@@ -129,12 +128,12 @@ _tiffMapProc(thandle_t fd, tdata_t* pbase, toff_t* psize)
 	return(1);
 }
 
-#ifdef __BORLANDC__
-#pragma argsused
-#endif
 static void
 _tiffDummyUnmapProc(thandle_t fd, tdata_t base, toff_t size)
 {
+	(void) fd;
+	(void) base;
+	(void) size;
 }
 
 static void
@@ -163,6 +162,8 @@ TIFFFdOpen(int ifd, const char* name, const char* mode)
 		tif->tif_fd = ifd;
 	return (tif);
 }
+
+#ifndef _WIN32_WCE
 
 /*
  * Open a TIFF file for read/writing.
@@ -273,6 +274,9 @@ TIFFOpenW(const wchar_t* name, const char* mode)
 	return tif;
 }
 
+#endif /* ndef _WIN32_WCE */
+
+
 tdata_t
 _TIFFmalloc(tsize_t s)
 {
@@ -289,26 +293,26 @@ _TIFFfree(tdata_t p)
 tdata_t
 _TIFFrealloc(tdata_t p, tsize_t s)
 {
-        void* pvTmp;
-        tsize_t old;
+	void* pvTmp;
+	tsize_t old;
 
-        if(p == NULL)
-                return ((tdata_t)GlobalAlloc(GMEM_FIXED, s));
+	if(p == NULL)
+		return ((tdata_t)GlobalAlloc(GMEM_FIXED, s));
 
-        old = GlobalSize(p);
+	old = GlobalSize(p);
 
-        if (old>=s) {
-                if ((pvTmp = GlobalAlloc(GMEM_FIXED, s)) != NULL) {
-	                CopyMemory(pvTmp, p, s);
-	                GlobalFree(p);
-                }
-        } else {
-                if ((pvTmp = GlobalAlloc(GMEM_FIXED, s)) != NULL) {
-	                CopyMemory(pvTmp, p, old);
-	                GlobalFree(p);
-                }
-        }
-        return ((tdata_t)pvTmp);
+	if (old>=s) {
+		if ((pvTmp = GlobalAlloc(GMEM_FIXED, s)) != NULL) {
+			CopyMemory(pvTmp, p, s);
+			GlobalFree(p);
+		}
+	} else {
+		if ((pvTmp = GlobalAlloc(GMEM_FIXED, s)) != NULL) {
+			CopyMemory(pvTmp, p, old);
+			GlobalFree(p);
+		}
+	}
+	return ((tdata_t)pvTmp);
 }
 
 void
@@ -334,6 +338,8 @@ _TIFFmemcmp(const tdata_t p1, const tdata_t p2, tsize_t c)
 		;
 	return (iTmp);
 }
+
+#ifndef _WIN32_WCE
 
 static void
 Win32WarningHandler(const char* module, const char* fmt, va_list ap)
@@ -390,4 +396,13 @@ Win32ErrorHandler(const char* module, const char* fmt, va_list ap)
 }
 TIFFErrorHandler _TIFFerrorHandler = Win32ErrorHandler;
 
+#endif /* ndef _WIN32_WCE */
+
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

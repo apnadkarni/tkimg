@@ -29,6 +29,14 @@
  ******************************************************************************
  *
  * $Log: tiffset.c,v $
+ * Revision 1.12.2.1  2010-06-08 18:50:44  bfriesen
+ * * Add an emacs formatting mode footer to all source files so that
+ * emacs can be effectively used.
+ *
+ * Revision 1.12  2007/02/24 17:14:14  dron
+ * Properly handle tags with TIFF_VARIABLE writecount. As per bug
+ * http://bugzilla.remotesensing.org/show_bug.cgi?id=1350
+ *
  * Revision 1.11  2005/09/13 14:13:42  dron
  * Avoid warnings.
  *
@@ -109,7 +117,8 @@ main(int argc, char* argv[])
                 if (TIFFSetField(tiff, fip->field_tag, argv[arg_index]) != 1)
                     fprintf( stderr, "Failed to set %s=%s\n",
                              fip->field_name, argv[arg_index] );
-            } else if (fip->field_writecount > 0) {
+            } else if (fip->field_writecount > 0
+		       || fip->field_writecount == TIFF_VARIABLE) {
                 int     ret = 1;
                 short   wc;
 
@@ -307,3 +316,10 @@ main(int argc, char* argv[])
 }
 
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

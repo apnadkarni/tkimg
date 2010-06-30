@@ -41,6 +41,10 @@
 
 #include "tif_fax3.h"
 
+#ifndef HAVE_GETOPT
+extern int getopt(int, char**, char*);
+#endif
+
 #define	streq(a,b)	(strcmp(a,b) == 0)
 
 /* NB: can't use names in tif_fax3.h 'cuz they are declared const */
@@ -379,10 +383,6 @@ main(int argc, char* argv[])
     FILE* fd;
     char* outputfile;
     int c;
-#ifdef _WIN32
-    const_class = "const";
-    outputfile  = argv[argc-1];
-#else
     extern int optind;
     extern char* optarg;
 
@@ -408,7 +408,6 @@ main(int argc, char* argv[])
 	    return (-1);
 	}
     outputfile = optind < argc ? argv[optind] : "g3states.h";
-#endif
     fd = fopen(outputfile, "w");
     if (fd == NULL) {
 	fprintf(stderr, "%s: %s: Cannot create output file.\n",
@@ -443,3 +442,10 @@ main(int argc, char* argv[])
 }
 
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

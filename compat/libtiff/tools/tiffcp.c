@@ -53,8 +53,12 @@
 
 #include "tiffio.h"
 
+#ifndef HAVE_GETOPT
+extern int getopt(int, char**, char*);
+#endif
+
 #if defined(VMS)
-#define unlink delete
+# define unlink delete
 #endif
 
 #define	streq(a,b)	(strcmp(a,b) == 0)
@@ -88,6 +92,7 @@ static	void usage(void);
 static char comma = ',';  /* (default) comma separator character */
 static TIFF* bias = NULL;
 static int pageNum = 0;
+static int pageInSeq = 0;
 
 static int nextSrcImage (TIFF *tif, char **imageSpec)
 /*
@@ -167,7 +172,7 @@ main(int argc, char* argv[])
 
 	*mp++ = 'w';
 	*mp = '\0';
-	while ((c = getopt(argc, argv, ",:b:c:f:l:o:z:p:r:w:aistBLMC")) != -1)
+	while ((c = getopt(argc, argv, ",:b:c:f:l:o:z:p:r:w:aistBLMCx")) != -1)
 		switch (c) {
                 case ',':
                         if (optarg[0] != '=') usage();
@@ -252,6 +257,9 @@ main(int argc, char* argv[])
 		case 'C':
 			*mp++ = 'c'; *mp = '\0';
 			break;
+		case 'x':
+			pageInSeq = 1;
+			break;
 		case '?':
 			usage();
 			/*NOTREACHED*/
@@ -266,11 +274,14 @@ main(int argc, char* argv[])
 	for (; optind < argc-1 ; optind++) {
                 char *imageCursor = argv[optind];
 		in = openSrcImage (&imageCursor);
-		if (in == NULL)
+		if (in == NULL) {
+			(void) TIFFClose(out);
 			return (-3);
+		}
 		if (diroff != 0 && !TIFFSetSubDirectory(in, diroff)) {
 			TIFFError(TIFFFileName(in),
 			    "Error, setting subdirectory at %#x", diroff);
+			(void) TIFFClose(in);
 			(void) TIFFClose(out);
 			return (1);
 		}
@@ -284,7 +295,8 @@ main(int argc, char* argv[])
                    tilelength = deftilelength;
                    g3opts = defg3opts;
                    if (!tiffcp(in, out) || !TIFFWriteDirectory(out)) {
-                        TIFFClose(out);
+			(void) TIFFClose(in);
+                        (void) TIFFClose(out);
                         return (1);
                    }
                    if (imageCursor) { /* seek next image directory */
@@ -292,10 +304,10 @@ main(int argc, char* argv[])
                    }else
                         if (!TIFFReadDirectory(in)) break;
 		}
-		TIFFClose(in);
+		(void) TIFFClose(in);
 	}
 
-        TIFFClose(out);
+        (void) TIFFClose(out);
         return (0);
 }
 
@@ -357,6 +369,8 @@ processCompressOptions(char* opt)
 		if (cp)
 			defpredictor = atoi(cp+1);
 		defcompression = COMPRESSION_ADOBE_DEFLATE;
+	} else if (strneq(opt, "jbig", 4)) {
+		defcompression = COMPRESSION_JBIG;
 	} else
 		return (0);
 	return (1);
@@ -385,6 +399,7 @@ char* stuff[] = {
 " -c lzw[:opts]	compress output with Lempel-Ziv & Welch encoding",
 " -c zip[:opts]	compress output with deflate encoding",
 " -c jpeg[:opts]	compress output with JPEG encoding",
+" -c jbig	compress output with ISO JBIG encoding",
 " -c packbits	compress output with packbits encoding",
 " -c g3[:opts]	compress output with CCITT Group 3 encoding",
 " -c g4		compress output with CCITT Group 4 encoding",
@@ -540,6 +555,7 @@ static int
 tiffcp(TIFF* in, TIFF* out)
 {
 	uint16 bitspersample, samplesperpixel;
+	uint16 input_compression, input_photometric;
 	copyFunc cf;
 	uint32 width, length;
 	struct cpTag* p;
@@ -552,26 +568,30 @@ tiffcp(TIFF* in, TIFF* out)
 		TIFFSetField(out, TIFFTAG_COMPRESSION, compression);
 	else
 		CopyField(TIFFTAG_COMPRESSION, compression);
-	if (compression == COMPRESSION_JPEG) {
-	    uint16 input_compression, input_photometric;
+	TIFFGetFieldDefaulted(in, TIFFTAG_COMPRESSION, &input_compression);
+	TIFFGetFieldDefaulted(in, TIFFTAG_PHOTOMETRIC, &input_photometric);
+	if (input_compression == COMPRESSION_JPEG) {
+		/* Force conversion to RGB */
+		TIFFSetField(in, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
+	} else if (input_photometric == PHOTOMETRIC_YCBCR) {
+		/* Otherwise, can't handle subsampled input */
+		uint16 subsamplinghor,subsamplingver;
 
-            if (TIFFGetField(in, TIFFTAG_COMPRESSION, &input_compression)
-                 && input_compression == COMPRESSION_JPEG) {
-                TIFFSetField(in, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
-            }
-	    if (TIFFGetField(in, TIFFTAG_PHOTOMETRIC, &input_photometric)) {
-		if(input_photometric == PHOTOMETRIC_RGB) {
-			if (jpegcolormode == JPEGCOLORMODE_RGB)
-		    		TIFFSetField(out, TIFFTAG_PHOTOMETRIC,
-					     PHOTOMETRIC_YCBCR);
-			else
-		    		TIFFSetField(out, TIFFTAG_PHOTOMETRIC,
-					     PHOTOMETRIC_RGB);
-		} else
-			TIFFSetField(out, TIFFTAG_PHOTOMETRIC,
-				     input_photometric);
-	    }
-        }
+		TIFFGetFieldDefaulted(in, TIFFTAG_YCBCRSUBSAMPLING,
+				      &subsamplinghor, &subsamplingver);
+		if (subsamplinghor!=1 || subsamplingver!=1) {
+			fprintf(stderr, "tiffcp: %s: Can't copy/convert subsampled image.\n",
+				TIFFFileName(in));
+			return FALSE;
+		}
+	}
+	if (compression == COMPRESSION_JPEG) {
+		if (input_photometric == PHOTOMETRIC_RGB &&
+		    jpegcolormode == JPEGCOLORMODE_RGB)
+		  TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_YCBCR);
+		else
+		  TIFFSetField(out, TIFFTAG_PHOTOMETRIC, input_photometric);
+	}
 	else if (compression == COMPRESSION_SGILOG
 		 || compression == COMPRESSION_SGILOG24)
 		TIFFSetField(out, TIFFTAG_PHOTOMETRIC,
@@ -640,7 +660,7 @@ tiffcp(TIFF* in, TIFF* out)
 				rowsperstrip =
 					TIFFDefaultStripSize(out, rowsperstrip);
 			}
-			if (rowsperstrip > length)
+			if (rowsperstrip > length && rowsperstrip != (uint32)-1)
 				rowsperstrip = length;
 		}
 		else if (rowsperstrip == (uint32) -1)
@@ -659,6 +679,12 @@ tiffcp(TIFF* in, TIFF* out)
 	case COMPRESSION_JPEG:
 		TIFFSetField(out, TIFFTAG_JPEGQUALITY, quality);
 		TIFFSetField(out, TIFFTAG_JPEGCOLORMODE, jpegcolormode);
+		break;
+	case COMPRESSION_JBIG:
+		CopyTag(TIFFTAG_FAXRECVPARAMS, 1, TIFF_LONG);
+		CopyTag(TIFFTAG_FAXRECVTIME, 1, TIFF_LONG);
+		CopyTag(TIFFTAG_FAXSUBADDRESS, 1, TIFF_ASCII);
+		CopyTag(TIFFTAG_FAXDCS, 1, TIFF_ASCII);
 		break;
 	case COMPRESSION_LZW:
 	case COMPRESSION_ADOBE_DEFLATE:
@@ -712,12 +738,19 @@ tiffcp(TIFF* in, TIFF* out)
 	}
 	{
 	  unsigned short pg0, pg1;
-	  if (TIFFGetField(in, TIFFTAG_PAGENUMBER, &pg0, &pg1)) {
-		if (pageNum < 0) /* only one input file */
+	  if(pageInSeq == 1) {
+	  	if (pageNum < 0) /* only one input file */ {
+		  if (TIFFGetField(in, TIFFTAG_PAGENUMBER, &pg0, &pg1)) 
 			TIFFSetField(out, TIFFTAG_PAGENUMBER, pg0, pg1);
-		else 
+		} else
 			TIFFSetField(out, TIFFTAG_PAGENUMBER, pageNum++, 0);
-	  }
+	  } else
+		  if (TIFFGetField(in, TIFFTAG_PAGENUMBER, &pg0, &pg1)) {
+			if (pageNum < 0) /* only one input file */
+				TIFFSetField(out, TIFFTAG_PAGENUMBER, pg0, pg1);
+			else 
+				TIFFSetField(out, TIFFTAG_PAGENUMBER, pageNum++, 0);
+		  }
 	}
 
 	for (p = tags; p < &tags[NTAGS]; p++)
@@ -1328,7 +1361,7 @@ DECLAREwriteFunc(writeBufferToContigStrips)
 		tsize_t stripsize = TIFFVStripSize(out, nrows);
 		if (TIFFWriteEncodedStrip(out, strip++, buf, stripsize) < 0) {
 			TIFFError(TIFFFileName(out),
-				  "Error, can't write strip %lu", strip - 1);
+				  "Error, can't write strip %u", strip - 1);
 			return 0;
 		}
 		buf += stripsize;
@@ -1359,7 +1392,7 @@ DECLAREwriteFunc(writeBufferToSeparateStrips)
 			    nrows, imagewidth, 0, 0, spp, 1);
 			if (TIFFWriteEncodedStrip(out, strip++, obuf, stripsize) < 0) {
 				TIFFError(TIFFFileName(out),
-					  "Error, can't write strip %lu",
+					  "Error, can't write strip %u",
 					  strip - 1);
 				_TIFFfree(obuf);
 				return 0;
@@ -1728,3 +1761,10 @@ pickCopyFunc(TIFF* in, TIFF* out, uint16 bitspersample, uint16 samplesperpixel)
 }
 
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

@@ -1,4 +1,4 @@
-/* $Id: short_tag.c,v 1.6 2006/03/23 14:54:02 dron Exp $ */
+/* $Id: short_tag.c,v 1.6.2.2 2010-06-10 22:52:45 bfriesen Exp $ */
 
 /*
  * Copyright (c) 2004, Andrey Kiselev  <dron@ak4719.spb.edu>
@@ -39,6 +39,7 @@
 
 #include "tiffio.h"
 
+extern int CheckLongField(TIFF *, ttag_t, uint32);
 extern int CheckShortField(TIFF *, ttag_t, uint16);
 
 const char	*filename = "short_test.tiff";
@@ -177,3 +178,10 @@ failure:
 }
 
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

@@ -240,7 +240,7 @@ PackBitsDecode(TIFF* tif, tidata_t op, tsize_t occ, tsample_t s)
                         if( occ < n )
                         {
 							TIFFWarningExt(tif->tif_clientdata, tif->tif_name,
-                                        "PackBitsDecode: discarding %d bytes "
+                                        "PackBitsDecode: discarding %ld bytes "
                                         "to avoid buffer overrun",
                                         n - occ);
                             n = occ;
@@ -253,7 +253,7 @@ PackBitsDecode(TIFF* tif, tidata_t op, tsize_t occ, tsample_t s)
 			if (occ < n + 1)
                         {
                             TIFFWarningExt(tif->tif_clientdata, tif->tif_name,
-                                        "PackBitsDecode: discarding %d bytes "
+                                        "PackBitsDecode: discarding %ld bytes "
                                         "to avoid buffer overrun",
                                         n - occ + 1);
                             n = occ - 1;
@@ -291,3 +291,10 @@ TIFFInitPackBits(TIFF* tif, int scheme)
 #endif /* PACKBITS_SUPPORT */
 
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

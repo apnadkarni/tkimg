@@ -25,12 +25,12 @@
 #include "tif_config.h"
 
 #define TIFFTCL_MAJOR_VERSION	3
-#define TIFFTCL_MINOR_VERSION	8
+#define TIFFTCL_MINOR_VERSION	9
 #define TIFFTCL_RELEASE_LEVEL	TCL_RELEASE
-#define TIFFTCL_RELEASE_SERIAL	2
+#define TIFFTCL_RELEASE_SERIAL	4
 
-#define TIFFTCL_VERSION		"3.8.2"
-#define TIFFTCL_PATCH_LEVEL	"3.8.2"
+#define TIFFTCL_VERSION		"3.9.4"
+#define TIFFTCL_PATCH_LEVEL	"3.9.4"
 
 /*
  * Used to block the rest of this header file from resource compilers so

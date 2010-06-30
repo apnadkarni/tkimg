@@ -204,7 +204,7 @@ initImage(void)
         if (photo != (uint16) -1)
                 TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, photo);
         if (!TIFFRGBAImageBegin(&img, tif, stoponerr, title)) {
-                TIFFError(filelist[fileindex], title);
+                TIFFError(filelist[fileindex], "%s", title);
                 TIFFClose(tif);
                 tif = NULL;
                 return -1;
@@ -453,3 +453,10 @@ photoArg(const char* arg)
 }
 
 /* vim: set ts=8 sts=8 sw=8 noet: */
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */

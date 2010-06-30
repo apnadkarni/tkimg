@@ -385,7 +385,7 @@ int main(int argc, char *argv[])
 
   if( argc < 2 )
     {
-      printf(usage);
+      printf("%s\n", usage);
 	    return 1;
     }
 
@@ -444,7 +444,7 @@ int main(int argc, char *argv[])
       }
     else
       {
-        printf(usage);
+        printf("%s\n", usage);
 	      return 1;
       }
   }
@@ -932,3 +932,10 @@ byebye:
 
   return 0;
 }
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 8
+ * fill-column: 78
+ * End:
+ */
