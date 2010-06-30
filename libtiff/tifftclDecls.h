@@ -275,7 +275,7 @@ EXTERN int		TIFFPredictorInit(TIFF *tiffptr);
 EXTERN void		_TIFFSetupFieldInfo(TIFF *tiffptr,
 				const TIFFFieldInfo a[], size_t b);
 /* 111 */
-EXTERN void		TIFFMergeFieldInfo(TIFF *tiffptr,
+EXTERN int		_TIFFMergeFieldInfo(TIFF *tiffptr,
 				const TIFFFieldInfo *a, int b);
 /* 112 */
 EXTERN void		_TIFFPrintFieldInfo(TIFF *tiffptr, FILE *a);
@@ -487,32 +487,32 @@ typedef struct TifftclStubs {
     void (*tIFFSwabArrayOfDouble) (double *a, unsigned long b); /* 91 */
     void (*tIFFReverseBits) (unsigned char *a, unsigned long b); /* 92 */
     const unsigned char * (*tIFFGetBitRevTable) (int a); /* 93 */
-    void *reserved94;
-    void *reserved95;
-    void *reserved96;
-    void *reserved97;
-    void *reserved98;
-    void *reserved99;
+    void (*reserved94)(void);
+    void (*reserved95)(void);
+    void (*reserved96)(void);
+    void (*reserved97)(void);
+    void (*reserved98)(void);
+    void (*reserved99)(void);
     int (*tIFFPredictorInit) (TIFF *tiffptr); /* 100 */
-    void *reserved101;
-    void *reserved102;
-    void *reserved103;
-    void *reserved104;
-    void *reserved105;
-    void *reserved106;
-    void *reserved107;
-    void *reserved108;
-    void *reserved109;
+    void (*reserved101)(void);
+    void (*reserved102)(void);
+    void (*reserved103)(void);
+    void (*reserved104)(void);
+    void (*reserved105)(void);
+    void (*reserved106)(void);
+    void (*reserved107)(void);
+    void (*reserved108)(void);
+    void (*reserved109)(void);
     void (*_TIFFSetupFieldInfoPtr) (TIFF *tiffptr, const TIFFFieldInfo a[], size_t b); /* 110 */
-    void (*tIFFMergeFieldInfo) (TIFF *tiffptr, const TIFFFieldInfo *a, int b); /* 111 */
+    int (*_TIFFMergeFieldInfoPtr) (TIFF *tiffptr, const TIFFFieldInfo *a, int b); /* 111 */
     void (*_TIFFPrintFieldInfoPtr) (TIFF *tiffptr, FILE *a); /* 112 */
     const TIFFFieldInfo * (*tIFFFindFieldInfo) (TIFF *tiffptr, ttag_t a, TIFFDataType b); /* 113 */
     const TIFFFieldInfo * (*tIFFFieldWithTag) (TIFF *tiffptr, ttag_t a); /* 114 */
     TIFFDataType (*_TIFFSampleToTagTypePtr) (TIFF *tiffptr); /* 115 */
-    void *reserved116;
-    void *reserved117;
-    void *reserved118;
-    void *reserved119;
+    void (*reserved116)(void);
+    void (*reserved117)(void);
+    void (*reserved118)(void);
+    void (*reserved119)(void);
     int (*_TIFFgetModePtr) (const char *a, const char *b); /* 120 */
     int (*_TIFFNoRowEncodePtr) (TIFF *tiffptr, tidata_t a, tsize_t b, tsample_t c); /* 121 */
     int (*_TIFFNoStripEncodePtr) (TIFF *tiffptr, tidata_t c, tsize_t b, tsample_t a); /* 122 */
@@ -558,22 +558,15 @@ typedef struct TifftclStubs {
     int (*tIFFInitSGILog) (TIFF *tiffptr, int a); /* 162 */
 } TifftclStubs;
 
-/*
- * Used to tag functions that are only to be visible within the module being
- * built and not outside it (where this is supported by the linker).
- */
-
-#ifndef MODULE_SCOPE
-#   ifdef __cplusplus
-#	define MODULE_SCOPE extern "C"
-#   else
-#	define MODULE_SCOPE extern
-#   endif
+#ifdef __cplusplus
+extern "C" {
+#endif
+EXTERN const TifftclStubs *tifftclStubsPtr;
+#ifdef __cplusplus
+}
 #endif
 
-MODULE_SCOPE const TifftclStubs *tifftclStubsPtr;
-
-#if defined(USE_TIFFTCL_STUBS) && !defined(USE_TIFFTCL_STUB_PROCS)
+#if defined(USE_TIFFTCL_STUBS)
 
 /*
  * Inline function declarations:
@@ -978,9 +971,9 @@ MODULE_SCOPE const TifftclStubs *tifftclStubsPtr;
 #define _TIFFSetupFieldInfo \
 	(tifftclStubsPtr->_TIFFSetupFieldInfoPtr) /* 110 */
 #endif
-#ifndef TIFFMergeFieldInfo
-#define TIFFMergeFieldInfo \
-	(tifftclStubsPtr->tIFFMergeFieldInfo) /* 111 */
+#ifndef _TIFFMergeFieldInfo
+#define _TIFFMergeFieldInfo \
+	(tifftclStubsPtr->_TIFFMergeFieldInfoPtr) /* 111 */
 #endif
 #ifndef _TIFFPrintFieldInfo
 #define _TIFFPrintFieldInfo \
@@ -1175,7 +1168,7 @@ MODULE_SCOPE const TifftclStubs *tifftclStubsPtr;
 	(tifftclStubsPtr->tIFFInitSGILog) /* 162 */
 #endif
 
-#endif /* defined(USE_TIFFTCL_STUBS) && !defined(USE_TIFFTCL_STUB_PROCS) */
+#endif /* defined(USE_TIFFTCL_STUBS) */
 
 /* !END!: Do not edit above this line. */
 

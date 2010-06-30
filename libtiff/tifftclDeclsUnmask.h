@@ -96,7 +96,7 @@
 #undef TIFFGetBitRevTable
 #undef TIFFPredictorInit
 #undef _TIFFSetupFieldInfo
-#undef TIFFMergeFieldInfo
+#undef _TIFFMergeFieldInfo
 #undef _TIFFPrintFieldInfo
 #undef TIFFFindFieldInfo
 #undef TIFFFieldWithTag

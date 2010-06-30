@@ -19,7 +19,7 @@
 
 const TifftclStubs tifftclStubs = {
     TCL_STUB_MAGIC,
-    NULL,
+    0,
     TIFFGetVersion, /* 0 */
     TIFFFindCODEC, /* 1 */
     TIFFRegisterCODEC, /* 2 */
@@ -114,32 +114,32 @@ const TifftclStubs tifftclStubs = {
     TIFFSwabArrayOfDouble, /* 91 */
     TIFFReverseBits, /* 92 */
     TIFFGetBitRevTable, /* 93 */
-    NULL, /* 94 */
-    NULL, /* 95 */
-    NULL, /* 96 */
-    NULL, /* 97 */
-    NULL, /* 98 */
-    NULL, /* 99 */
+    0, /* 94 */
+    0, /* 95 */
+    0, /* 96 */
+    0, /* 97 */
+    0, /* 98 */
+    0, /* 99 */
     TIFFPredictorInit, /* 100 */
-    NULL, /* 101 */
-    NULL, /* 102 */
-    NULL, /* 103 */
-    NULL, /* 104 */
-    NULL, /* 105 */
-    NULL, /* 106 */
-    NULL, /* 107 */
-    NULL, /* 108 */
-    NULL, /* 109 */
+    0, /* 101 */
+    0, /* 102 */
+    0, /* 103 */
+    0, /* 104 */
+    0, /* 105 */
+    0, /* 106 */
+    0, /* 107 */
+    0, /* 108 */
+    0, /* 109 */
     _TIFFSetupFieldInfo, /* 110 */
-    TIFFMergeFieldInfo, /* 111 */
+    _TIFFMergeFieldInfo, /* 111 */
     _TIFFPrintFieldInfo, /* 112 */
     TIFFFindFieldInfo, /* 113 */
     TIFFFieldWithTag, /* 114 */
     _TIFFSampleToTagType, /* 115 */
-    NULL, /* 116 */
-    NULL, /* 117 */
-    NULL, /* 118 */
-    NULL, /* 119 */
+    0, /* 116 */
+    0, /* 117 */
+    0, /* 118 */
+    0, /* 119 */
     _TIFFgetMode, /* 120 */
     _TIFFNoRowEncode, /* 121 */
     _TIFFNoStripEncode, /* 122 */
@@ -170,72 +170,72 @@ const TifftclStubs tifftclStubs = {
     _TIFFprintAsciiTag, /* 147 */
     TIFFInitDumpMode, /* 148 */
 #if !defined(PACKBITS_SUPPORT)
-    NULL, /* 149 */
+    0, /* 149 */
 #else  /* !PACKBITS_SUPPORT */
     TIFFInitPackBits, /* 149 */
 #endif /* !PACKBITS_SUPPORT */
 #if !defined(CCITT_SUPPORT)
-    NULL, /* 150 */
+    0, /* 150 */
 #else  /* !CCITT_SUPPORT */
     TIFFInitCCITTRLE, /* 150 */
 #endif /* !CCITT_SUPPORT */
 #if !defined(CCITT_SUPPORT)
-    NULL, /* 151 */
+    0, /* 151 */
 #else  /* !CCITT_SUPPORT */
     TIFFInitCCITTRLEW, /* 151 */
 #endif /* !CCITT_SUPPORT */
 #if !defined(CCITT_SUPPORT)
-    NULL, /* 152 */
+    0, /* 152 */
 #else  /* !CCITT_SUPPORT */
     TIFFInitCCITTFax3, /* 152 */
 #endif /* !CCITT_SUPPORT */
 #if !defined(CCITT_SUPPORT)
-    NULL, /* 153 */
+    0, /* 153 */
 #else  /* !CCITT_SUPPORT */
     TIFFInitCCITTFax4, /* 153 */
 #endif /* !CCITT_SUPPORT */
 #if !defined(THUNDER_SUPPORT)
-    NULL, /* 154 */
+    0, /* 154 */
 #else  /* !THUNDER_SUPPORT */
     TIFFInitThunderScan, /* 154 */
 #endif /* !THUNDER_SUPPORT */
 #if !defined(NEXT_SUPPORT)
-    NULL, /* 155 */
+    0, /* 155 */
 #else  /* !NEXT_SUPPORT */
     TIFFInitNeXT, /* 155 */
 #endif /* !NEXT_SUPPORT */
 #if !defined(LZW_SUPPORT)
-    NULL, /* 156 */
+    0, /* 156 */
 #else  /* !LZW_SUPPORT */
     TIFFInitLZW, /* 156 */
 #endif /* !LZW_SUPPORT */
 #if !defined(OJPEG_SUPPORT)
-    NULL, /* 157 */
+    0, /* 157 */
 #else  /* !OJPEG_SUPPORT */
     TIFFInitOJPEG, /* 157 */
 #endif /* !OJPEG_SUPPORT */
 #if !defined(JPEG_SUPPORT)
-    NULL, /* 158 */
+    0, /* 158 */
 #else  /* !JPEG_SUPPORT */
     TIFFInitJPEG, /* 158 */
 #endif /* !JPEG_SUPPORT */
 #if !defined(JBIG_SUPPORT)
-    NULL, /* 159 */
+    0, /* 159 */
 #else  /* !JBIG_SUPPORT */
     TIFFInitJBIG, /* 159 */
 #endif /* !JBIG_SUPPORT */
 #if !defined(ZIP_SUPPORT)
-    NULL, /* 160 */
+    0, /* 160 */
 #else  /* !ZIP_SUPPORT */
     TIFFInitZIP, /* 160 */
 #endif /* !ZIP_SUPPORT */
 #if !defined(PIXARLOG_SUPPORT)
-    NULL, /* 161 */
+    0, /* 161 */
 #else  /* !PIXARLOG_SUPPORT */
     TIFFInitPixarLog, /* 161 */
 #endif /* !PIXARLOG_SUPPORT */
 #if !defined(LOGLUV_SUPPORT)
-    NULL, /* 162 */
+    0, /* 162 */
 #else  /* !LOGLUV_SUPPORT */
     TIFFInitSGILog, /* 162 */
 #endif /* !LOGLUV_SUPPORT */

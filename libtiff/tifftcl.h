@@ -22,7 +22,6 @@
 #define __TIFFTCL_H__
 
 #include <tcl.h>
-#include "tif_config.h"
 
 #define TIFFTCL_MAJOR_VERSION	3
 #define TIFFTCL_MINOR_VERSION	9

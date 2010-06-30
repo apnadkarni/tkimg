@@ -322,7 +322,7 @@ declare 110 generic {
     void _TIFFSetupFieldInfo(TIFF *tiffptr, const TIFFFieldInfo a[], size_t b)
 }
 declare 111 generic {
-    void TIFFMergeFieldInfo(TIFF *tiffptr, const TIFFFieldInfo *a, int b)
+    int _TIFFMergeFieldInfo(TIFF *tiffptr, const TIFFFieldInfo *a, int b)
 }
 declare 112 generic {
     void _TIFFPrintFieldInfo(TIFF *tiffptr, FILE *a)

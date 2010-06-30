@@ -103,7 +103,7 @@
 #define TIFFGetBitRevTable	__mask_TIFFGetBitRevTable
 #define TIFFPredictorInit	__mask_TIFFPredictorInit
 #define _TIFFSetupFieldInfo	__mask__TIFFSetupFieldInfo
-#define TIFFMergeFieldInfo	__mask__TIFFMergeFieldInfo
+#define _TIFFMergeFieldInfo	__mask__TIFFMergeFieldInfo
 #define _TIFFPrintFieldInfo	__mask__TIFFPrintFieldInfo
 #define TIFFFindFieldInfo	__mask__TIFFFindFieldInfo
 #define TIFFFieldWithTag	__mask__TIFFFieldWithTag

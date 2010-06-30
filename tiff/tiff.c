@@ -29,6 +29,8 @@ static int SetupTiffLibrary(Tcl_Interp *interp);
 #define MORE_INITIALIZATION \
     if (SetupTiffLibrary (interp) != TCL_OK) { return TCL_ERROR; }
 
+#undef PACKAGE_VERSION
+#define PACKAGE_VERSION "1.4"
 #include "init.c"
 
 #include "tiffInt.h"
