@@ -165,52 +165,30 @@ TKIMGAPI const TkimgStubs *tkimgStubsPtr;
  * Inline function declarations:
  */
 
-#ifndef tkimg_OpenFileChannel
 #define tkimg_OpenFileChannel \
 	(tkimgStubsPtr->tkimg_OpenFileChannelPtr) /* 0 */
-#endif
-#ifndef tkimg_ReadInit
 #define tkimg_ReadInit \
 	(tkimgStubsPtr->tkimg_ReadInitPtr) /* 1 */
-#endif
-#ifndef tkimg_WriteInit
 #define tkimg_WriteInit \
 	(tkimgStubsPtr->tkimg_WriteInitPtr) /* 2 */
-#endif
-#ifndef tkimg_Getc
 #define tkimg_Getc \
 	(tkimgStubsPtr->tkimg_GetcPtr) /* 3 */
-#endif
-#ifndef tkimg_Read
 #define tkimg_Read \
 	(tkimgStubsPtr->tkimg_ReadPtr) /* 4 */
-#endif
-#ifndef tkimg_Putc
 #define tkimg_Putc \
 	(tkimgStubsPtr->tkimg_PutcPtr) /* 5 */
-#endif
-#ifndef tkimg_Write
 #define tkimg_Write \
 	(tkimgStubsPtr->tkimg_WritePtr) /* 6 */
-#endif
-#ifndef tkimg_ReadBuffer
 #define tkimg_ReadBuffer \
 	(tkimgStubsPtr->tkimg_ReadBufferPtr) /* 7 */
-#endif
 /* Slot 8 is reserved */
 /* Slot 9 is reserved */
-#ifndef tkimg_PhotoPutBlock
 #define tkimg_PhotoPutBlock \
 	(tkimgStubsPtr->tkimg_PhotoPutBlockPtr) /* 10 */
-#endif
-#ifndef tkimg_PhotoExpand
 #define tkimg_PhotoExpand \
 	(tkimgStubsPtr->tkimg_PhotoExpandPtr) /* 11 */
-#endif
-#ifndef tkimg_PhotoSetSize
 #define tkimg_PhotoSetSize \
 	(tkimgStubsPtr->tkimg_PhotoSetSizePtr) /* 12 */
-#endif
 /* Slot 13 is reserved */
 /* Slot 14 is reserved */
 /* Slot 15 is reserved */
@@ -218,18 +196,12 @@ TKIMGAPI const TkimgStubs *tkimgStubsPtr;
 /* Slot 17 is reserved */
 /* Slot 18 is reserved */
 /* Slot 19 is reserved */
-#ifndef tkimg_FixChanMatchProc
 #define tkimg_FixChanMatchProc \
 	(tkimgStubsPtr->tkimg_FixChanMatchProcPtr) /* 20 */
-#endif
-#ifndef tkimg_FixObjMatchProc
 #define tkimg_FixObjMatchProc \
 	(tkimgStubsPtr->tkimg_FixObjMatchProcPtr) /* 21 */
-#endif
-#ifndef tkimg_FixStringWriteProc
 #define tkimg_FixStringWriteProc \
 	(tkimgStubsPtr->tkimg_FixStringWriteProcPtr) /* 22 */
-#endif
 /* Slot 23 is reserved */
 /* Slot 24 is reserved */
 /* Slot 25 is reserved */
@@ -237,18 +209,12 @@ TKIMGAPI const TkimgStubs *tkimgStubsPtr;
 /* Slot 27 is reserved */
 /* Slot 28 is reserved */
 /* Slot 29 is reserved */
-#ifndef tkimg_GetStringFromObj
 #define tkimg_GetStringFromObj \
 	(tkimgStubsPtr->tkimg_GetStringFromObjPtr) /* 30 */
-#endif
-#ifndef tkimg_GetByteArrayFromObj
 #define tkimg_GetByteArrayFromObj \
 	(tkimgStubsPtr->tkimg_GetByteArrayFromObjPtr) /* 31 */
-#endif
-#ifndef tkimg_ListObjGetElements
 #define tkimg_ListObjGetElements \
 	(tkimgStubsPtr->tkimg_ListObjGetElementsPtr) /* 32 */
-#endif
 
 #endif /* defined(USE_TKIMG_STUBS) */
 

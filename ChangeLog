@@ -1,3 +1,8 @@
+2010-07-06  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* genStubs.tcl: "generic" argument is no longer necessary when
+	there are no suppressors.
+
 2010-06-30  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* upgrade to libtiff 3.9.4

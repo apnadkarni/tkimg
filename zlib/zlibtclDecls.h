@@ -203,170 +203,92 @@ ZEXTERN const ZlibtclStubs *zlibtclStubsPtr;
  * Inline function declarations:
  */
 
-#ifndef zlibVersion
 #define zlibVersion \
 	(zlibtclStubsPtr->zlibVersionPtr) /* 0 */
-#endif
-#ifndef zError
 #define zError \
 	(zlibtclStubsPtr->zErrorPtr) /* 1 */
-#endif
-#ifndef crc32
 #define crc32 \
 	(zlibtclStubsPtr->crc32Ptr) /* 2 */
-#endif
-#ifndef adler32
 #define adler32 \
 	(zlibtclStubsPtr->adler32Ptr) /* 3 */
-#endif
 /* Slot 4 is reserved */
 /* Slot 5 is reserved */
 /* Slot 6 is reserved */
 /* Slot 7 is reserved */
 /* Slot 8 is reserved */
 /* Slot 9 is reserved */
-#ifndef deflateInit_
 #define deflateInit_ \
 	(zlibtclStubsPtr->deflateInit_Ptr) /* 10 */
-#endif
-#ifndef deflateInit2_
 #define deflateInit2_ \
 	(zlibtclStubsPtr->deflateInit2_Ptr) /* 11 */
-#endif
-#ifndef deflate
 #define deflate \
 	(zlibtclStubsPtr->deflatePtr) /* 12 */
-#endif
-#ifndef deflateEnd
 #define deflateEnd \
 	(zlibtclStubsPtr->deflateEndPtr) /* 13 */
-#endif
-#ifndef deflateSetDictionary
 #define deflateSetDictionary \
 	(zlibtclStubsPtr->deflateSetDictionaryPtr) /* 14 */
-#endif
-#ifndef deflateCopy
 #define deflateCopy \
 	(zlibtclStubsPtr->deflateCopyPtr) /* 15 */
-#endif
-#ifndef deflateReset
 #define deflateReset \
 	(zlibtclStubsPtr->deflateResetPtr) /* 16 */
-#endif
-#ifndef deflateParams
 #define deflateParams \
 	(zlibtclStubsPtr->deflateParamsPtr) /* 17 */
-#endif
-#ifndef compress
 #define compress \
 	(zlibtclStubsPtr->compressPtr) /* 18 */
-#endif
-#ifndef compress2
 #define compress2 \
 	(zlibtclStubsPtr->compress2Ptr) /* 19 */
-#endif
-#ifndef inflateInit_
 #define inflateInit_ \
 	(zlibtclStubsPtr->inflateInit_Ptr) /* 20 */
-#endif
-#ifndef inflateInit2_
 #define inflateInit2_ \
 	(zlibtclStubsPtr->inflateInit2_Ptr) /* 21 */
-#endif
-#ifndef inflate
 #define inflate \
 	(zlibtclStubsPtr->inflatePtr) /* 22 */
-#endif
-#ifndef inflateEnd
 #define inflateEnd \
 	(zlibtclStubsPtr->inflateEndPtr) /* 23 */
-#endif
-#ifndef inflateSetDictionary
 #define inflateSetDictionary \
 	(zlibtclStubsPtr->inflateSetDictionaryPtr) /* 24 */
-#endif
-#ifndef inflateSync
 #define inflateSync \
 	(zlibtclStubsPtr->inflateSyncPtr) /* 25 */
-#endif
-#ifndef inflateReset
 #define inflateReset \
 	(zlibtclStubsPtr->inflateResetPtr) /* 26 */
-#endif
-#ifndef uncompress
 #define uncompress \
 	(zlibtclStubsPtr->uncompressPtr) /* 27 */
-#endif
 /* Slot 28 is reserved */
 /* Slot 29 is reserved */
-#ifndef gzopen
 #define gzopen \
 	(zlibtclStubsPtr->gzopenPtr) /* 30 */
-#endif
-#ifndef gzdopen
 #define gzdopen \
 	(zlibtclStubsPtr->gzdopenPtr) /* 31 */
-#endif
-#ifndef gzsetparams
 #define gzsetparams \
 	(zlibtclStubsPtr->gzsetparamsPtr) /* 32 */
-#endif
-#ifndef gzread
 #define gzread \
 	(zlibtclStubsPtr->gzreadPtr) /* 33 */
-#endif
-#ifndef gzwrite
 #define gzwrite \
 	(zlibtclStubsPtr->gzwritePtr) /* 34 */
-#endif
-#ifndef gzprintf
 #define gzprintf \
 	(zlibtclStubsPtr->gzprintfPtr) /* 35 */
-#endif
-#ifndef gzputs
 #define gzputs \
 	(zlibtclStubsPtr->gzputsPtr) /* 36 */
-#endif
-#ifndef gzgets
 #define gzgets \
 	(zlibtclStubsPtr->gzgetsPtr) /* 37 */
-#endif
-#ifndef gzputc
 #define gzputc \
 	(zlibtclStubsPtr->gzputcPtr) /* 38 */
-#endif
-#ifndef gzgetc
 #define gzgetc \
 	(zlibtclStubsPtr->gzgetcPtr) /* 39 */
-#endif
-#ifndef gzflush
 #define gzflush \
 	(zlibtclStubsPtr->gzflushPtr) /* 40 */
-#endif
-#ifndef gzseek
 #define gzseek \
 	(zlibtclStubsPtr->gzseekPtr) /* 41 */
-#endif
-#ifndef gzrewind
 #define gzrewind \
 	(zlibtclStubsPtr->gzrewindPtr) /* 42 */
-#endif
-#ifndef gztell
 #define gztell \
 	(zlibtclStubsPtr->gztellPtr) /* 43 */
-#endif
-#ifndef gzeof
 #define gzeof \
 	(zlibtclStubsPtr->gzeofPtr) /* 44 */
-#endif
-#ifndef gzclose
 #define gzclose \
 	(zlibtclStubsPtr->gzclosePtr) /* 45 */
-#endif
-#ifndef gzerror
 #define gzerror \
 	(zlibtclStubsPtr->gzerrorPtr) /* 46 */
-#endif
 
 #endif /* defined(USE_ZLIBTCL_STUBS) */
 

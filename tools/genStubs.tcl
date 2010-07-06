@@ -38,7 +38,7 @@ namespace eval genStubs {
     # scspec --
     #
     #	Storage class specifier for external function declarations.
-    #	Normally "extern", may be set to something like XYZAPI
+    #	Normally "EXTERN", may be set to something like XYZAPI
     #
     variable scspec "EXTERN"
 
@@ -174,14 +174,17 @@ proc genStubs::declare {args} {
     variable revision
 
     incr revision
-    if {[llength $args] != 3 && [llength $args] != 4} {
-	puts stderr "wrong # args: declare $args"
-    }
-    if {[llength $args] == 3} {
+    set supressorList {}
+    if {[llength $args] == 2} {
+	lassign $args index decl
+	set platformList generic
+    } elseif {[llength $args] == 3} {
 	lassign $args index platformList decl
-	set supressorList {}
-    } else {
+    } elseif {[llength $args] == 4} {
 	lassign $args index platformList supressorList decl
+    } else {
+	puts stderr "wrong # args: declare $args"
+	return
     }
 
     # Check for duplicate declarations, then add the declaration and
@@ -223,8 +226,6 @@ proc genStubs::export {args} {
     if {[llength $args] != 1} {
 	puts stderr "wrong # args: export $args"
     }
-    lassign $args decl
-
     return
 }
 
@@ -526,10 +527,7 @@ proc genStubs::makeDecl {name decl index} {
 	    append line ")"
 	}
     }
-    append text $line
-    
-    append text ";\n"
-    return $text
+    return "$text$line;\n"
 }
 
 # genStubs::makeMacro --
@@ -554,14 +552,12 @@ proc genStubs::makeMacro {name decl index} {
 	append lfname Ptr
     }
 
-    set text "#ifndef $fname\n#define $fname"
+    set text "#define $fname \\\n\t("
     if {$args eq "" || [string index $args end] eq "]"} {
-	append text " \\\n\t(*${name}StubsPtr->$lfname)"
-	append text " /* $index */\n#endif\n"
-	return $text
+	append text "*"
     }
-    append text " \\\n\t(${name}StubsPtr->$lfname)"
-    append text " /* $index */\n#endif\n"
+    append text "${name}StubsPtr->$lfname)"
+    append text " /* $index */\n"
     return $text
 }
 
@@ -1044,9 +1040,9 @@ proc genStubs::emitHeader {name} {
 
     emitSlots $name text
 
-    append text "} ${capName}Stubs;\n"
+    append text "} ${capName}Stubs;\n\n"
 
-    append text "\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n"
+    append text "#ifdef __cplusplus\nextern \"C\" {\n#endif\n"
     append text "$scspec const ${capName}Stubs *${name}StubsPtr;\n"
     append text "#ifdef __cplusplus\n}\n#endif\n"
 
