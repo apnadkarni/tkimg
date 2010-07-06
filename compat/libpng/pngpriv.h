@@ -35,7 +35,9 @@
  * some of these will be made available again.
 #define PNG_EXTERN extern
  */
+#ifndef PNG_EXTERN
 #define PNG_EXTERN
+#endif
 
 /* Other defines specific to compilers can go here.  Try to keep
  * them inside an appropriate ifdef/endif pair for portability.
@@ -672,7 +674,7 @@ PNG_EXTERN void png_handle_hIST PNGARG((png_structp png_ptr, png_infop info_ptr,
 #endif
 
 #ifdef PNG_READ_iCCP_SUPPORTED
-extern void png_handle_iCCP PNGARG((png_structp png_ptr, png_infop info_ptr,
+PNG_EXTERN void png_handle_iCCP PNGARG((png_structp png_ptr, png_infop info_ptr,
    png_uint_32 length));
 #endif /* PNG_READ_iCCP_SUPPORTED */
 
@@ -707,7 +709,7 @@ PNG_EXTERN void png_handle_sCAL PNGARG((png_structp png_ptr, png_infop info_ptr,
 #endif
 
 #ifdef PNG_READ_sPLT_SUPPORTED
-extern void png_handle_sPLT PNGARG((png_structp png_ptr, png_infop info_ptr,
+PNG_EXTERN void png_handle_sPLT PNGARG((png_structp png_ptr, png_infop info_ptr,
    png_uint_32 length));
 #endif /* PNG_READ_sPLT_SUPPORTED */
 
@@ -828,14 +830,14 @@ PNG_EXTERN void png_check_IHDR PNGARG((png_structp png_ptr,
    int filter_type));
 
 /* Free all memory used by the read (old method - NOT DLL EXPORTED) */
-extern void png_read_destroy PNGARG((png_structp png_ptr, png_infop info_ptr,
+PNG_EXTERN void png_read_destroy PNGARG((png_structp png_ptr, png_infop info_ptr,
    png_infop end_info_ptr));
 
 /* Free any memory used in png_ptr struct (old method - NOT DLL EXPORTED) */
-extern void png_write_destroy PNGARG((png_structp png_ptr));
+PNG_EXTERN void png_write_destroy PNGARG((png_structp png_ptr));
 
 #ifdef USE_FAR_KEYWORD  /* memory model conversion function */
-extern void *png_far_to_near PNGARG((png_structp png_ptr,png_voidp ptr,
+PNG_EXTERN void *png_far_to_near PNGARG((png_structp png_ptr,png_voidp ptr,
    int check));
 #endif /* USE_FAR_KEYWORD */
 

@@ -2,6 +2,8 @@
 
 	* genStubs.tcl: "generic" argument is no longer necessary when
 	there are no suppressors.
+	* [tkimg-Bugs-3011001] Only support accessing tkImg
+	procs through stub table implemented for libpng
 
 2010-06-30  Jan Nijtmans <nijtmans@users.sourceforge.net>
 

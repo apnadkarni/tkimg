@@ -21,7 +21,7 @@
 #ifndef __PNGTCL_H__
 #define __PNGTCL_H__
 
-#include "tcl.h"
+#include <tcl.h>
 
 #define PNGTCL_MAJOR_VERSION	1
 #define PNGTCL_MINOR_VERSION	4
