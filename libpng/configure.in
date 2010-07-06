@@ -74,7 +74,6 @@ TEA_ADD_SOURCES([
 ])
 
 TEA_ADD_HEADERS([pngtcl.h pngtclDecls.h])
-TEA_ADD_HEADERS([pngtclDeclsMask.h pngtclDeclsUnmask.h])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${zlibtcl_SRC_PATH}`\"])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${zlibtcl_BUILD_PATH}`\"])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}`\"])

@@ -97,7 +97,6 @@ TEA_ADD_SOURCES([
 ])
 
 TEA_ADD_HEADERS([tifftcl.h tifftclDecls.h])
-TEA_ADD_HEADERS([tifftclDeclsMask.h tifftclDeclsUnmask.h])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}`\"])
 TEA_ADD_INCLUDES([-I\"./libtiff\"])
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}/../compat/libtiff/libtiff`\"])

@@ -21,7 +21,7 @@
 #ifndef __ZLIBTCL_H__
 #define __ZLIBTCL_H__
 
-#include "tcl.h"
+#include <tcl.h>
 
 #define ZLIBTCL_MAJOR_VERSION	1
 #define ZLIBTCL_MINOR_VERSION	2

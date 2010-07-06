@@ -74,7 +74,6 @@ TEA_ADD_SOURCES([
 ])
 
 TEA_ADD_HEADERS([jpegtcl.h jpegtclDecls.h])
-TEA_ADD_HEADERS([jpegtclDeclsMask.h jpegtclDeclsUnmask.h])
 
 TEA_ADD_INCLUDES([-I\"`\${CYGPATH} \${srcdir}`\"])
 TEA_ADD_INCLUDES([-I\"./libjpeg\"])
