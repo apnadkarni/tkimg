@@ -15,6 +15,19 @@
  */
 
 #include <tcl.h>
+
+#ifdef PNG_IMPEXP
+#   undef TCL_STORAGE_CLASS
+#   define TCL_STORAGE_CLASS DLLEXPORT
+#else
+#   define PNG_IMPEXP extern
+#   undef USE_PNGTCL_STUBS
+#   define USE_PNGTCL_STUBS 1
+#endif
+
+EXTERN int Tifftcl_Init(Tcl_Interp *interp);
+EXTERN int Tifftcl_SafeInit(Tcl_Interp *interp);
+
 #include "../compat/libpng/png.h"
 
 /* !BEGIN!: Do not edit below this line. */

@@ -294,5 +294,8 @@ ZEXTERN const ZlibtclStubs *zlibtclStubsPtr;
 
 /* !END!: Do not edit above this line. */
 
+#undef TCL_STORAGE_CLASS
+#define TCL_STORAGE_CLASS DLLIMPORT
+
 #endif /* _ZLIBTCLDECLS */
 

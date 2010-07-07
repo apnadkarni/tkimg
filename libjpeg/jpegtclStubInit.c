@@ -19,7 +19,7 @@
 
 const JpegtclStubs jpegtclStubs = {
     TCL_STUB_MAGIC,
-    NULL,
+    0,
     jpeg_std_error, /* 0 */
     jpeg_CreateCompress, /* 1 */
     jpeg_CreateDecompress, /* 2 */

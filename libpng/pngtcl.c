@@ -22,17 +22,6 @@
 #include "pngtcl.h"
 
 /*
- * Declarations for externally visible functions.
- */
-
-PNGTCLAPI int Pngtcl_Init(Tcl_Interp *interp);
-PNGTCLAPI int Pngtcl_SafeInit(Tcl_Interp *interp);
-
-/*
- * Prototypes for procedures defined later in this file:
- */
-
-/*
  *----------------------------------------------------------------------------
  *
  * Pngtcl_Init --
@@ -55,16 +44,12 @@ Pngtcl_Init (interp)
 {
   extern const PngtclStubs pngtclStubs;
 
-#ifdef USE_TCL_STUBS
   if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
     return TCL_ERROR;
   }
-#endif
-#ifdef USE_ZLIBTCL_STUBS
   if (Zlibtcl_InitStubs(interp, ZLIBTCL_VERSION, 1) == NULL) {
     return TCL_ERROR;
   }
-#endif
 
   if (Tcl_PkgProvideEx(interp, PACKAGE_NAME, PACKAGE_VERSION,
 		       (ClientData) &pngtclStubs) != TCL_OK) {
@@ -97,25 +82,3 @@ Pngtcl_SafeInit (interp)
 {
     return Pngtcl_Init(interp);
 }
-
-/*
- *----------------------------------------------------------------------------
- *
- * Pngtcl_XXX --
- *
- *  Wrappers around the zlib functionality.
- *
- * Results:
- *  Depends on function.
- *
- * Side effects:
- *  Depends on function.
- *
- *----------------------------------------------------------------------------
- */
-
-/*
- * No wrappers are required. Due to intelligent definition of the stub
- * table using the function names of the libz sources the stub table
- * contains jumps to the actual functionality.
- */

@@ -21,17 +21,6 @@
 #include "jpegtcl.h"
 
 /*
- * Declarations for externally visible functions.
- */
-
-extern DLLEXPORT int Jpegtcl_Init(Tcl_Interp *interp);
-extern DLLEXPORT int Jpegtcl_SafeInit(Tcl_Interp *interp);
-
-/*
- * Prototypes for procedures defined later in this file:
- */
-
-/*
  *----------------------------------------------------------------------------
  *
  * Jpegtcl_Init --
@@ -88,25 +77,3 @@ Jpegtcl_SafeInit (interp)
 {
     return Jpegtcl_Init(interp);
 }
-
-/*
- *----------------------------------------------------------------------------
- *
- * Jpegtcl_XXX --
- *
- *  Wrappers around the zlib functionality.
- *
- * Results:
- *  Depends on function.
- *
- * Side effects:
- *  Depends on function.
- *
- *----------------------------------------------------------------------------
- */
-
-/*
- * No wrappers are required. Due to intelligent definition of the stub
- * table using the function names of the libz sources the stub table
- * contains jumps to the actual functionality.
- */

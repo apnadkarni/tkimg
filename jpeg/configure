@@ -9022,10 +9022,6 @@ $as_echo "#define USE_TCL_STUBS 1" >>confdefs.h
 
 $as_echo "#define USE_TK_STUBS 1" >>confdefs.h
 
-$as_echo "#define USE_TKIMG_STUBS 1" >>confdefs.h
-
-$as_echo "#define USE_JPEGTCL_STUBS 1" >>confdefs.h
-
 
 #--------------------------------------------------------------------
 # This macro generates a line to use when building a library.  It
