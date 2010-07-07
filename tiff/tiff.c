@@ -825,12 +825,10 @@ ParseWriteFormat(interp, format, comp, mode)
 	    *comp = COMPRESSION_DEFLATE;
 	} else if ((c == 'j') && (!strncmp(compression,"jpeg",length))) {
 	    *comp = COMPRESSION_JPEG;
-	} else if ((c == 'l') && (!strncmp(compression,"logluv",length))) {
+	} else if ((c == 'l') && (length>1) && (!strncmp(compression,"logluv",length))) {
 	    *comp = COMPRESSION_SGILOG;
-/* disabled, because of patented lzw-algorithm.
 	} else if ((c == 'l') && (length>1) && (!strncmp(compression,"lzw",length))) {
 	    *comp = COMPRESSION_LZW;
-*/
 	} else if ((c == 'p') && (length>1) && (!strncmp(compression,"packbits",length))) {
 	    *comp = COMPRESSION_PACKBITS;
 	} else if ((c == 'p') && (length>1) && (!strncmp(compression,"pixarlog",length))) {
