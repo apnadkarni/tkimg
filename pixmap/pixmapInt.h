@@ -108,19 +108,6 @@ typedef struct PixmapInstance {
 } PixmapInstance;
 
 /*
- * Used to tag functions that are only to be visible within the module being
- * built and not outside it (where this is supported by the linker).
- */
-
-#ifndef MODULE_SCOPE
-#   ifdef __cplusplus
-#	define MODULE_SCOPE extern "C"
-#   else
-#	define MODULE_SCOPE extern
-#   endif
-#endif
-
-/*
  * Functions exported by the platform specific parts for use by the
  * generic part of the implementation
  */
