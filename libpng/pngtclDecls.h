@@ -159,7 +159,7 @@ PNG_IMPEXP void		png_set_background(png_structp png_ptr,
 /* 44 */
 PNG_IMPEXP void		png_set_strip_16(png_structp png_ptr);
 /* 45 */
-PNG_IMPEXP void		png_set_dither(png_structp png_ptr,
+PNG_IMPEXP void		png_set_quantize(png_structp png_ptr,
 				png_colorp palette, int num_palette,
 				int maximum_colors, png_uint_16p histogram,
 				int full_dither);
@@ -1058,7 +1058,7 @@ typedef struct PngtclStubs {
     void (*png_set_invert_monoPtr) (png_structp png_ptr); /* 42 */
     void (*png_set_backgroundPtr) (png_structp png_ptr, png_color_16p background_color, int background_gamma_code, int need_expand, double background_gamma); /* 43 */
     void (*png_set_strip_16Ptr) (png_structp png_ptr); /* 44 */
-    void (*png_set_ditherPtr) (png_structp png_ptr, png_colorp palette, int num_palette, int maximum_colors, png_uint_16p histogram, int full_dither); /* 45 */
+    void (*png_set_quantizePtr) (png_structp png_ptr, png_colorp palette, int num_palette, int maximum_colors, png_uint_16p histogram, int full_dither); /* 45 */
     void (*png_set_gammaPtr) (png_structp png_ptr, double screen_gamma, double default_file_gamma); /* 46 */
     void (*png_permit_empty_pltePtr) (png_structp png_ptr, int empty_plte_permitted); /* 47 */
     void (*png_set_flushPtr) (png_structp png_ptr, int nrows); /* 48 */
@@ -1435,8 +1435,8 @@ PNG_IMPEXP const PngtclStubs *pngtclStubsPtr;
 	(pngtclStubsPtr->png_set_backgroundPtr) /* 43 */
 #define png_set_strip_16 \
 	(pngtclStubsPtr->png_set_strip_16Ptr) /* 44 */
-#define png_set_dither \
-	(pngtclStubsPtr->png_set_ditherPtr) /* 45 */
+#define png_set_quantize \
+	(pngtclStubsPtr->png_set_quantizePtr) /* 45 */
 #define png_set_gamma \
 	(pngtclStubsPtr->png_set_gammaPtr) /* 46 */
 #define png_permit_empty_plte \

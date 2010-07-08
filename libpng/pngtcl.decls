@@ -158,7 +158,7 @@ declare 44 generic {!PNG_READ_16_TO_8_SUPPORTED} {
     void png_set_strip_16(png_structp png_ptr)
 }
 declare 45 generic {!PNG_READ_DITHER_SUPPORTED} {
-    void png_set_dither(png_structp png_ptr, png_colorp palette, int num_palette, int maximum_colors, png_uint_16p histogram, int full_dither)
+    void png_set_quantize(png_structp png_ptr, png_colorp palette, int num_palette, int maximum_colors, png_uint_16p histogram, int full_dither)
 }
 declare 46 generic {!PNG_READ_GAMMA_SUPPORTED !PNG_FLOATING_POINT_SUPPORTED} {
     void png_set_gamma(png_structp png_ptr, double screen_gamma, double default_file_gamma)

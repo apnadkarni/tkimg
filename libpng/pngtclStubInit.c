@@ -163,7 +163,7 @@ const PngtclStubs pngtclStubs = {
 #if !defined(PNG_READ_DITHER_SUPPORTED)
     0, /* 45 */
 #else  /* !PNG_READ_DITHER_SUPPORTED */
-    png_set_dither, /* 45 */
+    png_set_quantize, /* 45 */
 #endif /* !PNG_READ_DITHER_SUPPORTED */
 #if !defined(PNG_READ_GAMMA_SUPPORTED) || !defined(PNG_FLOATING_POINT_SUPPORTED)
     0, /* 46 */
