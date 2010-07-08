@@ -116,7 +116,7 @@ SetupTiffLibrary (interp)
 	initialized = 1;
 	if (
 	    TIFFRegisterCODEC   && TIFFError        && TIFFPredictorInit &&
-	    TIFFMergeFieldInfo  && TIFFFlushData1   && _TIFFNoPostDecode &&
+	    _TIFFMergeFieldInfo  && TIFFFlushData1   && _TIFFNoPostDecode &&
 	    TIFFTileRowSize     && TIFFScanlineSize && _TIFFsetByteArray &&
 	    TIFFVSetField       && TIFFSwabArrayOfShort
 	    ) {

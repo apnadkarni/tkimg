@@ -25,8 +25,8 @@
 #   define USE_PNGTCL_STUBS 1
 #endif
 
-EXTERN int Tifftcl_Init(Tcl_Interp *interp);
-EXTERN int Tifftcl_SafeInit(Tcl_Interp *interp);
+EXTERN int Pngtcl_Init(Tcl_Interp *interp);
+EXTERN int Pngtcl_SafeInit(Tcl_Interp *interp);
 
 #include "../compat/libpng/png.h"
 
