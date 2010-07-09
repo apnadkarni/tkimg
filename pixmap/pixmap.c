@@ -27,9 +27,6 @@
 
 #define UCHAR(c) ((unsigned char) (c))
 
-extern DLLEXPORT int Tkimgpixmap_Init(Tcl_Interp *interp);
-extern DLLEXPORT int Tkimgpixmap_SafeInit(Tcl_Interp *interp);
-
 /*
  * Prototypes for procedures used only locally in this file:
  */

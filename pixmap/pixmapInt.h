@@ -16,12 +16,9 @@
 
 #include "tkimg.h"
 
-#ifndef CONST84
-#   define CONST84
-#endif
-#ifndef CONST86
-#   define CONST86
-#endif
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /*
  * Constants
@@ -142,7 +139,11 @@ MODULE_SCOPE void TkimgpXpmDisplay(ClientData clientData,
  * Declarations of internal functions, which are exported for tcl package management.
  */
 
-extern int Tkimgpixmap_Init(Tcl_Interp *interp);
-extern int Tkimgpixmap_SafeInit(Tcl_Interp *interp);
+extern DLLEXPORT int Tkimgpixmap_Init(Tcl_Interp *interp);
+extern DLLEXPORT int Tkimgpixmap_SafeInit(Tcl_Interp *interp);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif
