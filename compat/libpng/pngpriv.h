@@ -28,15 +28,15 @@
 
 #include <stdlib.h>
 
+#ifndef PNG_EXTERN
 /* The functions exported by PNG_EXTERN are internal functions, which
  * aren't usually used outside the library (as far as I know), so it is
  * debatable if they should be exported at all.  In the future, when it
  * is possible to have run-time registry of chunk-handling functions,
  * some of these will be made available again.
-#define PNG_EXTERN extern
+#  define PNG_EXTERN extern
  */
-#ifndef PNG_EXTERN
-#define PNG_EXTERN
+#  define PNG_EXTERN
 #endif
 
 /* Other defines specific to compilers can go here.  Try to keep
