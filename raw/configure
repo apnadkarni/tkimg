@@ -5966,48 +5966,6 @@ if test "${tcl_cv_cc_visibility_hidden+set}" = set; then :
   $as_echo_n "(cached) " >&6
 else
 
-	    if test "$GCC" = yes; then :
-
-		hold_cflags=$CFLAGS; CFLAGS="$CFLAGS -fvisibility=hidden -Werror"
-		cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"; then :
-  tcl_cv_cc_visibility_hidden=yes
-else
-  tcl_cv_cc_visibility_hidden=no
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-		CFLAGS=$hold_cflags
-
-else
-
-		tcl_cv_cc_visibility_hidden=no
-
-fi
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $tcl_cv_cc_visibility_hidden" >&5
-$as_echo "$tcl_cv_cc_visibility_hidden" >&6; }
-    if test $tcl_cv_cc_visibility_hidden = yes; then :
-
-	CFLAGS="$CFLAGS -fvisibility=hidden"
-
-$as_echo "#define MODULE_SCOPE extern" >>confdefs.h
-
-	$as_echo "#define NO_VIZ 1" >>confdefs.h
-
-
-else
-
 	hold_cflags=$CFLAGS; CFLAGS="$CFLAGS -Werror"
 	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
@@ -6030,13 +5988,14 @@ fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 	CFLAGS=$hold_cflags
-	if test $tcl_cv_cc_visibility_hidden = yes; then :
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $tcl_cv_cc_visibility_hidden" >&5
+$as_echo "$tcl_cv_cc_visibility_hidden" >&6; }
+    if test $tcl_cv_cc_visibility_hidden = yes; then :
 
 
 $as_echo "#define MODULE_SCOPE extern __attribute__((__visibility__(\"hidden\")))" >>confdefs.h
 
-
-fi
 
 fi
 
@@ -6524,8 +6483,6 @@ $as_echo "Using $CC for compiling with threads" >&6; }
 fi
 	    LIBS="$LIBS -lc"
 	    SHLIB_CFLAGS=""
-	    # Note: need the LIBS below, otherwise Tk won't find Tcl's
-	    # symbols when dynamically loaded into tclsh.
 	    SHLIB_LD_LIBS='${LIBS}'
 	    SHLIB_SUFFIX=".so"
 
@@ -6745,6 +6702,7 @@ fi
 	    SHLIB_LD='${CC} -shared'
 	    SHLIB_LD_LIBS='${LIBS}'
 	    SHLIB_SUFFIX=".dll"
+	    EXE_SUFFIX=".exe"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
 	    CC_SEARCH_FLAGS=""
@@ -7141,6 +7099,7 @@ fi
 	    if test x"${USE_COMPAT}" != x; then :
   CFLAGS="$CFLAGS -fno-inline"
 fi
+
 	    ;;
 	GNU*)
 	    SHLIB_CFLAGS="-fPIC"
@@ -7246,7 +7205,6 @@ fi
 	    TCL_LIB_VERSIONS_OK=nodots
 	    ;;
 	OpenBSD-*)
-	    CFLAGS_OPTIMIZE='-O2'
 	    SHLIB_CFLAGS="-fPIC"
 	    SHLIB_LD='${CC} -shared ${SHLIB_CFLAGS}'
 	    SHLIB_LD_LIBS='${LIBS}'

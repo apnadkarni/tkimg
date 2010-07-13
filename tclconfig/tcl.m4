@@ -1087,32 +1087,16 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
 
     AC_CACHE_CHECK([if compiler supports visibility "hidden"],
 	tcl_cv_cc_visibility_hidden, [
-	    AS_IF([test "$GCC" = yes], [
-		hold_cflags=$CFLAGS; CFLAGS="$CFLAGS -fvisibility=hidden -Werror"
-		AC_TRY_COMPILE(,, tcl_cv_cc_visibility_hidden=yes,
-		    tcl_cv_cc_visibility_hidden=no)
-		CFLAGS=$hold_cflags
-	    ], [
-		tcl_cv_cc_visibility_hidden=no
-	    ])
-    ])
-    AS_IF([test $tcl_cv_cc_visibility_hidden = yes], [
-	CFLAGS="$CFLAGS -fvisibility=hidden"
-	AC_DEFINE(MODULE_SCOPE, [extern],
-	    [Compiler support for -fvisibility=hidden])
-	AC_DEFINE(NO_VIZ)
-    ], [
 	hold_cflags=$CFLAGS; CFLAGS="$CFLAGS -Werror"
 	AC_TRY_LINK([
 	    extern __attribute__((__visibility__("hidden"))) void f(void);
 	    void f(void) {}], [f();], tcl_cv_cc_visibility_hidden=yes,
 	    tcl_cv_cc_visibility_hidden=no)
-	CFLAGS=$hold_cflags
-	AS_IF([test $tcl_cv_cc_visibility_hidden = yes], [
-	    AC_DEFINE(MODULE_SCOPE,
-		[extern __attribute__((__visibility__("hidden")))],
-		[Compiler support for module scope symbols])
-	])
+	CFLAGS=$hold_cflags])
+    AS_IF([test $tcl_cv_cc_visibility_hidden = yes], [
+	AC_DEFINE(MODULE_SCOPE,
+	    [extern __attribute__((__visibility__("hidden")))],
+	    [Compiler support for module scope symbols])
     ])
 
     # Step 0.d: Disable -rpath support?
@@ -1384,8 +1368,6 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    ])
 	    LIBS="$LIBS -lc"
 	    SHLIB_CFLAGS=""
-	    # Note: need the LIBS below, otherwise Tk won't find Tcl's
-	    # symbols when dynamically loaded into tclsh.
 	    SHLIB_LD_LIBS='${LIBS}'
 	    SHLIB_SUFFIX=".so"
 
@@ -1495,6 +1477,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_LD='${CC} -shared'
 	    SHLIB_LD_LIBS='${LIBS}'
 	    SHLIB_SUFFIX=".dll"
+	    EXE_SUFFIX=".exe"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
 	    CC_SEARCH_FLAGS=""
@@ -1541,14 +1524,13 @@ dnl AC_CHECK_TOOL(AR, ar)
 		SHLIB_LD_LIBS='${LIBS}'
 		DL_OBJS="tclLoadShl.o"
 		DL_LIBS="-ldld"
+		LDFLAGS="$LDFLAGS -E"
 		CC_SEARCH_FLAGS='-Wl,+s,+b,${LIB_RUNTIME_DIR}:.'
 		LD_SEARCH_FLAGS='+s +b ${LIB_RUNTIME_DIR}:.'
 		LD_LIBRARY_PATH_VAR="SHLIB_PATH"
 	    ])
 	    AS_IF([test "$GCC" = yes], [
 		SHLIB_LD='${CC} -shared'
-		LDFLAGS="$LDFLAGS -Wl,-E"
-		SHLIB_LD_LIBS='${LIBS}'
 		LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
 	    ], [
 		CFLAGS="$CFLAGS -z"
@@ -1556,7 +1538,6 @@ dnl AC_CHECK_TOOL(AR, ar)
 		#CFLAGS="$CFLAGS +DAportable"
 		SHLIB_CFLAGS="+z"
 		SHLIB_LD="ld -b"
-		LDFLAGS="$LDFLAGS -E"
 	    ])
 
 	    # Check to enable 64-bit flags for compiler/linker
@@ -1697,6 +1678,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    # files in compat/*.c is being linked in.
 
 	    AS_IF([test x"${USE_COMPAT}" != x],[CFLAGS="$CFLAGS -fno-inline"])
+
 	    ;;
 	GNU*)
 	    SHLIB_CFLAGS="-fPIC"
@@ -1773,7 +1755,6 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    TCL_LIB_VERSIONS_OK=nodots
 	    ;;
 	OpenBSD-*)
-	    CFLAGS_OPTIMIZE='-O2'
 	    SHLIB_CFLAGS="-fPIC"
 	    SHLIB_LD='${CC} -shared ${SHLIB_CFLAGS}'
 	    SHLIB_LD_LIBS='${LIBS}'
