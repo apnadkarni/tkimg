@@ -106,6 +106,13 @@ Specify the byteorder of the input image data.
 Possible values: [const Intel] or [const Motorola].
 Default is assuming the same byteorder as that of the host computer.
 
+[lst_item "[option -uuencode] [arg bool]"]
+This option is supported for reading image data without header only.
+[nl]
+If set to [const false], do not assume, that the image data stored in a
+Tcl variable is uuencoded. Default is [const true], i.e. the image data in
+a Tcl variable is assumed to be uuencoded.
+
 [lst_item "[option -scanorder] [arg string]"]
 
 This option is supported for reading and writing image data without header.

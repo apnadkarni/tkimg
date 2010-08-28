@@ -53,7 +53,8 @@
  * Read  RAW image: "raw -useheader false -verbose <bool> -nchan <int>
  *                       -scanorder <string> -byteorder <string>
  *                       -width <int> -height <int> -gamma <float>
- *			 -pixeltype <string> -min <float> -max <float>"
+ *			 -pixeltype <string> -min <float> -max <float>
+ *                       -uuencode <bool>"
  * Write RAW image: "raw -useheader false -verbose <bool> -nchan <int>
  *                       -scanorder <string>"
  *
@@ -88,6 +89,9 @@
  * 			Use this option, if your image already contains RGB
  * 			values in the range of 0 ..255.
  *                      Default is false.
+ * -uuencode <bool>:    If set to false, do not assume, that the image data stored in a
+ *                      variable is uuencoded. Default is true, i.e. the image data is
+ *                      assumed to be uuencoded.
  * -min <float>:        Specify the minimum pixel value to be used for mapping
  *			the input data to 8-bit image values.
  *                      Default is the minimum value found in the image data.
@@ -113,8 +117,9 @@
 
 #include "init.c"
 
-
-/* #define DEBUG_LOCAL */
+/*
+#define DEBUG_LOCAL
+*/
 
 /* Maximum length of a header line. */
 #define HEADLEN 100
@@ -189,6 +194,7 @@ typedef struct {
     Float gamma;
     Boln  nomap;
     Boln  verbose;
+    Boln  uuencode;
     Boln  useHeader;
 } FMTOPT;
 
@@ -337,7 +343,7 @@ static Boln readFloatRow (tkimg_MFile *handle, Float *pixels, Int nFloats,
     char  *bufPtr = buf;
 
 #ifdef DEBUG_LOCAL
-	printf ("Reading %d floats\n", nFloats);
+	printf ("Reading %d floats\n", nFloats); fflush (stdout);
 #endif
     if (4 * nFloats != tkimg_Read (handle, buf, 4 * nFloats))
         return FALSE;
@@ -372,7 +378,7 @@ static Boln readUShortRow (tkimg_MFile *handle, UShort *pixels, Int nShorts,
     char   *bufPtr = buf;
 
 #ifdef DEBUG_LOCAL
-	printf ("Reading %d UShorts\n", nShorts);
+	printf ("Reading %d UShorts\n", nShorts); fflush (stdout);
 #endif
     if (2 * nShorts != tkimg_Read (handle, buf, 2 * nShorts))
         return FALSE;
@@ -403,7 +409,7 @@ static Boln readUByteRow (tkimg_MFile *handle, UByte *pixels, Int nBytes,
     char   *bufPtr = buf;
 
 #ifdef DEBUG_LOCAL
-	printf ("Reading %d UBytes\n", nBytes);
+	printf ("Reading %d UBytes\n", nBytes); fflush (stdout);
 #endif
     if (nBytes != tkimg_Read (handle, buf, nBytes))
         return FALSE;
@@ -628,7 +634,7 @@ static Boln readFloatFile (tkimg_MFile *handle, Float *buf, Int width, Int heigh
 
 #ifdef DEBUG_LOCAL
 	printf ("readFloatFile: Width=%d Height=%d nchan=%d swapBytes=%s\n",
-                 width, height, nchan, swapBytes? "yes": "no");
+                 width, height, nchan, swapBytes? "yes": "no"); fflush (stdout);
 #endif
     for (c=0; c<nchan; c++) {
 	minVals[c] =  (Float)1.0E30;
@@ -674,7 +680,7 @@ static Boln readUShortFile (tkimg_MFile *handle, UShort *buf, Int width, Int hei
 
 #ifdef DEBUG_LOCAL
 	printf ("readUShortFile: Width=%d Height=%d nchan=%d swapBytes=%s\n",
-                 width, height, nchan, swapBytes? "yes": "no");
+                 width, height, nchan, swapBytes? "yes": "no"); fflush (stdout);
 #endif
     for (c=0; c<nchan; c++) {
 	minVals[c] =  (Float)1.0E30;
@@ -720,7 +726,7 @@ static Boln readUByteFile (tkimg_MFile *handle, UByte *buf, Int width, Int heigh
 
 #ifdef DEBUG_LOCAL
 	printf ("readUByteFile: Width=%d Height=%d nchan=%d swapBytes=%s\n",
-                 width, height, nchan, swapBytes? "yes": "no");
+                 width, height, nchan, swapBytes? "yes": "no"); fflush (stdout);
 #endif
     for (c=0; c<nchan; c++) {
 	minVals[c] =  (Float)1.0E30;
@@ -830,13 +836,14 @@ static int ParseFormatOpts (interp, format, opts)
 {
     static const char *const rawOptions[] = {
          "-verbose", "-width", "-height", "-nchan", "-byteorder",
-         "-scanorder", "-pixeltype", "-min", "-max", "-gamma", "-useheader", "-nomap"
+         "-scanorder", "-pixeltype", "-min", "-max", "-gamma", 
+         "-useheader", "-nomap", "-uuencode"
     };
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     const char *widthStr, *heightStr, *nchanStr, *verboseStr, *useheaderStr,
          *byteOrderStr, *scanorderStr, *pixelTypeStr,
-         *minStr, *maxStr, *gammaStr, *nomapStr;
+         *minStr, *maxStr, *gammaStr, *nomapStr, *uuencodeStr;
 
     /* Initialize format options with default values. */
     verboseStr   = "0";
@@ -851,6 +858,7 @@ static int ParseFormatOpts (interp, format, opts)
     gammaStr     = "1.0";
     useheaderStr = "1";
     nomapStr     = "0";
+    uuencodeStr  = "1";
 
     if (tkimg_ListObjGetElements (interp, format, &objc, &objv) != TCL_OK)
 	return TCL_ERROR;
@@ -902,6 +910,9 @@ static int ParseFormatOpts (interp, format, opts)
 		    break;
 		case 11:
 		    nomapStr = Tcl_GetStringFromObj(objv[i], (int *) NULL);
+		    break;
+		case 12:
+		    uuencodeStr = Tcl_GetStringFromObj(objv[i], (int *) NULL);
 		    break;
 	    }
 	}
@@ -1001,6 +1012,22 @@ static int ParseFormatOpts (interp, format, opts)
 			  (char *) NULL);
 	return TCL_ERROR;
     }
+
+    c = uuencodeStr[0]; length = strlen (uuencodeStr);
+    if (!strncmp (uuencodeStr, "1", length) || \
+	!strncmp (uuencodeStr, "true", length) || \
+	!strncmp (uuencodeStr, "on", length)) {
+	opts->uuencode = 1;
+    } else if (!strncmp (uuencodeStr, "0", length) || \
+	!strncmp (uuencodeStr, "false", length) || \
+	!strncmp (uuencodeStr, "off", length)) {
+	opts->uuencode = 0;
+    } else {
+	Tcl_AppendResult (interp, "invalid uuencode mode \"", uuencodeStr,
+			  "\": should be 1 or 0, on or off, true or false",
+			  (char *) NULL);
+	return TCL_ERROR;
+    }
     return TCL_OK;
 }
 
@@ -1028,8 +1055,17 @@ static int ObjMatch(
     Tcl_Interp *interp
 ) {
     tkimg_MFile handle;
+    FMTOPT opts;
 
-    tkimg_ReadInit(data, 'M', &handle);
+    if (ParseFormatOpts (interp, format, &opts) != TCL_OK) {
+        return TCL_ERROR;
+    }
+    if (!opts.uuencode) {
+        handle.data = (char *) tkimg_GetByteArrayFromObj(data, &handle.length);
+        handle.state = IMG_STRING;
+    } else {
+        tkimg_ReadInit(data, 'M', &handle);
+    }
     return CommonMatch (interp, &handle, format, widthPtr, heightPtr, NULL);
 }
 
@@ -1102,8 +1138,18 @@ static int ObjRead (interp, data, format, imageHandle,
     int srcX, srcY;
 {
     tkimg_MFile handle;
+    FMTOPT opts;
 
-    tkimg_ReadInit (data, 'M', &handle);
+    if (ParseFormatOpts (interp, format, &opts) != TCL_OK) {
+        return TCL_ERROR;
+    }
+    if (!opts.uuencode) {
+        handle.data = (char *) tkimg_GetByteArrayFromObj(data, &handle.length);
+        handle.state = IMG_STRING;
+    } else {
+        tkimg_ReadInit(data, 'M', &handle);
+    }
+
     return CommonRead (interp, &handle, "InlineData", format, imageHandle,
                        destX, destY, width, height, srcX, srcY);
 }
@@ -1122,7 +1168,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     int srcX, srcY;             /* Coordinates of top-left pixel to be used
 			         * in image being read. */
 {
-	Tk_PhotoImageBlock block;
+    Tk_PhotoImageBlock block;
     Int x, y, c;
     Int fileWidth, fileHeight;
     Float minVals[MAXCHANS], maxVals[MAXCHANS];
@@ -1147,7 +1193,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     CommonMatch (interp, handle, format, &fileWidth, &fileHeight, &tf.th);
 
     if (ParseFormatOpts (interp, format, &opts) != TCL_OK) {
-	return TCL_ERROR;
+        return TCL_ERROR;
     }
 
     gtableFloat (opts.gamma, gtable);
@@ -1358,7 +1404,7 @@ static int CommonWrite (interp, filename, format, handle, blockPtr)
 
     memset (&tf, 0, sizeof (RAWFILE));
     if (ParseFormatOpts (interp, format, &opts) != TCL_OK) {
-	return TCL_ERROR;
+        return TCL_ERROR;
     }
 
     redOffset   = 0;
