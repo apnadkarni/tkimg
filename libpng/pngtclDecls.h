@@ -317,7 +317,7 @@ PNG_IMPEXP void		png_data_freer(png_structp png_ptr,
 				png_uint_32 mask);
 /* 98 */
 PNG_IMPEXP png_voidp	png_malloc_default(png_structp png_ptr,
-				png_uint_32 size);
+				png_alloc_size_t size);
 /* 99 */
 PNG_IMPEXP void		png_free_default(png_structp png_ptr, png_voidp ptr);
 /* Slot 100 is reserved */
