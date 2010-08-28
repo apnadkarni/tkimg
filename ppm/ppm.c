@@ -35,9 +35,9 @@
  *
  * The following format options are available:
  *
- * Read  image: "raw -verbose <bool> -gamma <float>
+ * Read  image: "ppm -verbose <bool> -gamma <float>
  *                   -min <float> -max <float> -scanorder <string>"
- * Write image: "raw -verbose <bool> -ascii <bool>"
+ * Write image: "ppm -verbose <bool> -ascii <bool>"
  *
  * -verbose <bool>:     If set to true, additional information about the file
  *                      format is printed to stdout. Default is false.
@@ -90,7 +90,9 @@
 #include "init.c"
 
 
-/* #define DEBUG_LOCAL */
+/*
+#define DEBUG_LOCAL
+*/
 
 /*
  * Define PGM and PPM, i.e. gray images and color images.
@@ -482,7 +484,7 @@ static int ParseFormatOpts (interp, format, opts)
     Tcl_Obj *format;
     FMTOPT *opts;
 {
-    static const char *const rawOptions[] = {
+    static const char *const ppmOptions[] = {
          "-verbose", "-min", "-max", "-gamma", "-scanorder", "-ascii"
     };
     int objc, length, c, i, index;
@@ -501,7 +503,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     if (objc) {
         for (i=1; i<objc; i++) {
-            if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)rawOptions,
+            if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)ppmOptions,
                     "format option", 0, &index) != TCL_OK) {
                 return TCL_ERROR;
             }
@@ -626,7 +628,7 @@ static int ChnMatch(
     Tcl_Obj *format,            /* User-specified format object, or NULL. */
     int *widthPtr,              /* The dimensions of the image are */
     int *heightPtr,             /* returned here if the file is a valid
-                                 * raw PPM file. */
+                                 * PPM file. */
     Tcl_Interp *interp          /* Interpreter to use for reporting errors. */
 ) {
     tkimg_MFile handle;
@@ -762,7 +764,7 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
     type = ReadPPMFileHeader (handle, &fileWidth, &fileHeight, &maxIntensity, &isAscii);
     if (type == 0) {
-        Tcl_AppendResult(interp, "couldn't read raw PPM header from file \"",
+        Tcl_AppendResult(interp, "couldn't read PPM header from file \"",
                           filename, "\"", NULL);
         return TCL_ERROR;
     }
