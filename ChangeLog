@@ -1,3 +1,7 @@
+2010-08-30  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* license.terms: Fix DFARs note for number-adjusted rights clause
+
 2010-07-06  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* genStubs.tcl: "generic" argument is no longer necessary when
