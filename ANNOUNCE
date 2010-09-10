@@ -6,20 +6,13 @@ This package enhances Tk, adding support for many other Image formats.
 Changes compared to version 1.3.x:
 
 -  New formats: DTED, RAW.
+-  indexing TIFF images is now possible [Feature Request #706277]
 -  No longer works with Tk 8.2 and earlier.
 -  Support for Tk 8.5's PhotoPutblock functions,
    which no longer panic when out-of-memory
--  TEA upgraded to 3.7
--  autoconf upgraded to version 2.65
-
-Changes compared to version 1.2.4:
-
--	New formats: ICO, PCX, PPM, SGI, SUN, TGA.
--	New build system, based upon TEA 2.
--	Refactored into several smaller and more independent
-	packages. See file README in the (source) distributions for
-	more information.
--	Bug fixes and enhancements in some formats.
+-  Will build correctly on more platforms (TEA upgraded
+   to version 3.7 and autoconf upgraded to version 2.65
+-  upgrade to zlib 1.2.5, libpng-1.4.3, libtiff-3.9.4, libjpeg-8b
 
 This version only works with Tcl/Tk 8.3 or higher (tested up to
 8.6b1). If you are using Tk8.2 or lower, please stick with tkImg1.3

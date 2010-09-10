@@ -1,8 +1,8 @@
 
 		Tcl/Tk Image formats (TkImg)
-		(Version 1.4 / January 2009)
+		(Version 1.4 / September 2010)
 
-		Jan Nijtmans, Andreas Kupries
+		Jan Nijtmans, Andreas Kupries, Paul Obermeijer
 
 This file contains a collection of format handlers for the Tk photo
 image type, and a new image type, pixmaps.  It can be used in
@@ -10,16 +10,16 @@ combination with Tcl/Tk 8.3 or later but 8.5.6 (or 8.6, when
 available) are highly recommended.
 
 Included in this distribution are the most recent versions (as of
-jan 2009) of the libz, libpng, libungif, libjpeg, and libtiff
-libraries. These are not required, unless you need support for the
-PNG, JPEG, or TIFF format. Note that you have to build these libraries
-to support the named formats, even if your system already has shared
+sept 2010) of the libz, libpng, libjpeg, and libtiff libraries.
+These are not required, unless you need support for the PNG, JPEG,
+or TIFF format. Note that you have to build these libraries to
+support the named formats, even if your system already has shared
 libraries for these formats. This is because the libraries here are
 built such that they can be loaded as packages by the Tcl/Tk core,
-making the handling of the various dependencies much easier. An earlier
-version, 1.2.4, used a modified copy of Tcl's functions for loading of
-shared libraries to load the support libraries at runtime. These have
-been abandoned in favor of the new approach.
+making the handling of the various dependencies much easier. An
+earlier version, 1.2.4, used a modified copy of Tcl's functions for
+loading of shared libraries to load the support libraries at runtime.
+These have been abandoned in favor of the new approach.
 
 BACKGROUND TO BUILDING
 
@@ -28,8 +28,8 @@ one big package there are several small packages most of which are
 independent of each other.
 
 All packages employ a TEA 2 based build system (configure/Make) for
-easy configuration and building. This means that 99% of the options to
-configure are the same for all the packages.
+easy configuration and building. This means that 99% of the options
+to configure are the same for all the packages.
 
 All packages save for the supporting ones (see below) have names
 starting with 'img'. For compatibility with older scripts the
