@@ -6,7 +6,7 @@
 
 This file contains a collection of format handlers for the Tk photo
 image type, and a new image type, pixmaps.  It can be used in
-combination with Tcl/Tk 8.3 or later but 8.5.6 (or 8.6, when
+combination with Tcl/Tk 8.3 or later but 8.5.9 (or 8.6, when
 available) are highly recommended.
 
 Included in this distribution are the most recent versions (as of

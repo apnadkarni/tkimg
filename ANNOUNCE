@@ -18,10 +18,10 @@ This version only works with Tcl/Tk 8.3 or higher (tested up to
 8.6b1). If you are using Tk8.2 or lower, please stick with tkImg1.3
 (which is still available).
 
-Currently there are two identical source distributions:
-	tkimg14.zip             (for Windows)	(about 2.9 Mb)
-	tkimg1.4.tar.gz         (for Unix)	(about 2.6 Mb)
-	tkimg1.4.tar.bz2        (for Unix)	(about 1.7 Mb)
+Currently there are three identical source distributions:
+	tkimg14.zip             (for Windows)	(about 7.4 Mb)
+	tkimg1.4.tar.gz         (for Unix)	(about 6.6 Mb)
+	tkimg1.4.tar.bz2        (for Unix)	(about 4.9 Mb)
 
 All these files can be downloaded from:
 	http://source.net/project/tkimg/
