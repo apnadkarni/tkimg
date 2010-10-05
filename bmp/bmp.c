@@ -641,7 +641,7 @@ CommonWrite(interp, handle, blockPtr)
     int colors[256];
 
     greenOffset = blockPtr->offset[1] - blockPtr->offset[0];
-    blueOffset = blockPtr->offset[2] - blockPtr->offset[0];
+    blueOffset  = blockPtr->offset[2] - blockPtr->offset[0];
     alphaOffset = blockPtr->offset[0];
     if (alphaOffset < blockPtr->offset[2]) {
         alphaOffset = blockPtr->offset[2];
@@ -652,36 +652,32 @@ CommonWrite(interp, handle, blockPtr)
         alphaOffset = 0;
     }
     ncolors = 0;
-    if (greenOffset || blueOffset) {
-        for (y = 0; ncolors <= 256 && y < blockPtr->height; y++) {
-            pixelPtr = blockPtr->pixelPtr + y*blockPtr->pitch + blockPtr->offset[0];
-            for (x=0; ncolors <= 256 && x<blockPtr->width; x++) {
-                int pixel;
-                if (alphaOffset && (pixelPtr[alphaOffset] == 0))
-                    pixel = 0xd9d9d9;
-                else
-                    pixel = (pixelPtr[0]<<16) | (pixelPtr[greenOffset]<<8) | pixelPtr[blueOffset];
-                for (i = 0; i < ncolors && pixel != colors[i]; i++);
-                if (i == ncolors) {
-                    if (ncolors < 256) {
-                        colors[ncolors] = pixel;
-                    }
-                    ncolors++;
+    for (y = 0; ncolors <= 256 && y < blockPtr->height; y++) {
+        pixelPtr = blockPtr->pixelPtr + y*blockPtr->pitch + blockPtr->offset[0];
+        for (x=0; ncolors <= 256 && x<blockPtr->width; x++) {
+            int pixel;
+            if (alphaOffset && (pixelPtr[alphaOffset] == 0))
+                pixel = 0xd9d9d9;
+            else
+                pixel = (pixelPtr[0]<<16) | (pixelPtr[greenOffset]<<8) | pixelPtr[blueOffset];
+            for (i = 0; i < ncolors && pixel != colors[i]; i++);
+            if (i == ncolors) {
+                if (ncolors < 256) {
+                    colors[ncolors] = pixel;
                 }
-                pixelPtr += blockPtr->pixelSize;
+                ncolors++;
             }
+            pixelPtr += blockPtr->pixelSize;
         }
-        if (ncolors <= 256 && (blockPtr->width * blockPtr->height >= 512)) {
-            while (ncolors < 256) {
-                colors[ncolors++] = 0;
-            }
-            nbytes = 1;
-        } else {
-            nbytes = 3;
-            ncolors = 0;
+    }
+    if (ncolors <= 256 && (blockPtr->width * blockPtr->height >= 512)) {
+        while (ncolors < 256) {
+            colors[ncolors++] = 0;
         }
-    } else {
         nbytes = 1;
+    } else {
+        nbytes = 3;
+        ncolors = 0;
     }
 
     bperline = ((blockPtr->width  * nbytes + 3) / 4) * 4;
