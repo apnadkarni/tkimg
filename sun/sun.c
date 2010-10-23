@@ -634,7 +634,7 @@ static Boln load_sun_d8 (Tcl_Interp *interp, tkimg_MFile *ifp,
     indData = (UByte *)ckalloc (fileWidth * sizeof (UByte));
     if (!indData) {
 	sprintf(errMsg, "Can't allocate memory of size %d",
-			  fileWidth * sizeof (UByte));
+			  (int) (fileWidth * sizeof (UByte)));
 	Tcl_AppendResult(interp, errMsg, (char *)NULL);
 	return TCL_ERROR;
     }
