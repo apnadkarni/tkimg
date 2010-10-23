@@ -321,7 +321,7 @@ declare 97 generic {!PNG_FREE_ME_SUPPORTED} {
     void png_data_freer(png_structp png_ptr, png_infop info_ptr, int freer, png_uint_32 mask)
 }
 declare 98 generic {!PNG_USER_MEM_SUPPORTED} {
-    png_voidp png_malloc_default(png_structp png_ptr, png_uint_32 size)
+    png_voidp png_malloc_default(png_structp png_ptr, png_alloc_size_t size)
 }
 declare 99 generic {!PNG_USER_MEM_SUPPORTED} {
     void png_free_default(png_structp png_ptr, png_voidp ptr)

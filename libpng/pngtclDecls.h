@@ -1111,7 +1111,7 @@ typedef struct PngtclStubs {
     void (*png_freePtr) (png_structp png_ptr, png_voidp ptr); /* 95 */
     void (*png_free_dataPtr) (png_structp png_ptr, png_infop info_ptr, png_uint_32 free_me, int num); /* 96 */
     void (*png_data_freerPtr) (png_structp png_ptr, png_infop info_ptr, int freer, png_uint_32 mask); /* 97 */
-    png_voidp (*png_malloc_defaultPtr) (png_structp png_ptr, png_uint_32 size); /* 98 */
+    png_voidp (*png_malloc_defaultPtr) (png_structp png_ptr, png_alloc_size_t size); /* 98 */
     void (*png_free_defaultPtr) (png_structp png_ptr, png_voidp ptr); /* 99 */
     void (*reserved100)(void);
     void (*reserved101)(void);
