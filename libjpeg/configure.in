@@ -10,7 +10,7 @@ AC_REVISION($Id$)
 
 AC_INIT([jpegtcl],[8.2])
 
-TEA_INIT([3.7])
+TEA_INIT([3.9])
 
 AC_CONFIG_AUX_DIR(../tclconfig)
 
