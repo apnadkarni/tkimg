@@ -52,6 +52,7 @@
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
 
+#define HAVE_BOOLEAN
 #include "tkimg.h"
 #include "jpegtcl.h"
 

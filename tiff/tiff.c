@@ -14,6 +14,7 @@
  * Generic initialization code, parameterized via CPACKAGE and PACKAGE.
  */
 
+#define HAVE_BOOLEAN
 #include "tkimg.h"
 #include "tifftcl.h"
 #include "zlibtcl.h"
