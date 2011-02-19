@@ -82,6 +82,59 @@ static void	tk_png_write(png_structp, png_bytep,
 
 static void	tk_png_flush(png_structp);
 
+static int ParseFormatOpts (interp, format, matte)
+    Tcl_Interp *interp;
+    Tcl_Obj *format;
+    int *matte;
+{
+    static const char *const pngOptions[] = {"-matte"};
+    int objc, length, c, i, index;
+    Tcl_Obj **objv;
+    const char *transp;
+
+    *matte = 1;
+
+    if (tkimg_ListObjGetElements(interp, format, &objc, &objv) != TCL_OK)
+	return TCL_ERROR;
+    if (objc) {
+	transp      = "1";
+	for (i=1; i<objc; i++) {
+	    if (Tcl_GetIndexFromObj(interp, objv[i], (CONST84 char *CONST86 *)pngOptions,
+		    "format option", 0, &index) != TCL_OK) {
+		return TCL_ERROR;
+	    }
+	    if (++i >= objc) {
+		Tcl_AppendResult(interp, "No value for option \"",
+			Tcl_GetStringFromObj (objv[--i], (int *) NULL),
+			"\"", (char *) NULL);
+		return TCL_ERROR;
+	    }
+	    switch(index) {
+		case 0:
+		    transp = Tcl_GetStringFromObj(objv[i], (int *) NULL);
+		    break;
+	    }
+	}
+
+	c = transp[0]; length = strlen (transp);
+	if (!strncmp (transp, "1", length) || \
+	    !strncmp (transp, "true", length) || \
+	    !strncmp (transp, "on", length)) {
+	    *matte = 1;
+	} else if (!strncmp (transp, "0", length) || \
+	    !strncmp (transp, "false", length) || \
+	    !strncmp (transp, "off", length)) {
+	    *matte = 0;
+	} else {
+	    Tcl_AppendResult(interp, "invalid alpha (matte) mode \"", transp,
+                              "\": should be 1 or 0, on or off, true or false",
+			      (char *) NULL);
+	    return TCL_ERROR;
+	}
+    }
+    return TCL_OK;
+}
+
 /*
  *
  */
@@ -275,6 +328,11 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
     int bit_depth, color_type, interlace_type;
     int intent;
     int result = TCL_OK;
+    int matte;
+
+    if (ParseFormatOpts(interp, format, &matte) != TCL_OK) {
+        return TCL_ERROR;
+    }
 
     info_ptr=png_create_info_struct(png_ptr);
     if (!info_ptr) {
@@ -347,7 +405,7 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
     if ((color_type & PNG_COLOR_MASK_ALPHA)
 	    || png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)) {
 	/* with alpha channel */
-	block.offset[3] = block.pixelSize - 1;
+	block.offset[3] = matte? block.pixelSize - 1: 0;
     } else {
 	/* without alpha channel */
 	block.offset[3] = 0;
