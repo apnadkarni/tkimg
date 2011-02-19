@@ -1377,7 +1377,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
 	    !strncmp (transp, "off", length)) {
 	    *matte = 0;
 	} else {
-	    Tcl_AppendResult(interp, "invalid alpha (matte) mode \"", verbose,
+	    Tcl_AppendResult(interp, "invalid alpha (matte) mode \"", transp,
                               "\": should be 1 or 0, on or off, true or false",
 			      (char *) NULL);
 	    return TCL_ERROR;
