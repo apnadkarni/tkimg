@@ -1,3 +1,7 @@
+2011-04-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* upgrade to libpng 1.4.7
+
 2010-12-14  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* upgrade to latest TEA tcl.m4 and autoconf 2.68

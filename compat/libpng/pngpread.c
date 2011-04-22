@@ -1,8 +1,8 @@
 
 /* pngpread.c - read a png file in push mode
  *
- * Last changed in libpng 1.4.3 [June 26, 2010]
- * Copyright (c) 1998-2010 Glenn Randers-Pehrson
+ * Last changed in libpng 1.4.6 [March 8, 2011]
+ * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -843,7 +843,7 @@ png_process_IDAT_data(png_structp png_ptr, png_bytep buffer,
     * or the stream marked as finished.
     */
    while (png_ptr->zstream.avail_in > 0 &&
-	  !(png_ptr->flags & PNG_FLAG_ZLIB_FINISHED))
+      !(png_ptr->flags & PNG_FLAG_ZLIB_FINISHED))
    {
       int ret;
 
@@ -872,49 +872,49 @@ png_process_IDAT_data(png_structp png_ptr, png_bytep buffer,
       /* Check for any failure before proceeding. */
       if (ret != Z_OK && ret != Z_STREAM_END)
       {
-	 /* Terminate the decompression. */
-	 png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
+         /* Terminate the decompression. */
+         png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
 
          /* This may be a truncated stream (missing or
-	  * damaged end code).  Treat that as a warning.
-	  */
+          * damaged end code).  Treat that as a warning.
+          */
          if (png_ptr->row_number >= png_ptr->num_rows ||
-	     png_ptr->pass > 6)
-	    png_warning(png_ptr, "Truncated compressed data in IDAT");
-	 else
-	    png_error(png_ptr, "Decompression error in IDAT");
+             png_ptr->pass > 6)
+            png_warning(png_ptr, "Truncated compressed data in IDAT");
+         else
+            png_error(png_ptr, "Decompression error in IDAT");
 
-	 /* Skip the check on unprocessed input */
+         /* Skip the check on unprocessed input */
          return;
       }
 
       /* Did inflate output any data? */
       if (png_ptr->zstream.next_out != png_ptr->row_buf)
       {
-	 /* Is this unexpected data after the last row?
-	  * If it is, artificially terminate the LZ output
-	  * here.
-	  */
+         /* Is this unexpected data after the last row?
+          * If it is, artificially terminate the LZ output
+          * here.
+          */
          if (png_ptr->row_number >= png_ptr->num_rows ||
-	     png_ptr->pass > 6)
+             png_ptr->pass > 6)
          {
-	    /* Extra data. */
-	    png_warning(png_ptr, "Extra compressed data in IDAT");
+            /* Extra data. */
+            png_warning(png_ptr, "Extra compressed data in IDAT");
             png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
-	    /* Do no more processing; skip the unprocessed
-	     * input check below.
-	     */
+            /* Do no more processing; skip the unprocessed
+             * input check below.
+             */
             return;
-	 }
+         }
 
-	 /* Do we have a complete row? */
-	 if (png_ptr->zstream.avail_out == 0)
-	    png_push_process_row(png_ptr);
+         /* Do we have a complete row? */
+         if (png_ptr->zstream.avail_out == 0)
+            png_push_process_row(png_ptr);
       }
 
       /* And check for the end of the stream. */
       if (ret == Z_STREAM_END)
-	 png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
+         png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
    }
 
    /* All the data should have been processed, if anything
@@ -988,7 +988,7 @@ png_push_process_row(png_structp png_ptr)
 
             if (png_ptr->pass == 6 && png_ptr->height <= 4)
             {
-                  png_push_have_row(png_ptr, NULL);
+                png_push_have_row(png_ptr, NULL);
                 png_read_push_finish_row(png_ptr);
             }
 
@@ -1028,7 +1028,7 @@ png_push_process_row(png_structp png_ptr)
 
             for (i = 0; i < 4 && png_ptr->pass == 2; i++)
             {
-                  png_push_have_row(png_ptr, NULL);
+               png_push_have_row(png_ptr, NULL);
                png_read_push_finish_row(png_ptr);
             }
 
@@ -1078,13 +1078,13 @@ png_push_process_row(png_structp png_ptr)
 
             for (i = 0; i < 2 && png_ptr->pass == 4; i++)
             {
-                  png_push_have_row(png_ptr, NULL);
+               png_push_have_row(png_ptr, NULL);
                png_read_push_finish_row(png_ptr);
             }
 
             if (png_ptr->pass == 6) /* Pass 5 might be empty */
             {
-                  png_push_have_row(png_ptr, NULL);
+               png_push_have_row(png_ptr, NULL);
                png_read_push_finish_row(png_ptr);
             }
 
@@ -1103,12 +1103,14 @@ png_push_process_row(png_structp png_ptr)
 
             if (png_ptr->pass == 6) /* Skip top generated row */
             {
-                  png_push_have_row(png_ptr, NULL);
+               png_push_have_row(png_ptr, NULL);
                png_read_push_finish_row(png_ptr);
             }
 
             break;
          }
+
+         default:
          case 6:
          {
             png_push_have_row(png_ptr, png_ptr->row_buf + 1);
@@ -1117,7 +1119,7 @@ png_push_process_row(png_structp png_ptr)
             if (png_ptr->pass != 6)
                break;
 
-                  png_push_have_row(png_ptr, NULL);
+            png_push_have_row(png_ptr, NULL);
             png_read_push_finish_row(png_ptr);
          }
       }
@@ -1202,7 +1204,7 @@ png_push_handle_tEXt(png_structp png_ptr, png_infop info_ptr, png_uint_32
    if (!(png_ptr->mode & PNG_HAVE_IHDR) || (png_ptr->mode & PNG_HAVE_IEND))
       {
          png_error(png_ptr, "Out of place tEXt");
-         info_ptr = info_ptr; /* To quiet some compiler warnings */
+         PNG_UNUSED(info_ptr) /* To quiet some compiler warnings */
       }
 
 #ifdef PNG_MAX_MALLOC_64K
@@ -1300,7 +1302,7 @@ png_push_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32
    if (!(png_ptr->mode & PNG_HAVE_IHDR) || (png_ptr->mode & PNG_HAVE_IEND))
       {
          png_error(png_ptr, "Out of place zTXt");
-         info_ptr = info_ptr; /* To quiet some compiler warnings */
+         PNG_UNUSED(info_ptr) /* To quiet some compiler warnings */
       }
 
 #ifdef PNG_MAX_MALLOC_64K
@@ -1501,7 +1503,7 @@ png_push_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32
    if (!(png_ptr->mode & PNG_HAVE_IHDR) || (png_ptr->mode & PNG_HAVE_IEND))
       {
          png_error(png_ptr, "Out of place iTXt");
-         info_ptr = info_ptr; /* To quiet some compiler warnings */
+         PNG_UNUSED(info_ptr) /* To quiet some compiler warnings */
       }
 
 #ifdef PNG_MAX_MALLOC_64K
@@ -1635,8 +1637,7 @@ png_push_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32
          )
 #endif
          png_chunk_error(png_ptr, "unknown critical chunk");
-
-      info_ptr = info_ptr; /* To quiet some compiler warnings */
+         PNG_UNUSED(info_ptr) /* To quiet some compiler warnings */
    }
 
 #ifdef PNG_READ_UNKNOWN_CHUNKS_SUPPORTED
@@ -1726,7 +1727,7 @@ png_push_have_row(png_structp png_ptr, png_bytep row)
 }
 
 void PNGAPI
-png_progressive_combine_row (png_structp png_ptr,
+png_progressive_combine_row(png_structp png_ptr,
    png_bytep old_row, png_bytep new_row)
 {
    PNG_CONST int FARDATA png_pass_dsp_mask[7] =
@@ -1755,7 +1756,7 @@ png_set_progressive_read_fn(png_structp png_ptr, png_voidp progressive_ptr,
 }
 
 png_voidp PNGAPI
-png_get_progressive_ptr(png_structp png_ptr)
+png_get_progressive_ptr(png_const_structp png_ptr)
 {
    if (png_ptr == NULL)
       return (NULL);

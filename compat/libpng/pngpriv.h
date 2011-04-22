@@ -1,9 +1,9 @@
 
 /* pngpriv.h - private declarations for use inside libpng
  *
- * libpng version 1.4.3 - June 26, 2010
+ * libpng version 1.4.7 - April 10, 2011
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2010 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -77,10 +77,6 @@
 #if defined(WIN32) || defined(_Windows) || defined(_WINDOWS) || \
     defined(_WIN32) || defined(__WIN32__)
 #  include <windows.h>  /* defines _WINDOWS_ macro */
-/* I have no idea why is this necessary... */
-#  ifdef _MSC_VER
-#    include <malloc.h>
-#  endif
 #endif
 
 /* Various modes of operation.  Note that after an init, mode is set to
@@ -293,6 +289,9 @@ PNG_EXTERN void png_reset_crc PNGARG((png_structp png_ptr));
 /* Write the "data" buffer to whatever output you are using */
 PNG_EXTERN void png_write_data PNGARG((png_structp png_ptr, png_bytep data,
    png_size_t length));
+
+/* Read and check the PNG file signature */
+PNG_EXTERN void png_read_sig PNGARG((png_structp png_ptr, png_infop info_ptr));
 
 /* Read the chunk header (length + type name) */
 PNG_EXTERN png_uint_32 png_read_chunk_header PNGARG((png_structp png_ptr));
