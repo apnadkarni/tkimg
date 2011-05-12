@@ -595,12 +595,6 @@ declare 191 generic {!PNG_INTERNAL} {
 declare 192 generic {!PNG_INTERNAL} {
     void png_info_destroy(png_structp png_ptr, png_infop info_ptr)
 }
-declare 193 generic {!PNG_INTERNAL} {
-    voidpf png_zalloc(voidpf png_ptr, uInt items, uInt size)
-}
-declare 194 generic {!PNG_INTERNAL} {
-    void png_zfree(voidpf png_ptr, voidpf ptr)
-}
 declare 195 generic {!PNG_INTERNAL} {
     void png_reset_crc(png_structp png_ptr)
 }

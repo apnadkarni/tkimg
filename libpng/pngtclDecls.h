@@ -636,10 +636,8 @@ PNG_IMPEXP void		png_destroy_struct_2(png_voidp struct_ptr,
 /* 192 */
 PNG_IMPEXP void		png_info_destroy(png_structp png_ptr,
 				png_infop info_ptr);
-/* 193 */
-PNG_IMPEXP voidpf	png_zalloc(voidpf png_ptr, uInt items, uInt size);
-/* 194 */
-PNG_IMPEXP void		png_zfree(voidpf png_ptr, voidpf ptr);
+/* Slot 193 is reserved */
+/* Slot 194 is reserved */
 /* 195 */
 PNG_IMPEXP void		png_reset_crc(png_structp png_ptr);
 /* 196 */
@@ -1217,8 +1215,8 @@ typedef struct PngtclStubs {
     png_voidp (*png_create_struct_2Ptr) (int type, png_malloc_ptr malloc_fn); /* 190 */
     void (*png_destroy_struct_2Ptr) (png_voidp struct_ptr, png_free_ptr free_fn); /* 191 */
     void (*png_info_destroyPtr) (png_structp png_ptr, png_infop info_ptr); /* 192 */
-    voidpf (*png_zallocPtr) (voidpf png_ptr, uInt items, uInt size); /* 193 */
-    void (*png_zfreePtr) (voidpf png_ptr, voidpf ptr); /* 194 */
+    void (*reserved193)(void);
+    void (*reserved194)(void);
     void (*png_reset_crcPtr) (png_structp png_ptr); /* 195 */
     void (*png_write_dataPtr) (png_structp png_ptr, png_bytep data, png_size_t length); /* 196 */
     void (*png_read_dataPtr) (png_structp png_ptr, png_bytep data, png_size_t length); /* 197 */
@@ -1732,10 +1730,8 @@ PNG_IMPEXP const PngtclStubs *pngtclStubsPtr;
 	(pngtclStubsPtr->png_destroy_struct_2Ptr) /* 191 */
 #define png_info_destroy \
 	(pngtclStubsPtr->png_info_destroyPtr) /* 192 */
-#define png_zalloc \
-	(pngtclStubsPtr->png_zallocPtr) /* 193 */
-#define png_zfree \
-	(pngtclStubsPtr->png_zfreePtr) /* 194 */
+/* Slot 193 is reserved */
+/* Slot 194 is reserved */
 #define png_reset_crc \
 	(pngtclStubsPtr->png_reset_crcPtr) /* 195 */
 #define png_write_data \

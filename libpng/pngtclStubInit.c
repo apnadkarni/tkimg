@@ -672,16 +672,8 @@ const PngtclStubs pngtclStubs = {
 #else  /* !PNG_INTERNAL */
     png_info_destroy, /* 192 */
 #endif /* !PNG_INTERNAL */
-#if !defined(PNG_INTERNAL)
     0, /* 193 */
-#else  /* !PNG_INTERNAL */
-    png_zalloc, /* 193 */
-#endif /* !PNG_INTERNAL */
-#if !defined(PNG_INTERNAL)
     0, /* 194 */
-#else  /* !PNG_INTERNAL */
-    png_zfree, /* 194 */
-#endif /* !PNG_INTERNAL */
 #if !defined(PNG_INTERNAL)
     0, /* 195 */
 #else  /* !PNG_INTERNAL */
