@@ -2479,7 +2479,7 @@ fi
 
 	if test x"${ac_cv_c_tclconfig}" = x ; then
 	    TCL_BIN_DIR="# no Tcl configs found"
-	    as_fn_error $? "Can't find Tcl configuration definitions" "$LINENO" 5
+	    as_fn_error $? "Can't find Tcl configuration definitions. Use --with-tcl to specify a directory containing tclConfig.sh" "$LINENO" 5
 	else
 	    no_tcl=
 	    TCL_BIN_DIR="${ac_cv_c_tclconfig}"
@@ -7229,15 +7229,32 @@ fi
 fi
 	    ;;
 	OpenBSD-*)
-	    SHLIB_CFLAGS="-fPIC"
-	    SHLIB_LD='${CC} -shared ${SHLIB_CFLAGS}'
-	    SHLIB_SUFFIX=".so"
-	    if test $doRpath = yes; then :
+	    arch=`arch -s`
+	    case "$arch" in
+	    m88k|vax)
+		SHLIB_SUFFIX=""
+		SHARED_LIB_SUFFIX=""
+		;;
+	    *)
+		SHLIB_CFLAGS="-fPIC"
+		SHLIB_LD='${CC} -shared ${SHLIB_CFLAGS}'
+		SHLIB_SUFFIX=".so"
+		if test $doRpath = yes; then :
 
-		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+		    CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 fi
-	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
-	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so.${SHLIB_VERSION}'
+		LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
+		SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so.${SHLIB_VERSION}'
+		;;
+	    esac
+	    case "$arch" in
+	    m88k|vax)
+		CFLAGS_OPTIMIZE="-O1"
+		;;
+	    *)
+		CFLAGS_OPTIMIZE="-O2"
+		;;
+	    esac
 	    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for ELF" >&5
 $as_echo_n "checking for ELF... " >&6; }
 if ${tcl_cv_ld_elf+:} false; then :
@@ -7272,10 +7289,10 @@ else
 fi
 	    if test "${TCL_THREADS}" = "1"; then :
 
-		# OpenBSD builds and links with -pthread, never -lpthread.
+		# On OpenBSD:	Compile with -pthread
+		#		Don't link with -lpthread
 		LIBS=`echo $LIBS | sed s/-lpthread//`
 		CFLAGS="$CFLAGS -pthread"
-		SHLIB_CFLAGS="$SHLIB_CFLAGS -pthread"
 
 fi
 	    # OpenBSD doesn't do version numbers with dots.

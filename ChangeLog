@@ -1,5 +1,6 @@
 2011-07-26  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
+	* upgrade to latest TEA tcl.m4 and install.sh
 	* upgrade to libpng 1.4.8
 
 2011-04-22  Jan Nijtmans <nijtmans@users.sourceforge.net>
