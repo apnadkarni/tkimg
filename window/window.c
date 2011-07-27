@@ -220,7 +220,7 @@ static int ObjRead(interp, data, format, imageHandle,
 {
 	Tk_PhotoImageBlock block;
     Tk_Window tkwin;
-    int fileWidth, fileHeight, depth, nBytes, x, y;
+    int fileWidth, fileHeight, nBytes, x, y;
     const char *name;
 #ifndef	__WIN32__
     XImage *ximage;
@@ -305,7 +305,6 @@ static int ObjRead(interp, data, format, imageHandle,
 	return TCL_ERROR;
     }
 
-    depth = Tk_Depth(tkwin);
     visual = Tk_Visual(tkwin);
 #ifndef	__WIN32__
     cmap = Tk_Colormap(tkwin);

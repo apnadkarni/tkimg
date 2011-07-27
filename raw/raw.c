@@ -844,7 +844,7 @@ static int ParseFormatOpts (interp, format, opts)
          "-scanorder", "-pixeltype", "-min", "-max", "-gamma", 
          "-useheader", "-nomap", "-uuencode"
     };
-    int objc, length, c, i, index;
+    int objc, length, i, index;
     Tcl_Obj **objv;
     const char *widthStr, *heightStr, *nchanStr, *verboseStr, *useheaderStr,
          *byteOrderStr, *scanorderStr, *pixelTypeStr,
@@ -932,7 +932,7 @@ static int ParseFormatOpts (interp, format, opts)
     opts->maxVal = atof (maxStr);
     opts->gamma  = atof (gammaStr);
 
-    c = byteOrderStr[0]; length = strlen (byteOrderStr);
+    length = strlen (byteOrderStr);
     if (!strncmp (byteOrderStr, strIntel, length)) {
         opts->byteOrder = INTEL;
     } else if (!strncmp (byteOrderStr, strMotorola, length)) {
@@ -944,7 +944,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     }
 
-    c = verboseStr[0]; length = strlen (verboseStr);
+    length = strlen (verboseStr);
     if (!strncmp (verboseStr, "1", length) || \
         !strncmp (verboseStr, "true", length) || \
         !strncmp (verboseStr, "on", length)) {
@@ -960,7 +960,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     }
 
-    c = useheaderStr[0]; length = strlen (useheaderStr);
+    length = strlen (useheaderStr);
     if (!strncmp (useheaderStr, "1", length) || \
         !strncmp (useheaderStr, "true", length) || \
         !strncmp (useheaderStr, "on", length)) {
@@ -976,7 +976,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     }
 
-    c = nomapStr[0]; length = strlen (nomapStr);
+    length = strlen (nomapStr);
     if (!strncmp (nomapStr, "1", length) || \
         !strncmp (nomapStr, "true", length) || \
         !strncmp (nomapStr, "on", length)) {
@@ -992,7 +992,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     }
 
-    c = scanorderStr[0]; length = strlen (scanorderStr);
+    length = strlen (scanorderStr);
     if (!strncmp (scanorderStr, strTopDown, length)) {
         opts->scanOrder = TOP_DOWN;
     } else if (!strncmp (scanorderStr, strBottomUp, length)) {
@@ -1004,7 +1004,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     }
 
-    c = pixelTypeStr[0]; length = strlen (pixelTypeStr);
+    length = strlen (pixelTypeStr);
     if (!strncmp (pixelTypeStr, strFloat, length)) {
         opts->pixelType = TYPE_FLOAT;
     } else if (!strncmp (pixelTypeStr, strUShort, length)) {
@@ -1018,7 +1018,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     }
 
-    c = uuencodeStr[0]; length = strlen (uuencodeStr);
+    length = strlen (uuencodeStr);
     if (!strncmp (uuencodeStr, "1", length) || \
         !strncmp (uuencodeStr, "true", length) || \
         !strncmp (uuencodeStr, "on", length)) {
