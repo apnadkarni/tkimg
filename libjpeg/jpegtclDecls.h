@@ -30,9 +30,6 @@ EXTERN int Jpegtcl_SafeInit(Tcl_Interp *interp);
 
 /* undef Tcl macros that conflict with libjpeg stuff (sigh) */
 #undef EXTERN
-#if !defined(NO_PROTOTYPES) && !defined(HAVE_PROTOTYPES)
-#   define HAVE_PROTOTYPES 1
-#endif
 #include "../compat/libjpeg/jpeglib.h"
 #include "../compat/libjpeg/jerror.h"
 
