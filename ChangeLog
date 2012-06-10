@@ -1,3 +1,7 @@
+2012-06-10  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* upgrade to zlib 1.2.7
+
 2011-11-27	Harald Oehlmann <oehhar@users.sourceforge.net>
 
 	* bmp.c: image resolution parameter may be given when saving bmp
