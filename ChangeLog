@@ -1,3 +1,7 @@
+2012-07-18  Jan Nijtmans <nijtmans@users.sourceforge.net>
+
+	* upgrade autoconf 2.69
+
 2012-06-10  Jan Nijtmans <nijtmans@users.sourceforge.net>
 
 	* upgrade to zlib 1.2.7
