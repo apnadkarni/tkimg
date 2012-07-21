@@ -1,27 +1,22 @@
-I'm happy to announce version 1.4 of the "tkImg" package
+I'm happy to announce version 1.4.1 of the "tkImg" package
 (formerly known as 'Img").
 
 This package enhances Tk, adding support for many other Image formats.
 
-Changes compared to version 1.3.x:
+Changes compared to version 1.4:
 
--  New formats: DTED, RAW.
--  indexing TIFF images is now possible [Feature Request #706277]
--  No longer works with Tk 8.2 and earlier.
--  Support for Tk 8.5's PhotoPutblock functions,
-   which no longer panic when out-of-memory
 -  Will build correctly on more platforms (TEA upgraded
-   to version 3.9 and autoconf upgraded to version 2.65
--  upgrade to zlib 1.2.5, libpng-1.4.8, libtiff-3.9.4, libjpeg-8c
+   to version 3.9)
+-  upgrade to zlib 1.2.7, libpng-1.4.8, libtiff-3.9.4, libjpeg-8c
 
 This version only works with Tcl/Tk 8.3 or higher (tested up to
-8.6b2). If you are using Tk8.2 or lower, please stick with tkImg1.3
+8.6b3). If you are using Tk8.2 or lower, please stick with tkImg1.3
 (which is still available).
 
 Currently there are three identical source distributions:
-	tkimg14.zip             (for Windows)	(about 7.4 Mb)
-	tkimg1.4.tar.gz         (for Unix)	(about 6.6 Mb)
-	tkimg1.4.tar.bz2        (for Unix)	(about 4.9 Mb)
+	tkimg141.zip             (for Windows)	(about 7.4 Mb)
+	tkimg1.4.1.tar.gz         (for Unix)	(about 6.6 Mb)
+	tkimg1.4.1.tar.bz2        (for Unix)	(about 4.9 Mb)
 
 All these files can be downloaded from:
 	http://sourceforge.net/projects/tkimg/
