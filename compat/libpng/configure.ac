@@ -16,17 +16,17 @@ dnl should not be necessary to regenerate configure if the time
 dnl stamps are correct
 AC_PREREQ(2.59)
 
-AC_INIT([libpng], [1.4.8], [png-mng-implement@lists.sourceforge.net])
+AC_INIT([libpng], [1.4.12], [png-mng-implement@lists.sourceforge.net])
 AM_INIT_AUTOMAKE
 dnl stop configure from automagically running automake
 AM_MAINTAINER_MODE
 
 dnl Version number stuff here:
 
-PNGLIB_VERSION=1.4.8
+PNGLIB_VERSION=1.4.12
 PNGLIB_MAJOR=1
 PNGLIB_MINOR=4
-PNGLIB_RELEASE=8
+PNGLIB_RELEASE=12
 
 dnl End of version number stuff
 
@@ -77,7 +77,24 @@ case $host in
     AC_MSG_RESULT(no)
 ;;
 * )
-GLD=`$LD --help < /dev/null 2>/dev/null | grep version-script`
+
+AC_MSG_CHECKING([if using Solaris linker])
+SLD=`$LD --version 2>&1 | grep Solaris`
+if test "$SLD"; then
+    have_solaris_ld=yes
+    AC_MSG_RESULT(yes)
+else
+    have_solaris_ld=no
+    AC_MSG_RESULT(no)
+fi
+AM_CONDITIONAL(HAVE_SOLARIS_LD, test "$have_solaris_ld" = "yes")
+
+if test "$have_solaris_ld" = "yes"; then
+    GLD=`$LD --help < /dev/null 2>&1 | grep 'M mapfile'`
+else
+    GLD=`$LD --help < /dev/null 2>/dev/null | grep version-script`
+fi
+
 if test "$GLD"; then
     have_ld_version_script=yes
     AC_MSG_RESULT(yes)
