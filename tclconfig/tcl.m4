@@ -2026,6 +2026,7 @@ dnl # preprocessing tests use only CPPFLAGS.
 	# TEA specific: use PACKAGE_VERSION instead of VERSION
 	UNSHARED_LIB_SUFFIX='${PACKAGE_VERSION}.a'])
 
+	if test "${GCC}" = "yes" ; then
 	AC_CACHE_CHECK(for SEH support in compiler,
 	    tcl_cv_seh,
 	AC_TRY_RUN([
@@ -2118,6 +2119,7 @@ dnl # preprocessing tests use only CPPFLAGS.
 	    AC_DEFINE(HAVE_CAST_TO_UNION, 1,
 		    [Defined when compiler supports casting to union type.])
 	fi
+    fi
 
     AC_SUBST(CFLAGS_DEBUG)
     AC_SUBST(CFLAGS_OPTIMIZE)
