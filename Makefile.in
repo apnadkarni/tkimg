@@ -143,7 +143,9 @@ collate: all
 		cat Img/exec_prefix/lib/Img/pkgIndex.tcl >> pkgIndex.tcl ; \
 		fi ; \
 	done
+	chmod ugo+w     Img/exec_prefix/lib/Img/pkgIndex.tcl
 	mv pkgIndex.tcl Img/exec_prefix/lib/Img/pkgIndex.tcl
+	chmod ugo+w     Img/exec_prefix/lib/Img/pkgIndex.tcl
 	for p in Img/exec_prefix/lib/*.sh ; do \
 		sed -e 's#$(libdir)/[^/ ]*\([/ ]\)#$(LIB_RUNTIME_DIR)\1#' \
 			$$p > $$p.1 && mv -f $$p.1 $$p ; \
