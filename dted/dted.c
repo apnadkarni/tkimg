@@ -679,7 +679,7 @@ static int ParseFormatOpts (interp, format, opts)
     FMTOPT *opts;
 {
     static const char *const dtedOptions[] = {
-         "-verbose", "-nchan", "-min", "-max", "-gamma", "-nomap"
+         "-verbose", "-nchan", "-min", "-max", "-gamma", "-nomap", NULL
     };
     int objc, length, i, index;
     Tcl_Obj **objv;

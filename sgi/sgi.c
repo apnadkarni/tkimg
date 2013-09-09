@@ -1301,7 +1301,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static const char *const sgiOptions[] = {"-compression", "-verbose", "-matte"};
+    static const char *const sgiOptions[] = {"-compression", "-verbose", "-matte", NULL};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     const char *compression, *verbose, *transp;

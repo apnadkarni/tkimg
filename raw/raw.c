@@ -842,7 +842,7 @@ static int ParseFormatOpts (interp, format, opts)
     static const char *const rawOptions[] = {
          "-verbose", "-width", "-height", "-nchan", "-byteorder",
          "-scanorder", "-pixeltype", "-min", "-max", "-gamma", 
-         "-useheader", "-nomap", "-uuencode"
+         "-useheader", "-nomap", "-uuencode", NULL
     };
     int objc, length, i, index;
     Tcl_Obj **objv;

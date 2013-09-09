@@ -87,7 +87,7 @@ static int ParseFormatOpts (interp, format, matte)
     Tcl_Obj *format;
     int *matte;
 {
-    static const char *const pngOptions[] = {"-matte"};
+    static const char *const pngOptions[] = {"-matte", NULL};
     int objc, length, i, index;
     Tcl_Obj **objv;
     const char *transp;

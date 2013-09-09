@@ -464,7 +464,7 @@ static int ParseFormatOpts (interp, format, comp, verb, matte)
     int *verb;
     int *matte;
 {
-    static const char *const pcxOptions[] = {"-compression", "-verbose", "-matte"};
+    static const char *const pcxOptions[] = {"-compression", "-verbose", "-matte", NULL};
     int objc, length, c, i, index;
     Tcl_Obj **objv;
     const char *compression, *verbose, *transp;
@@ -663,7 +663,6 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
     int srcX, srcY;             /* Coordinates of top-left pixel to be used
 			         * in image being read. */
 {
-    int nchan;
     int fileWidth, fileHeight;
     int outWidth, outHeight;
     int retCode = TCL_OK;
@@ -700,8 +699,6 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
 
     if (ph.compression)
 	tkimg_ReadBuffer (1);
-
-    nchan = ph.planes;
 
     if (ph.planes == 1 && ph.bpp == 1) {
         if (!load_1 (interp, handle, imageHandle, destX, destY,

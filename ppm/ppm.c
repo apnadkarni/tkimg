@@ -485,9 +485,9 @@ static int ParseFormatOpts (interp, format, opts)
     FMTOPT *opts;
 {
     static const char *const ppmOptions[] = {
-         "-verbose", "-min", "-max", "-gamma", "-scanorder", "-ascii"
+         "-verbose", "-min", "-max", "-gamma", "-scanorder", "-ascii", NULL
     };
-    int objc, length, c, i, index;
+    int objc, length, i, index;
     Tcl_Obj **objv;
     const char *verboseStr, *minStr, *maxStr, *gammaStr, *scanorderStr, *asciiStr;
 
@@ -540,7 +540,7 @@ static int ParseFormatOpts (interp, format, opts)
     opts->maxVal = (Float)atof(maxStr);
     opts->gamma  = (Float)atof(gammaStr);
 
-    c = verboseStr[0]; length = strlen (verboseStr);
+    length = strlen (verboseStr);
     if (!strncmp (verboseStr, "1", length) || \
         !strncmp (verboseStr, "true", length) || \
         !strncmp (verboseStr, "on", length)) {
@@ -556,7 +556,7 @@ static int ParseFormatOpts (interp, format, opts)
         return TCL_ERROR;
     }
 
-    c = scanorderStr[0]; length = strlen (scanorderStr);
+    length = strlen (scanorderStr);
     if (!strncmp (scanorderStr, strTopDown, length)) {
 	opts->scanOrder = TOP_DOWN;
     } else if (!strncmp (scanorderStr, strBottomUp, length)) {
@@ -568,7 +568,7 @@ static int ParseFormatOpts (interp, format, opts)
 	return TCL_ERROR;
     }
 
-    c = asciiStr[0]; length = strlen (asciiStr);
+    length = strlen (asciiStr);
     if (!strncmp (asciiStr, "1", length) || \
         !strncmp (asciiStr, "true", length) || \
         !strncmp (asciiStr, "on", length)) {

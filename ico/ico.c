@@ -438,9 +438,9 @@ static int ParseFormatOpts (interp, format, opts)
     FMTOPT *opts;
 {
     static const char *const icoOptions[] = {
-         "-verbose", "-index"
+         "-verbose", "-index", NULL
     };
-    int objc, length, c, i, index;
+    int objc, length, i, index;
     Tcl_Obj **objv;
     const char *indexStr, *verboseStr;
 
@@ -476,7 +476,7 @@ static int ParseFormatOpts (interp, format, opts)
     /* OPA TODO: Check for valid integer strings. */
     opts->index  = atoi (indexStr);
 
-    c = verboseStr[0]; length = strlen (verboseStr);
+    length = strlen (verboseStr);
     if (!strncmp (verboseStr, "1", length) || \
 	!strncmp (verboseStr, "true", length) || \
 	!strncmp (verboseStr, "on", length)) {
