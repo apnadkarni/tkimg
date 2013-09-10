@@ -8,7 +8,7 @@ AC_REVISION($Id$)
 # TEA compliant.
 #--------------------------------------------------------------------
 
-AC_INIT([jpegtcl],[8.3])
+AC_INIT([jpegtcl],[8.4])
 
 TEA_INIT([3.9])
 
