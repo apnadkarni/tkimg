@@ -14,7 +14,7 @@
  * below should be made in the jpegtcl.decls script.
  */
 
-#include <tcl.h>
+#include "tkimg.h"
 
 #ifdef JPEGTCLAPI
 #   undef TCL_STORAGE_CLASS
