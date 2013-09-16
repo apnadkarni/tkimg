@@ -1,7 +1,13 @@
-I'm happy to announce version 1.4.1 of the "tkImg" package
+I'm happy to announce version 1.4.2 of the "tkImg" package
 (formerly known as 'Img").
 
 This package enhances Tk, adding support for many other Image formats.
+
+Changes compared to version 1.4.1:
+
+-  Will build correctly on more platforms (TEA upgraded
+   to latest version 3.9)
+-  upgrade to zlib 1.2.8, libjpeg-8d
 
 Changes compared to version 1.4:
 
@@ -14,9 +20,9 @@ This version only works with Tcl/Tk 8.3 or higher (tested up to
 (which is still available).
 
 Currently there are three identical source distributions:
-	tkimg141.zip             (for Windows)	(about 7.4 Mb)
-	tkimg1.4.1.tar.gz         (for Unix)	(about 6.6 Mb)
-	tkimg1.4.1.tar.bz2        (for Unix)	(about 4.9 Mb)
+	tkimg142.zip             (for Windows)  (about 7.4 Mb)
+	tkimg1.4.2.tar.gz        (for Unix)     (about 6.6 Mb)
+	tkimg1.4.2.tar.bz2       (for Unix)     (about 4.9 Mb)
 
 All these files can be downloaded from:
 	http://sourceforge.net/projects/tkimg/
