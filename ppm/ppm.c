@@ -267,6 +267,8 @@ static void ppmClose (PPMFILE *tf)
     return;
 }
 
+#define UCHAR(c) ((unsigned char) (c))
+
 static int getNextVal (Tcl_Interp *interp, tkimg_MFile *handle, UInt *val)
 {
     char c, buf[TCL_INTEGER_SPACE];
@@ -274,7 +276,7 @@ static int getNextVal (Tcl_Interp *interp, tkimg_MFile *handle, UInt *val)
 
     /* First skip leading whitespaces. */
     while (tkimg_Read (handle, &c, 1) == 1) {
-        if (!isspace (c)) {
+        if (!isspace(UCHAR(c))) {
             break;
         }
     }
@@ -282,7 +284,7 @@ static int getNextVal (Tcl_Interp *interp, tkimg_MFile *handle, UInt *val)
     buf[0] = c;
     i = 1;
     while (tkimg_Read (handle, &c, 1) == 1 && i < TCL_INTEGER_SPACE) {
-        if (isspace (c)) {
+        if (isspace(UCHAR(c))) {
             buf[i] = '\0';
             sscanf (buf, "%u", val);
             return TRUE;
@@ -1099,7 +1101,7 @@ ReadPPMFileHeader (handle, widthPtr, heightPtr, maxIntensityPtr, isAsciiPtr)
          */
 
         while (1) {
-            while (isspace((unsigned char)c)) {
+            while (isspace(UCHAR(c))) {
                 if (tkimg_Read(handle, &c, 1) != 1) {
                     return 0;
                 }
@@ -1118,7 +1120,7 @@ ReadPPMFileHeader (handle, widthPtr, heightPtr, maxIntensityPtr, isAsciiPtr)
          * Read a field (everything up to the next white space).
          */
 
-        while (!isspace((unsigned char)c)) {
+        while (!isspace(UCHAR(c))) {
             if (i < (BUFFER_SIZE-2)) {
                 buffer[i] = c;
                 i++;

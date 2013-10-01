@@ -1043,7 +1043,13 @@ static int CommonRead (interp, handle, filename, format, imageHandle,
         return TCL_ERROR;
     }
 
-    CommonMatch(handle, &fileWidth, &fileHeight, &sh);
+    if (!CommonMatch(handle, &fileWidth, &fileHeight, &sh)) {
+        if (interp){
+            Tcl_AppendResult(interp, "Cannot read image data",
+                (char *) NULL);
+        }
+        return TCL_ERROR;
+    }
     if (verbose)
         printImgInfo (&sh, filename, "Reading image:");
 
