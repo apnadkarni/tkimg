@@ -1290,6 +1290,11 @@ const PngtclStubs pngtclStubs = {
     png_push_read_iTXt, /* 317 */
 #endif /* !PNG_INTERNAL !PNG_PROGRESSIVE_READ_SUPPORTED !PNG_iTXt_SUPPORTED */
     png_info_init_3, /* 318 */
+#if !defined(PNG_READ_FILLER_SUPPORTED) && !defined(PNG_WRITE_FILLER_SUPPORTED)
+    0, /* 319 */
+#else  /* !PNG_READ_FILLER_SUPPORTED !PNG_WRITE_FILLER_SUPPORTED */
+    png_set_add_alpha, /* 319 */
+#endif /* !PNG_READ_FILLER_SUPPORTED !PNG_WRITE_FILLER_SUPPORTED */
 };
 
 /* !END!: Do not edit above this line. */

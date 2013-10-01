@@ -967,5 +967,8 @@ declare 317 generic {!PNG_INTERNAL !PNG_PROGRESSIVE_READ_SUPPORTED !PNG_iTXt_SUP
 declare 318 {
     void png_info_init_3(png_infopp info_ptr, png_size_t png_info_struct_size)
 }
+declare 319 generic {{!PNG_READ_FILLER_SUPPORTED !PNG_WRITE_FILLER_SUPPORTED}} {
+    void png_set_add_alpha(png_structp png_ptr, png_uint_32 filler, int flags)
+}
 
 #########################################################################
