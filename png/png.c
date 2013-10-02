@@ -357,7 +357,6 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
     int result = TCL_OK;
     int matte;
     double alpha;
-    unsigned char *addAlphaImg = NULL;
     int useAlpha = 0;
     int addAlpha = 0;
 
@@ -421,10 +420,6 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
         png_set_expand(png_ptr);
     }
 
-    png_read_update_info(png_ptr,info_ptr);
-    block.pixelSize = png_get_channels(png_ptr, info_ptr);
-    block.pitch = png_get_rowbytes(png_ptr, info_ptr);
-
     if ((color_type & PNG_COLOR_MASK_COLOR) == 0) {
         /* grayscale image */
         block.offset[1] = 0;
@@ -455,9 +450,18 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
            The matte flag is ignored. */
         if ( alpha >= 0.0) {
             addAlpha = 1;
+            png_set_add_alpha(png_ptr, (unsigned int)(alpha*255), PNG_FILLER_AFTER);
         } else {
             block.offset[3] = 0;
         }
+    }
+
+    /* Note: png_read_update_info may only be called once per info_ptr !! */
+    png_read_update_info(png_ptr,info_ptr);
+    block.pixelSize = png_get_channels(png_ptr, info_ptr);
+    block.pitch = png_get_rowbytes(png_ptr, info_ptr);
+    if (addAlpha) {
+        block.offset[3] = block.pixelSize - 1;
     }
 
     if (png_get_sRGB && png_get_sRGB(png_ptr, info_ptr, &intent)) {
@@ -480,43 +484,7 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
 
     png_read_image(png_ptr,(png_bytepp) png_data);
 
-    /* TODO:
-       It seems the libpng way of adding an alpha channel would be to use
-       the png_set_add_alpha function and then get the updated image
-       information via png_read_update_info.
-       As the png_set_add_alpha function is not (yet) available in the Stubs table,
-       we allocate memory for an image with alpha channel and copy over the data 
-       before putting the image into a Tk photo.
-
-           png_set_add_alpha(png_ptr, 0xff, PNG_FILLER_AFTER);
-           png_read_update_info (png_ptr, info_ptr);
-    */
-
-    if (addAlpha) {
-        unsigned char *srcPtr, *destPtr;
-        block.pixelSize++;
-        block.pitch = block.pixelSize * width;
-        block.offset[3] = block.pixelSize - 1;
-        addAlphaImg= (unsigned char *) ckalloc(info_height * block.pitch);
-        destPtr = addAlphaImg + srcX*block.pixelSize;
-        srcPtr  = (unsigned char *) (png_data[srcY]+srcX*block.pixelSize);
-        if (block.pixelSize == 2) {
-            for(I=0;I<height*width;I++) {
-                *destPtr++ = *srcPtr++;
-                *destPtr++ = alpha * 255;
-            }
-        } else {
-            for(I=0;I<height*width;I++) {
-                *destPtr++ = *srcPtr++;
-                *destPtr++ = *srcPtr++;
-                *destPtr++ = *srcPtr++;
-                *destPtr++ = alpha * 255;
-            }
-        }
-        block.pixelPtr=addAlphaImg + srcX*block.pixelSize;
-    } else {
-        block.pixelPtr=(unsigned char *) (png_data[srcY]+srcX*block.pixelSize);
-    }
+    block.pixelPtr=(unsigned char *) (png_data[srcY]+srcX*block.pixelSize);
 
     if (useAlpha) {
         unsigned char * alphaPtr = block.pixelPtr + block.offset[3];
@@ -531,12 +499,8 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
         result = TCL_ERROR;
     }
 
-    if (addAlphaImg) {
-        ckfree((char *) addAlphaImg);
-    }
     ckfree((char *) png_data);
     png_destroy_read_struct(&png_ptr,&info_ptr,&end_info);
-
     return result;
 }
 
