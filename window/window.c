@@ -22,24 +22,23 @@
 #  else
 #   include "X11/Xlib.h"
 #   include "X11/Xfuncproto.h"
-#   undef X_GetImage
 #  endif
 #else
-/*#   include <windows.h>*/
 #   include "X11/Xlib.h"
 #   include "tkInt.h"
 #   include "tkWinInt.h"
 #   include "X11/Xfuncproto.h"
-#   undef X_GetImage
+#endif
+
+#ifndef X_GetImage
+#   define X_GetImage 73
 #endif
 
 /*
  * The format record for the Win data format:
  */
 
-#ifdef X_GetImage
 static int xerrorhandler(ClientData clientData, XErrorEvent *e);
-#endif
 
 typedef struct ColormapData {	/* Hold color information for a window */
     int separated;		/* Whether to use separate color bands */
@@ -72,7 +71,6 @@ typedef struct ColormapData {	/* Hold color information for a window */
  *--------------------------------------------------------------
  */
 
-#ifdef X_GetImage
 static int
 xerrorhandler(clientData, e)
     ClientData clientData;
@@ -80,7 +78,6 @@ xerrorhandler(clientData, e)
 {
     return 0;
 }
-#endif
 
 /* OPA TODO: Must be a better way to specify non-existing format functions. */
 static int
@@ -235,9 +232,7 @@ static int ObjRead(interp, data, format, imageHandle,
 #endif
     Visual *visual;
     unsigned char *p;
-#ifdef X_GetImage
     Tk_ErrorHandler	handle;
-#endif
     int green, blue;
     int result = TCL_OK;
 
@@ -273,10 +268,8 @@ static int ObjRead(interp, data, format, imageHandle,
      * We catch any BadMatch errors here
      */
 
-#ifdef X_GetImage
     handle = Tk_CreateErrorHandler(Tk_Display(tkwin), BadMatch,
 	    X_GetImage, -1, xerrorhandler, (ClientData) tkwin);
-#endif
 
 #ifndef	__WIN32__
     /*
@@ -287,9 +280,7 @@ static int ObjRead(interp, data, format, imageHandle,
     ximage = XGetImage(Tk_Display(tkwin), Tk_WindowId(tkwin), srcX, srcY,
 	width, height, AllPlanes, ZPixmap);
 
-#ifdef X_GetImage
     Tk_DeleteErrorHandler(handle);
-#endif
 
     if (ximage == (XImage*) NULL) {
 	Tcl_AppendResult(interp, "Window \"", name,
