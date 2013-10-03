@@ -224,13 +224,13 @@ static int ObjRead(interp, data, format, imageHandle,
     ColormapData cdata;
     Colormap cmap;
     int i, ncolors;
+    Visual *visual;
 #else
 #   undef XGetPixel
 #   define XGetPixel(P,X,Y) GetPixel(P, X, Y)
     TkWinDCState DCi;
     HDC			ximage;
 #endif
-    Visual *visual;
     unsigned char *p;
     Tk_ErrorHandler	handle;
     int green, blue;
@@ -290,14 +290,16 @@ static int ObjRead(interp, data, format, imageHandle,
     }
 #else
     ximage = TkWinGetDrawableDC(Tk_Display(tkwin), Tk_WindowId(tkwin), &DCi);
+
+    Tk_DeleteErrorHandler(handle);
 #endif
 
     if (tkimg_PhotoExpand(interp, imageHandle, destX + width, destY + height) == TCL_ERROR) {
 	return TCL_ERROR;
     }
 
-    visual = Tk_Visual(tkwin);
 #ifndef	__WIN32__
+    visual = Tk_Visual(tkwin);
     cmap = Tk_Colormap(tkwin);
 
     /*
@@ -402,7 +404,6 @@ static int ObjRead(interp, data, format, imageHandle,
     XDestroyImage(ximage);
     ckfree((char *) cdata.colors);
 #else
-#   undef XGetPixel
     TkWinReleaseDrawableDC(Tk_WindowId(tkwin), ximage, &DCi);
 #endif
     ckfree((char *) block.pixelPtr);
