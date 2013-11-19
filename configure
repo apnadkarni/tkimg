@@ -8780,7 +8780,7 @@ _ACEOF
 		else
 		    RC="rc"
 		    lflags="-nologo"
-    		    LINKBIN="link"
+		    LINKBIN="link"
 		    CFLAGS_DEBUG="-nologo -Z7 -Od -W3 -WX ${runtime}d"
 		    CFLAGS_OPTIMIZE="-nologo -O2 -W2 ${runtime}"
 		fi
@@ -9968,7 +9968,6 @@ cat >>confdefs.h <<\_ACEOF
 #define MODULE_SCOPE __private_extern__
 _ACEOF
 
-		tcl_cv_cc_visibility_hidden=yes
 
 fi
 
