@@ -19,7 +19,7 @@ Changes compared to version 1.4:
 -  upgrade to zlib 1.2.7, libpng-1.4.12, libtiff-3.9.4, libjpeg-8c
 
 This version only works with Tcl/Tk 8.3 or higher (tested up to
-8.6b3). If you are using Tk8.2 or lower, please stick with tkImg1.3
+8.6.1). If you are using Tk8.2 or lower, please stick with tkImg1.3
 (which is still available).
 
 Currently there are three identical source distributions:
