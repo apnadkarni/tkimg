@@ -138,6 +138,8 @@ AC_DEFUN([TEA_PATH_TCLCONFIG], [
 			`ls -d /usr/contrib/lib 2>/dev/null` \
 			`ls -d /usr/lib 2>/dev/null` \
 			`ls -d /usr/lib64 2>/dev/null` \
+			`ls -d /usr/lib/tcl8.6 2>/dev/null` \
+			`ls -d /usr/lib/tcl8.5 2>/dev/null` \
 			; do
 		    if test -f "$i/tclConfig.sh" ; then
 			ac_cv_c_tclconfig="`(cd $i; pwd)`"
@@ -1293,7 +1295,7 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
 		AC_CACHE_CHECK(for cross-compile version of gcc,
 			ac_cv_cross,
 			AC_TRY_COMPILE([
-			    #ifdef __WIN32__
+			    #ifdef _WIN32
 				#error cross-compiler
 			    #endif
 			], [],
@@ -1426,6 +1428,7 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
 	    SHLIB_LD='${CC} -shared'
 	    SHLIB_SUFFIX=".dll"
 	    EXEEXT=".exe"
+	    do64bit_ok=yes
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
@@ -1638,6 +1641,7 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
 	    SHLIB_CFLAGS="-fPIC"
 	    SHLIB_LD="${CC} -shared"
 	    TCL_SHLIB_LD_EXTRAS="-Wl,-soname=\$[@]"
+	    TK_SHLIB_LD_EXTRAS="-Wl,-soname,\$[@]"
 	    SHLIB_SUFFIX=".so"
 	    LDFLAGS=""
 	    AS_IF([test $doRpath = yes], [
@@ -1648,11 +1652,15 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
 		LIBS=`echo $LIBS | sed s/-pthread//`
 		CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
 		LDFLAGS="$LDFLAGS $PTHREAD_LIBS"])
-	    # Version numbers are dot-stripped by system policy.
-	    TCL_TRIM_DOTS=`echo ${PACKAGE_VERSION} | tr -d .`
-	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.a'
-	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.1'
-	    TCL_LIB_VERSIONS_OK=nodots
+	    case $system in
+	    FreeBSD-3.*)
+		# Version numbers are dot-stripped by system policy.
+		TCL_TRIM_DOTS=`echo ${VERSION} | tr -d .`
+		UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.a'
+		SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so'
+		TCL_LIB_VERSIONS_OK=nodots
+		;;
+	    esac
 	    ;;
 	Darwin-*)
 	    CFLAGS_OPTIMIZE="-Os"
@@ -1733,6 +1741,7 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
 	    AS_IF([test "$tcl_cv_cc_visibility_hidden" != yes], [
 		AC_DEFINE(MODULE_SCOPE, [__private_extern__],
 		    [Compiler support for module scope symbols])
+		tcl_cv_cc_visibility_hidden=yes
 	    ])
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
@@ -1822,8 +1831,8 @@ AC_DEFUN([TEA_CONFIG_CFLAGS], [
 		SHLIB_CFLAGS="-fPIC -melf"
 		LDFLAGS="$LDFLAGS -melf -Wl,-Bexport"
 	    ], [
-	       SHLIB_CFLAGS="-Kpic -belf"
-	       LDFLAGS="$LDFLAGS -belf -Wl,-Bexport"
+		SHLIB_CFLAGS="-Kpic -belf"
+		LDFLAGS="$LDFLAGS -belf -Wl,-Bexport"
 	    ])
 	    SHLIB_LD="ld -G"
 	    SHLIB_LD_LIBS=""
@@ -3203,6 +3212,12 @@ AC_DEFUN([TEA_SETUP_COMPILER_CC], [
 
     INSTALL="\$(SHELL) \$(srcdir)/tclconfig/install-sh -c"
     AC_SUBST(INSTALL)
+    INSTALL_DATA="\${INSTALL} -m 644"
+    AC_SUBST(INSTALL_DATA)
+    INSTALL_PROGRAM="\${INSTALL}"
+    AC_SUBST(INSTALL_PROGRAM)
+    INSTALL_SCRIPT="\${INSTALL}"
+    AC_SUBST(INSTALL_SCRIPT)
 
     #--------------------------------------------------------------------
     # Checks to see if the make program sets the $MAKE variable.
@@ -4148,8 +4163,6 @@ AC_DEFUN([TEA_PATH_CELIB], [
 	fi
     fi
 ])
-
-
 # Local Variables:
 # mode: autoconf
 # End:
