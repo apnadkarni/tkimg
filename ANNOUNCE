@@ -1,7 +1,12 @@
-I'm happy to announce version 1.4.2 of the "tkImg" package
+I'm happy to announce version 1.4.3 of the "tkImg" package
 (formerly known as 'Img").
 
 This package enhances Tk, adding support for many other Image formats.
+
+Changes compared to version 1.4.2:
+-  Bug fix when writing GIF images.
+-  Bug fix when reading greyscale PNG images with alpha channel.
+-  Added target install-libraries to install without documentation generation.
 
 Changes compared to version 1.4.1:
 
