@@ -1,8 +1,8 @@
 
 /* pngset.c - storage of image information into info struct
  *
- * Last changed in libpng 1.4.11 [March 29, 2012]
- * Copyright (c) 1998-2012 Glenn Randers-Pehrson
+ * Last changed in libpng 1.4.15 [%RDATE%]
+ * Copyright (c) 1998-2015 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -150,7 +150,7 @@ png_set_gAMA_fixed(png_structp png_ptr, png_infop info_ptr, png_fixed_point
    if (png_ptr == NULL || info_ptr == NULL)
       return;
 
-   if (int_gamma > (png_fixed_point)PNG_UINT_31_MAX)
+   if (int_gamma >= (png_fixed_point)PNG_UINT_31_MAX)
    {
       png_warning(png_ptr, "Limiting gamma to 21474.83");
       png_gamma=PNG_UINT_31_MAX;
@@ -250,16 +250,7 @@ png_set_IHDR(png_structp png_ptr, png_infop info_ptr,
       info_ptr->channels++;
    info_ptr->pixel_depth = (png_byte)(info_ptr->channels * info_ptr->bit_depth);
 
-   /* Check for potential overflow */
-   if (width > (PNG_UINT_32_MAX
-                 >> 3)      /* 8-byte RGBA pixels */
-                 - 64       /* bigrowbuf hack */
-                 - 1        /* filter byte */
-                 - 7*8      /* rounding of width to multiple of 8 pixels */
-                 - 8)       /* extra max_pixel_depth pad */
-      info_ptr->rowbytes = 0;
-   else
-      info_ptr->rowbytes = PNG_ROWBYTES(info_ptr->pixel_depth, width);
+   info_ptr->rowbytes = PNG_ROWBYTES(info_ptr->pixel_depth, width);
 }
 
 #ifdef PNG_oFFs_SUPPORTED
@@ -539,6 +530,7 @@ png_set_sRGB_gAMA_and_cHRM(png_structp png_ptr, png_infop info_ptr,
 #endif
 
 #ifdef PNG_cHRM_SUPPORTED
+#  ifdef PNG_FIXED_POINT_SUPPORTED
    int_white_x = 31270L;
    int_white_y = 32900L;
    int_red_x   = 64000L;
@@ -547,8 +539,12 @@ png_set_sRGB_gAMA_and_cHRM(png_structp png_ptr, png_infop info_ptr,
    int_green_y = 60000L;
    int_blue_x  = 15000L;
    int_blue_y  =  6000L;
+   png_set_cHRM_fixed(png_ptr, info_ptr,
+       int_white_x, int_white_y, int_red_x, int_red_y, int_green_x,
+       int_green_y, int_blue_x, int_blue_y);
+#  endif
 
-#ifdef PNG_FLOATING_POINT_SUPPORTED
+#  ifdef PNG_FLOATING_POINT_SUPPORTED
    white_x = (float).3127;
    white_y = (float).3290;
    red_x   = (float).64;
@@ -557,17 +553,9 @@ png_set_sRGB_gAMA_and_cHRM(png_structp png_ptr, png_infop info_ptr,
    green_y = (float).60;
    blue_x  = (float).15;
    blue_y  = (float).06;
-#endif
-
-#ifdef PNG_FIXED_POINT_SUPPORTED
-   png_set_cHRM_fixed(png_ptr, info_ptr,
-       int_white_x, int_white_y, int_red_x, int_red_y, int_green_x,
-       int_green_y, int_blue_x, int_blue_y);
-#endif
-#ifdef PNG_FLOATING_POINT_SUPPORTED
    png_set_cHRM(png_ptr, info_ptr,
        white_x, white_y, red_x, red_y, green_x, green_y, blue_x, blue_y);
-#endif
+#  endif
 #endif /* cHRM */
 }
 #endif /* sRGB */
@@ -835,6 +823,12 @@ png_set_tRNS(png_structp png_ptr, png_infop info_ptr,
 
    if (png_ptr == NULL || info_ptr == NULL)
       return;
+
+   if (num_trans < 0 || num_trans > PNG_MAX_PALETTE_LENGTH)
+      {
+        png_warning(png_ptr, "Ignoring invalid num_trans value");
+        return;
+      }
 
    if (trans_alpha != NULL)
    {

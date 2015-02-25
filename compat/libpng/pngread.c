@@ -1,8 +1,8 @@
 
 /* pngread.c - read a PNG file
  *
- * Last changed in libpng 1.4.10 [March 8, 2012]
- * Copyright (c) 1998-2012 Glenn Randers-Pehrson
+ * Last changed in libpng 1.4.14 [November 20, 2014]
+ * Copyright (c) 1998-2014 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -53,8 +53,6 @@ png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
 #endif
 #endif
 
-   int i;
-
    png_debug(1, "in png_create_read_struct");
 
 #ifdef PNG_USER_MEM_SUPPORTED
@@ -99,14 +97,20 @@ png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
 
    png_set_error_fn(png_ptr, error_ptr, error_fn, warn_fn);
 
-   if (user_png_ver)
-   {
-      i = 0;
-      do
-      {
-         if (user_png_ver[i] != png_libpng_ver[i])
-            png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
-      } while (png_libpng_ver[i++]);
+    if (user_png_ver != NULL)
+    {
+       int i = -1;
+       int found_dots = 0;
+
+       do
+       {
+          i++;
+          if (user_png_ver[i] != PNG_LIBPNG_VER_STRING[i])
+             png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
+          if (user_png_ver[i] == '.')
+             found_dots++;
+       } while (found_dots < 2 && user_png_ver[i] != 0 &&
+             PNG_LIBPNG_VER_STRING[i] != 0);
     }
     else
          png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
@@ -1232,7 +1236,7 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
    if (transforms & PNG_TRANSFORM_EXPAND)
       if ((png_ptr->bit_depth < 8) ||
           (png_ptr->color_type == PNG_COLOR_TYPE_PALETTE) ||
-          (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)))
+          (info_ptr->valid & PNG_INFO_tRNS))
          png_set_expand(png_ptr);
 #endif
 
@@ -1251,14 +1255,8 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
     * [0,65535] to the original [0,7] or [0,31], or whatever range the
     * colors were originally in:
     */
-   if ((transforms & PNG_TRANSFORM_SHIFT)
-       && png_get_valid(png_ptr, info_ptr, PNG_INFO_sBIT))
-   {
-      png_color_8p sig_bit;
-
-      png_get_sBIT(png_ptr, info_ptr, &sig_bit);
-      png_set_shift(png_ptr, sig_bit);
-   }
+   if ((transforms & PNG_TRANSFORM_SHIFT) && (info_ptr->valid & PNG_INFO_sBIT))
+      png_set_shift(png_ptr, &info_ptr->sig_bit);
 #endif
 
 #ifdef PNG_READ_BGR_SUPPORTED

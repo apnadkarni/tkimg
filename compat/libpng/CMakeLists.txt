@@ -25,7 +25,7 @@ endif()
 project(libpng C)
 enable_testing()
 
-# Copyright (C) 2007-2010 Glenn Randers-Pehrson
+# Copyright (C) 2007-2012 Glenn Randers-Pehrson
 
 # This code is released under the libpng license.
 # For conditions of distribution and use, see the disclaimer
@@ -33,7 +33,7 @@ enable_testing()
 
 set(PNGLIB_MAJOR 1)
 set(PNGLIB_MINOR 4)
-set(PNGLIB_RELEASE 12)
+set(PNGLIB_RELEASE 15)
 set(PNGLIB_NAME libpng${PNGLIB_MAJOR}${PNGLIB_MINOR})
 set(PNGLIB_VERSION ${PNGLIB_MAJOR}.${PNGLIB_MINOR}.${PNGLIB_RELEASE})
 
@@ -255,7 +255,7 @@ install(CODE ${PNG_CONFIG_INSTALL_CODE})
 # SET UP LINKS
 if(PNG_SHARED)
   set_target_properties(${PNG_LIB_NAME} PROPERTIES
-#   VERSION 14.${PNGLIB_RELEASE}.1.4.12
+#   VERSION 14.${PNGLIB_RELEASE}.1.4.15
     VERSION 14.${PNGLIB_RELEASE}.0
     SOVERSION 14
     CLEAN_DIRECT_OUTPUT 1)

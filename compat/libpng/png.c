@@ -1,8 +1,8 @@
 
 /* png.c - location for general purpose libpng functions
  *
- * Last changed in libpng 1.4.6 [March 8, 2011]
- * Copyright (c) 1998-2011 Glenn Randers-Pehrson
+ * Last changed in libpng 1.4.15 [%RDATE%]
+ * Copyright (c) 1998-2015 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -17,7 +17,7 @@
 #include "pngpriv.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_4_12 Your_png_h_is_not_version_1_4_12;
+typedef version_1_4_15 Your_png_h_is_not_version_1_4_15;
 
 /* Tells libpng that we have already handled the first "num_bytes" bytes
  * of the PNG file signature.  If the PNG data is embedded into another
@@ -74,12 +74,16 @@ voidpf /* PRIVATE */
 png_zalloc(voidpf png_ptr, uInt items, uInt size)
 {
    png_voidp ptr;
-   png_structp p=(png_structp)png_ptr;
-   png_uint_32 save_flags=p->flags;
+   png_structp p;
+   png_uint_32 save_flags;
    png_alloc_size_t num_bytes;
 
    if (png_ptr == NULL)
       return (NULL);
+
+   p=(png_structp)png_ptr;
+   save_flags=p->flags;
+
    if (items > PNG_UINT_32_MAX/size)
    {
      png_warning (p, "Potential overflow in png_zalloc()");
@@ -547,14 +551,14 @@ png_get_copyright(png_const_structp png_ptr)
 #else
 #ifdef __STDC__
    return ((png_charp) PNG_STRING_NEWLINE \
-     "libpng version 1.4.12 - July 10, 2012" PNG_STRING_NEWLINE \
-     "Copyright (c) 1998-2010 Glenn Randers-Pehrson" PNG_STRING_NEWLINE \
+     "libpng version 1.4.15 - February 12, 2015" PNG_STRING_NEWLINE \
+     "Copyright (c) 1998-2015 Glenn Randers-Pehrson" PNG_STRING_NEWLINE \
      "Copyright (c) 1996-1997 Andreas Dilger" PNG_STRING_NEWLINE \
      "Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc." \
      PNG_STRING_NEWLINE);
 #else
-      return ((png_charp) "libpng version 1.4.12 - July 10, 2012\
-      Copyright (c) 1998-2010 Glenn Randers-Pehrson\
+      return ((png_charp) "libpng version 1.4.15 - February 12, 2015\
+      Copyright (c) 1998-2015 Glenn Randers-Pehrson\
       Copyright (c) 1996-1997 Andreas Dilger\
       Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.");
 #endif
@@ -721,14 +725,14 @@ png_check_cHRM_fixed(png_structp png_ptr,
         "Ignoring attempt to set negative chromaticity value");
       ret = 0;
    }
-   if (white_x > (png_fixed_point) PNG_UINT_31_MAX ||
-       white_y > (png_fixed_point) PNG_UINT_31_MAX ||
-         red_x > (png_fixed_point) PNG_UINT_31_MAX ||
-         red_y > (png_fixed_point) PNG_UINT_31_MAX ||
-       green_x > (png_fixed_point) PNG_UINT_31_MAX ||
-       green_y > (png_fixed_point) PNG_UINT_31_MAX ||
-        blue_x > (png_fixed_point) PNG_UINT_31_MAX ||
-        blue_y > (png_fixed_point) PNG_UINT_31_MAX )
+   if (white_x >= (png_fixed_point) PNG_UINT_31_MAX ||
+       white_y >= (png_fixed_point) PNG_UINT_31_MAX ||
+         red_x >= (png_fixed_point) PNG_UINT_31_MAX ||
+         red_y >= (png_fixed_point) PNG_UINT_31_MAX ||
+       green_x >= (png_fixed_point) PNG_UINT_31_MAX ||
+       green_y >= (png_fixed_point) PNG_UINT_31_MAX ||
+        blue_x >= (png_fixed_point) PNG_UINT_31_MAX ||
+        blue_y >= (png_fixed_point) PNG_UINT_31_MAX )
    {
       png_warning(png_ptr,
         "Ignoring attempt to set chromaticity value exceeding 21474.83");
@@ -770,6 +774,17 @@ png_check_cHRM_fixed(png_structp png_ptr,
 #endif /* PNG_CHECK_cHRM_SUPPORTED */
 #endif /* PNG_cHRM_SUPPORTED */
 
+#ifdef __GNUC__
+/* This exists solely to work round a warning from GNU C. */
+static int /* PRIVATE */
+png_gt(size_t a, size_t b)
+{
+    return a > b;
+}
+#else
+#   define png_gt(a,b) ((a) > (b))
+#endif
+
 void /* PRIVATE */
 png_check_IHDR(png_structp png_ptr,
    png_uint_32 width, png_uint_32 height, int bit_depth,
@@ -785,9 +800,31 @@ png_check_IHDR(png_structp png_ptr,
       error = 1;
    }
 
-   if (height == 0)
+   if (width > PNG_UINT_31_MAX)
    {
-      png_warning(png_ptr, "Image height is zero in IHDR");
+      png_warning(png_ptr, "Invalid image width in IHDR");
+      error = 1;
+   }
+
+   if (png_gt(((width + 7) & (~7)),
+       ((PNG_UINT_32_MAX /* Changed to PNG_SIZE_MAX here in libpng-1.5.21 */
+           - 48        /* big_row_buf hack */
+           - 1)        /* filter byte */
+           / 8)        /* 8-byte RGBA pixels */
+           - 1))       /* extra max_pixel_depth pad */
+   {
+      /* The size of the row must be within the limits of this architecture.
+       * Because the read code can perform arbitrary transformations the
+       * maximum size is checked here.  Because the code in png_read_start_row
+       * adds extra space "for safety's sake" in several places a conservative
+       * limit is used here.
+       *
+       * NOTE: it would be far better to check the size that is actually used,
+       * but the effect in the real world is minor and the changes are more
+       * extensive, therefore much more dangerous and much more difficult to
+       * write in a way that avoids compiler warnings.
+       */
+      png_warning(png_ptr, "Image width is too large for this architecture");
       error = 1;
    }
 
@@ -801,6 +838,18 @@ png_check_IHDR(png_structp png_ptr,
       error = 1;
    }
 
+   if (height == 0)
+   {
+      png_warning(png_ptr, "Image height is zero in IHDR");
+      error = 1;
+   }
+
+   if (height > PNG_UINT_31_MAX)
+   {
+      png_warning(png_ptr, "Invalid image height in IHDR");
+      error = 1;
+   }
+
 #ifdef PNG_SET_USER_LIMITS_SUPPORTED
    if (height > png_ptr->user_height_max || height > PNG_USER_HEIGHT_MAX)
 #else
@@ -810,26 +859,6 @@ png_check_IHDR(png_structp png_ptr,
       png_warning(png_ptr, "Image height exceeds user limit in IHDR");
       error = 1;
    }
-
-   if (width > PNG_UINT_31_MAX)
-   {
-      png_warning(png_ptr, "Invalid image width in IHDR");
-      error = 1;
-   }
-
-   if ( height > PNG_UINT_31_MAX)
-   {
-      png_warning(png_ptr, "Invalid image height in IHDR");
-      error = 1;
-   }
-
-   if ( width > (PNG_UINT_32_MAX
-                 >> 3)      /* 8-byte RGBA pixels */
-                 - 64       /* bigrowbuf hack */
-                 - 1        /* filter byte */
-                 - 7*8      /* rounding of width to multiple of 8 pixels */
-                 - 8)       /* extra max_pixel_depth pad */
-      png_warning(png_ptr, "Width is too large for libpng to process pixels");
 
    /* Check other values */
    if (bit_depth != 1 && bit_depth != 2 && bit_depth != 4 &&

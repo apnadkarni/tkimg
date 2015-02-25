@@ -1,5 +1,5 @@
 
-Libpng 1.4.12 - July 10, 2012
+Libpng 1.4.15 - February 12, 2015
 
 This is a public release of libpng, intended for use in production codes.
 
@@ -8,26 +8,27 @@ Files available for download:
 Source files with LF line endings (for Unix/Linux) and with a
 "configure" script
 
-   libpng-1.4.12.tar.xz (LZMA-compressed, recommended)
-   libpng-1.4.12.tar.gz
-   libpng-1.4.12.tar.bz2
+   libpng-1.4.15.tar.xz (LZMA-compressed, recommended)
+   libpng-1.4.15.tar.gz
+   libpng-1.4.15.tar.bz2
 
 Source files with CRLF line endings (for Windows), without the
 "configure" script
 
-   lpng1412.7z (LZMA-compressed, recommended)
-   lpng1412.zip
+   lpng1415.7z (LZMA-compressed, recommended)
+   lpng1415.zip
 
 Other information:
 
-   libpng-1.4.12-README.txt
-   libpng-1.4.12-LICENSE.txt
+   libpng-1.4.15-README.txt
+   libpng-1.4.15-LICENSE.txt
+   libpng-1.4.15-*.asc (armored detached GPG signatures)
 
-Changes since the last public release (1.4.11):
-  Added two images to contrib/pngsuite (1-bit and 2-bit transparent grayscale),
-    and renamed three whose names were inconsistent with those in
-    pngsuite/README.txt.
-  Changed "a+w" to "u+w" in Makefile.in to fix CVE-2012-3386.
+Changes since the last public release (1.4.14):
+
+  Restored test for maximum allowed image width that was removed from
+    libpng-1.4.13 (fixes CVE-2014-9495 and CVE-2015-0973).
+  Quieted some harmless warnings from Coverity-scan.
 
 Send comments/corrections/commendations to glennrp at users.sourceforge.net
 or to png-mng-implement at lists.sf.net (subscription required; visit
