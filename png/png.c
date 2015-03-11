@@ -420,6 +420,8 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
         png_set_expand(png_ptr);
     }
 
+    /* Note: png_read_update_info may only be called once per info_ptr !! */
+    png_read_update_info(png_ptr, info_ptr);
     block.pixelSize = png_get_channels(png_ptr, info_ptr);
     block.pitch = png_get_rowbytes(png_ptr, info_ptr);
 
@@ -479,8 +481,6 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
         png_data[i]= ((char *) png_data) + (sizeof(char *) * info_height + i * block.pitch);
     }
 
-    /* Note: png_read_update_info may only be called once per info_ptr !! */
-    png_read_update_info(png_ptr, info_ptr);
     png_read_image(png_ptr,(png_bytepp) png_data);
 
     block.pixelPtr=(unsigned char *) (png_data[srcY]+srcX*block.pixelSize);
