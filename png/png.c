@@ -420,6 +420,16 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
         png_set_expand(png_ptr);
     }
 
+    if (png_get_sRGB && png_get_sRGB(png_ptr, info_ptr, &intent)) {
+        png_set_sRGB(png_ptr, info_ptr, intent);
+    } else if (png_get_gAMA) {
+        double gamma;
+        if (!png_get_gAMA(png_ptr, info_ptr, &gamma)) {
+            gamma = 0.45455;
+        }
+        png_set_gamma(png_ptr, 1.0, gamma);
+    }
+
     /* Note: png_read_update_info may only be called once per info_ptr !! */
     png_read_update_info(png_ptr, info_ptr);
     block.pixelSize = png_get_channels(png_ptr, info_ptr);
@@ -463,16 +473,6 @@ CommonReadPNG(png_ptr, interp, format, imageHandle, destX, destY,
 
     if (addAlpha) {
         block.offset[3] = block.pixelSize - 1;
-    }
-
-    if (png_get_sRGB && png_get_sRGB(png_ptr, info_ptr, &intent)) {
-        png_set_sRGB(png_ptr, info_ptr, intent);
-    } else if (png_get_gAMA) {
-        double gamma;
-        if (!png_get_gAMA(png_ptr, info_ptr, &gamma)) {
-            gamma = 0.45455;
-        }
-        png_set_gamma(png_ptr, 1.0, gamma);
     }
 
     png_data= (char **) ckalloc(sizeof(char *) * info_height + info_height * block.pitch);
