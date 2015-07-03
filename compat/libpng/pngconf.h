@@ -295,17 +295,18 @@
     * table entries, so we discard it here.  See the .dfn files in the
     * scripts directory.
     */
-#ifndef PNG_EXPORTA
-
-#  define PNG_EXPORTA(ordinal, type, name, args, attributes)\
-      PNG_FUNCTION(PNG_EXPORT_TYPE(type),(PNGAPI name),PNGARG(args), \
-        attributes)
-#endif
 
 /* ANSI-C (C90) does not permit a macro to be invoked with an empty argument,
  * so make something non-empty to satisfy the requirement:
  */
 #define PNG_EMPTY /*empty list*/
+
+#ifndef PNG_EXPORTA
+
+#  define PNG_EXPORTA(ordinal, type, name, args, attributes)\
+      PNG_FUNCTION(PNG_EXPORT_TYPE(type),(PNGAPI name),PNGARG(args), \
+        PNG_EMPTY attributes)
+#endif
 
 #define PNG_EXPORT(ordinal, type, name, args)\
    PNG_EXPORTA(ordinal, type, name, args, PNG_EMPTY)
