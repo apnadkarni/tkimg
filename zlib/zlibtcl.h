@@ -29,8 +29,8 @@
 #define ZLIBTCL_RELEASE_SERIAL	8
 
 #ifndef ZLIBTCL_VERSION
-#define ZLIBTCL_VERSION		"1.2.8"
-#define ZLIBTCL_PATCH_LEVEL	"1.2.8"
+#define ZLIBTCL_VERSION		"1.2.8.1"
+#define ZLIBTCL_PATCH_LEVEL	"1.2.8.1"
 #endif
 
 /*
