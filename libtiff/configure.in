@@ -8,7 +8,7 @@ AC_REVISION($Id$)
 # TEA compliant.
 #--------------------------------------------------------------------
 
-AC_INIT([tifftcl],[3.9.4])
+AC_INIT([tifftcl],[3.9.7])
 
 TEA_INIT([3.9])
 

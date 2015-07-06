@@ -4,7 +4,7 @@ I'm happy to announce version 1.4.4 of the "tkImg" package
 This package enhances Tk, adding support for many other Image formats.
 
 Changes compared to version 1.4.3:
--  Upgrade to libpng-1.6.17
+-  Upgrade to libpng-1.6.17, libtiff-3.9.7
 -  Disable jbig support, as this generally cannot be relied upon (Bug #81)
 
 Changes compared to version 1.4.2:
