@@ -181,7 +181,7 @@ all: binaries libraries doc
 # of the Makefile, in the "BINARIES" variable.
 #========================================================================
 
-binaries: $(BINARIES) pkgIndex.tcl
+binaries:	pnglibconf.h $(BINARIES) pkgIndex.tcl
 
 libraries:
 
@@ -277,6 +277,9 @@ VPATH = $(srcdir):$(srcdir)/../compat/libpng
 .c.@OBJEXT@:
 	$(COMPILE) -c `@CYGPATH@ $<` -o $@
 
+pnglibconf.h:	$(srcdir)/../compat/libpng/scripts/pnglibconf.h.prebuilt
+	cp $(srcdir)/../compat/libpng/scripts/pnglibconf.h.prebuilt pnglibconf.h
+
 #========================================================================
 # Create the pkgIndex.tcl file.
 # It is usually easiest to let Tcl do this for you with pkg_mkIndex, but
@@ -365,7 +368,7 @@ clean:
 	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean: clean
-	-rm -f *.tab.c
+	-rm -f *.tab.c pnglibconf.h
 	-rm -f $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log config.status
 
