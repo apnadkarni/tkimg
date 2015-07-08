@@ -57,7 +57,7 @@ Tifftcl_Init (interp)
   if (Tcl_InitStubs(interp, "8.3", 0) == NULL) {
     return TCL_ERROR;
   }
-  if (Tcl_PkgProvideEx(interp, PACKAGE_NAME, PACKAGE_VERSION,
+  if (Tcl_PkgProvideEx(interp, "tifftcl", tifftcl_VERSION,
 		       (ClientData) &tifftclStubs) != TCL_OK) {
     return TCL_ERROR;
   }
