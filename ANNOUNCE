@@ -1,7 +1,11 @@
-I'm happy to announce version 1.4.4 of the "tkImg" package
+I'm happy to announce version 1.4.5 of the "tkImg" package
 (formerly known as 'Img").
 
 This package enhances Tk, adding support for many other Image formats.
+
+Changes compared to version 1.4.4:
+-  Upgrade to libjpeg-9.2.0
+-  Workaround for reading progressive JPEG images on Windows.
 
 Changes compared to version 1.4.3:
 -  Upgrade to libpng-1.6.19, libtiff-3.9.7
@@ -32,9 +36,9 @@ This version only works with Tcl/Tk 8.3 or higher (tested up to
 (which is still available).
 
 Currently there are three identical source distributions:
-	tkimg144.zip             (for Windows)  (about 7.4 Mb)
-	tkimg1.4.4.tar.gz        (for Unix)     (about 6.6 Mb)
-	tkimg1.4.4.tar.bz2       (for Unix)     (about 4.9 Mb)
+	tkimg145.zip             (for Windows)  (about 7.4 Mb)
+	tkimg1.4.5.tar.gz        (for Unix)     (about 6.6 Mb)
+	tkimg1.4.5.tar.bz2       (for Unix)     (about 4.9 Mb)
 
 All these files can be downloaded from:
 	http://sourceforge.net/projects/tkimg/
