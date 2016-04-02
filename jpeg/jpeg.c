@@ -54,6 +54,14 @@
 #ifdef _WIN32
 #   define HAVE_BOOLEAN
 #endif
+
+#ifndef FALSE
+#define FALSE   0
+#endif
+#ifndef TRUE
+#define TRUE    1
+#endif
+
 #include "tkimg.h"
 #include "jpegtcl.h"
 
