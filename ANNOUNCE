@@ -6,6 +6,7 @@ This package enhances Tk, adding support for many other Image formats.
 Changes compared to version 1.4.4:
 -  Upgrade to libjpeg-9.2.0
 -  Workaround for reading progressive JPEG images on Windows.
+-  Performance optimization under Windows for "-format window".
 
 Changes compared to version 1.4.3:
 -  Upgrade to libpng-1.6.19, libtiff-3.9.7
