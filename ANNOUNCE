@@ -4,7 +4,7 @@ I'm happy to announce version 1.4.5 of the "tkImg" package
 This package enhances Tk, adding support for many other Image formats.
 
 Changes compared to version 1.4.4:
--  Upgrade to libjpeg-9.2.0
+-  Upgrade to libjpeg-9.2.0, libpng-1.6.21
 -  Workaround for reading progressive JPEG images on Windows.
 -  Performance optimization under Windows for "-format window".
 

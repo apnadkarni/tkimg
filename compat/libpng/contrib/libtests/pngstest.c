@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2013-2015 John Cunningham Bowler
  *
- * Last changed in libpng 1.6.19 [(PENDING RELEASE)]
+ * Last changed in libpng 1.6.19 [November 12, 2015]
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -3130,7 +3130,7 @@ write_one_file(Image *output, Image *image, int convert_to_8bit)
         (void) unlink(tmpfile);
       }
 #endif
-      
+
       if (f != NULL)
       {
          if (png_image_write_to_stdio(&image->image, f, convert_to_8bit,

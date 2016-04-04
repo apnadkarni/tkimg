@@ -235,8 +235,7 @@ static int putrow(IMAGE *image, unsigned short *buffer,
 	ever need be worried about, while programs that know how and
 	want to can handle the errors themselves.  Olson, 11/88
 */
-static void i_errhdlr(fmt, a1, a2, a3, a4)  /* most args currently used is 2 */
-char *fmt;
+static void i_errhdlr(const char *fmt, ...)  /* most args currently used is 2 */
 {
     /* fprintf(stderr, fmt); */
     return;
