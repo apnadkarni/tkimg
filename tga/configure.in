@@ -8,7 +8,7 @@ AC_REVISION($Id$)
 # TEA compliant.
 #--------------------------------------------------------------------
 
-AC_INIT([tkimgtga],[1.4.5])
+AC_INIT([tkimgtga],[1.4.6])
 
 TEA_INIT([3.9])
 
