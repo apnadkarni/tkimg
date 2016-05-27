@@ -53,7 +53,6 @@ static int SetupPngLibrary(Tcl_Interp *interp);
 #include "init.c"
 
 
-
 #define COMPRESS_THRESHOLD 1024
 
 typedef struct png_text_struct_compat
@@ -478,20 +477,13 @@ CommonReadPNG(png_ptr, interp, fileName, format, imageHandle, destX, destY,
 
     Tk_PhotoGetImage(imageHandle, &block);
 
-    if (png_set_strip_16 != NULL) {
-        png_set_strip_16(png_ptr);
-    } else if (bit_depth == 16) {
-        block.offset[1] = 2;
-        block.offset[2] = 4;
-    }
+    png_set_scale_16(png_ptr);
 
-    if (png_set_expand != NULL) {
-        png_set_expand(png_ptr);
-    }
+    png_set_expand(png_ptr);
 
-    if (png_get_sRGB && png_get_sRGB(png_ptr, info_ptr, &intent)) {
+    if (png_get_sRGB(png_ptr, info_ptr, &intent)) {
         png_set_sRGB(png_ptr, info_ptr, intent);
-    } else if (png_get_gAMA) {
+    } else {
         if (gamma < 0.0) {
             /* No gamma specified on the command line.
              * Check, if a gamma value is specified in the file.
