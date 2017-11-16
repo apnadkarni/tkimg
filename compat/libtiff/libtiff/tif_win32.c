@@ -345,12 +345,12 @@ static void
 Win32WarningHandler(const char* module, const char* fmt, va_list ap)
 {
 #ifndef TIF_PLATFORM_CONSOLE
-	LPTSTR szTitle;
-	LPTSTR szTmp;
-	LPCTSTR szTitleText = "%s Warning";
-	LPCTSTR szDefaultModule = "LIBTIFF";
-	LPCTSTR szTmpModule = (module == NULL) ? szDefaultModule : module;
-	if ((szTitle = (LPTSTR)LocalAlloc(LMEM_FIXED, (strlen(szTmpModule) +
+	LPSTR szTitle;
+	LPSTR szTmp;
+	LPCSTR szTitleText = "%s Warning";
+	LPCSTR szDefaultModule = "LIBTIFF";
+	LPCSTR szTmpModule = (module == NULL) ? szDefaultModule : module;
+	if ((szTitle = (LPSTR)LocalAlloc(LMEM_FIXED, (strlen(szTmpModule) +
 		strlen(szTitleText) + strlen(fmt) + 128)*sizeof(char))) == NULL)
 		return;
 	sprintf(szTitle, szTitleText, szTmpModule);
@@ -373,12 +373,12 @@ static void
 Win32ErrorHandler(const char* module, const char* fmt, va_list ap)
 {
 #ifndef TIF_PLATFORM_CONSOLE
-	LPTSTR szTitle;
-	LPTSTR szTmp;
-	LPCTSTR szTitleText = "%s Error";
-	LPCTSTR szDefaultModule = "LIBTIFF";
-	LPCTSTR szTmpModule = (module == NULL) ? szDefaultModule : module;
-	if ((szTitle = (LPTSTR)LocalAlloc(LMEM_FIXED, (strlen(szTmpModule) +
+	LPSTR szTitle;
+	LPSTR szTmp;
+	LPCSTR szTitleText = "%s Error";
+	LPCSTR szDefaultModule = "LIBTIFF";
+	LPCSTR szTmpModule = (module == NULL) ? szDefaultModule : module;
+	if ((szTitle = (LPSTR)LocalAlloc(LMEM_FIXED, (strlen(szTmpModule) +
 		strlen(szTitleText) + strlen(fmt) + 128)*sizeof(char))) == NULL)
 		return;
 	sprintf(szTitle, szTitleText, szTmpModule);
