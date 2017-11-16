@@ -15,16 +15,8 @@
 #------------------------------------------------------------------------------
 
 PHIMGTYPE = jpeg
-PRJ_INCLUDES = -I"$(TMP_DIR)" -I../../libjpeg
-PRJ_LIBS = $(PRJ_LIBS) "..\..\libjpeg\win\$(BUILDDIRTOP)\jpegtclstub$(JPEGLIB_VERSION:.=).lib"
+REQUIRE_LIBJPEG = 1
 !include "..\..\win\rules-img.vc"
-
-!if [echo JPEGLIB_VERSION = \> versions.vc] \
-   || [nmakehlp -V ..\..\base\configure.in ^[tkimg^] >> versions.vc]
-!error Could not determine tkimg base version.
-!endif
-!include versions.vc
-
 
 $(PRJ_OBJS): $(TMP_DIR)\jconfig.h
 $(TMP_DIR)\jconfig.h: ..\..\compat\libjpeg\jconfig.vc
