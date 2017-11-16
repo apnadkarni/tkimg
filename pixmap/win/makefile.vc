@@ -14,6 +14,8 @@
 # 
 #------------------------------------------------------------------------------
 
-PHIMGTYPE = bmp
+PHIMGTYPE = pixmap
+PRJ_OBJS = $(TMP_DIR)\pixmap.obj $(TMP_DIR)\pixmapWin.obj
+PRJ_DEFINES = -D_CRT_SECURE_NO_WARNINGS
 !include "..\..\win\rules-img.vc"
 
