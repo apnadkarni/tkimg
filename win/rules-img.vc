@@ -29,41 +29,48 @@ PRJ_OBJS = $(TMP_DIR)\$(PHIMGTYPE).obj
 !endif
 !include versions.vc
 
-!if [echo LIBJPEG_VERSION = \> versions.vc] \
-   || [nmakehlp -V ..\..\libjpeg\configure.in ^[jpegtcl^] >> versions.vc]
-!error Could not determine libjpeg base version.
-!endif
-!include versions.vc
-
-!if [echo ZLIB_VERSION = \> versions.vc] \
-   || [nmakehlp -V ..\..\zlib\configure.in ^[zlibtcl^] >> versions.vc]
-!error Could not determine zlib base version.
-!endif
-!include versions.vc
-
-!if [echo LIBPNG_VERSION = \> versions.vc] \
-   || [nmakehlp -V ..\..\libpng\configure.in ^[pngtcl^] >> versions.vc]
-!error Could not determine libpng base version.
-!endif
-!include versions.vc
-
 PRJ_INCLUDES = $(PRJ_INCLUDES) -I"$(TMP_DIR)" -I"..\..\base"
 PRJ_DEFINES  = $(PRJ_DEFINES) -DPACKAGE_TCLNAME="\"$(PACKAGE_TCLNAME)\"" -DTKIMG_VERSION="\"$(TKIMG_VERSION)"\"
 PRJ_LIBS = $(PRJ_LIBS) "..\..\base\win\$(BUILDDIRTOP)\tkimgstub$(TKIMG_VERSION:.=).lib"
 
 !ifdef REQUIRE_LIBJPEG
+!if [echo LIBJPEG_VERSION = \> versions.vc] \
+   || [nmakehlp -V ..\..\libjpeg\configure.in ^[jpegtcl^] >> versions.vc]
+!error Could not determine libjpeg base version.
+!endif
+!include versions.vc
 PRJ_INCLUDES = $(PRJ_INCLUDES) -I"$(TMP_DIR)" -I../../libjpeg
 PRJ_LIBS = $(PRJ_LIBS) "..\..\libjpeg\win\$(BUILDDIRTOP)\jpegtclstub$(LIBJPEG_VERSION:.=).lib"
 !endif
 
 !ifdef REQUIRE_ZLIB
+!if [echo ZLIB_VERSION = \> versions.vc] \
+   || [nmakehlp -V ..\..\zlib\configure.in ^[zlibtcl^] >> versions.vc]
+!error Could not determine zlib base version.
+!endif
+!include versions.vc
 PRJ_INCLUDES = $(PRJ_INCLUDES) -I"$(TMP_DIR)" -I../../zlib
 PRJ_LIBS = $(PRJ_LIBS) "..\..\zlib\win\$(BUILDDIRTOP)\zlibtclstub$(ZLIB_VERSION:.=).lib"
 !endif
 
 !ifdef REQUIRE_LIBPNG
+!if [echo LIBPNG_VERSION = \> versions.vc] \
+   || [nmakehlp -V ..\..\libpng\configure.in ^[pngtcl^] >> versions.vc]
+!error Could not determine libpng base version.
+!endif
+!include versions.vc
 PRJ_INCLUDES = $(PRJ_INCLUDES) -I"$(TMP_DIR)" -I../../libpng
 PRJ_LIBS = $(PRJ_LIBS) "..\..\libpng\win\$(BUILDDIRTOP)\pngtclstub$(LIBPNG_VERSION:.=).lib"
+!endif
+
+!ifdef REQUIRE_LIBTIFF
+!if [echo LIBTIFF_VERSION = \> versions.vc] \
+   || [nmakehlp -V ..\..\libtiff\configure.in ^[tifftcl^] >> versions.vc]
+!error Could not determine libtiff base version.
+!endif
+!include versions.vc
+PRJ_INCLUDES = $(PRJ_INCLUDES) -I"$(TMP_DIR)" -I../../libtiff -I../../libtiff/libtiff
+PRJ_LIBS = $(PRJ_LIBS) "..\..\libtiff\win\$(BUILDDIRTOP)\tifftclstub$(LIBTIFF_VERSION:.=).lib"
 !endif
 
 !include "$(_RULESDIR)\targets.vc"

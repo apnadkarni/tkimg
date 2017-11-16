@@ -61,5 +61,5 @@ install: default-install-stubs
 pkgindex: default-pkgindex
 
 $(PRJ_OBJS): $(TMP_DIR)\pnglibconf.h
-$(TMP_DIR)\pnglibconf.h: ..\..\compat\libpng\scripts\pnglibconf.h.prebuilt
+$(TMP_DIR)\pnglibconf.h: $(COMPATDIR)\scripts\pnglibconf.h.prebuilt
 	$(COPY) $** "$@"
