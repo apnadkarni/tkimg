@@ -81,14 +81,14 @@
 static int TempFileName( char name[1024])
 {
     const char *prefix = "SGI";
-    if (GetTempPath(1024, name) != 0) {
-        if (GetTempFileName(name, prefix, 0, name) != 0) {
+    if (GetTempPathA(1024, name) != 0) {
+        if (GetTempFileNameA(name, prefix, 0, name) != 0) {
             return 1;
         }
     }
     name[0] = '.';
     name[1] = '\0';
-    return GetTempFileName(name, prefix, 0, name);
+    return GetTempFileNameA(name, prefix, 0, name);
 }
 #else
 static int TempFileName( char name[1024])
@@ -1166,7 +1166,8 @@ static void sgiClose (SGIFILE *tf)
     return;
 }
 
-#define OUT Tcl_WriteChars (outChan, str, -1)
+/* Note - macro was originally OUT. Renamed to CHANOUT due to SDK conflict */
+#define CHANOUT Tcl_WriteChars (outChan, str, -1)
 static void printImgInfo (IMAGE *th, const char *filename, const char *msg)
 {
     Tcl_Channel outChan;
@@ -1176,14 +1177,14 @@ static void printImgInfo (IMAGE *th, const char *filename, const char *msg)
     if (!outChan) {
         return;
     }
-    sprintf(str, "%s %s\n", msg, filename);                                      OUT;
-    sprintf(str, "\tSize in pixel      : %d x %d\n", th->xsize, th->ysize);      OUT;
-    sprintf(str, "\tNo. of channels    : %d\n", (th->zsize));                    OUT;
-    sprintf(str, "\tBytes per pixel    : %d\n", BPP(th->type));                  OUT;
-    sprintf(str, "\tCompression        : %s\n", ISRLE(th->type)? "RLE": "None"); OUT;
+    sprintf(str, "%s %s\n", msg, filename);                                      CHANOUT;
+    sprintf(str, "\tSize in pixel      : %d x %d\n", th->xsize, th->ysize);      CHANOUT;
+    sprintf(str, "\tNo. of channels    : %d\n", (th->zsize));                    CHANOUT;
+    sprintf(str, "\tBytes per pixel    : %d\n", BPP(th->type));                  CHANOUT;
+    sprintf(str, "\tCompression        : %s\n", ISRLE(th->type)? "RLE": "None"); CHANOUT;
     Tcl_Flush(outChan);
 }
-#undef OUT
+#undef CHANOUT
 
 static Boln readHeader (tkimg_MFile *handle, IMAGE *th)
 {
