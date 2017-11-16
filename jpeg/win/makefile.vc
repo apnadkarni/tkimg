@@ -1,0 +1,31 @@
+#------------------------------------------------------------- -*- makefile -*-
+#
+# Makefile
+#
+# Basic build, test and install
+#   nmake /f makefile.vc INSTALLDIR=c:\tcl TCLDIR=c:\path\to\tcl\sources TKDIR=c:\path\to\tk\sources
+#   nmake /f makefile.vc INSTALLDIR=c:\tcl test TCLDIR=c:\path\to\tcl\sources TKDIR=c:\path\to\tk\sources
+#   nmake /f makefile.vc INSTALLDIR=c:\tcl install TCLDIR=c:\path\to\tcl\sources TKDIR=c:\path\to\tk\sources
+# Note this extension needs both Tcl and Tk *source* to build.
+#
+# For other build options (debug, static etc.),
+# See TIP 477 (https://core.tcl.tk/tips/doc/trunk/tip/477.md) for
+# detailed documentation.
+# 
+#------------------------------------------------------------------------------
+
+PHIMGTYPE = jpeg
+PRJ_INCLUDES = -I"$(TMP_DIR)" -I../../libjpeg
+PRJ_LIBS = $(PRJ_LIBS) "..\..\libjpeg\win\$(BUILDDIRTOP)\jpegtclstub$(JPEGLIB_VERSION:.=).lib"
+!include "..\..\win\rules-img.vc"
+
+!if [echo JPEGLIB_VERSION = \> versions.vc] \
+   || [nmakehlp -V ..\..\base\configure.in ^[tkimg^] >> versions.vc]
+!error Could not determine tkimg base version.
+!endif
+!include versions.vc
+
+
+$(PRJ_OBJS): $(TMP_DIR)\jconfig.h
+$(TMP_DIR)\jconfig.h: ..\..\compat\libjpeg\jconfig.vc
+	$(COPY) $** "$@"
