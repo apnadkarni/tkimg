@@ -1,0 +1,39 @@
+# This is the master makefile to build all tkimg components. Run as
+# 
+#   nmake /s /nologo /f makefile.vc INSTALLDIR=c:\full\path\to\installdir TCLDIR=c:\full\path\to\tcl\sources TKDIR=c:\full\path\to\tk\sources
+#
+# To build specific modules, pass the MODULES macro on the command line
+#
+#   nmake /s /nologo /f makefile.vc INSTALLDIR=c:\full\path\to\installdir TCLDIR=c:\full\path\to\tcl\sources TKDIR=c:\full\path\to\tk\sources MODULES="png jpeg"
+#
+# You may specify following additional targets: install, clean, hose, realclean. For example, to install
+#
+#   nmake /s /nologo /f makefile.vc INSTALLDIR=c:\full\path\to\installdir TCLDIR=c:\full\path\to\tcl\sources TKDIR=c:\full\path\to\tk\sources install
+
+!if !exist("makefile.vc")
+!error You must run nmake from the directory containing this makefile.
+!endif
+
+ALLMODULES = bmp dted gif ico jpeg libjpeg libpng libtiff pcx pixmap png ppm \
+	  ps raw sgi sun tga tiff window xbm xpm zlib
+!if "$(MODULES)" == ""
+MODULES = $(ALLMODULES)
+!endif
+
+all: $(MODULES)
+
+base $(ALLMODULES): .PHONY
+	echo Making $@
+	cd ..\$@\win && $(MAKE) /$(MAKEFLAGS) /f makefile.vc $(TARGET) OPTS=$(OPTS) STATS=$(STATS) CHECKS=$(CHECKS) INSTALLDIR=$(INSTALLDIR) TCLDIR=$(TCLDIR) TKDIR=$(TKDIR)
+
+$(ALLMODULES): base
+png: zlib libpng
+jpeg: libjpeg
+tiff: zlib libjpeg libtiff
+libpng: zlib
+
+install clean hose realclean: .PHONY
+	$(MAKE) /$(MAKEFLAGS) /f makefile.vc TARGET=$@ OPTS=$(OPTS) STATS=$(STATS) CHECKS=$(CHECKS) INSTALLDIR=$(INSTALLDIR) TCLDIR=$(TCLDIR) TKDIR=$(TKDIR)
+
+.PHONY:
+
