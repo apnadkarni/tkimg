@@ -14,6 +14,10 @@
 !error You must run nmake from the directory containing this makefile.
 !endif
 
+!if "$(TCLDIR)" == "" || "$(TKDIR)" == ""
+!error You must define TCLDIR and TKDIR on the command line as paths to the Tcl and Tk source trees.
+!endif
+
 ALLMODULES = bmp dted gif ico jpeg libjpeg libpng libtiff pcx pixmap png ppm \
 	  ps raw sgi sun tga tiff window xbm xpm zlib
 !if "$(MODULES)" == ""
