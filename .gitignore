@@ -1,1 +1,6 @@
 Release*
+version*.vc
+nmakehlp.out
+nmakehlp.exe
+nmakehlp.obj
+
