@@ -45,11 +45,7 @@ PRJ_STUBOBJS = $(TMP_DIR)\zlibtclStubLib.obj
 PRJ_INCLUDES = -I"$(TMP_DIR)"
 PRJ_DEFINES	=  -DZEXTERN=MODULE_SCOPE
 
-!include "$(_RULESDIR)\targets.vc"
-
-install: default-install-stubs
-
-pkgindex: default-pkgindex
+!include "..\..\win\install-lib.vc"
 
 $(PRJ_OBJS): $(TMP_DIR)\jconfig.h
 $(TMP_DIR)\jconfig.h: ..\..\compat\libjpeg\jconfig.vc

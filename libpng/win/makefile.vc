@@ -54,11 +54,7 @@ PRJ_DEFINES  = $(PRJ_DEFINES) -D_CRT_SECURE_NO_DEPRECATE -DPNG_IMPEXP=MODULE_SCO
 
 PRJ_LIBS = $(PRJ_LIBS) "..\..\zlib\win\$(BUILDDIRTOP)\zlibtclstub$(ZLIB_VERSION:.=).lib"
 
-!include "$(_RULESDIR)\targets.vc"
-
-install: default-install-stubs
-
-pkgindex: default-pkgindex
+!include "..\..\win\install-lib.vc"
 
 $(PRJ_OBJS): $(TMP_DIR)\pnglibconf.h
 $(TMP_DIR)\pnglibconf.h: $(COMPATDIR)\scripts\pnglibconf.h.prebuilt

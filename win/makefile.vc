@@ -45,6 +45,14 @@
 !undef TKDIR
 !include nmakehlp.out
 
+# Find out the main TKIMG_VERSION as we need it for the install directory
+!if [echo TKIMG_VERSION = \> versions.vc] \
+   || [nmakehlp -V ..\base\configure.in ^[tkimg^] >> versions.vc]
+!error Could not determine tkimg base version.
+!endif
+!include versions.vc
+TKIMG_INSTALL_SUBDIR = tkimg$(TKIMG_VERSION)
+
 ALLMODULES = bmp dted gif ico jpeg libjpeg libpng libtiff pcx pixmap png ppm \
 	  ps raw sgi sun tga tiff window xbm xpm zlib
 !if "$(MODULES)" == ""
@@ -63,7 +71,10 @@ jpeg: libjpeg
 tiff: zlib libjpeg libtiff
 libpng: zlib
 
-install clean hose realclean: .PHONY
+install:
+	$(MAKE) /$(MAKEFLAGS) /f makefile.vc TARGET=install OPTS=$(OPTS) STATS=$(STATS) CHECKS=$(CHECKS) INSTALLDIR=$(INSTALLDIR) TCLDIR=$(TCLDIR) TKDIR=$(TKDIR) TKIMG_INSTALL_SUBDIR=$(TKIMG_INSTALL_SUBDIR)
+
+clean hose realclean: .PHONY
 	$(MAKE) /$(MAKEFLAGS) /f makefile.vc TARGET=$@ OPTS=$(OPTS) STATS=$(STATS) CHECKS=$(CHECKS) INSTALLDIR=$(INSTALLDIR) TCLDIR=$(TCLDIR) TKDIR=$(TKDIR)
 	@del nmakehlp.out version*.vc nmakehlp.obj nmakehlp.exe 
 

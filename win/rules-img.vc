@@ -1,3 +1,6 @@
+# This is a common include file used by Img modules.
+# PHIMGTPE should be defined before inclusion as the image type, e.g. png
+
 !ifndef PHIMGTYPE
 !error PHIMGTYPE not defined!
 !endif
@@ -73,6 +76,9 @@ PRJ_INCLUDES = $(PRJ_INCLUDES) -I"$(TMP_DIR)" -I../../libtiff -I../../libtiff/li
 PRJ_LIBS = $(PRJ_LIBS) "..\..\libtiff\win\$(BUILDDIRTOP)\tifftclstub$(LIBTIFF_VERSION:.=).lib"
 !endif
 
+# We have our own install target as we want installation to go into
+# a common directory.
+DISABLE_TARGET_install = 1
 !include "$(_RULESDIR)\targets.vc"
 
 pkgindex: default-pkgindex
@@ -84,3 +90,28 @@ $(TMP_DIR)\init.c:
 %PACKAGE%     $(PACKAGE_NAME)
 %PHIMGTYPE%   $(PHIMGTYPE)
 <<
+
+# Special install targets to install all DLL's into the main img directory
+# Special install targets to install all DLL's into the main img directory
+# When a component is build by itself, e.g. png, it will install into the
+# directory named after the component. When installed through the "master"
+# Img makefile, it installs in the Img directory. The Following takes
+# care of the details.
+!ifdef TKIMG_INSTALL_SUBDIR
+IMG_INSTALL_DIR = $(_INSTALLDIR)\$(TKIMG_INSTALL_SUBDIR)
+!else
+IMG_INSTALL_DIR = $(SCRIPT_INSTALL_DIR)
+!endif
+install: $(OUT_DIR)\pkgIndex.tcl
+	@echo Installing binaries to '$(IMG_INSTALL_DIR)'
+	@if not exist "$(IMG_INSTALL_DIR)" mkdir "$(IMG_INSTALL_DIR)"
+	@$(CPY) $(PRJLIB) "$(IMG_INSTALL_DIR)" >NUL
+	@echo Installing libraries to '$(IMG_INSTALL_DIR)'
+	@if exist $(LIBDIR) $(CPY) $(LIBDIR)\*.tcl "$(IMG_INSTALL_DIR)"
+!ifdef TKIMG_INSTALL_SUBDIR
+	@echo Adding package index to '$(IMG_INSTALL_DIR)\pkgIndex.tcl'
+	@type $(OUT_DIR)\pkgIndex.tcl >> "$(IMG_INSTALL_DIR)\pkgIndex.tcl"
+!else
+	@echo Installing package index in '$(IMG_INSTALL_DIR)'
+	@$(CPY) $(OUT_DIR)\pkgIndex.tcl $(IMG_INSTALL_DIR)
+!endif
