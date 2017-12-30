@@ -35,8 +35,29 @@ PRJ_STUBOBJS = $(TMP_DIR)\tkimgStubLib.obj
 
 PRJ_DEFINES	=  -DTKIMGAPI=MODULE_SCOPE
 
+DISABLE_TARGET_install = 1
 !include "$(_RULESDIR)\targets.vc"
 
-install: default-install-stubs
+# We define our own install target because the built-in install target
+# will install to a directory named after the project (tkimg) while we
+# want it to be named Img. We cannot change the PROJECT=tkimg
+# definition above because the configure.in script above uses that
+# name and we extract versioning information from it.
+!ifdef TKIMG_INSTALL_SUBDIR
+IMG_INSTALL_DIR = $(_INSTALLDIR)\$(TKIMG_INSTALL_SUBDIR)
+!else
+IMG_INSTALL_DIR = $(SCRIPT_INSTALL_DIR)
+!endif
+install:
+	@echo Installing binaries to '$(IMG_INSTALL_DIR)'
+	@if not exist "$(IMG_INSTALL_DIR)" mkdir "$(IMG_INSTALL_DIR)"
+	@$(CPY) $(PRJLIB) "$(IMG_INSTALL_DIR)" >NUL
+	@echo Installing libraries to '$(IMG_INSTALL_DIR)'
+	@if exist $(LIBDIR) $(CPY) $(LIBDIR)\*.tcl "$(IMG_INSTALL_DIR)"
+	@echo Installing package index in '$(IMG_INSTALL_DIR)'
+	@$(CPY) $(OUT_DIR)\pkgIndex.tcl $(IMG_INSTALL_DIR)
+	@echo Installing stubs library to '$(IMG_INSTALL_DIR)'
+	@if not exist "$(IMG_INSTALL_DIR)" mkdir "$(IMG_INSTALL_DIR)"
+	@$(CPY) $(PRJSTUBLIB) "$(IMG_INSTALL_DIR)" >NUL
 
 pkgindex: default-pkgindex-tea

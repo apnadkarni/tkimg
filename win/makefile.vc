@@ -51,7 +51,7 @@
 !error Could not determine tkimg base version.
 !endif
 !include versions.vc
-TKIMG_INSTALL_SUBDIR = tkimg$(TKIMG_VERSION)
+TKIMG_INSTALL_SUBDIR = Img$(TKIMG_VERSION)
 
 ALLMODULES = bmp dted gif ico jpeg libjpeg libpng libtiff pcx pixmap png ppm \
 	  ps raw sgi sun tga tiff window xbm xpm zlib
